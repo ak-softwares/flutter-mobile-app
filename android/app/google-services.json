@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "387716439678",
+    "project_id": "aramarket-in-2772c",
+    "storage_bucket": "aramarket-in-2772c.appspot.com",
+    "google_app_id": "1:387716439678:android:38ffaecb06e4f00cfa822f"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387716439678:android:38ffaecb06e4f00cfa822f",
+        "android_client_info": {
+          "package_name": "com.company.aramarketin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387716439678-q0fe8vuotaun287n07t79fbn1n0m8r0s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.aramarketin",
+            "certificate_hash": "44cd51c21ef189b91517080e1a4263049f30764c"
+          }
+        },
+        {
+          "client_id": "387716439678-qqvpgo72hi88hletmknermjk2u05hjfm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.aramarketin",
+            "certificate_hash": "a8a6796f74dbc1a6bdfee1bd569929ce9772fe7a"
+          }
+        },
+        {
+          "client_id": "387716439678-t88j7fu04hg3hlpfckpe74rki9v8napk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.aramarketin",
+            "certificate_hash": "a2f628a9b8aa3ba659b025d86fab57747e0f4d41"
+          }
+        },
+        {
+          "client_id": "387716439678-m6o1439sgbtluh2bdamda4pv568f50qa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlK7RhMhPNbBuPSrFuPEAJtyKozqzgifs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387716439678-m6o1439sgbtluh2bdamda4pv568f50qa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "387716439678-9c6cm4s6gvlsao358vfek7ld8h270199.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.aramarketNew"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
