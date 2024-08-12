@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
@@ -10,10 +7,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../common/widgets/loaders/loader.dart';
 import '../../../features/onboarding/controllers/is_first_run/is_first_run.dart';
-import '../../../features/personalization/controllers/change_profile_controller.dart';
 import '../../../features/personalization/controllers/user_controller.dart';
 import '../../../features/personalization/models/user_model.dart';
-import '../../../utils/constants/db_constants.dart';
 import '../../../utils/constants/local_storage_constants.dart';
 import '../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../utils/exceptions/format_exceptions.dart';
@@ -49,8 +44,8 @@ class AuthenticationRepository extends GetxController {
     Get.put(UserController()).customer(customer); //update user value
     isUserLogin.value = true; //make user login
     localStorage.write(LocalStorage.authUserID, customer.id.toString()); // store token in local storage for stay login
-    if(IsFirstRunController.isFirstRun.value){
-      IsFirstRunController.activation();
+    if(IsFirstRunController.isFirstRun()){
+      IsFirstRunController.activation(customer);
     }
     TLoaders.customToast(message: 'Login successfully!'); //show massage for successful login
     NavigationHelper.navigateToBottomNavigation(); //navigate to other screen

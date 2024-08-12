@@ -65,7 +65,8 @@ class ChangeProfileController extends GetxController {
           AddressFieldName.phone: phone.text.trim()
         },
       };
-      final CustomerModel customer = await wooCustomersRepository.updateCustomerById(updateField);
+      final userId = userController.customer.value.id.toString();
+      final CustomerModel customer = await wooCustomersRepository.updateCustomerById(userID: userId, data: updateField);
       //update the Rx user value
       userController.customer(customer);
 
@@ -98,8 +99,8 @@ class ChangeProfileController extends GetxController {
       Map<String, dynamic> updateField = {
         CustomerFieldName.billing: {AddressFieldName.phone: updatePhone.text.trim()},
       };
-      final CustomerModel customer = await wooCustomersRepository.updateCustomerById(updateField);
-      //update the Rx user value
+      final userId = userController.customer.value.id.toString();
+      final CustomerModel customer = await wooCustomersRepository.updateCustomerById(userID: userId, data: updateField);
       userController.customer(customer);
       // UserController.instance.fetchUserRecord();
       TLoaders.customToast(message: 'Phone updated successfully!');
@@ -112,7 +113,7 @@ class ChangeProfileController extends GetxController {
   }
 
   //Woocommerce update user meta value
-  Future<void> wooUpdateUserMeta({required String key, required dynamic value}) async {
+  Future<CustomerModel> wooUpdateUserMeta({required String userId, required String key, required dynamic value}) async {
     try {
       //update single field user
       Map<String, dynamic> updateField = {
@@ -123,10 +124,10 @@ class ChangeProfileController extends GetxController {
           }
         ]
       };
-      final CustomerModel customer = await wooCustomersRepository.updateCustomerById(updateField);
-      TLoaders.customToast(message: 'Customer Meta updated successfully!');
+      final CustomerModel customer = await wooCustomersRepository.updateCustomerById(userID: userId, data: updateField);
+      return customer;
     } catch (error) {
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      rethrow;
     }
   }
 

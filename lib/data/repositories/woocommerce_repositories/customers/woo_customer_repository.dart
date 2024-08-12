@@ -115,11 +115,11 @@ class WooCustomersRepository extends GetxController {
     }
   }
 
-  Future<CustomerModel> updateCustomerById(Map<String, dynamic> customerUpdateData) async {
+  Future<CustomerModel> updateCustomerById({required String userID, required  Map<String, dynamic> data}) async {
     try {
       final Uri uri = Uri.https(
         APIConstant.wooBaseUrl,
-        APIConstant.wooCustomersApiPath+UserController.instance.customer.value.id.toString(),
+        APIConstant.wooCustomersApiPath + userID,
       );
 
       final response = await http.put(
@@ -128,7 +128,7 @@ class WooCustomersRepository extends GetxController {
           'Content-Type': 'application/json',
           'Authorization': APIConstant.authorization,
         },
-        body: jsonEncode(customerUpdateData),
+        body: jsonEncode(data),
       );
 
       // Check if the request was successful

@@ -51,7 +51,7 @@ class MyHomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: const TAppBar(),
-      bottomNavigationBar: const UpdateMobileNo(),
+      // bottomNavigationBar: const UpdateMobileNo(),
       floatingActionButton: const SendWhatsappScreen(),
       drawer: const MyDrawer(),
       body: RefreshIndicator(
