@@ -42,17 +42,24 @@ class CouponModel {
     }
 
     // Check if the paymentMethods list is null or empty, in which case there are no restrictions
-    if (paymentMethods == null || paymentMethods!.isEmpty || paymentMethods!.every((element) => element.trim().isEmpty)) {
-      return null;
-    }
-
-    // Printing the selected payment method and its type
+    // if (paymentMethods == null || paymentMethods!.isEmpty || paymentMethods!.every((element) => element.trim().isEmpty)) {
+    //   return null;
+    // }
+    //
+    // // Printing the selected payment method and its type
     var selectedPaymentMethod = CheckoutController.instance.selectedPaymentMethod.value.id;
     // Check if the selected payment method is not allowed
-    if (!paymentMethods!.contains(selectedPaymentMethod)) {
-      return 'This coupon is not allowed for $selectedPaymentMethod.';
-    }
+    // if (!paymentMethods!.contains(selectedPaymentMethod)) {
+    //   return 'This coupon is not allowed for $selectedPaymentMethod.';
+    // }
 
+    if (code == 'prepaidapp10') {
+      if(selectedPaymentMethod == 'razorpay'){
+        return null;
+      }else{
+        return 'This coupon is not allowed for cod.';
+      }
+    }
     return null;
   }
 

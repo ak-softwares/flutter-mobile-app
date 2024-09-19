@@ -13,7 +13,7 @@ class CouponController extends GetxController {
   RxInt currentPage = 1.obs;
   RxBool isLoading = false.obs;
   RxBool isLoadingMore = false.obs;
-  List<String> filterByCouponCode = ['prepaid10']; //'prepaid', 'free-shipping'
+  List<String> filterByCouponCode = ['prepaidapp10']; //'prepaid', 'free-shipping'
   RxList<CouponModel> coupons = <CouponModel>[].obs;
 
   RxBool isCouponLoad = false.obs;

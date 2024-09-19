@@ -13,8 +13,6 @@ class InternalAppRoutes {
   static final productController = Get.put(ProductController());
 
   static void internalRouteHandle({required String url}) {
-
-
     if (isValidWooCommerceUrl(url)) {
       // Extract the slug from the URL
       String slug = extractSlugFromUrl(url);

@@ -170,13 +170,7 @@ class OrderModel {
           .where((coupon) => !coupon.areAllPropertiesNull())
           .map((coupon) => coupon.toJsonForWoo())
           .toList();
-
-      if (couponJsonList.isNotEmpty && Get.put(CheckoutController()).coupon.value.code != 'prepaid10') {
-        json[OrderFieldName.couponLines] = couponJsonList;
-      } else if(Get.put(CheckoutController()).coupon.value.code == 'prepaid10'){
-        json[OrderFieldName.couponLines] = [{CouponFieldName.code: 'APP10'}]; //instead of prepaid use APP10 coupon because checkout has error
-        // json[OrderFieldName.customerNote] = 'PREPAID10 Coupon is used';
-      }
+      json[OrderFieldName.couponLines] = couponJsonList;
     }
     return json;
   }

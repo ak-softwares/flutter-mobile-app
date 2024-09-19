@@ -1,11 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:aramarket/features/personalization/controllers/user_controller.dart';
 import 'package:aramarket/utils/constants/text_strings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
+import 'package:http/http.dart' as http;
+
 import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../models/payment_model.dart';
@@ -23,8 +28,8 @@ class PaymentController extends GetxController {
       PaymentFieldName.title        : 'Razorpay Payment Gateway',
       PaymentFieldName.description  : 'UPI/QR/Card/NetBanking',
       PaymentFieldName.image        : TImages.razorpay,
-      PaymentFieldName.key          : 'rzp_live_w7vTRVX0B8P8av',
-      PaymentFieldName.secret       : '6bSr6ZpoCD3wKT5ugMr54qIz',
+      PaymentFieldName.key          : APIConstant.razorpayKey,
+      PaymentFieldName.secret       : APIConstant.razorpaySecret,
     },
     {
       PaymentFieldName.id           : 'cod',
@@ -57,9 +62,8 @@ class PaymentController extends GetxController {
     // Listen for payment success event
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, (PaymentSuccessResponse response) {
       // Notify user about successful payment
+      capturePayment(amount: checkoutController.total.value.toInt(), paymentID: response.paymentId ?? '');
       _completer?.complete(response.paymentId);
-      // _completer?.complete(response.orderId);
-      // _completer?.complete(response.signature);
     });
 
     // Listen for payment failure event
@@ -112,5 +116,35 @@ class PaymentController extends GetxController {
     // Dispose of event listeners when the controller is closed
     _razorpay.clear();
     super.onClose();
+  }
+
+  Future<void> capturePayment({required int amount, required String paymentID}) async {
+    try {
+      final Uri uri = Uri.https('api.razorpay.com', '/v1/payments/$paymentID/capture');
+
+      final http.Response response = await http.post(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': APIConstant.razorpayAuth,
+        },
+        body: jsonEncode({
+          'amount': amount * 100,
+          'currency': 'INR',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print('Payment captured successfully: ${response.body}');
+        }
+      } else {
+        final Map<String, dynamic> errorJson = json.decode(response.body);
+        final errorMessage = errorJson['error']['description'];
+        throw errorMessage ?? 'Failed to capture payment';
+      }
+    } catch (error) {
+      rethrow;
+    }
   }
 }

@@ -5,12 +5,18 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class APIConstant {
 
-  //WooCommerce API Constant
+  // WooCommerce API Constant
   static final String wooBaseUrl            =  dotenv.get('WOO_API_URL', fallback: '');
   static final String authorization         = 'Basic ${base64Encode(utf8.encode('${dotenv.env['WOO_CONSUMER_KEY']}:${dotenv.env['WOO_CONSUMER_SECRET']}'))}';
 
   static const String itemsPerPage          = '10';
   static final String wooTrackingUrl        = '$wooBaseUrl/tracking/?order-id=';
+
+  // RazorPay credential
+  static final String razorpayKey = dotenv.get('RAZORPAY_KEY', fallback: '');
+  static final String razorpaySecret = dotenv.get('RAZORPAY_SECRET', fallback: '');
+
+  static final String razorpayAuth = 'Basic ${base64Encode(utf8.encode('$razorpayKey:$razorpaySecret'))}';
 
   //Define urls
   static const String urlContainProduct         = '/product/';
