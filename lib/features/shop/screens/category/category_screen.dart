@@ -7,6 +7,7 @@ import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/widgets/loaders/animation_loader.dart';
 import '../../../../common/widgets/shimmers/category_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
+import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
@@ -43,7 +44,7 @@ class CategoryScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: const TAppBar2(titleText: 'Categories', showCartIcon: true),
+      appBar: TAppBar2(titleText: 'Categories', showCartIcon: true, sharePageLink: APIConstant.allCategoryUrl,),
       body: RefreshIndicator(
         color: TColors.refreshIndicator,
         onRefresh: () async => categoryController.refreshCategories(),

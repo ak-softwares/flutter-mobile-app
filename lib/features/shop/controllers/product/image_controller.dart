@@ -53,7 +53,15 @@ class ImagesController extends GetxController{
                   maxScale: 3,
                   minScale: 1,
                   transformationController: controller,
-                  child: CachedNetworkImage(imageUrl: image)
+                  child: Center(
+                    child: CachedNetworkImage(
+                      height: 500,
+                      imageUrl: image,
+                      fit: BoxFit.contain, // Ensures the image fits within the screen
+                      placeholder: (context, url) => CircularProgressIndicator(), // Optional placeholder
+                      errorWidget: (context, url, error) => const Icon(Icons.error), // Optional error icon
+                    ),
+                  )
                 ),
               ),
             ),

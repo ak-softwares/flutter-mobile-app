@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -57,6 +58,8 @@ class TIcons {
   static IconData returnPolicy = FontAwesomeIcons.rotateLeft;
 
   //Follow us icons
+  static IconData share = Icons.share;
+  static IconData share2 = FontAwesomeIcons.share;
   static IconData facebook = FontAwesomeIcons.facebook;
   static IconData instagram = FontAwesomeIcons.instagram;
   static IconData telegram = FontAwesomeIcons.telegram;

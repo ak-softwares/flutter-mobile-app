@@ -40,7 +40,7 @@ class CategoryTapBarScreen extends StatelessWidget {
             ),
             body: TabBarView(
               children: categories.map((category) {
-                return TabviewProductsByCategory(futureMethod: productController.getProductsByCategoryId, categoryId: category.id.toString());
+                return TabviewProductsByCategory(category: category, futureMethod: productController.getProductsByCategoryId);
               }).toList(),
             ),
           ),

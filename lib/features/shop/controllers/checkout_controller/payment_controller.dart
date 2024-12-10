@@ -44,8 +44,8 @@ class PaymentController extends GetxController {
     //   PaymentFieldName.title        : 'Paytm Payment Gateway',
     //   PaymentFieldName.description  : 'The best payment gateway provider in India for e-payment through credit card, debit card & netbanking.',
     //   PaymentFieldName.image        : TImages.paytm,
-    //   PaymentFieldName.key          : 'cXDKyg79725519213089',
-    //   PaymentFieldName.secret       : '2Bl5aVgbd#QgNFwv',
+    //   PaymentFieldName.key          : '',
+    //   PaymentFieldName.secret       : '',
     // },
   ];
 

@@ -5,6 +5,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
@@ -16,6 +17,7 @@ import '../../../../common/widgets/shimmers/single_product_shimmer.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../../../utils/constants/text_strings.dart';
 import '../../controllers/cart_controller/cart_controller.dart';
 import '../../controllers/product/product_controller.dart';
 import '../../controllers/recently_viewed_controller/recently_viewed_controller.dart';
@@ -141,10 +143,25 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     Get.to(() => TAllProducts(
                         title: _product.value.categories?[0].name ?? '',
                         categoryId: _product.value.categories?[0].id ?? '',
+                        sharePageLink: '${TTexts.appName} - ${_product.value.categories?[0].permalink}',
                         futureMethodTwoString: productController.getProductsByCategoryId)
                     ),
-                    child: Text(_product.value.categories?[0].name ?? '',
-                        style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor)
+                    child: Row(
+                      children: [
+                        Text(_product.value.categories?[0].name ?? '',
+                            style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor)
+                        ),
+                        SizedBox(width: TSizes.sm,),
+
+                        GestureDetector(
+                          onTap: () => Share.share('${TTexts.appName} - ${_product.value.categories?[0].permalink}'),
+                          child: Icon(
+                            TIcons.share,
+                            size: TSizes.md,
+                            color: TColors.linkColor,
+                          ),
+                        )
+                      ],
                     )
                 ),
 

@@ -15,10 +15,11 @@ import '../../controllers/product/all_product_controller.dart';
 import '../../models/product_model.dart';
 
 class TAllProducts extends StatelessWidget {
-  const TAllProducts({super.key, required this.title, this.futureMethod, this.futureMethodTwoString, this.categoryId});
+  const TAllProducts({super.key, required this.title, this.futureMethod, this.futureMethodTwoString, this.categoryId, this.sharePageLink});
 
   final String title;
   final String? categoryId;
+  final String? sharePageLink;
   final Future<List<ProductModel>> Function(String)? futureMethod;
   final Future<List<ProductModel>> Function(String, String)? futureMethodTwoString;
 
@@ -56,7 +57,7 @@ class TAllProducts extends StatelessWidget {
     });
 
     return Scaffold(
-        appBar: TAppBar2(titleText: title, showBackArrow: true, showCartIcon: true),
+        appBar: TAppBar2(titleText: title, showBackArrow: true, showCartIcon: true, sharePageLink: sharePageLink ?? "",),
         body: RefreshIndicator(
           color: TColors.refreshIndicator,
           onRefresh: () async {

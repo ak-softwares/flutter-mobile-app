@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -27,14 +28,13 @@ class TProductImageSlider extends StatefulWidget {
 }
 
 class _TProductImageSliderState extends State<TProductImageSlider> {
-  late CarouselController _carouselController;
+  final CarouselSliderController _carouselController = CarouselSliderController();
   final RxString _selectedProductImage = ''.obs;
-  final controller = Get.put(ImagesController());
+  final imagesController = Get.put(ImagesController());
 
   @override
   void initState() {
     super.initState();
-    _carouselController = CarouselController();
   }
 
   List<String> _getAllProductImages(ProductModel product) {
@@ -92,7 +92,7 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                     return Builder(
                       builder: (BuildContext context) {
                         return GestureDetector(
-                          onTap: () => controller.showEnlargedImage(imageUrl),
+                          onTap: () => imagesController.showEnlargedImage(imageUrl),
                           child: InteractiveViewer(
                             maxScale: 3,
                             minScale: 1,
@@ -156,7 +156,7 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                           borderRadius: BorderRadius.circular(100),
                         ),
                         child: IconButton(
-                            onPressed: () => controller.showEnlargedImage(image),
+                            onPressed: () => imagesController.showEnlargedImage(image),
                             icon: const Icon(Iconsax.maximize_2, color: Colors.black,)
                         )
                     )

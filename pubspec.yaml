@@ -1,5 +1,5 @@
 name: aramarket
-description: araMarket specializes in offering premium quality Mobile Repairing Tools and TV Repairing Tools and Parts
+description: Aramarket specializes in offering premium quality Mobile Repairing Tools and TV Repairing Tools and Parts
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # of the product and file versions while build-number is used as the build suffix.
 
 # where 2.0.0 is app version and +5 is Version code 2 update every time when update on play store
-version: 2.1.3+50
+version: 2.1.3+52
 
 
 environment:
@@ -35,17 +35,17 @@ dependencies:
     sdk: flutter
 
   #utility Package
-  intl: ^0.19.0
+  intl: ^0.20.0
   logger: ^2.0.1
   lottie: ^3.1.0
   url_launcher: ^6.1.12
-  connectivity_plus: ^6.0.2
+  connectivity_plus: ^6.1.0
   cached_network_image: ^3.3.0
   bcrypt: ^1.1.3
   http: ^1.2.0
   in_app_update: ^4.2.2
-  share_plus: ^8.0.2
-  flutter_local_notifications: ^17.0.0
+  share_plus: ^10.0.0
+  flutter_local_notifications: ^18.0.1
   razorpay_flutter: ^1.3.6
   webview_flutter: ^4.7.0
   go_router: ^14.1.3
@@ -55,7 +55,7 @@ dependencies:
   flutter_native_splash: ^2.3.5
   smooth_page_indicator: ^1.1.0
   flutter_rating_bar: ^4.0.1
-  carousel_slider: ^4.2.1
+  carousel_slider: ^5.0.0
   google_nav_bar: ^5.0.6
   flutter_html: ^3.0.0-beta.2
   shimmer: ^3.0.0
@@ -68,21 +68,21 @@ dependencies:
   intl_phone_field: ^3.2.0
   timer_count_down: ^2.2.1
   permission_handler: ^11.3.0
-#  country_picker: ^2.0.24
-  flutter_facebook_auth: ^6.1.1
+  #country_picker: ^2.0.24
+  flutter_facebook_auth: ^7.1.0
   google_sign_in: ^6.1.6
 
   #firebase
-  firebase_core: ^2.30.0
-  firebase_auth: ^4.14.0
-  cloud_firestore: ^4.13.1
-  firebase_storage: ^11.5.6
-  firebase_messaging: ^14.8.0
-  firebase_analytics: ^10.10.2
+  firebase_core: ^3.4.0
+  firebase_auth: ^5.2.0
+  cloud_firestore: ^5.4.0
+  firebase_storage: ^12.2.0
+  firebase_messaging: ^15.1.0
+  firebase_analytics: ^11.3.0
 
   #Icons
   cupertino_icons: ^1.0.2
-  line_awesome_flutter: ^2.0.0
+  line_awesome_flutter: ^3.0.1
   iconsax: ^0.0.8
   line_icons: ^2.0.3
   font_awesome_flutter: ^10.7.0
@@ -99,7 +99,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.1
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

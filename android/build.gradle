@@ -1,14 +1,15 @@
 buildscript {
-    ext.kotlin_version = '1.7.1'
+    ext {
+        kotlin_version = "1.9.23" // Latest compatible Kotlin version
+    }
     repositories {
-        google()  // Google's Maven repository
+        google()
         mavenCentral()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.android.tools.build:gradle:7.3.1'
-        classpath 'com.google.gms:google-services:4.4.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23" // Added Kotlin Gradle plugin dependency
+        classpath 'com.android.tools.build:gradle:8.1.2'
+        classpath 'com.google.gms:google-services:4.3.15' // Updated Google Services version
     }
 }
 
@@ -22,12 +23,9 @@ allprojects {
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
     project.evaluationDependsOn(':app')
 }
 
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
-

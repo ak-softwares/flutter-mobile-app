@@ -11,6 +11,7 @@ import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/formatters/formatters.dart';
 import '../../../../../utils/validators/validation.dart';
 import '../../../../personalization/controllers/user_controller.dart';
+import '../../../controllers/product/image_controller.dart';
 import '../../../controllers/product/product_review_controller.dart';
 import '../../../models/product_review_model.dart';
 import '../../product_detail/products_widgets/product_title_text.dart';
@@ -24,6 +25,7 @@ class TUserReviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final userController = Get.put(UserController());
     final productReviewController = Get.put(ProductReviewController());
+    final imagesController = Get.put(ImagesController());
 
     // Using Html widget to parse HTML text
     final String reviewerName = TValidator.isEmail(review.reviewer ?? '') ? TFormatter.maskEmail(review.reviewer ?? '') : review.reviewer ?? '';
@@ -37,7 +39,7 @@ class TUserReviewCard extends StatelessWidget {
             Row(
               children: [
                 TRoundedImage(
-                  image: review.reviewerAvatarUrl48 ?? TImages.tProfileImage,
+                  image: review.reviewerAvatarUrl ?? TImages.tProfileImage,
                   height: 60,
                   width: 60,
                   borderRadius: 50,
@@ -95,16 +97,43 @@ class TUserReviewCard extends StatelessWidget {
 
         //Review
         const SizedBox(height: TSizes.sm),
-        ReadMoreText(
-          review.review!.replaceAll('<p>', '').replaceAll('</p>', '').replaceAll('<br />', ''),
-          trimLines: 2,
-          trimMode: TrimMode.Line,
-          trimExpandedText: ' show less',
-          trimCollapsedText: ' show more',
-          moreStyle: const TextStyle(fontSize: 14, color: Colors.blue),
-          lessStyle: const TextStyle(fontSize: 14, color: Colors.blue),
+        Row(
+          children: [
+            Expanded(
+              flex: 8,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ReadMoreText(
+                    review.review!.replaceAll('<p>', '').replaceAll('</p>', '').replaceAll('<br />', ''),
+                    trimLines: 2,
+                    trimMode: TrimMode.Line,
+                    trimExpandedText: ' show less',
+                    trimCollapsedText: ' show more',
+                    moreStyle: const TextStyle(fontSize: 14, color: Colors.blue),
+                    lessStyle: const TextStyle(fontSize: 14, color: Colors.blue),
+                  ),
+                  Text(TFormatter.formatStringDate(review.dateCreated ?? ''), style: Theme.of(context).textTheme.labelMedium)
+                ],
+              ),
+            ),
+            review.image != ''
+                ? Expanded(
+              flex: 2,
+              child: GestureDetector(
+                onTap: () => imagesController.showEnlargedImage(review.image ?? ""),
+                child: TRoundedImage(
+                  image: review.image ?? "",
+                  height: 70,
+                  width: 60,
+                  borderRadius: 0,
+                  isNetworkImage: true,
+                ),
+              ),
+            )
+                : SizedBox.shrink(),
+          ],
         ),
-        Text(TFormatter.formatStringDate(review.dateCreated ?? ''), style: Theme.of(context).textTheme.labelMedium)
       ],
     );
   }

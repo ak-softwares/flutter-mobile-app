@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +22,7 @@ class _ImageSlider extends State<ImageSlider> {
     {"id": 2, "imagePath": TImages.banner2},
     {"id": 3, "imagePath": TImages.banner2},
   ];
-  final CarouselController carouselController = CarouselController();
+  final CarouselSliderController _carouselController = CarouselSliderController();
   int currentIndex = 0;
 
   @override
@@ -68,7 +68,7 @@ class _ImageSlider extends State<ImageSlider> {
                   // print(entry);
                   // print(entry.key);
                   return GestureDetector(
-                    onTap: () => carouselController.animateToPage(entry.key),
+                    onTap: () => _carouselController.animateToPage(entry.key),
                     child: Container(
                       width: currentIndex == entry.key ? 7 : 5,
                       height: currentIndex == entry.key ? 7 : 5,

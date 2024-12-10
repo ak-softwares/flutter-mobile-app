@@ -70,6 +70,7 @@ class ReviewFieldName {
   static const String reviewer = 'reviewer';
   static const String reviewerEmail = 'reviewer_email';
   static const String review = 'review';
+  static const String image = 'image';
   static const String rating = 'rating';
   static const String verified = 'verified';
   static const String reviewerAvatarUrls = 'reviewer_avatar_urls';
@@ -84,6 +85,8 @@ class ProductAttributeFieldName {
 class CategoryFieldName {
   static const String id          = 'id';
   static const String name        = 'name';
+  static const String permalink   = 'permalink';
+  static const String slug        = 'slug';
   static const String image       = 'image';
   static const String parentId    = 'parentId';
   static const String isFeatured  = 'isFeatured';

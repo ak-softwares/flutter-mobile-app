@@ -1,5 +1,7 @@
+import 'package:aramarket/features/shop/models/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../../../common/widgets/loaders/loader.dart';
 import '../../../../../../common/widgets/product/product_cards/product_card_vertical.dart';
 import '../../../../../../common/widgets/shimmers/vertical_product_shimmer.dart';
@@ -8,19 +10,20 @@ import '../../../../../common/layout_models/grid_layout.dart';
 import '../../../../../common/styles/spacing_style.dart';
 import '../../../../../common/widgets/loaders/animation_loader.dart';
 import '../../../../../utils/constants/colors.dart';
+import '../../../../../utils/constants/icons.dart';
 import '../../../../../utils/constants/image_strings.dart';
+import '../../../../../utils/constants/sizes.dart';
+import '../../../../../utils/constants/text_strings.dart';
 import '../../../models/product_model.dart';
 
 class TabviewProductsByCategory extends StatefulWidget {
-  final String? title;
-  final String categoryId;
+  final CategoryModel category;
   final Future<List<ProductModel>> Function(String, String) futureMethod;
 
   const TabviewProductsByCategory({
     super.key,
-    this.title,
+    required this.category,
     required this.futureMethod,
-    required this.categoryId,
   });
 
   @override
@@ -51,7 +54,7 @@ class _TabviewProductsByCategoryState extends State<TabviewProductsByCategory> {
 
   Future<void> _getAllProducts() async {
     try {
-      final List<ProductModel> newProducts = await widget.futureMethod(widget.categoryId, _currentPage.toString());
+      final List<ProductModel> newProducts = await widget.futureMethod(widget.category.id ?? '', _currentPage.toString());
       _products.addAll(newProducts);
     } catch (e) {
       throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
@@ -104,17 +107,42 @@ class _TabviewProductsByCategoryState extends State<TabviewProductsByCategory> {
               animation: TImages.pencilAnimation,
             );
           } else {
-            return TGridLayout(
-              crossAxisCount: 2,
-              // mainAxisExtent: 130,
-              itemCount: _isLoadingMore.value ? _products.length + 2 : _products.length,
-              itemBuilder: (context, index) {
-                if (index < _products.length) {
-                  return TProductCardVertical(product: _products[index]);
-                } else {
-                  return const TVerticalProductsShimmer(itemCount: 1, crossAxisCount: 1,);
-                }
-              },
+            return Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerRight, // Float the InkWell to the left
+                  child: InkWell(
+                    onTap: () => Share.share('${TTexts.appName} - ${widget.category.permalink}'),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min, // Shrink-wrap the Row's width to its content
+                      children: [
+                        Text('Share',
+                            style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor)
+                        ),
+                        SizedBox(width: TSizes.sm),
+                        Icon(
+                          TIcons.share,
+                          size: TSizes.md,
+                          color: TColors.linkColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: TSizes.sm),
+                TGridLayout(
+                  crossAxisCount: 2,
+                  // mainAxisExtent: 130,
+                  itemCount: _isLoadingMore.value ? _products.length + 2 : _products.length,
+                  itemBuilder: (context, index) {
+                    if (index < _products.length) {
+                      return TProductCardVertical(product: _products[index]);
+                    } else {
+                      return const TVerticalProductsShimmer(itemCount: 1, crossAxisCount: 1,);
+                    }
+                  },
+                ),
+              ],
             );
           }
         }),

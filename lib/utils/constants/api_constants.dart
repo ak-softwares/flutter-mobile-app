@@ -21,6 +21,8 @@ class APIConstant {
   //Define urls
   static const String urlContainProduct         = '/product/';
   static const String urlContainProductCategory = '/product-category/';
+  static String urlCategory                     = 'https://$wooBaseUrl$urlContainProductCategory';
+  static String allCategoryUrl                  =  'https://$wooBaseUrl/product-categories/';
 
   //Policy Urls
   static const String privacyPrivacy        = 'https://aramarket.in/privacy-policy/';
@@ -48,6 +50,7 @@ class APIConstant {
   static const String wooAuthenticatePath   = '/wp-json/flutter-app/v1/authenticate/';
   static const String wooResetPassword      = '/wp-json/flutter-app/v1/reset-password/';
   static const String wooFBT                = '/wp-json/flutter-app/v1/products-sold-together/';
+  static const String wooProductsReviewImage= '/wp-json/flutter-app/v1/product-reviews/';
 
   //fast2sms url
   static final String fast2smsUrl           = dotenv.get('FAST2SMS_API_URL', fallback: '');

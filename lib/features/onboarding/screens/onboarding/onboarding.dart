@@ -110,7 +110,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 backgroundColor: TColors.buttonPrimary,
                 side: BorderSide.none,
               ),
-              child: const Icon(LineAwesomeIcons.arrow_right),
+              child: Icon(LineAwesomeIcons.arrow_right_solid),
             ),
           ),
         ],

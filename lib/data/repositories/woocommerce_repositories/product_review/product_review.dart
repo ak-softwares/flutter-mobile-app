@@ -14,14 +14,14 @@ class WooReviewRepository extends GetxController {
   Future<List<ReviewModel>> fetchReviewsByProductId({required String productIds, required String page}) async {
     try {
       final Map<String, String> queryParams = {
-        'product': productIds, //date, id, include, title, slug, price, popularity and rating. Default is date.
+        'product': productIds,
         'per_page': '10',
         'page': page,
       };
 
       final Uri uri = Uri.https(
         APIConstant.wooBaseUrl,
-        APIConstant.wooProductsReview,
+        APIConstant.wooProductsReviewImage,
         queryParams,
       );
 
