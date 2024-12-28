@@ -287,9 +287,10 @@ class CouponFieldName{
   static const String maximumAmount = 'maximum_amount';
 
   static const String metaData = 'meta_data';
-  static const String paymentMethods = '_wt_sc_payment_methods';
-  static const String maxDiscount = '_wt_max_discount';
   static const String isCODBlocked = 'easyapp_cod_blocked';
+  static const String maxDiscount = 'easyapp_max_discount';
+  static const String showOnCheckout = 'easyapp_show_on_checkout';
+
 }
 
 class PaymentFieldName {

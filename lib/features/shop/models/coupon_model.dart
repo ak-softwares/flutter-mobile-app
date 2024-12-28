@@ -14,9 +14,9 @@ class CouponModel {
   final bool? individualUse;
   final String? minimumAmount;
   final String? maximumAmount;
-  final List<String>? paymentMethods;
   final String? maxDiscount;
   final bool? isCODBlocked;
+  final bool? showOnCheckout;
 
   CouponModel({
     this.id,
@@ -30,9 +30,9 @@ class CouponModel {
     this.individualUse,
     this.minimumAmount,
     this.maximumAmount,
-    this.paymentMethods,
     this.maxDiscount,
     this.isCODBlocked,
+    this.showOnCheckout,
   });
   static CouponModel empty() => CouponModel();
 
@@ -43,25 +43,6 @@ class CouponModel {
       return 'Coupon is expired';
     }
 
-    // Check if the paymentMethods list is null or empty, in which case there are no restrictions
-    // if (paymentMethods == null || paymentMethods!.isEmpty || paymentMethods!.every((element) => element.trim().isEmpty)) {
-    //   return null;
-    // }
-    //
-    // // Printing the selected payment method and its type
-    var selectedPaymentMethod = CheckoutController.instance.selectedPaymentMethod.value.id;
-    // Check if the selected payment method is not allowed
-    // if (!paymentMethods!.contains(selectedPaymentMethod)) {
-    //   return 'This coupon is not allowed for $selectedPaymentMethod.';
-    // }
-
-    if (code == 'prepaidapp10') {
-      if(selectedPaymentMethod == 'razorpay'){
-        return null;
-      }else{
-        return 'This coupon is not allowed for cod.';
-      }
-    }
     return null;
   }
 
@@ -77,7 +58,6 @@ class CouponModel {
         individualUse == null &&
         minimumAmount == null &&
         maximumAmount == null &&
-        paymentMethods == null &&
         maxDiscount == null;
   }
 
@@ -92,23 +72,6 @@ class CouponModel {
   }
 
   factory CouponModel.fromJson(Map<String, dynamic> json) {
-    // Extract meta_data from JSON
-    // List<dynamic> metaData = json[CouponFieldName.metaData];
-    // Extract meta_data from JSON
-    List<dynamic> metaData = json[CouponFieldName.metaData];
-
-    // Initialize variables to hold paymentMethods and maxDiscount
-    List<String>? paymentMethods;
-
-    // Loop through metaData to find and extract values
-    for (var meta in metaData) {
-      String key = meta['key'];
-
-      // Extract paymentMethods
-      if (key == CouponFieldName.paymentMethods) {
-        paymentMethods = meta['value'].split(',');
-      }
-    }
     return CouponModel(
       id: json[CouponFieldName.id],
       code: json[CouponFieldName.code],
@@ -121,10 +84,9 @@ class CouponModel {
       individualUse: json[CouponFieldName.individualUse],
       minimumAmount: json[CouponFieldName.minimumAmount],
       maximumAmount: json[CouponFieldName.maximumAmount],
-      paymentMethods: paymentMethods,
       maxDiscount: (json[CouponFieldName.metaData] as List?)?.firstWhere((meta) => meta['key'] == CouponFieldName.maxDiscount, orElse: () => {'value': ''},)['value'] ?? '',
       isCODBlocked: (json[CouponFieldName.metaData] as List?)?.any((meta) => meta['key'] == CouponFieldName.isCODBlocked && meta['value'] == "1") ?? false,
-
+      showOnCheckout: (json[CouponFieldName.metaData] as List?)?.any((meta) => meta['key'] == CouponFieldName.showOnCheckout && meta['value'] == "1") ?? false,
     );
   }
 

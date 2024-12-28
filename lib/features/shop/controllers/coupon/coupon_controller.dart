@@ -13,7 +13,6 @@ class CouponController extends GetxController {
   RxInt currentPage = 1.obs;
   RxBool isLoading = false.obs;
   RxBool isLoadingMore = false.obs;
-  List<String> filterByCouponCode = ['prepaidapp10']; //'prepaid', 'free-shipping'
   RxList<CouponModel> coupons = <CouponModel>[].obs;
 
   RxBool isCouponLoad = false.obs;
@@ -26,15 +25,12 @@ class CouponController extends GetxController {
   Future<void> getAllCoupons() async {
     try {
       final newCoupons = await wooCouponRepository.fetchAllCoupons(currentPage.toString());
-      filterCoupon(newCoupons);
+      // Filter coupons where showOnCheckout is true
+      final filteredCoupons = newCoupons.where((coupon) => coupon.showOnCheckout == true).toList();
+      coupons(filteredCoupons);
     } catch (e) {
       TLoaders.errorSnackBar(title: 'Error', message: e.toString());
     }
-  }
-
-  void filterCoupon(List<CouponModel> newCoupons) {
-    final filteredCoupons = newCoupons.where((coupon) => filterByCouponCode.contains(coupon.code)).toList();
-    coupons.addAll(filteredCoupons);
   }
 
   // Function to refresh orders
@@ -84,7 +80,7 @@ class CouponController extends GetxController {
     }
   }
 
-  void validateCoupon(CouponModel coupon){
+  void validateCoupon(CouponModel coupon) {
     try {
       String? validityErrorMessage = coupon.getValidityErrorMessage();
       // Apply logic based on coupon validity

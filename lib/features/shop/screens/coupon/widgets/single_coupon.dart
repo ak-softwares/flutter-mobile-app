@@ -11,7 +11,7 @@ class SingleCouponItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120,
+      height: 125,
       padding: TSpacingStyle.defaultPagePadding,
       decoration: BoxDecoration(
         color: Colors.grey[50],
