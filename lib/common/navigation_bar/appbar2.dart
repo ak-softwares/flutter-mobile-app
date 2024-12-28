@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -41,17 +42,20 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
             showSearchIcon ? IconButton( icon: Icon(TIcons.search), color: color, onPressed: () => showSearch(context: context, delegate: TSearchDelegate())) : const SizedBox.shrink(),
             sharePageLink.isNotEmpty ? IconButton( icon: Icon(TIcons.share), color: color, onPressed: () => Share.share('${TTexts.appName} - $sharePageLink')) : const SizedBox.shrink(),
             showCartIcon ? const TCartCounterIcon(iconColor: color) : const SizedBox.shrink(),
-            seeLogoutButton ? InkWell(
-                onTap: () => AuthenticationRepository.instance.logout(),
-                child: Row(
-                  children: [
-                    const Text('Logout'),
-                    const SizedBox(width: TSizes.sm),
-                    Icon(TIcons.logout, size: 20),
-                    const SizedBox(width: TSizes.sm),
-                  ],
-                )
-              ) : const SizedBox.shrink(),
+            Obx(() => AuthenticationRepository.instance.isUserLogin.value && seeLogoutButton
+                ? InkWell(
+                    onTap: () => AuthenticationRepository.instance.logout(),
+                    child: Row(
+                      children: [
+                        const Text('Logout'),
+                        const SizedBox(width: TSizes.sm),
+                        Icon(TIcons.logout, size: 20),
+                        const SizedBox(width: TSizes.sm),
+                      ],
+                    )
+                  )
+                : const SizedBox.shrink(),
+            ),
         ],
       leading: showBackArrow ? IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Iconsax.arrow_left, color: color)) :  null,
     );

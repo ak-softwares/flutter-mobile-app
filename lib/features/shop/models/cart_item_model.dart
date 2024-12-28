@@ -14,6 +14,7 @@ class CartItemModel {
   int? price;
   String? image;
   String? parentName;
+  bool? isCODBlocked;
 
   //constructor
   CartItemModel({
@@ -30,6 +31,7 @@ class CartItemModel {
     this.price,
     this.image,
     this.parentName,
+    this.isCODBlocked,
   });
 
   //Empty cart
@@ -52,6 +54,7 @@ class CartItemModel {
       CartFieldName.price: price,
       CartFieldName.image: image,
       CartFieldName.parentName: parentName,
+      CartFieldName.isCODBlocked: isCODBlocked,
     };
   }
 
@@ -83,6 +86,7 @@ class CartItemModel {
           ? json[CartFieldName.image][CartFieldName.src]
           : '',
       parentName: json[CartFieldName.parentName] ?? '',
+      isCODBlocked: json[CartFieldName.isCODBlocked] ?? false,
     );
   }
 //create a cartItem from a json map
@@ -101,6 +105,7 @@ class CartItemModel {
       price: json[CartFieldName.price] ?? 0,
       image: json[CartFieldName.image],
       parentName: json[CartFieldName.parentName] ?? '',
+      isCODBlocked: json[CartFieldName.isCODBlocked] ?? false,
     );
   }
 

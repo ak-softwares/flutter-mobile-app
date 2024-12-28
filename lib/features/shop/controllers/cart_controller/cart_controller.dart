@@ -23,9 +23,6 @@ class CartController extends GetxController{
 
   List<String> productIdsForCloud = [];
   final localStorage = GetStorage();
-  final orderController = Get.put(ProductController());
-  final userRepository = Get.put(UserRepository());
-
 
   @override
   void onInit() {
@@ -145,6 +142,7 @@ class CartController extends GetxController{
       price: product.getPrice().toInt(),
       image: product.mainImage,
       parentName: '0',
+      isCODBlocked: product.isCODBlocked,
     );
   }
 
@@ -181,7 +179,7 @@ class CartController extends GetxController{
     // }
   }
 
-  //load cart items
+  //load cart items from local storage
   Future<void> loadCartItems() async {
     final List<dynamic>? cartItemStrings = localStorage.read(LocalStorage.cartItems);
     if (cartItemStrings != null) {
@@ -233,8 +231,7 @@ class CartController extends GetxController{
       // Add to cart Using forEach method
       for (var product in products) {
         // Find the corresponding CartItemModel
-        var cartItem = selectedCartItems.firstWhere(
-              (item) => item.productId == product.id,
+        var cartItem = selectedCartItems.firstWhere((item) => item.productId == product.id,
           orElse: () => CartItemModel(productId: product.id, quantity: 1),
         );
         // Add to cart

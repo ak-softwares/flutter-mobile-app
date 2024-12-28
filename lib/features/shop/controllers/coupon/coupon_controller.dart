@@ -74,7 +74,7 @@ class CouponController extends GetxController {
       final CouponModel coupon = await getCouponByCode(couponCode);
       validateCoupon(coupon);
       checkoutController.coupon.value = coupon;
-      checkoutController.updateTotal();
+      checkoutController.updateCheckout();
     } catch(error){
       // Handle error occurred during coupon retrieval
       TLoaders.errorSnackBar(title: 'Error', message: error.toString());

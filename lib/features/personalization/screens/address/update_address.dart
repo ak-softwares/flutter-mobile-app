@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../common/navigation_bar/appbar2.dart';
@@ -19,15 +21,16 @@ class UpdateAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = AddressController.instance;
-    controller.firstName.text = address.firstName!;
-    controller.lastName.text = address.lastName!;
-    controller.address1.text = address.address1!;
-    controller.address2.text = address.address2!;
-    controller.city.text = address.city!;
-    controller.pincode.text = address.pincode!;
-    controller.state.text = address.state!;
-    controller.country.text = address.country!;
+    final addressController = Get.put(AddressController());
+
+    addressController.firstName.text = address.firstName!;
+    addressController.lastName.text = address.lastName!;
+    addressController.address1.text = address.address1!;
+    addressController.address2.text = address.address2!;
+    addressController.city.text = address.city!;
+    addressController.pincode.text = address.pincode!;
+    addressController.state.text = address.state!;
+    addressController.country.text = address.country!;
 
     return Scaffold(
       appBar: TAppBar2(titleText: title, showBackArrow: true),
@@ -35,7 +38,7 @@ class UpdateAddressScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),
           child: Form(
-            key: controller.addressFormKey,
+            key: addressController.addressFormKey,
             child: Column(
               children: [
                 //Name
@@ -44,7 +47,7 @@ class UpdateAddressScreen extends StatelessWidget {
                   children: [
                     Expanded(
                         child: TextFormField(
-                          controller: controller.firstName,
+                          controller: addressController.firstName,
                           validator: (value) => TValidator.validateEmptyText('First Name', value),
                           decoration: const InputDecoration(prefixIcon: Icon(Iconsax.user), labelText: 'First Name*'),
                         )
@@ -53,7 +56,7 @@ class UpdateAddressScreen extends StatelessWidget {
                     //Pincode
                     Expanded(
                         child: TextFormField(
-                            controller: controller.lastName,
+                            controller: addressController.lastName,
                             decoration: const InputDecoration(prefixIcon: Icon(Iconsax.user4), labelText: 'Last name')
                         )
                     ),
@@ -62,7 +65,7 @@ class UpdateAddressScreen extends StatelessWidget {
                 //Address1
                 const SizedBox(height: TSizes.spaceBtwInputFields),
                 TextFormField(
-                    controller: controller.address1,
+                    controller: addressController.address1,
                     validator: (value) => TValidator.validateEmptyText('Street address', value),
                     decoration: const InputDecoration(prefixIcon: Icon(Iconsax.building), labelText: 'Street Address*')
                 ),
@@ -70,7 +73,7 @@ class UpdateAddressScreen extends StatelessWidget {
                 //Address2
                 const SizedBox(height: TSizes.spaceBtwInputFields),
                 TextFormField(
-                    controller: controller.address2,
+                    controller: addressController.address2,
                     decoration: const InputDecoration(prefixIcon: Icon(Iconsax.buildings), labelText: 'Land Mark')
                 ),
 
@@ -80,7 +83,7 @@ class UpdateAddressScreen extends StatelessWidget {
                   children: [
                     Expanded(
                         child: TextFormField(
-                          controller: controller.city,
+                          controller: addressController.city,
                           validator: (value) => TValidator.validateEmptyText('City', value),
                           decoration: const InputDecoration(prefixIcon: Icon(Iconsax.building), labelText: 'City*'),
                         )
@@ -89,7 +92,7 @@ class UpdateAddressScreen extends StatelessWidget {
                     //Pincode
                     Expanded(
                         child: TextFormField(
-                          controller: controller.pincode,
+                          controller: addressController.pincode,
                           validator: (value) => TValidator.validatePinCode(value),
                           decoration: const InputDecoration(prefixIcon: Icon(Iconsax.code), labelText: 'Pincode*')
                         )
@@ -105,15 +108,15 @@ class UpdateAddressScreen extends StatelessWidget {
                       child: Text(state),
                     );
                   }).toList(),
-                  value: controller.state.text.isNotEmpty ? controller.state.text : null,
-                  onChanged: (value) {controller.state.text = value!;},
+                  value: addressController.state.text.isNotEmpty ? addressController.state.text : null,
+                  onChanged: (value) {addressController.state.text = value!;},
                   validator: (value) => TValidator.validateEmptyText('State', value),
                   decoration: const InputDecoration(prefixIcon: Icon(Iconsax.activity), labelText: 'State*'),
                 ),
                 const SizedBox(height: TSizes.spaceBtwInputFields),
                 TextFormField(
                     enabled: false,
-                    controller: controller.country,
+                    controller: addressController.country,
                     decoration: const InputDecoration(prefixIcon: Icon(Iconsax.buildings), labelText: 'Country*')
                 ),
                 // DropdownButtonFormField<String>(
@@ -144,7 +147,7 @@ class UpdateAddressScreen extends StatelessWidget {
                 SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                        onPressed: () => controller.wooUpdateAddress(isShippingAddress),
+                        onPressed: () => addressController.wooUpdateAddress(isShippingAddress),
                         child: const Text('Update Address')
                     )
                 )

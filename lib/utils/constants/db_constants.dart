@@ -9,6 +9,14 @@ class DbCollections{
   static const String meta        = 'Meta';
 }
 
+class AppSettingsFieldName{
+  static const String siteName = 'site_name';
+  static const String siteUrl = 'site_url';
+  static const String currency = 'currency';
+  static const String blockedPincodes = 'blocked_pincodes';
+  static const String homeBanners = 'home_banners';
+}
+
 class ProductFieldName {
   static const String id = 'id';
   static const String name = 'name';
@@ -58,6 +66,8 @@ class ProductFieldName {
   static const String menuOrder = 'menu_order';
   static const String relatedIds = 'related_ids';
   static const String stockStatus = 'stock_status';
+  static const String metaData = 'meta_data';
+  static const String isCODBlocked = 'easyapp_cod_blocked';
 }
 
 class ReviewFieldName {
@@ -93,8 +103,8 @@ class CategoryFieldName {
 }
 
 class BannerFieldName {
-  static const String imageUrl      = 'imageUrl';
-  static const String targetScreen  = 'targetScreen';
+  static const String imageUrl      = 'image_url';
+  static const String targetPageUrl  = 'target_screen';
   static const String active        = 'active';
 }
 
@@ -140,6 +150,10 @@ class CustomerFieldName {
   static const String isPayingCustomer = 'is_paying_customer';
   static const String avatarUrl = 'avatar_url';
   static const String dateCreated = 'date_created';
+  static const String metaData = 'meta_data';
+  static const String fCMToken = 'easyapp_fcm_token';
+  static const String verifyPhone = 'easyapp_verify_phone';
+  static const String isCODBlocked = 'easyapp_cod_blocked';
 }
 
 class CustomerMetaDataName {
@@ -237,18 +251,20 @@ class AddressFieldName {
 class CartFieldName {
   static const String id = 'id';
   static const String name = 'name';
-  static const String productId = 'product_id'; // corrected
-  static const String variationId = 'variation_id'; // corrected
+  static const String productId = 'product_id';
+  static const String variationId = 'variation_id';
   static const String quantity = 'quantity';
   static const String subtotal = 'subtotal';
-  static const String subtotalTax = 'subtotal_tax'; // corrected
-  static const String totalTax = 'total_tax'; // corrected
-  static const String total = 'total'; // corrected
+  static const String subtotalTax = 'subtotal_tax';
+  static const String totalTax = 'total_tax';
+  static const String total = 'total';
   static const String sku = 'sku';
   static const String price = 'price';
   static const String image = 'image';
   static const String src = 'src';
-  static const String parentName = 'parent_name'; // corrected
+  static const String parentName = 'parent_name';
+  static const String isCODBlocked = 'easyapp_cod_blocked';
+
 }
 
 class StoragePath{
@@ -273,6 +289,7 @@ class CouponFieldName{
   static const String metaData = 'meta_data';
   static const String paymentMethods = '_wt_sc_payment_methods';
   static const String maxDiscount = '_wt_max_discount';
+  static const String isCODBlocked = 'easyapp_cod_blocked';
 }
 
 class PaymentFieldName {

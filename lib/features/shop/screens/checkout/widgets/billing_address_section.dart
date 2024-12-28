@@ -28,7 +28,8 @@ class TBillingAddressSection extends StatelessWidget {
               address: userController.customer.value.billing ?? AddressModel.empty(),
               onTap: () => Get.to(() => UpdateAddressScreen(
                   title: 'Update Billing Address',
-                  address: userController.customer.value.billing ?? AddressModel.empty())),
+                  address: userController.customer.value.billing ?? AddressModel.empty()
+              )),
             );
           }
         }),

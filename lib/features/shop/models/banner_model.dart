@@ -3,15 +3,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../utils/constants/db_constants.dart';
 
 class BannerModel {
-  String imageUrl;
-  final String? targetScreen;
+  String? imageUrl;
+  final String? targetPageUrl;
 
-  BannerModel({required this.imageUrl, this.targetScreen});
+  BannerModel({this.imageUrl, this.targetPageUrl});
+
+  factory BannerModel.fromJson(Map<String, dynamic> json) {
+    return BannerModel(
+      imageUrl: json[BannerFieldName.imageUrl] ?? '',
+      targetPageUrl: json[BannerFieldName.targetPageUrl] ?? '',
+    );
+  }
 
   Map<String, dynamic> toJson(){
     return {
       BannerFieldName.imageUrl: imageUrl,
-      BannerFieldName.targetScreen: targetScreen,
+      BannerFieldName.targetPageUrl: targetPageUrl,
     };
   }
 
@@ -19,7 +26,7 @@ class BannerModel {
     final data = snapshot.data() as Map<String, dynamic>;
     return BannerModel(
         imageUrl: data[BannerFieldName.imageUrl],
-        targetScreen: data[BannerFieldName.targetScreen],
+      targetPageUrl: data[BannerFieldName.targetPageUrl],
     );
   }
 }

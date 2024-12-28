@@ -13,6 +13,7 @@ import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
 import '../../../authentication/screens/check_login_screen/check_login_screen.dart';
 import '../../controllers/cart_controller/cart_controller.dart';
+import '../../controllers/checkout_controller/checkout_controller.dart';
 import '../checkout/checkout.dart';
 
 
@@ -23,6 +24,8 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     FBAnalytics.logPageView('Cart');
     final controller = CartController.instance;
+    final checkoutController = Get.put(CheckoutController());
+
     return Scaffold(
         appBar: const TAppBar2(titleText: "Cart"),
         bottomNavigationBar: Obx((){
@@ -30,7 +33,10 @@ class CartScreen extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.all(TSizes.defaultSpace),
               child: ElevatedButton(
-                  onPressed: () => Get.to(const TCheckoutScreen()),
+                  onPressed: () {
+                    checkoutController.updateCheckout();
+                    Get.to(const TCheckoutScreen());
+                  },
                   child: Obx(() => Text('Buy Now (${TTexts.currencySymbol + (controller.totalCartPrice.value).toStringAsFixed(0)})'))
               ),
             );

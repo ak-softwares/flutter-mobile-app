@@ -16,6 +16,7 @@ class CouponModel {
   final String? maximumAmount;
   final List<String>? paymentMethods;
   final String? maxDiscount;
+  final bool? isCODBlocked;
 
   CouponModel({
     this.id,
@@ -31,6 +32,7 @@ class CouponModel {
     this.maximumAmount,
     this.paymentMethods,
     this.maxDiscount,
+    this.isCODBlocked,
   });
   static CouponModel empty() => CouponModel();
 
@@ -97,7 +99,6 @@ class CouponModel {
 
     // Initialize variables to hold paymentMethods and maxDiscount
     List<String>? paymentMethods;
-    String? maxDiscount;
 
     // Loop through metaData to find and extract values
     for (var meta in metaData) {
@@ -106,10 +107,6 @@ class CouponModel {
       // Extract paymentMethods
       if (key == CouponFieldName.paymentMethods) {
         paymentMethods = meta['value'].split(',');
-      }
-      // Extract maxDiscount
-      else if (key == CouponFieldName.maxDiscount) {
-        maxDiscount = meta['value'];
       }
     }
     return CouponModel(
@@ -125,7 +122,9 @@ class CouponModel {
       minimumAmount: json[CouponFieldName.minimumAmount],
       maximumAmount: json[CouponFieldName.maximumAmount],
       paymentMethods: paymentMethods,
-      maxDiscount: maxDiscount,
+      maxDiscount: (json[CouponFieldName.metaData] as List?)?.firstWhere((meta) => meta['key'] == CouponFieldName.maxDiscount, orElse: () => {'value': ''},)['value'] ?? '',
+      isCODBlocked: (json[CouponFieldName.metaData] as List?)?.any((meta) => meta['key'] == CouponFieldName.isCODBlocked && meta['value'] == "1") ?? false,
+
     );
   }
 

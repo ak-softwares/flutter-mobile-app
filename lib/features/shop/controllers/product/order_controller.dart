@@ -37,7 +37,6 @@ class OrderController extends GetxController {
   final orderRepository = Get.put(OrderRepository());
   final userController = Get.put(UserController());
   final paymentController = Get.put(PaymentController());
-  final couponController = Get.put(CouponController());
 
   //Fetch orders
   Future<void> fetchOrders() async {
@@ -124,53 +123,8 @@ class OrderController extends GetxController {
   }
 
   // Add methods for order processing
-  Future<void> saveOrderByCustomerId() async {
-    String transactionId = '';
+  Future<OrderModel> saveOrderByCustomerId({String transactionId = ''}) async {
     try {
-      //start loader
-      TFullScreenLoader.openLoadingDialog('Processing your order', TImages.docerAnimation);
-
-      //check internet connectivity
-      final isConnected = await NetworkManager.instance.isConnected();
-      if (!isConnected) {
-        TFullScreenLoader.stopLoading();
-        return;
-      }
-
-      //validate coupon
-      couponController.validateCoupon(checkoutController.coupon.value);
-
-      // Validate Address Phone and Email
-      List<String> validationErrors = userController.customer.value.billing!.validateFields();
-      if (validationErrors.isNotEmpty) {
-        TFullScreenLoader.stopLoading();
-        TLoaders.errorSnackBar(title: 'Error', message: '"${validationErrors.join(', ')}", Update in Address');
-        return;
-      }
-
-      // Check Payment Method
-      final PaymentModel paymentMethod = checkoutController.selectedPaymentMethod.value;
-      if (paymentMethod.id.isEmpty) {
-        TFullScreenLoader.stopLoading();
-        TLoaders.errorSnackBar(title: 'Error', message: 'Please select payment Method');
-        return;
-      } else if(paymentMethod.id == TTexts.razorpay) {
-        // Start the payment process
-        String paymentId = await paymentController.startPayment(amount: checkoutController.total.value.toInt(), productName: 'Products');
-        if (paymentId.isNotEmpty) {
-          transactionId = paymentId;
-          TLoaders.successSnackBar(title: 'Payment Successful:', message: 'Payment ID: $paymentId');
-        } else {
-          TFullScreenLoader.stopLoading();
-          TLoaders.errorSnackBar(title: 'Error', message: "Payment failed!");
-          return;
-        }
-      } else if(paymentMethod.id == TTexts.paytm) {
-        // Handle Paytm payment method
-      } else {
-        // Handle other payment methods like - 'cod'
-      }
-
       //Add Details
       final order = OrderModel(
         customerId: userController.customer.value.id,
@@ -194,34 +148,12 @@ class OrderController extends GetxController {
         ],
       );
 
-      //save the order to firebase
+      //save the order to Woocommerce
       final OrderModel createdOrder = await wooOrdersRepository.createOrderByCustomerId(order);
-      //update the cart status
-      cartController.clearCart();
-      checkoutController.coupon.value = CouponModel.empty();
-      checkoutController.updateTotal();
-      TFullScreenLoader.stopLoading();
-      //Show success screen
-      Get.offAll(() => TSuccessScreen(
-        image: TImages.orderCompletedAnimation,
-        title: 'Payment Success! #${createdOrder.id}',
-        subTitle: 'Your order status is ${createdOrder.status}',
-        // In the onPressed callback of TSuccessScreen
-        onPressed: () async {
-          // Close current screen
-          Get.close(1);
-          // Navigate to TOrderScreen
-          Get.to(() => const TOrderScreen())?.then((value) {
-            // After returning from TOrderScreen, navigate to home screen
-            NavigationHelper.navigateToBottomNavigation();
-            // Get.offAll(() => const BottomNavigation2());
-          });
-        }
+      return createdOrder;
 
-      ));
     } catch(error) {
-      TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      rethrow;
     }
   }
 

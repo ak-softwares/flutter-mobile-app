@@ -20,6 +20,7 @@ class CustomerModel {
   String? dateCreated;
   bool? isPhoneVerified;
   String? fCMToken;
+  bool? isCODBlocked;
 
   CustomerModel({
     this.id,
@@ -36,6 +37,7 @@ class CustomerModel {
     this.dateCreated,
     this.isPhoneVerified,
     this.fCMToken,
+    this.isCODBlocked,
   });
 
   static CustomerModel empty() => CustomerModel();
@@ -43,21 +45,6 @@ class CustomerModel {
   String get phone => billing?.phone ?? '';
 
   factory CustomerModel.fromJson(Map<String, dynamic> json) {
-    // Extracting meta_data list
-    List<dynamic> metaDataList = json['meta_data'] ?? [];
-
-    // Parsing the meta_data to find specific keys
-    String fCMToken = '';
-    bool isPhoneVerified = false;
-
-    for (var metaData in metaDataList) {
-      if (metaData['key'] == CustomerMetaDataName.fCMToken) {
-        fCMToken = metaData['value'] ?? '';
-      } else if (metaData['key'] == CustomerMetaDataName.verifyPhone) {
-        isPhoneVerified = metaData['value'] ?? '';
-      }
-    }
-
     return CustomerModel(
       id: json[CustomerFieldName.id] ?? 0,
       email: json[CustomerFieldName.email] ?? '',
@@ -70,8 +57,9 @@ class CustomerModel {
       isPayingCustomer: json[CustomerFieldName.isPayingCustomer] ?? false,
       avatarUrl: json[CustomerFieldName.avatarUrl] ?? '',
       dateCreated: json[CustomerFieldName.dateCreated] ?? '',
-      isPhoneVerified: isPhoneVerified,
-      fCMToken: fCMToken,
+      isPhoneVerified: (json[CustomerFieldName.metaData] as List?)?.any((meta) => meta['key'] == CustomerMetaDataName.verifyPhone && meta['value'] == true) ?? false,
+      fCMToken: (json[CustomerFieldName.metaData] as List?)?.firstWhere((meta) => meta['key'] == CustomerMetaDataName.fCMToken, orElse: () => {'value': ''},)['value'] ?? '',
+      isCODBlocked: (json[CustomerFieldName.metaData] as List?)?.any((meta) => meta['key'] == CustomerFieldName.isCODBlocked && meta['value'] == "1") ?? false,
     );
   }
 
@@ -87,12 +75,12 @@ class CustomerModel {
   }
 }
 
-class CustomerMedaDataModel{
+class CustomerMetaDataModel{
   final int? id;
   final String? key;
   final String? value;
 
-  CustomerMedaDataModel({
+  CustomerMetaDataModel({
     this.id,
     this.key,
     this.value,

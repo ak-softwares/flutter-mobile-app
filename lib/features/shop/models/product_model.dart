@@ -54,6 +54,7 @@ class ProductModel {
   int? menuOrder;
   List<int>? relatedIds;
   String? stockStatus;
+  bool? isCODBlocked;
 
   ProductModel({
     required this.id,
@@ -105,6 +106,7 @@ class ProductModel {
     this.menuOrder,
     this.relatedIds,
     this.stockStatus,
+    this.isCODBlocked,
   });
 
   // create product empty model
@@ -158,6 +160,7 @@ class ProductModel {
     if (json.containsKey('categories') && json['categories'] is List) {
       categories = (json['categories'] as List).map((cat) => CategoryModel.fromJson(cat)).toList();
     }
+
     return ProductModel(
       id: json[ProductFieldName.id],
       name: json[ProductFieldName.name].replaceAll('&amp;', '&'),
@@ -214,6 +217,7 @@ class ProductModel {
       menuOrder: json[ProductFieldName.menuOrder],
       relatedIds: List<int>.from(json[ProductFieldName.relatedIds] ?? []),
       stockStatus: json[ProductFieldName.stockStatus],
+      isCODBlocked: (json[ProductFieldName.metaData] as List?)?.any((meta) => meta['key'] == ProductFieldName.isCODBlocked && meta['value'] == "1") ?? false,
     );
   }
 

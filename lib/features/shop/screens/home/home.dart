@@ -10,6 +10,7 @@ import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../personalization/screens/change_profile/update_mobile_no.dart';
+import '../../controllers/banner_controller/banner_controller.dart';
 import '../../controllers/category_controller/category_controller.dart';
 import '../../controllers/home/home_controller.dart';
 import '../../controllers/product/product_controller.dart';
@@ -31,6 +32,7 @@ class MyHomePage extends StatelessWidget {
     final homeController = Get.put(HomeController());
     final productController = Get.put(ProductController());
     final categoryController = Get.put(CategoryController());
+    final bannerController = Get.put(BannerController());
 
     scrollController.addListener(() async {
       if (scrollController.position.extentAfter < 0.2 * scrollController.position.maxScrollExtent) {
@@ -58,6 +60,7 @@ class MyHomePage extends StatelessWidget {
         color: TColors.refreshIndicator,
         onRefresh: () async {
           categoryController.refreshCategories();
+          bannerController.refreshBanners();
         },
         child: SingleChildScrollView(
           controller: scrollController,

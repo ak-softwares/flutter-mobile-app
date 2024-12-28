@@ -46,7 +46,7 @@ class TBillingAmountSection extends StatelessWidget {
                         InkWell(
                             onTap: () {
                               checkoutController.coupon.value = CouponModel.empty();
-                              checkoutController.updateTotal();
+                              checkoutController.updateCheckout();
                             },
                             child: const Icon(Icons.close, color: Colors.red, size: 20,)),
                       ],

@@ -46,6 +46,8 @@ class APIConstant {
   static const String wooCustomersApiPath   = '/wp-json/wc/v3/customers/';
   static const String wooProductsReview     = '/wp-json/wc/v3/products/reviews/';
 
+  static const String wooSettings           = '/wp-json/flutter-app/v1/app-settings/';
+  static const String wooBanners            = '/wp-json/flutter-app/v1/home-banners/';
   static const String wooCustomersPhonePath = '/wp-json/flutter-app/v1/customer-by-phone/';
   static const String wooAuthenticatePath   = '/wp-json/flutter-app/v1/authenticate/';
   static const String wooResetPassword      = '/wp-json/flutter-app/v1/reset-password/';

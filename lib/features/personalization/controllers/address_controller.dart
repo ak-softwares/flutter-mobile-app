@@ -13,6 +13,7 @@ import '../../../utils/constants/sizes.dart';
 import '../../../utils/data/state_iso_code_map.dart';
 import '../../../utils/helpers/cloud_helper_function.dart';
 import '../../../utils/popups/full_screen_loader.dart';
+import '../../shop/controllers/checkout_controller/checkout_controller.dart';
 import '../models/address_model.dart';
 import '../models/user_model.dart';
 import '../screens/address/address_widgets/single_address.dart';
@@ -38,6 +39,7 @@ class AddressController extends GetxController{
   final userController = Get.put(UserController());
   final addressRepository = Get.put(AddressRepository());
   final wooCustomersRepository = Get.put(WooCustomersRepository());
+  final checkoutController = Get.put(CheckoutController());
 
 
   Future<void> wooUpdateAddress(bool isShippingAddress) async {
@@ -73,7 +75,7 @@ class AddressController extends GetxController{
         final userId = Get.put(UserController()).customer.value.id.toString();
         final CustomerModel customer = await wooCustomersRepository.updateCustomerById(userID: userId, data: updateShippingField);
         userController.customer(customer);
-      }else{
+      } else {
         //update single field user
         Map<String, dynamic> updateBillingField = {
           CustomerFieldName.billing: {
@@ -90,7 +92,7 @@ class AddressController extends GetxController{
         final userId = Get.put(UserController()).customer.value.id.toString();
         final CustomerModel customer = await wooCustomersRepository.updateCustomerById(userID: userId, data: updateBillingField);
         userController.customer(customer);
-
+        checkoutController.updateCheckout();
       }
       //remove Loader
       TFullScreenLoader.stopLoading();

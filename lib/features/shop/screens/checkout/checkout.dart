@@ -23,14 +23,15 @@ class TCheckoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartController = Get.put(CartController());
-    final orderController = Get.put(OrderController());
     final checkoutController = Get.put(CheckoutController());
     final authenticationRepository = Get.put(AuthenticationRepository());
+    // Trigger updateCheckout on widget initialization
+    Future.microtask(() => checkoutController.updateCheckout());
 
     return Scaffold(
       appBar: const TAppBar2(titleText: "Order summery", showBackArrow: true),
       bottomNavigationBar: Obx((){
-        if (AuthenticationRepository.instance.isUserLogin.value && cartController.cartItems.isNotEmpty){
+        if (authenticationRepository.isUserLogin.value && cartController.cartItems.isNotEmpty){
           return Padding(
               padding: const EdgeInsets.all(TSizes.defaultSpace),
               child: ElevatedButton(
