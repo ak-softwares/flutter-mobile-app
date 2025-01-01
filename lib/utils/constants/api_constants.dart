@@ -10,7 +10,7 @@ class APIConstant {
   static final String authorization         = 'Basic ${base64Encode(utf8.encode('${dotenv.env['WOO_CONSUMER_KEY']}:${dotenv.env['WOO_CONSUMER_SECRET']}'))}';
 
   static const String itemsPerPage          = '10';
-  static final String wooTrackingUrl        = '$wooBaseUrl/tracking/?order-id=';
+  static final String wooTrackingUrl        = 'https://$wooBaseUrl/tracking/?order-id=';
 
   // RazorPay credential
   static final String razorpayKey = dotenv.get('RAZORPAY_KEY', fallback: '');

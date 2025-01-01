@@ -13,6 +13,7 @@ import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
 import '../../../authentication/screens/check_login_screen/check_login_screen.dart';
+import '../../../personalization/controllers/address_controller.dart';
 import '../../controllers/product/order_controller.dart';
 import 'widgets/order_list_items.dart';
 
@@ -21,7 +22,6 @@ class TOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userController = Get.put(UserController());
     final orderController = Get.put(OrderController());
     final ScrollController scrollController = ScrollController();
     final authenticationRepository = Get.put(AuthenticationRepository());

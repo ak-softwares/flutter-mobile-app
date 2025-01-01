@@ -34,7 +34,7 @@ class ChangeProfileController extends GetxController {
   GlobalKey<FormState> updatePhoneFormKey = GlobalKey<FormState>();
 
   final localStorage = GetStorage();
-  final userController = UserController.instance;
+  final userController = Get.put(UserController());
   final userRepository = Get.put(UserRepository());
   final wooCustomersRepository = Get.put(WooCustomersRepository());
 

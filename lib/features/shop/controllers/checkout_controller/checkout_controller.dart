@@ -8,6 +8,7 @@ import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
 import '../../../../utils/popups/full_screen_loader.dart';
+import '../../../personalization/controllers/address_controller.dart';
 import '../../../personalization/controllers/user_controller.dart';
 import '../../../settings/controllers/settings_controller.dart';
 import '../../models/coupon_model.dart';
@@ -36,6 +37,7 @@ class CheckoutController extends GetxController {
   Rx<CouponModel> coupon = CouponModel().obs;
   Rx<PaymentModel> selectedPaymentMethod = PaymentModel.empty().obs;
 
+  final networkManager = Get.put(NetworkManager());
   final cartController = Get.put(CartController());
   final userController = Get.put(UserController());
   final settingsController = Get.put(SettingsController());
@@ -99,7 +101,7 @@ class CheckoutController extends GetxController {
       TFullScreenLoader.openLoadingDialog('Processing your order', TImages.docerAnimation);
 
       //check internet connectivity
-      final isConnected = await NetworkManager.instance.isConnected();
+      final isConnected = await networkManager.isConnected();
       if (!isConnected) {
         TFullScreenLoader.stopLoading();
         return;
@@ -114,7 +116,7 @@ class CheckoutController extends GetxController {
       }
 
       //validate coupon
-      CouponController.instance.validateCoupon(coupon.value);
+      Get.put(CouponController()).validateCoupon(coupon.value);
 
       // Check COD is disabled or not
       checkIsCODDisabled();
@@ -130,7 +132,7 @@ class CheckoutController extends GetxController {
         return;
       } else if(paymentMethod.id == TTexts.razorpay) {
         // Start the payment process
-        String paymentId = await PaymentController.instance.startPayment(amount: total.value.toInt(), productName: 'Products');
+        String paymentId = await Get.put(PaymentController()).startPayment(amount: total.value.toInt(), productName: 'Products');
         if (paymentId.isNotEmpty) {
           transactionId = paymentId;
           TLoaders.successSnackBar(title: 'Payment Successful:', message: 'Payment ID: $paymentId');

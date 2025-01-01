@@ -14,7 +14,7 @@ import '../../../../utils/helpers/navigation_helper.dart';
 import '../../../../utils/popups/full_screen_loader.dart';
 import '../../../personalization/models/user_model.dart';
 
-class LoginController extends GetxController{
+class LoginController extends GetxController {
   static LoginController get instance => Get.find();
 
   //variables

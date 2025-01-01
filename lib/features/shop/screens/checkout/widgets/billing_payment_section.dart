@@ -74,7 +74,7 @@ class TBillingPaymentSection extends StatelessWidget {
                               Text(
                                 !(isCOD && checkoutController.isCODDisabled.value)
                                     ? paymentMethod.description
-                                    : "COD is Unavailable for this ${checkoutController.codDisabledReason.value}",
+                                    : "COD is unavailable for this ${checkoutController.codDisabledReason.value}",
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),

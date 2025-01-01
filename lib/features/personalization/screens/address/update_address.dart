@@ -41,7 +41,8 @@ class UpdateAddressScreen extends StatelessWidget {
             key: addressController.addressFormKey,
             child: Column(
               children: [
-                //Name
+
+                // Name
                 const SizedBox(height: TSizes.spaceBtwInputFields),
                 Row(
                   children: [
@@ -53,7 +54,7 @@ class UpdateAddressScreen extends StatelessWidget {
                         )
                     ),
                     const SizedBox(width: TSizes.spaceBtwInputFields),
-                    //Pincode
+                    // Last Name
                     Expanded(
                         child: TextFormField(
                             controller: addressController.lastName,
@@ -62,7 +63,8 @@ class UpdateAddressScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                //Address1
+
+                // Address1
                 const SizedBox(height: TSizes.spaceBtwInputFields),
                 TextFormField(
                     controller: addressController.address1,
@@ -70,14 +72,14 @@ class UpdateAddressScreen extends StatelessWidget {
                     decoration: const InputDecoration(prefixIcon: Icon(Iconsax.building), labelText: 'Street Address*')
                 ),
 
-                //Address2
+                // Address2
                 const SizedBox(height: TSizes.spaceBtwInputFields),
                 TextFormField(
                     controller: addressController.address2,
                     decoration: const InputDecoration(prefixIcon: Icon(Iconsax.buildings), labelText: 'Land Mark')
                 ),
 
-                //City
+                // City
                 const SizedBox(height: TSizes.spaceBtwInputFields),
                 Row(
                   children: [
@@ -89,7 +91,7 @@ class UpdateAddressScreen extends StatelessWidget {
                         )
                     ),
                     const SizedBox(width: TSizes.spaceBtwInputFields),
-                    //Pincode
+                    // Pincode
                     Expanded(
                         child: TextFormField(
                           controller: addressController.pincode,
@@ -99,6 +101,8 @@ class UpdateAddressScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+
+                // State
                 const SizedBox(height: TSizes.spaceBtwInputFields),
                 DropdownButtonFormField<String>(
                   isExpanded: true,
@@ -113,6 +117,8 @@ class UpdateAddressScreen extends StatelessWidget {
                   validator: (value) => TValidator.validateEmptyText('State', value),
                   decoration: const InputDecoration(prefixIcon: Icon(Iconsax.activity), labelText: 'State*'),
                 ),
+
+                // Country
                 const SizedBox(height: TSizes.spaceBtwInputFields),
                 TextFormField(
                     enabled: false,

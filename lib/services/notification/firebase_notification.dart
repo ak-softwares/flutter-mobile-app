@@ -10,13 +10,16 @@ class FirebaseNotification {
   //create a instance of firebase Messaging
   static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
+  // Static variable to hold the FCM token
+  static String? fCMToken;
+
   //function to initialize notification
   static Future<void> initNotification() async {
     //Request permission form user
     await _firebaseMessaging.requestPermission();
 
     //Fetch the FCM token for this device
-    final fCMToken = await _firebaseMessaging.getToken();
+    fCMToken = await _firebaseMessaging.getToken();
 
     //Print Token
     if (kDebugMode) {

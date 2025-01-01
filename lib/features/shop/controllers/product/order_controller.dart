@@ -2,6 +2,7 @@ import 'package:aramarket/features/shop/models/payment_model.dart';
 import 'package:aramarket/features/shop/screens/orders/order.dart';
 import 'package:aramarket/utils/helpers/navigation_helper.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../../common/navigation_bar/bottom_navigation_bar2.dart';
 import '../../../../common/widgets/loaders/loader.dart';
@@ -31,12 +32,17 @@ class OrderController extends GetxController {
   final RxList<OrderModel> orders = <OrderModel>[].obs;
 
   final cartController = Get.put(CartController());
-  final addressController = AddressController.instance;
+  final addressController = Get.put(AddressController());
   final checkoutController = Get.put(CheckoutController());
   final wooOrdersRepository = Get.put(WooOrdersRepository());
   final orderRepository = Get.put(OrderRepository());
   final userController = Get.put(UserController());
   final paymentController = Get.put(PaymentController());
+
+  Future<String> getAppVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version; // This retrieves the version from pubspec.yaml
+  }
 
   //Fetch orders
   Future<void> fetchOrders() async {
@@ -126,6 +132,7 @@ class OrderController extends GetxController {
   Future<OrderModel> saveOrderByCustomerId({String transactionId = ''}) async {
     try {
       //Add Details
+      final appVersion = await getAppVersion();
       final order = OrderModel(
         customerId: userController.customer.value.id,
         paymentMethod: checkoutController.selectedPaymentMethod.value.id,
@@ -141,7 +148,7 @@ class OrderController extends GetxController {
         couponLines: [checkoutController.coupon.value],
         metaData: [
           OrderMedaDataModel(key: "_wc_order_attribution_source_type", value: "organic"), //referral, organic, Unknown, utm, Web Admin, typein (Direct)
-          OrderMedaDataModel(key: "_wc_order_attribution_utm_source", value: "Android App")
+          OrderMedaDataModel(key: "_wc_order_attribution_utm_source", value: "Android App v$appVersion")
           // OrderMedaDataModel(key: "_wc_order_attribution_referrer", value: "https://www.google.com/"), //this only use for referral
           // OrderMedaDataModel(key: "_wc_order_attribution_utm_medium", value: "organic"),
           // OrderMedaDataModel(key: "_wc_order_attribution_utm_medium", value: "organic"),
