@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../../features/settings/app_settings.dart';
+
 class TColors{
   TColors._();
+
+  // App Basic Colors
+  static const Color primaryColor = AppSettings.primaryColor;
+  // static const Color secondaryColor = Color(0xFF092143);
+  static const Color secondaryColor = Color(0xFF2d2d2d); //Zomato
+  static const Color accent = Color(0xFFB0C7FF);
+  static const Color primaryBackground = Color(0xFFFFFFFF); //Zomato
+  static const Color secondaryBackground = Color(0xFFf4f4f2); //Zomato
 
   static const Color newColor = Color(0xFF2E6D7F);
   static const Color whatsAppColor = Color(0xFF25D366);
@@ -9,15 +19,7 @@ class TColors{
   // Link color
   static const Color offerColor = Color(0xFF2BAA3A);
   static const Color linkColor = Colors.blue;
-  static const Color refreshIndicator = primaryColor;
-
-  //App Basic Colors
-  static const Color primaryColor = Color(0xFFFFC61A);
-  // static const Color secondaryColor = Color(0xFF092143);
-  static const Color secondaryColor = Color(0xFF2d2d2d); //Zomato
-  static const Color accent = Color(0xFFB0C7FF);
-  static const Color primaryBackground = Color(0xFFFFFFFF); //Zomato
-  static const Color secondaryBackground = Color(0xFFf4f4f2); //Zomato
+  static const Color refreshIndicator = AppSettings.primaryColor;
 
   //Text Colors
   static const Color textPrimary = Color(0xFF2d2d2d);
@@ -33,10 +35,10 @@ class TColors{
   static const Color darkContainer = Colors.white;
 
   //Background Colors
-  static const Color buttonPrimary = TColors.primaryColor;
-  static const Color buttonSecondary = TColors.secondaryColor;
+  static const Color buttonPrimary = AppSettings.primaryColor;
+  static const Color buttonSecondary = AppSettings.secondaryColor;
   static const Color buttonDisabled = Color(0xFFC4C4C4);
-  static const Color buttonBorder = TColors.primaryColor;
+  static const Color buttonBorder = AppSettings.primaryColor;
 
   //Border Colors
   static const Color borderPrimary = Color(0xFFD9D9D9);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../features/settings/app_settings.dart';
 import '../../features/shop/screens/search/search.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/image_strings.dart';
@@ -15,7 +16,7 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget{
     return AppBar(
       centerTitle: true,
       backgroundColor: TColors.primaryColor,
-      title: const Image(image: AssetImage(TImages.darkAppLogo), height: 34),
+      title: const Image(image: AssetImage(AppSettings.darkAppLogo), height: 34),
       actions: [
         IconButton(
           icon: const Icon(Icons.search),
@@ -48,7 +49,7 @@ class TAppBar1 extends StatelessWidget implements PreferredSizeWidget{
       centerTitle: false,
       // backgroundColor: TColors.primaryColor,
 
-      title: const Image(image: AssetImage(TImages.darkAppLogo), height: 40),
+      title: const Image(image: AssetImage(AppSettings.darkAppLogo), height: 40),
       actions: [
         IconButton(
           icon: const Icon(Icons.search),

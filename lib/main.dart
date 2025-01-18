@@ -8,6 +8,7 @@ import 'bindings/general_bindings.dart';
 import 'common/navigation_bar/bottom_navigation_bar2.dart';
 import 'data/repositories/authentication/authentication_repository.dart';
 import 'firebase_options.dart';
+import 'routes/internal_routes.dart';
 import 'services/notification/firebase_notification.dart';
 import 'services/notification/local_notification.dart';
 import 'utils/constants/text_strings.dart';
@@ -15,6 +16,7 @@ import 'utils/theme/theme.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   // await Firebase.initializeApp();
@@ -54,20 +56,14 @@ void main() async {
   LocalNotificationServices.localNotificationsPlugin.initialize(
     LocalNotificationServices.initializationSettings, //this line for init local notification setting
     onDidReceiveNotificationResponse: (response) {  // line for when user click on notification when app is open
-      FirebaseNotification.handelNotificationRoute(url: response.payload.toString());
+      InternalAppRoutes.internalRouteHandle(url: response.payload.toString());
       // AppRoutes.pageRouteHandle(routeName: response.payload.toString());
     },
     // onDidReceiveBackgroundNotificationResponse: (response) {  // line for when user click on notification when app is close
-    //   AppRoutes.pageRouteHandle(routeName: response.payload.toString());
+    //   InternalAppRoutes.internalRouteHandle(url: response.payload.toString());
+    //   // AppRoutes.pageRouteHandle(routeName: response.payload.toString());
     // }
   );
-
-  // final localStorage = GetStorage();
-  // final isFirstRun = localStorage.read(LocalStorage.isFirstRun) ?? true;
-  // if(isFirstRun) {
-  //
-  // }
-
   runApp(const MyApp());
 }
 

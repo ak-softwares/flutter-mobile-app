@@ -67,7 +67,7 @@ class CartScreen extends StatelessWidget {
               // padding: const EdgeInsets.all(TSizes.defaultSpace),
               child: TGridLayout(
                 crossAxisCount: 1,
-                mainAxisExtent: 110,
+                mainAxisExtent: 120,
                 mainAxisSpacing: 0,
                 itemCount: controller.cartItems.length,
                 itemBuilder: (_, index) => Stack(

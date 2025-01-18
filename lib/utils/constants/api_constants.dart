@@ -21,23 +21,8 @@ class APIConstant {
   //Define urls
   static const String urlContainProduct         = '/product/';
   static const String urlContainProductCategory = '/product-category/';
-  static String urlCategory                     = 'https://$wooBaseUrl$urlContainProductCategory';
-  static String allCategoryUrl                  =  'https://$wooBaseUrl/product-categories/';
-
-  //Policy Urls
-  static const String privacyPrivacy        = 'https://aramarket.in/privacy-policy/';
-  static const String shippingPolicy        = 'https://aramarket.in/shipping-policy/';
-  static const String termsAndConditions    = 'https://aramarket.in/terms-and-conditions/';
-  static const String refundPolicy          = 'https://aramarket.in/refund_returns/';
-
-  //Follow us link
-  static const String facebook              = 'https://www.facebook.com/araMarket.in';
-  static const String instagram             = 'https://www.instagram.com/aramarket.in/';
-  static const String telegram              = 'https://www.instagram.com/aramarket.in/';
-  static const String twitter               = 'https://twitter.com/aramarket_India';
-  static const String youtube               = 'https://www.youtube.com/@aramarket';
-  static const String playStore             = 'https://play.google.com/store/apps/details?id=com.company.aramarketin&hl=en_IN&gl=US';
-
+  static const String urlContainOrders          = '/my-account/orders';
+  static String allCategoryUrl                     = 'https://$wooBaseUrl$urlContainProductCategory';
 
   static const String wooProductsApiPath    = '/wp-json/wc/v3/products/';
   static const String wooCategoriesApiPath  = '/wp-json/wc/v3/products/categories/';

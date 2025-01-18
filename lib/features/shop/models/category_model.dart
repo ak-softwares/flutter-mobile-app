@@ -53,7 +53,7 @@ class CategoryModel {
   // Map JSON to CategoryModel
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     final slug = json[CategoryFieldName.slug] ?? '';
-    final permalink = '${APIConstant.urlCategory + slug}/';
+    final permalink = '${APIConstant.allCategoryUrl + slug}/';
     return CategoryModel(
       id: json[CategoryFieldName.id].toString(),
       name: (json[CategoryFieldName.name]).replaceAll('&amp;', '&') ?? '',

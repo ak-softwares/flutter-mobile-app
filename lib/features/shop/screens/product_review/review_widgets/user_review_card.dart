@@ -56,7 +56,7 @@ class TUserReviewCard extends StatelessWidget {
                       rating: review.rating!.toDouble(),
                       itemSize: 16,
                       unratedColor: Colors.grey[300],
-                      itemBuilder: (_, __) => TIcons.starRating,
+                      itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: TColors.ratingStar),
                     ),
                   ],
                 ),

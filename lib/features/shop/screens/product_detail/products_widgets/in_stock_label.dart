@@ -12,11 +12,9 @@ class InStock extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text('Status', style: Theme.of(context).textTheme.labelLarge),
-        const SizedBox(width: TSizes.md),
         isProductAvailable
-          ? Text('In Stock', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: TColors.offerColor, fontWeight: FontWeight.w600))
-          : Text('Out of Stock', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.red, fontWeight: FontWeight.w600)),
+          ? Text('In Stock', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: TColors.offerColor, fontWeight: FontWeight.w500))
+          : Text('Out of Stock', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.red, fontWeight: FontWeight.w500)),
       ],
     );
   }

@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../utils/constants/api_constants.dart';
 import '../../../../../utils/constants/icons.dart';
+import '../../../../settings/app_settings.dart';
 
 class FollowUs extends StatelessWidget {
   const FollowUs({super.key});
@@ -16,13 +17,13 @@ class FollowUs extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(icon: Icon(TIcons.facebook, size: 20, color: Colors.blue),
-              onPressed: () => launchUrlString(APIConstant.facebook)),
+              onPressed: () => launchUrlString(AppSettings.facebook)),
             IconButton(icon: Icon(TIcons.instagram, size: 20, color: Colors.pinkAccent),
-              onPressed: () => launchUrlString(APIConstant.instagram)),
+              onPressed: () => launchUrlString(AppSettings.instagram)),
             IconButton(icon: Icon(TIcons.youtube, size: 20, color: Colors.red),
-              onPressed: () => launchUrlString(APIConstant.youtube)),
+              onPressed: () => launchUrlString(AppSettings.youtube)),
             IconButton(icon: Icon(TIcons.twitter, size: 20, color: Colors.lightBlue),
-              onPressed: () => launchUrlString(APIConstant.twitter)),
+              onPressed: () => launchUrlString(AppSettings.twitter)),
           ],
         ),
       ],

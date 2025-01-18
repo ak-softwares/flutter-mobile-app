@@ -18,7 +18,6 @@ import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
-import '../../../settings/app_settings.dart';
 import '../../controllers/cart_controller/cart_controller.dart';
 import '../../controllers/product/product_controller.dart';
 import '../../controllers/recently_viewed_controller/recently_viewed_controller.dart';
@@ -28,7 +27,6 @@ import '../category/category_tap_bar.dart';
 import '../checkout/checkout.dart';
 import '../home_page_section/products_carousal_by_categories/widgets/products_scrolling_by_category.dart';
 import '../product_review/product_review.dart';
-import '../product_review/product_review_horizontal.dart';
 import 'products_widgets/bottom_add_to_cart.dart';
 import 'products_widgets/in_stock_label.dart';
 import 'products_widgets/product_image_slider.dart';
@@ -36,18 +34,18 @@ import 'products_widgets/product_star_rating.dart';
 import 'products_widgets/product_price.dart';
 import 'products_widgets/sale_label.dart';
 
-class ProductDetailScreen extends StatefulWidget {
-  const ProductDetailScreen({super.key, this.product, this.slug, this.productId});
+class ProductDetailScreen1 extends StatefulWidget {
+  const ProductDetailScreen1({super.key, this.product, this.slug, this.productId});
 
   final ProductModel? product;
   final String? productId;
   final String? slug;
 
   @override
-  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+  State<ProductDetailScreen1> createState() => _ProductDetailScreenState1();
 }
 
-class _ProductDetailScreenState extends State<ProductDetailScreen> {
+class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
   final RxBool _isLoading = false.obs;
   RxInt quantityInCart = 1.obs;
 
@@ -108,12 +106,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Adding the product to recently viewed outside Obx's reactive context
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_product.value.id != 0) {
-        RecentlyViewedController.instance.addRecentProduct(_product.value.id.toString());
-      }
-    });
 
     return Scaffold(
       appBar: TAppBar2(titleText: widget.product?.name ?? 'Product Details', showCartIcon: true),
@@ -133,25 +125,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 animation: TImages.pencilAnimation,
               );
             }
+            RecentlyViewedController.instance.addRecentProduct(_product.value.id.toString());
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //search bar
+                // //search bar
                 // const TSearchBar(searchText: TTexts.search),
                 // const Divider(),
 
-                // Product images
+                //product images
                 TProductImageSlider(product: _product.value),
                 const SizedBox(height: TSizes.sm),
                 const Divider(),
 
-                // Title
-                Text(_product.value.name ?? '', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),
-                // const SizedBox(height: TSizes.sm),
-
-                // Category
-                InkWell(
-                    onTap: () => Get.to(() => TAllProducts(
+                //Breadcrumb
+                InkWell(onTap: () =>
+                    Get.to(() => TAllProducts(
                         title: _product.value.categories?[0].name ?? '',
                         categoryId: _product.value.categories?[0].id ?? '',
                         sharePageLink: '${TTexts.appName} - ${_product.value.categories?[0].permalink}',
@@ -163,6 +152,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor)
                         ),
                         SizedBox(width: TSizes.sm,),
+
                         GestureDetector(
                           onTap: () => Share.share('${TTexts.appName} - ${_product.value.categories?[0].permalink}'),
                           child: Icon(
@@ -174,22 +164,25 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ],
                     )
                 ),
+
+                //Product detail page Title description
                 const SizedBox(height: TSizes.sm),
+                Text(_product.value.name ?? '', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),),
 
                 //Star Rating
-                // const SizedBox(height: TSizes.sm),
-                // ProductStarRating(
-                //     averageRating: _product.value.averageRating ?? 0.0,
-                //     ratingCount: _product.value.ratingCount ?? 0,
-                //     onTap: () => Get.to(() => ProductReviewScreen(product: _product.value)),
-                //     bigSize: true
-                // ),
+                const SizedBox(height: TSizes.sm),
+                ProductStarRating(
+                    averageRating: _product.value.averageRating ?? 0.0,
+                    ratingCount: _product.value.ratingCount ?? 0,
+                    onTap: () => Get.to(() => ProductReviewScreen(product: _product.value)),
+                    bigSize: true
+                ),
 
-                // Price
+                //Price
+                const SizedBox(height: TSizes.sm),
                 Row(
                   children: [
-                    TSaleLabel(discount: _product.value.calculateSalePercentage(), size: 13,),
-                    // TOfferWidget(label: '${_product.value.calculateSalePercentage()}% off'),
+                    TOfferWidget(label: '${_product.value.calculateSalePercentage()}% off'),
                     const SizedBox(width: TSizes.spaceBtwItems),
                     TProductPrice(salePrice: _product.value.salePrice,
                         regularPrice: _product.value.regularPrice ?? 0.0,
@@ -198,10 +191,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     // TSaleLabel(discount: salePercentage),
                   ],
                 ),
-                const SizedBox(height: TSizes.sm /2 ),
 
-                // Free Delivery Label
-                _product.value.getPrice() >= AppSettings.freeShippingOver
+                //Free Delivery
+                _product.value.getPrice() >= 999
                     ? TRoundedContainer(
                         radius: TSizes.productImageRadius,
                         backgroundColor: Colors.blue.shade50,
@@ -209,9 +201,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text('Free Delivery', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.linkColor, fontSize: 10)),
+                            Text('Free Delivery', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.linkColor)),
                             const SizedBox(width: TSizes.spaceBtwItems),
-                            Icon(TIcons.truck, color: TColors.linkColor, size: 10),
+                            Icon(TIcons.truck, color: TColors.linkColor, size: 15),
                             const SizedBox(width: 5),
                           ],
                         )
@@ -219,42 +211,38 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     : TRoundedContainer(
                           radius: TSizes.productImageRadius,
                           backgroundColor: Colors.blue.shade50,
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text('Free delivery over ₹999', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.linkColor, fontSize: 10)),
+                              Text('Free delivery over ₹999', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.linkColor)),
                               const SizedBox(width: TSizes.spaceBtwItems),
-                              Icon(TIcons.truck, color: TColors.linkColor, size: 10),
+                              Icon(TIcons.truck, color: TColors.linkColor, size: 15),
                               const SizedBox(width: 5),
                             ],
                           )
                       ),
+
+                //Stock Status
                 const SizedBox(height: TSizes.spaceBtwItems),
-
-
-                // In Stock
                 InStock(isProductAvailable: _product.value.isProductAvailable()),
+
+                // const SizedBox(height: TSizes.sm),
+                const TSectionHeading(title: 'Select Quantity'),
+                Obx(() {
+                  return QuantityAddButtons(
+                        size: 35,
+                        quantity: quantityInCart.value,
+                        // Accessing value of RxInt
+                        add: () => quantityInCart.value += 1,
+                        // Incrementing value
+                        remove: () => quantityInCart.value <= 1
+                            ? null
+                            : quantityInCart.value -= 1,
+                      );
+                }),
+
                 const SizedBox(height: TSizes.sm),
-
-                // const TSectionHeading(title: 'Select Quantity'),
-                // Obx(() {
-                //   return QuantityAddButtons(
-                //         size: 35,
-                //         quantity: quantityInCart.value,
-                //         // Accessing value of RxInt
-                //         add: () => quantityInCart.value += 1,
-                //         // Incrementing value
-                //         remove: () => quantityInCart.value <= 1
-                //             ? null
-                //             : quantityInCart.value -= 1,
-                //       );
-                // }),
-                // const SizedBox(height: TSizes.defaultSpace),
-
-                ProductReviewHorizontal(product: _product.value),
-                const SizedBox(height: TSizes.sm),
-
                 ProductsScrollingByCategory(
                     title: 'Frequently Bought together',
                     parameter: _product.value.id.toString(),

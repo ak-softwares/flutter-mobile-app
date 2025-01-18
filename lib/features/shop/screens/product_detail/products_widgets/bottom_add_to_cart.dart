@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../common/widgets/product/favourite_icon/favourite_icon.dart';
+import '../../../../../common/widgets/product/quantity_add_buttons/quantity_add_buttons.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../controllers/cart_controller/cart_controller.dart';
 import '../../../models/product_model.dart';
@@ -15,6 +17,7 @@ class TBottomAddToCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartController = CartController.instance;
+    RxInt quantityInCart = quantity.obs;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace, vertical: TSizes.defaultSpace),
@@ -22,25 +25,31 @@ class TBottomAddToCart extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: OutlinedButton(
-              onPressed: () => cartController.addToCart(product, quantity),
-              child: const Text('ADD TO CART'),
-            ),
+            flex: 30,
+            child: Obx(() {
+              return QuantityAddButtons(
+                size: 30,
+                quantity: quantityInCart.value,
+                // Accessing value of RxInt
+                add: () => quantityInCart.value += 1,
+                // Incrementing value
+                remove: () => quantityInCart.value <= 1
+                    ? null
+                    : quantityInCart.value -= 1,
+              );
+            }),
           ),
           const SizedBox(width: TSizes.spaceBtwInputFields),
           Expanded(
+            flex: 50,
             child: ElevatedButton(
-              onPressed: (){
-                // Usage example
-                try {
-                  cartController.addToCart(product, quantity);
-                  Get.to(() => const TCheckoutScreen());
-                } catch (e) {
-                  null;
-                }
-              },
-              child: const Text('BUY NOW'),
+              onPressed: () => cartController.addToCart(product, quantityInCart.value),
+              child: const Text('ADD TO CART'),
             ),
+          ),
+          Expanded(
+            flex: 20,
+            child: TFavouriteIcon(productId: product.id.toString()),
           )
         ],
       ),

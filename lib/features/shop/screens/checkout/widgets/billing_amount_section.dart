@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
 import '../../../controllers/checkout_controller/checkout_controller.dart';
@@ -36,12 +37,29 @@ class TBillingAmountSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Discount (${checkoutController.coupon.value.code}) ',
-                      style: Theme.of(context).textTheme.bodyMedium,),
                     Row(
                       children: [
-                        Text('- ${TTexts.currencySymbol}${checkoutController.discount.value.toStringAsFixed(0)}',
-                          style: Theme.of(context).textTheme.bodyMedium,),
+                        Text(
+                          'Discount ',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        Icon(
+                          Icons.discount, // Using discount icon
+                          color: TColors.offerColor, // Green color for the icon
+                          size: 20, // Adjust the size as needed
+                        ),
+                        Text(
+                          ' ${checkoutController.coupon.value.code!.toUpperCase().toString()}',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: TColors.offerColor),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          '- ${TTexts.currencySymbol}${checkoutController.discount.value.toStringAsFixed(0)}',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: TColors.offerColor)
+                        ),
                         const SizedBox(width: 5,),
                         InkWell(
                             onTap: () {

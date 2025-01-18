@@ -21,6 +21,11 @@ class FirebaseNotification {
     //Fetch the FCM token for this device
     fCMToken = await _firebaseMessaging.getToken();
 
+    // FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+    //   print("New token: $newToken");
+    //   // Send the new token to your server.
+    // });
+
     //Print Token
     if (kDebugMode) {
       print('Token ======= "$fCMToken"');
@@ -38,35 +43,36 @@ class FirebaseNotification {
     // print('Initial message received: ${message.notification?.body}');
     // print('Initial message received: ${message.data['product']}');
     if(message.data['url'] != null) {
-      handelNotificationRoute(url: message.data['url']);
+      InternalAppRoutes.internalRouteHandle(url: message.data['url']);
     }
   }
 
-  static void handelNotificationRoute({required String url}) {
-    InternalAppRoutes.internalRouteHandle(url: url);
-  }
-
-  static void showNotification(RemoteMessage? message){
+  static void showNotification(RemoteMessage? message) {
+    if(message == null) return;
     LocalNotificationServices.localNotificationsPlugin.
     show(
         0, //notification id it may anything
-        message?.notification?.title,
-        message?.notification?.body,
+        message.notification?.title,
+        message.notification?.body,
         LocalNotificationServices.getPlatformChannelSpecifics(),
-        payload: message?.data['url']
+        payload: message.data['url']
     );
   }
+
   //function initiate background massage
   static Future initPushNotification() async {
 
-    // Used to handle the initial message payload when the app is opened from a terminated state due to a notification click.
-    _firebaseMessaging.getInitialMessage().then(handleMassage);
-
     // To handle messages while your application is in the foreground, listen to the onMessage stream.
+    // Message received in foreground
     FirebaseMessaging.onMessage.listen(showNotification);
 
     // To handle messages while your application is running in the background, listen to the onMessageOpenedApp stream.
+    // Message opened from background
     FirebaseMessaging.onMessageOpenedApp.listen(handleMassage);
+
+    // Used to handle the initial message payload when the app is opened from a terminated state due to a notification click.
+    // Message opened from terminated state
+    _firebaseMessaging.getInitialMessage().then(handleMassage);
   }
 
 }

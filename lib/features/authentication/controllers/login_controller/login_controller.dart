@@ -25,9 +25,9 @@ class LoginController extends GetxController {
   final password  = TextEditingController();
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
-  final wooCustomersRepository = WooCustomersRepository.instance;
-  final wooAuthenticationRepository = WooAuthenticationRepository.instance;
-  final authenticationRepository = AuthenticationRepository.instance;
+  final wooCustomersRepository = Get.put(WooCustomersRepository());
+  final wooAuthenticationRepository = Get.put(WooAuthenticationRepository());
+  final authenticationRepository = Get.put(AuthenticationRepository());
 
   //Init method fetch user's saved password and email from local storage
   @override

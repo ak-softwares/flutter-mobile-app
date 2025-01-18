@@ -7,6 +7,7 @@ import '../../../../../common/text/section_heading.dart';
 import '../../../../../utils/constants/api_constants.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/icons.dart';
+import '../../../../settings/app_settings.dart';
 import '../../../../shop/controllers/product/product_controller.dart';
 import '../../../../shop/screens/all_products/all_products.dart';
 import '../../../../shop/screens/coupon/coupon_screen.dart';
@@ -64,7 +65,7 @@ class Menu extends StatelessWidget {
               subtitle: Text('List of all the discounted coupons.', style: Theme.of(context).textTheme.bodySmall),
             ),
             ListTile(
-              onTap: () => launchUrlString(APIConstant.playStore),
+              onTap: () => launchUrlString(AppSettings.playStore),
               leading: Icon(TIcons.rateUs, size: 20),
               title: Text('Rate us', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),
               subtitle: Text('Rate us on play store', style: Theme.of(context).textTheme.bodySmall),

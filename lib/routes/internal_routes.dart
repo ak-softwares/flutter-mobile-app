@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../common/web_view/my_web_view.dart';
 import '../features/shop/controllers/product/product_controller.dart';
 import '../features/shop/screens/all_products/all_products.dart';
+import '../features/shop/screens/orders/order.dart';
 import '../features/shop/screens/product_detail/product_detail.dart';
 import '../utils/constants/api_constants.dart';
 
@@ -28,6 +29,8 @@ class InternalAppRoutes {
       Get.to(() => ProductDetailScreen(slug: slug));
     } else if (url.contains(APIConstant.urlContainProductCategory)) {
       Get.to(() => TAllProducts(title: 'Products', categoryId: slug, futureMethodTwoString: productController.getProductsByCategorySlug));
+    } else if (url.contains(APIConstant.urlContainOrders)) {
+      Get.to(() => const TOrderScreen());
     } else {
       Get.to(() => MyWebView(title: 'Web view', url: url));
     }

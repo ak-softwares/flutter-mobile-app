@@ -84,7 +84,7 @@ class StoreScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       ///-Brands
-                      const TBrandShowcase(images: [TImages.productImage1, TImages.productImage2, TImages.productImage1],),
+                      const TBrandShowcase(images: [TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder],),
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
                       const SizedBox(height: TSizes.spaceBtwItems,),
@@ -97,7 +97,7 @@ class StoreScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       ///-Brands
-                      const TBrandShowcase(images: [TImages.productImage1, TImages.productImage2, TImages.productImage1],),
+                      const TBrandShowcase(images: [TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder],),
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
                       const SizedBox(height: TSizes.spaceBtwItems,),
@@ -110,7 +110,7 @@ class StoreScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       ///-Brands
-                      const TBrandShowcase(images: [TImages.productImage1, TImages.productImage2, TImages.productImage1],),
+                      const TBrandShowcase(images: [TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder],),
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
                       const SizedBox(height: TSizes.spaceBtwItems,),
@@ -123,7 +123,7 @@ class StoreScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       ///-Brands
-                      const TBrandShowcase(images: [TImages.productImage1, TImages.productImage2, TImages.productImage1],),
+                      const TBrandShowcase(images: [TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder],),
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
                       const SizedBox(height: TSizes.spaceBtwItems,),
@@ -136,7 +136,7 @@ class StoreScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       ///-Brands
-                      const TBrandShowcase(images: [TImages.productImage1, TImages.productImage2, TImages.productImage1],),
+                      const TBrandShowcase(images: [TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder],),
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
                       const SizedBox(height: TSizes.spaceBtwItems,),

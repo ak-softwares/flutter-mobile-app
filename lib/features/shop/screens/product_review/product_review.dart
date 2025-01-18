@@ -71,7 +71,7 @@ class ProductReviewScreen extends StatelessWidget {
                 rating: product.averageRating ?? 0.0,
                 itemSize: 40,
                 unratedColor: Colors.grey[300],
-                itemBuilder: (_, __) => TIcons.starRating,
+                itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: TColors.ratingStar),
               ),
             ),
             const SizedBox(height: TSizes.sm),

@@ -17,9 +17,9 @@ import '../login_controller/login_controller.dart';
 class SocialLoginController extends GetxController{
   static SocialLoginController get instance => Get.find();
 
-  final authenticationRepository = AuthenticationRepository.instance;
-  final wooCustomersRepository = WooCustomersRepository.instance;
-  final userController = UserController.instance;
+  final authenticationRepository = Get.put(AuthenticationRepository());
+  final wooCustomersRepository = Get.put(WooCustomersRepository());
+  final userController = Get.put(UserController());
   final loginController = Get.put(LoginController());
 
   //Google SignIn Authentication

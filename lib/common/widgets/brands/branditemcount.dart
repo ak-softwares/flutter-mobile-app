@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../features/settings/app_settings.dart';
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/sizes.dart';
 
@@ -27,7 +28,7 @@ class TBrandItemCount extends StatelessWidget {
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image(
-                image: AssetImage(TImages.brandLogo),
+                image: AssetImage(AppSettings.darkAppLogo),
                 width: 120),
             Text(
               "25 Products",

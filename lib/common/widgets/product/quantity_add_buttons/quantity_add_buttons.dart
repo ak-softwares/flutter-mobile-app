@@ -1,5 +1,9 @@
+import 'package:aramarket/common/widgets/custom_shape/containers/rounded_container.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+
+import '../../../../utils/constants/sizes.dart';
+import '../../../styles/shadows.dart';
 
 class QuantityAddButtons extends StatelessWidget {
 
@@ -13,32 +17,48 @@ class QuantityAddButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Row(
-      children: [
-        SizedBox(
-          width: size,
-          height: size,
-          child: OutlinedButton(
-            onPressed: remove,
-            style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(0)),
-            child: const Icon(Iconsax.minus),
+    return Container(
+      padding: EdgeInsets.all(TSizes.xs),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1), // Shadow color with opacity
+            spreadRadius: 2, // Spread radius
+            blurRadius: 6, // Blur radius
+            offset: Offset(0, 3), // Offset: x (horizontal), y (vertical)
           ),
-        ),
-        SizedBox(
-          width: size! - 5,
-          height: size! - 5,
-          child: Center(child: Text(quantity.toString(), style: Theme.of(context).textTheme.titleSmall)),
-        ),
-        SizedBox(
-          width: size,
-          height: size,
-          child: OutlinedButton(
-            onPressed: add,
-            style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(0)),
-            child: const Icon(Iconsax.add),
+        ],
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        // border: Border.all(color: TColors.borderSecondary.withOpacity(0.5)),
+      ),
+      child: Row(
+        children: [
+          SizedBox(
+            width: size,
+            height: size,
+            child: IconButton(
+              onPressed: remove,
+              style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(0)),
+              icon: const Icon(Iconsax.minus),
+            ),
           ),
-        ),
-      ],
+          SizedBox(
+            width: size! - 5,
+            height: size! - 5,
+            child: Center(child: Text(quantity.toString(), style: Theme.of(context).textTheme.titleSmall)),
+          ),
+          SizedBox(
+            width: size,
+            height: size,
+            child: IconButton(
+              onPressed: add,
+              style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(0)),
+              icon: const Icon(Iconsax.add),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -70,7 +70,7 @@ class TIcons {
   static IconData rateUs = FontAwesomeIcons.googlePlay;
 
   //Products icons
-  static Icon starRating = const Icon(LineIcons.starAlt, color: TColors.ratingStar);
+  static IconData starRating = LineIcons.starAlt;
 
   //General Icons
   static IconData truck = FontAwesomeIcons.truckFast;

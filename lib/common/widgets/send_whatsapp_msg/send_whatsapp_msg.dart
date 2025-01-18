@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../features/settings/app_settings.dart';
+
 class SendWhatsappScreen extends StatelessWidget {
   const SendWhatsappScreen({super.key});
 
@@ -21,10 +23,10 @@ class SendWhatsappScreen extends StatelessWidget {
 class SendMSG {
   static void sendWhatsAppMessage() {
     // The phone number to send the message to (include the country code)
-    String phoneNumber = '+919368994493';
+    String phoneNumber = AppSettings.supportWhatsApp;
 
     // The message to send
-    String message = 'Hello, ARAMARKET';
+    String message = 'Hello, ${AppSettings.appName}';
 
     // Create the WhatsApp message URL
     String url = 'https://wa.me/$phoneNumber?text=${Uri.encodeFull(message)}';
@@ -35,7 +37,7 @@ class SendMSG {
 
   static void call() {
     // The phone number to call (include the country code)
-    String phoneNumber = '+919368994493';
+    String phoneNumber = AppSettings.supportMobile;
 
     // Create the phone call URL
     String url = 'tel:$phoneNumber';
@@ -46,7 +48,7 @@ class SendMSG {
 
   static void sendEmail() {
     // The email address to send the email to
-    String email = 'support@aramarket.in';
+    String email = AppSettings.supportEmail;
 
     // Create the email URL
     String url = 'mailto:$email';
