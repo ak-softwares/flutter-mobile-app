@@ -15,22 +15,22 @@ class TProductAttributes extends StatelessWidget {
     return Column(
       children: [
         TRoundedContainer(
-          padding: const EdgeInsets.all(TSizes.sm),
+          padding: const EdgeInsets.all(Sizes.sm),
           backgroundColor: Colors.grey.shade300,
           child: const Column(
             children: [
               Row(
                 children: [
                   TSectionHeading(title: 'Variation'),
-                  SizedBox(width: TSizes.spaceBtwItems),
+                  SizedBox(width: Sizes.spaceBtwItems),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
                           Text('Price'),
-                          SizedBox(width: TSizes.spaceBtwItems),
-                          TProductPrice(salePrice: 449, regularPrice: 999, smallSize: true),
+                          SizedBox(width: Sizes.spaceBtwItems),
+                          ProductPrice(salePrice: 449, regularPrice: 999, size: 20),
                         ],
                       ),
                       InStock(isProductAvailable: true),
@@ -45,14 +45,14 @@ class TProductAttributes extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: TSizes.spaceBtwItems),
+        const SizedBox(height: Sizes.spaceBtwItems),
 
         ///attributes
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const TSectionHeading(title: 'Colors'),
-            const SizedBox(height: TSizes.sm),
+            const SizedBox(height: Sizes.sm),
             Wrap(
               spacing: 10,
               children: [
@@ -63,12 +63,12 @@ class TProductAttributes extends StatelessWidget {
             )
           ],
         ),
-        const SizedBox(height: TSizes.sm),
+        const SizedBox(height: Sizes.sm),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const TSectionHeading(title: 'Size'),
-            const SizedBox(height: TSizes.sm),
+            const SizedBox(height: Sizes.sm),
             Wrap(
               spacing: 10,
               children: [

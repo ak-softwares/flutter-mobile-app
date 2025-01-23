@@ -17,23 +17,23 @@ class TBottomAddToCart1 extends StatelessWidget {
     final cartController = CartController.instance;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace, vertical: TSizes.defaultSpace),
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.defaultSpace, vertical: Sizes.defaultSpace),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: OutlinedButton(
-              onPressed: () => cartController.addToCart(product, quantity),
+              onPressed: () => cartController.addToCart(product: product, quantity: quantity),
               child: const Text('ADD TO CART'),
             ),
           ),
-          const SizedBox(width: TSizes.spaceBtwInputFields),
+          const SizedBox(width: Sizes.spaceBtwInputFields),
           Expanded(
             child: ElevatedButton(
               onPressed: (){
                 // Usage example
                 try {
-                  cartController.addToCart(product, quantity);
+                  onPressed: () => cartController.addToCart(product: product, quantity: quantity);
                   Get.to(() => const TCheckoutScreen());
                 } catch (e) {
                   null;

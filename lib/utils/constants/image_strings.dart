@@ -1,6 +1,6 @@
 
-class TImages {
-  TImages._();
+class Images {
+  Images._();
 
   //Social Logos
   static const String google  = "assets/images/social_media_logo/google-logo.png";

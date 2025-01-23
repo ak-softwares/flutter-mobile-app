@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/layout_models/grid_layout.dart';
+import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/widgets/loaders/animation_loader.dart';
 import '../../../../common/widgets/product/product_cards/product_card_cart_items.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
@@ -12,6 +13,7 @@ import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
 import '../../../authentication/screens/check_login_screen/check_login_screen.dart';
+import '../../../settings/app_settings.dart';
 import '../../controllers/cart_controller/cart_controller.dart';
 import '../../controllers/checkout_controller/checkout_controller.dart';
 import '../checkout/checkout.dart';
@@ -22,22 +24,23 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FBAnalytics.logPageView('Cart');
-    final controller = CartController.instance;
+    final cartController = CartController.instance;
     final checkoutController = Get.put(CheckoutController());
+    FBAnalytics.logPageView('cart_screen');
+    FBAnalytics.logViewCart(cartItems: cartController.cartItems);
 
     return Scaffold(
         appBar: const TAppBar2(titleText: "Cart"),
         bottomNavigationBar: Obx((){
-          if (AuthenticationRepository.instance.isUserLogin.value && controller.cartItems.isNotEmpty){
+          if (AuthenticationRepository.instance.isUserLogin.value && cartController.cartItems.isNotEmpty){
             return Padding(
-              padding: const EdgeInsets.all(TSizes.defaultSpace),
+              padding: const EdgeInsets.all(Sizes.defaultSpace),
               child: ElevatedButton(
                   onPressed: () {
                     checkoutController.updateCheckout();
                     Get.to(const TCheckoutScreen());
                   },
-                  child: Obx(() => Text('Buy Now (${TTexts.currencySymbol + (controller.totalCartPrice.value).toStringAsFixed(0)})'))
+                  child: Obx(() => Text('Buy Now (${AppSettings.appCurrencySymbol + (cartController.totalCartPrice.value).toStringAsFixed(0)})'))
               ),
             );
           } else {
@@ -47,34 +50,29 @@ class CartScreen extends StatelessWidget {
         body: Obx(() {
           //check user login_controller
           if(!AuthenticationRepository.instance.isUserLogin.value){
-            return const CheckLoginScreen(text: 'Please Login! before Add to Cart!', animation: TImages.addToCartAnimation);
+            return const CheckLoginScreen(text: 'Please Login! before Add to Cart!', animation: Images.addToCartAnimation);
           }
 
           //make empty cart animation
           final emptyWidget = TAnimationLoaderWidgets(
             text: 'Whoops! Cart is Empty...',
-            animation: TImages.addToCartAnimation,
+            animation: Images.addToCartAnimation,
             showAction: true,
             actionText: 'Let\'s add some',
             onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
           );
 
           // check empty cart
-          if(controller.cartItems.isEmpty) {
+          if(cartController.cartItems.isEmpty) {
             return emptyWidget;
           } else{
             return SingleChildScrollView(
-              // padding: const EdgeInsets.all(TSizes.defaultSpace),
-              child: TGridLayout(
+              padding: TSpacingStyle.defaultPagePadding,
+              child: GridLayout(
                 crossAxisCount: 1,
-                mainAxisExtent: 120,
-                mainAxisSpacing: 0,
-                itemCount: controller.cartItems.length,
-                itemBuilder: (_, index) => Stack(
-                  children:[
-                    TProductCardForCart(cartItem: controller.cartItems[index], showBottomBar: true),
-                  ]
-                ),
+                mainAxisExtent: Sizes.cartCardHorizontalHeight,
+                itemCount: cartController.cartItems.length,
+                itemBuilder: (_, index) => TProductCardForCart(cartItem: cartController.cartItems[index], showBottomBar: true),
               ),
             );
           }

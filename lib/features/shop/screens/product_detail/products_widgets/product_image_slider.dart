@@ -12,9 +12,11 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../../../../common/widgets/custom_shape/image/circular_image.dart';
 import '../../../../../common/widgets/product/favourite_icon/favourite_icon.dart';
+import '../../../../../services/share/share.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
+import '../../../../settings/app_settings.dart';
 import '../../../controllers/product/image_controller.dart';
 import '../../../models/product_model.dart';
 
@@ -125,9 +127,9 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                             color: Colors.white54,
                             borderRadius: BorderRadius.circular(100),
                           ),
-                          child: TFavouriteIcon(productId: widget.product.id.toString()),
+                          child: TFavouriteIcon(product: widget.product),
                         ),
-                        const SizedBox(height: TSizes.sm),
+                        const SizedBox(height: Sizes.sm),
                         Container(
                             height: 40,
                             width: 40,
@@ -136,7 +138,12 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                               borderRadius: BorderRadius.circular(100),
                             ),
                             child: IconButton(
-                                onPressed: () => Share.share('${TTexts.appName} - ${widget.product.permalink!}'),
+                                onPressed: () => AppShare.shareUrl(
+                                    url: widget.product.permalink ?? '',
+                                    contentType: 'Product',
+                                    itemName: widget.product.name ?? '',
+                                    itemId: widget.product.id.toString()
+                                ),
                                 icon: const Icon(Icons.share)
                             )
                         ),
@@ -144,7 +151,7 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                     )
                 ),
 
-                //Main image enlarge
+                // Main image enlarge
                 Positioned(
                     bottom: 0,
                     left: 0,
@@ -176,15 +183,15 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   physics: const AlwaysScrollableScrollPhysics(),
-                  separatorBuilder: (_,__) => const SizedBox(width: TSizes.spaceBtwItems),
+                  separatorBuilder: (_,__) => const SizedBox(width: Sizes.spaceBtwItems),
                   itemBuilder: (_, index) => Obx(() {
                     final imageSelected = _selectedProductImage.value == images[index];
                     return TRoundedImage(
                       width: galleryImageHeight,
                       border: Border.all(color: imageSelected ? TColors.primaryColor : Colors.transparent),
-                      borderRadius: TSizes.sm,
+                      borderRadius: Sizes.sm,
                       backgroundColor: Colors.white,
-                      padding: TSizes.sm / 2,
+                      padding: Sizes.sm / 2,
                       isNetworkImage: true,
                       onTap: () => _carouselController.animateToPage(index),
                       // onTap: () => _selectedProductImage.value = images[index],

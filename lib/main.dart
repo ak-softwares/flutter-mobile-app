@@ -5,13 +5,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'bindings/general_bindings.dart';
-import 'common/navigation_bar/bottom_navigation_bar2.dart';
+import 'common/navigation_bar/bottom_navigation_bar.dart';
 import 'data/repositories/authentication/authentication_repository.dart';
+import 'features/settings/app_settings.dart';
 import 'firebase_options.dart';
 import 'routes/internal_routes.dart';
+import 'services/firebase_analytics/firebase_analytics.dart';
 import 'services/notification/firebase_notification.dart';
 import 'services/notification/local_notification.dart';
-import 'utils/constants/text_strings.dart';
 import 'utils/theme/theme.dart';
 
 @pragma('vm:entry-point')
@@ -28,25 +29,28 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
 
-  // load env variable
+  // Load env variable
   await dotenv.load(
     fileName: ".env"
   );
 
-  //Add widgets Binding
+  // Add widgets Binding
   final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
-  //GetX Local Storage
+  // GetX Local Storage
   await GetStorage.init();
 
   //await splash until other item load
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  //Initialize Firebase
+  // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((FirebaseApp value) => Get.put(AuthenticationRepository()));
 
-  //Initialize Firebase Notifications
+  // Initialize Firebase Analytics
+  await FBAnalytics.setDefaultEventParameters();
+
+  // Initialize Firebase Notifications
   await FirebaseNotification.initNotification();
 
   // To handle messages while your application is terminated
@@ -72,9 +76,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // FBAnalytics.logPageView('main_function_screen');
     return GetMaterialApp(  //add .router when use go_router
       debugShowCheckedModeBanner: false,
-      title: TTexts.appName,
+      navigatorObservers: [FBAnalytics.observer],
+      title: AppSettings.appName,
       theme: TAppTheme.lightTheme,
       initialBinding: GeneralBindings(),
 
@@ -98,7 +104,7 @@ class MyApp extends StatelessWidget {
       // routeInformationParser: DeeplinkGoRouter.router.routeInformationParser,
       // routeInformationProvider: DeeplinkGoRouter.router.routeInformationProvider,
 
-      home: const BottomNavigation2(),
+      home: const BottomNavigation(),
     );
   }
 }

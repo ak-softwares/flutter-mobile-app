@@ -4,12 +4,12 @@ import 'package:shimmer/shimmer.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_functions.dart';
 
-class TShimmerEffect extends StatelessWidget {
-  const TShimmerEffect({
+class ShimmerEffect extends StatelessWidget {
+  const ShimmerEffect({
     super.key,
     required this.width,
     required this.height,
-    this.radius = TSizes.defaultRadius,
+    this.radius = Sizes.defaultRadius,
     this.color,
   });
 

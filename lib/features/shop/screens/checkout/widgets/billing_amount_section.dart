@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
+import '../../../../settings/app_settings.dart';
 import '../../../controllers/checkout_controller/checkout_controller.dart';
 import '../../../models/coupon_model.dart';
 
@@ -23,11 +24,11 @@ class TBillingAmountSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Subtotal', style: Theme.of(context).textTheme.bodyMedium,),
-              Text(TTexts.currencySymbol + checkoutController.subTotal.value.toStringAsFixed(0),
+              Text(AppSettings.appCurrencySymbol + checkoutController.subTotal.value.toStringAsFixed(0),
                 style: Theme.of(context).textTheme.bodyMedium,),
             ],
           ),
-          const SizedBox(height: TSizes.spaceBtwItems / 2),
+          const SizedBox(height: Sizes.spaceBtwItems / 2),
 
           //Discount
           if (checkoutController.discount.value != 0) ...[
@@ -57,7 +58,7 @@ class TBillingAmountSection extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '- ${TTexts.currencySymbol}${checkoutController.discount.value.toStringAsFixed(0)}',
+                          '- ${AppSettings.appCurrencySymbol}${checkoutController.discount.value.toStringAsFixed(0)}',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: TColors.offerColor)
                         ),
                         const SizedBox(width: 5,),
@@ -71,7 +72,7 @@ class TBillingAmountSection extends StatelessWidget {
                     )
                   ],
                 ),
-                const SizedBox(height: TSizes.spaceBtwItems / 2),
+                const SizedBox(height: Sizes.spaceBtwItems / 2),
               ],
             ),
           ],
@@ -86,7 +87,7 @@ class TBillingAmountSection extends StatelessWidget {
                   children: [
                     Text('Shipping', style: Theme.of(context).textTheme.bodyMedium,),
                     !checkoutController.isFreeShipping.value
-                        ? Text(TTexts.currencySymbol + checkoutController.shipping.value.toStringAsFixed(0),
+                        ? Text(AppSettings.appCurrencySymbol + checkoutController.shipping.value.toStringAsFixed(0),
                       style: Theme.of(context).textTheme.bodyMedium,)
                         : Row(
                       children: [
@@ -104,7 +105,7 @@ class TBillingAmountSection extends StatelessWidget {
                     )
                   ],
                 ),
-                const SizedBox(height: TSizes.spaceBtwItems / 2),
+                const SizedBox(height: Sizes.spaceBtwItems / 2),
               ],
             ),
           ],
@@ -118,11 +119,11 @@ class TBillingAmountSection extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Tax', style: Theme.of(context).textTheme.bodyMedium,),
-                    Text(TTexts.currencySymbol + checkoutController.tax.value.toStringAsFixed(0),
+                    Text(AppSettings.appCurrencySymbol + checkoutController.tax.value.toStringAsFixed(0),
                       style: Theme.of(context).textTheme.bodyMedium,)
                   ],
                 ),
-                const SizedBox(height: TSizes.spaceBtwItems / 2),
+                const SizedBox(height: Sizes.spaceBtwItems / 2),
               ],
             ),
           ],
@@ -132,11 +133,11 @@ class TBillingAmountSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Total', style: Theme.of(context).textTheme.titleSmall,),
-              Text(TTexts.currencySymbol + checkoutController.total.value.toStringAsFixed(0),
+              Text(AppSettings.appCurrencySymbol + checkoutController.total.value.toStringAsFixed(0),
                 style: Theme.of(context).textTheme.titleSmall,)
             ],
           ),
-          const SizedBox(height: TSizes.spaceBtwItems / 2),
+          const SizedBox(height: Sizes.spaceBtwItems / 2),
         ],
       ),
     );

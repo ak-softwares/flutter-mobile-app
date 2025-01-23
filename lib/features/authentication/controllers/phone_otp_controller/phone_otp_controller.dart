@@ -16,7 +16,7 @@ import '../../../../utils/popups/full_screen_loader.dart';
 import '../../../../utils/validators/validation.dart';
 import '../../../personalization/models/user_model.dart';
 import '../../screens/create_account/signup.dart';
-import '../../screens/phone_otp_login/otp_screen.dart';
+import '../../screens/phone_otp_login/enter_otp_screen.dart';
 import '../create_account_controller/signup_controller.dart';
 
 class OTPController extends GetxController {
@@ -84,7 +84,7 @@ class OTPController extends GetxController {
       };
 
       await fast2SmsRepository.fast2SmsSendOTP(otpData);
-      Get.to(() => const OTPScreen());
+      Get.to(() => const EnterOTPScreen());
 
     } catch (error) {
       //show some Generic error to the user
@@ -98,7 +98,7 @@ class OTPController extends GetxController {
     String googlePhone = ''; // Initialize with an empty string
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('Logging you in...', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('Logging you in...', Images.docerAnimation);
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
         TFullScreenLoader.stopLoading();
@@ -125,7 +125,7 @@ class OTPController extends GetxController {
 
       isPhoneVerified.value = true;
       TFullScreenLoader.stopLoading();
-      authenticationRepository.login(customer);
+      authenticationRepository.login(customer: customer, loginMethod: 'PhoneOTP');
     } catch (error) {
       // Remove Loader
       TFullScreenLoader.stopLoading();
@@ -158,7 +158,7 @@ class OTPController extends GetxController {
       }
 
     await phoneAuthRepository.phoneAuthentication('+$countryCode$formattedPhone');
-    Get.to(() => const OTPScreen());
+    Get.to(() => const EnterOTPScreen());
 
     } catch (error) {
       //show some Generic error to the user
@@ -170,7 +170,7 @@ class OTPController extends GetxController {
     String googlePhone = ''; // Initialize with an empty string
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('Logging you in...', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('Logging you in...', Images.docerAnimation);
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
         TFullScreenLoader.stopLoading();
@@ -190,7 +190,7 @@ class OTPController extends GetxController {
       final CustomerModel customer = await wooCustomersRepository.fetchCustomerById(userId);
 
       TFullScreenLoader.stopLoading();
-      authenticationRepository.login(customer);
+      authenticationRepository.login(customer: customer, loginMethod: 'PhoneOTP');
     } catch (error) {
       // Remove Loader
       TFullScreenLoader.stopLoading();

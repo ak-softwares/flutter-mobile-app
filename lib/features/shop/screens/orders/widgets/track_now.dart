@@ -22,7 +22,7 @@ class TrackOrderWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Track now', style: Theme.of(context).textTheme.bodyMedium),
-            const SizedBox(width: TSizes.sm),
+            const SizedBox(width: Sizes.sm),
             const Icon(Icons.open_in_new, size: 18, color: TColors.linkColor),
           ],
         )

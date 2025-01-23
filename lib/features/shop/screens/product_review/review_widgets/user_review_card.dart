@@ -39,18 +39,18 @@ class TUserReviewCard extends StatelessWidget {
             Row(
               children: [
                 TRoundedImage(
-                  image: review.reviewerAvatarUrl ?? TImages.tProfileImage,
+                  image: review.reviewerAvatarUrl ?? Images.tProfileImage,
                   height: 60,
                   width: 60,
                   borderRadius: 50,
                   isNetworkImage: true,
                 ),
-                const SizedBox(width: TSizes.spaceBtwItems,),
+                const SizedBox(width: Sizes.spaceBtwItems,),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(width: 200,child: TProductTitleText(title: reviewerName, maxLines: 1,)),
+                    SizedBox(width: 200,child: ProductTitle(title: reviewerName, maxLines: 1,)),
                     const SizedBox(height: 5),
                     RatingBarIndicator(
                       rating: review.rating!.toDouble(),
@@ -96,7 +96,7 @@ class TUserReviewCard extends StatelessWidget {
         ),
 
         //Review
-        const SizedBox(height: TSizes.sm),
+        const SizedBox(height: Sizes.sm),
         Row(
           children: [
             Expanded(

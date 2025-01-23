@@ -22,7 +22,7 @@ class HomeBanner extends StatelessWidget {
 
     return Obx(() {
       //loader
-      if(bannerController.isLoading.value) return const TShimmerEffect(height: bannerHeight, width: bannerWidth, radius: 0);
+      if(bannerController.isLoading.value) return const ShimmerEffect(height: bannerHeight, width: bannerWidth, radius: 0);
 
       // check empty
       if(bannerController.banners.isEmpty) {
@@ -50,7 +50,7 @@ class HomeBanner extends StatelessWidget {
                 )
             ).toList(),
           ),
-          const SizedBox(height: TSizes.spaceBtwItems),
+          const SizedBox(height: Sizes.spaceBtwItems),
           Center(
             child: Obx(() => Row(
                   mainAxisAlignment: MainAxisAlignment.center,

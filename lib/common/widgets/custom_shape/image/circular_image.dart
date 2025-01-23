@@ -14,7 +14,7 @@ class TRoundedImage extends StatelessWidget {
     required this.image,
     this.backgroundColor,
     this.fit = BoxFit.contain,
-    this.padding = TSizes.sm,
+    this.padding = Sizes.sm,
     this.isNetworkImage = false,
     this.borderRadius = 100,
     this.onTap,
@@ -49,8 +49,8 @@ class TRoundedImage extends StatelessWidget {
               ? CachedNetworkImage(
                   fit: fit,
                   color: overlayColor,
-                  imageUrl: image != '' ? image : TImages.defaultWooPlaceholder,
-                  progressIndicatorBuilder: (context, url, downloadProgress) => TShimmerEffect(width: width, height: height, radius: 0),
+                  imageUrl: image != '' ? image : Images.defaultWooPlaceholder,
+                  progressIndicatorBuilder: (context, url, downloadProgress) => ShimmerEffect(width: width, height: height, radius: 0),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 )
               : Image(

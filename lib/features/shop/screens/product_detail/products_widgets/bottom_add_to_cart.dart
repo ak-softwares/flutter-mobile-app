@@ -20,7 +20,7 @@ class TBottomAddToCart extends StatelessWidget {
     RxInt quantityInCart = quantity.obs;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace, vertical: TSizes.defaultSpace),
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.defaultSpace, vertical: Sizes.defaultSpace),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -39,17 +39,17 @@ class TBottomAddToCart extends StatelessWidget {
               );
             }),
           ),
-          const SizedBox(width: TSizes.spaceBtwInputFields),
+          const SizedBox(width: Sizes.spaceBtwInputFields),
           Expanded(
             flex: 50,
             child: ElevatedButton(
-              onPressed: () => cartController.addToCart(product, quantityInCart.value),
+              onPressed: () => cartController.addToCart(product: product, quantity: quantityInCart.value),
               child: const Text('ADD TO CART'),
             ),
           ),
           Expanded(
             flex: 20,
-            child: TFavouriteIcon(productId: product.id.toString()),
+            child: TFavouriteIcon(product: product),
           )
         ],
       ),

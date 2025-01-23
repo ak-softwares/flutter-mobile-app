@@ -5,9 +5,10 @@ import 'package:get/get.dart';
 import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../data/repositories/woocommerce_repositories/authentication/woo_authentication.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/popups/full_screen_loader.dart';
-import '../../screens/email_password_login/reset_password_screen.dart';
+import '../../screens/email_login/reset_password_screen.dart';
 
 class ForgetPasswordController extends GetxController{
   static ForgetPasswordController get instance => Get.find();
@@ -21,7 +22,7 @@ class ForgetPasswordController extends GetxController{
   Future<void> sendPasswordResetEmail(String email) async {
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('Processing your request..', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('Processing your request..', Images.docerAnimation);
       //check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
@@ -38,6 +39,8 @@ class ForgetPasswordController extends GetxController{
 
       // Register user in the Firebase Authentication & save user data in the Firebase
       await wooAuthenticationRepository.resetPasswordWithEmail(email);
+
+      FBAnalytics.logLogin('forgot_password');
 
       //remove Loader
       TFullScreenLoader.stopLoading();

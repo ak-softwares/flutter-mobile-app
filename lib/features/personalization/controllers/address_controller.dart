@@ -16,7 +16,7 @@ import '../../../utils/popups/full_screen_loader.dart';
 import '../../shop/controllers/checkout_controller/checkout_controller.dart';
 import '../models/address_model.dart';
 import '../models/user_model.dart';
-import '../screens/address/address_widgets/single_address.dart';
+import '../screens/user_address/address_widgets/single_address.dart';
 import 'user_controller.dart';
 
 class AddressController extends GetxController{
@@ -45,7 +45,7 @@ class AddressController extends GetxController{
   Future<void> wooUpdateAddress(bool isShippingAddress) async {
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('We are updating your Address..', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('We are updating your Address..', Images.docerAnimation);
       //check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
@@ -171,7 +171,7 @@ class AddressController extends GetxController{
   Future addNewAddress() async {
     try{
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('Storing Address..', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('Storing Address..', Images.docerAnimation);
 
       //Check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();
@@ -244,7 +244,7 @@ class AddressController extends GetxController{
     return showModalBottomSheet(
       context: context,
       builder: (_) => Container(
-        padding: const EdgeInsets.all(TSizes.lg),
+        padding: const EdgeInsets.all(Sizes.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -264,7 +264,7 @@ class AddressController extends GetxController{
                   return ListView.separated(
                       shrinkWrap: true,
                       itemCount: addresses.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: TSizes.spaceBtwItems),
+                      separatorBuilder: (_, __) => const SizedBox(height: Sizes.spaceBtwItems),
                       itemBuilder: (_, index) => TSingleAddress(
                           address: addresses[index],
                           onTap: () => selectAddress(addresses[index])
@@ -273,7 +273,7 @@ class AddressController extends GetxController{
                 }
               ),
             ),
-            const SizedBox(height: TSizes.defaultSpace * 2),
+            const SizedBox(height: Sizes.defaultSpace * 2),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(

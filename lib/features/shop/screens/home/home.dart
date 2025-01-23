@@ -9,16 +9,15 @@ import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
-import '../../../personalization/screens/change_profile/update_mobile_no.dart';
 import '../../controllers/banner_controller/banner_controller.dart';
 import '../../controllers/category_controller/category_controller.dart';
 import '../../controllers/home/home_controller.dart';
 import '../../controllers/product/product_controller.dart';
 import '../home_page_section/banner/banner_layout.dart';
 import '../home_page_section/category/scrolling_categories_image.dart';
-import '../home_page_section/products_carousal_by_categories/products_carousal_by_categories.dart';
-import '../home_page_section/products_carousal_by_categories/widgets/products_scrolling_by_category.dart';
-import '../home_page_section/products_carousal_by_categories/widgets/products_scrolling_vertical.dart';
+import '../home_page_section/scrolling_products/products_carousal_by_categories.dart';
+import '../home_page_section/scrolling_products/widgets/products_scrolling_by_category.dart';
+import '../home_page_section/scrolling_products/widgets/scrolling_products.dart';
 import '../home_page_section/search/search_input_field.dart';
 import '../home_page_section/youtuber_banner/youtuber_banner.dart';
 
@@ -27,7 +26,7 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FBAnalytics.logPageView('home_screen1');
+    FBAnalytics.logPageView('home_screen');
     final ScrollController scrollController = ScrollController();
     final homeController = Get.put(HomeController());
     final productController = Get.put(ProductController());
@@ -76,19 +75,19 @@ class MyHomePage extends StatelessWidget {
 
               // ProductsScrollingByCategory(title: 'Products under, "₹199"', parameter: '199', futureMethod: productController.getProductsUnderPrice),
               // const SizedBox(height: TSizes.sm),
-              ProductsScrollingVertical(title: 'Top Selling',  futureMethod: productController.getAllProducts),
-              const SizedBox(height: TSizes.sm),
-              ProductsScrollingVertical(title: 'Popular Products',  futureMethod: productController.getFeaturedProducts),
-              const SizedBox(height: TSizes.sm),
-              ProductsScrollingByCategory(title: 'Mobile Repairing Tools', parameter: '617', futureMethod: productController.getProductsByCategoryId,),
-              const SizedBox(height: TSizes.sm),
-              ProductsScrollingByCategory(title: 'TV Repairing Tools', parameter: '662', futureMethod: productController.getProductsByCategoryId,),
-              const SizedBox(height: TSizes.sm),
+              ScrollingProducts(title: 'Recently viewed', futureMethod: productController.getRecentProducts, orientation: OrientationType.horizontal),
+              const SizedBox(height: Sizes.sm),
+              ScrollingProducts(title: 'Top Selling',  futureMethod: productController.getAllProducts),
+              const SizedBox(height: Sizes.sm),
+              ScrollingProducts(title: 'Popular Products',  futureMethod: productController.getFeaturedProducts),
+              const SizedBox(height: Sizes.sm),
+              // ProductsScrollingByCategory(title: 'Mobile Repairing Tools', parameter: '617', futureMethod: productController.getProductsByCategoryId,),
+              // const SizedBox(height: TSizes.sm),
+              // ProductsScrollingByCategory(title: 'TV Repairing Tools', parameter: '662', futureMethod: productController.getProductsByCategoryId,),
+              // const SizedBox(height: TSizes.sm),
               ProductsScrollingByCategory(title: 'Soldering Irons', parameter: '61', futureMethod: productController.getProductsByCategoryId,),
-              const SizedBox(height: TSizes.sm),
+              const SizedBox(height: Sizes.sm),
               const ProductCarousalByCategory(),
-              const SizedBox(height: TSizes.sm),
-              ProductsScrollingVertical(title: 'Recently viewed', futureMethod: productController.getRecentProducts),
             ],
           ),
         ),

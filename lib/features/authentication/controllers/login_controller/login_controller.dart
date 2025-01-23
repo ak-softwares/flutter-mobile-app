@@ -49,7 +49,7 @@ class LoginController extends GetxController {
   Future<void> wooLoginWithEmailAndPassword() async {
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('We are processing your information..', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('We are processing your information..', Images.docerAnimation);
       //check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
@@ -74,7 +74,7 @@ class LoginController extends GetxController {
       }
       //remove Loader
       TFullScreenLoader.stopLoading();
-      authenticationRepository.login(customer);
+      authenticationRepository.login(customer: customer, loginMethod: 'Email');
     } catch (error) {
       //remove Loader
       TFullScreenLoader.stopLoading();
@@ -86,7 +86,7 @@ class LoginController extends GetxController {
   Future<void> loginWithEmailAndPassword() async {
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('We are processing your information..', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('We are processing your information..', Images.docerAnimation);
 
       //check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();

@@ -12,7 +12,7 @@ class TSaleLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return discount != null
         ? Container(
-            padding: EdgeInsets.symmetric(horizontal: TSizes.sm, vertical: TSizes.sm / 2),
+            padding: EdgeInsets.symmetric(horizontal: Sizes.sm, vertical: Sizes.sm / 2),
             decoration: BoxDecoration(
                 color: TColors.primaryColor.withOpacity(0.8),
                 borderRadius: BorderRadius.circular(0)

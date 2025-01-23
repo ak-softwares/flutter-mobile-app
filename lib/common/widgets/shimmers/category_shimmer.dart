@@ -8,7 +8,7 @@ class TCategoryShimmer extends StatelessWidget {
   const TCategoryShimmer({
     super.key,
     this.imageDimension = 85,
-    this.imageRadius = TSizes.defaultRadius,
+    this.imageRadius = Sizes.defaultRadius,
     this.isCategoryScreenTrue = false,
     this.itemCount = 4,
   });
@@ -25,7 +25,7 @@ class TCategoryShimmer extends StatelessWidget {
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 100,
               mainAxisExtent: 130,
-              crossAxisSpacing: TSizes.spaceBtwItems,
+              crossAxisSpacing: Sizes.spaceBtwItems,
             ),
             shrinkWrap: true,
             itemCount: itemCount,
@@ -34,12 +34,12 @@ class TCategoryShimmer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //Image
-                  TShimmerEffect(width: imageDimension, height: imageDimension, radius: imageRadius),
+                  ShimmerEffect(width: imageDimension, height: imageDimension, radius: imageRadius),
 
-                  const SizedBox(height: TSizes.spaceBtwItems),
+                  const SizedBox(height: Sizes.spaceBtwItems),
 
                   //Text
-                  TShimmerEffect(width: imageDimension, height: 10),
+                  ShimmerEffect(width: imageDimension, height: 10),
                 ],
               );
             },
@@ -50,18 +50,18 @@ class TCategoryShimmer extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: itemCount,
                 scrollDirection: Axis.horizontal,
-                separatorBuilder: (_, __) => const SizedBox(width: TSizes.spaceBtwItems + TSizes.spaceBtwItems),
+                separatorBuilder: (_, __) => const SizedBox(width: Sizes.spaceBtwItems + Sizes.spaceBtwItems),
                 itemBuilder: (_, __) {
                   return  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //Image
-                      TShimmerEffect(width: imageDimension, height: imageDimension, radius: imageRadius),
+                      ShimmerEffect(width: imageDimension, height: imageDimension, radius: imageRadius),
 
-                      const SizedBox(height: TSizes.spaceBtwItems),
+                      const SizedBox(height: Sizes.spaceBtwItems),
 
                       //Text
-                      TShimmerEffect(width: imageDimension, height: 10),
+                      ShimmerEffect(width: imageDimension, height: 10),
                     ],
                   );
                 }

@@ -1,26 +1,27 @@
 
 import '../../../../common/styles/spacing_style.dart';
-import '../../../../common/widgets/shimmers/horizontal_product_shimmer.dart';
+import '../../../../common/widgets/loaders/animation_loader.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
+import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
 import '../../../authentication/screens/check_login_screen/check_login_screen.dart';
 import '../../controllers/recently_viewed_controller/recently_viewed_controller.dart';
-import '/common/widgets/product/product_cards/product_card_horizontal.dart';
+import '../home_page_section/scrolling_products/widgets/scrolling_products.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/layout_models/grid_layout.dart';
+import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
-import '../../../../common/widgets/loaders/animation_loader.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
-import '../../../../utils/constants/image_strings.dart';
 
 class RecentlyViewed extends StatelessWidget {
   const RecentlyViewed({super.key});
 
   @override
   Widget build(BuildContext context) {
+    FBAnalytics.logPageView('recently_viewed_screen');
     final ScrollController scrollController = ScrollController();
     final recentlyViewedController = Get.put(RecentlyViewedController());
     final authenticationRepository = Get.put(AuthenticationRepository());
@@ -32,7 +33,7 @@ class RecentlyViewed extends StatelessWidget {
         if(!recentlyViewedController.isLoadingMore.value){
           // User has scrolled to 80% of the content's height
           const int itemsPerPage = 10; // Number of items per page
-          if (recentlyViewedController.recentlyViewedProducts.length % itemsPerPage != 0) {
+          if (recentlyViewedController.products.length % itemsPerPage != 0) {
             // If the length of orders is not a multiple of itemsPerPage, it means all items have been fetched
             return; // Stop fetching
           }
@@ -44,6 +45,13 @@ class RecentlyViewed extends StatelessWidget {
       }
     });
 
+    final Widget emptyWidget = TAnimationLoaderWidgets(
+      text: 'Whoops! No Recent Products...',
+      animation: Images.pencilAnimation,
+      showAction: true,
+      actionText: 'Let\'s add some',
+      onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
+    );
     return Obx(() => Scaffold(
         appBar: const TAppBar2(titleText: 'Recently viewed', showCartIcon: true),
         body: !authenticationRepository.isUserLogin.value
@@ -58,45 +66,18 @@ class RecentlyViewed extends StatelessWidget {
                     InkWell(
                       onTap: recentlyViewedController.clearHistory,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: TSizes.sm),
+                        padding: const EdgeInsets.symmetric(vertical: Sizes.sm),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text('Clear history', style: Theme.of(context).textTheme.bodyMedium!,),
-                            const SizedBox(width: TSizes.sm),
+                            const SizedBox(width: Sizes.sm),
                             const Icon(Icons.delete, size: 18, color: Colors.pink),
                           ],
                         ),
                       ),
                     ),
-                    Obx(() {
-                        if (recentlyViewedController.isLoading.value){
-                          return const THorizontalProductsShimmer(itemCount: 4);
-                        } else if(recentlyViewedController.recentlyViewedProducts.isEmpty) {
-                          return TAnimationLoaderWidgets(
-                            text: 'Whoops! No Recent Products...',
-                            animation: TImages.pencilAnimation,
-                            showAction: true,
-                            actionText: 'Let\'s add some',
-                            onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
-                          );
-                        } else {
-                          final products = recentlyViewedController.recentlyViewedProducts;
-                          return TGridLayout(
-                            mainAxisExtent: 110,
-                            crossAxisCount: 1,
-                            mainAxisSpacing: 5,
-                            itemCount: recentlyViewedController.isLoadingMore.value ? products.length + 2 : products.length,
-                            itemBuilder: (context, index) {
-                              if (index < products.length) {
-                                return TProductCardHorizontal(product: products[index]);
-                              } else {
-                                return const THorizontalProductsShimmer(itemCount: 4);
-                              }
-                            },
-                          );
-                        }
-                    }),
+                    ProductGridLayout(controller: recentlyViewedController, orientation: OrientationType.horizontal, emptyWidget: emptyWidget),
                   ],
                 ),
               )

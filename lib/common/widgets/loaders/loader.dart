@@ -41,7 +41,7 @@ class TLoaders  extends GetxController {
         content: Container(
           padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(TSizes.md),
+            borderRadius: BorderRadius.circular(Sizes.md),
             color: Colors.green.shade600,
           ),
           child: Column(
@@ -68,7 +68,7 @@ class TLoaders  extends GetxController {
         content: Container(
           padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(TSizes.md),
+            borderRadius: BorderRadius.circular(Sizes.md),
             color: Colors.orange.shade600,
           ),
           child: Column(
@@ -95,7 +95,7 @@ class TLoaders  extends GetxController {
         content: Container(
           padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(TSizes.md),
+            borderRadius: BorderRadius.circular(Sizes.md),
             color: Colors.red.shade600,
           ),
           child: Column(

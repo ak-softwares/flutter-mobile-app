@@ -12,11 +12,11 @@ class TBrandProducts extends StatelessWidget {
     return const Scaffold(
       appBar: TAppBar2(titleText: "Baku", showBackArrow: true),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(TSizes.defaultSpace),
+        padding: EdgeInsets.all(Sizes.defaultSpace),
         child: Column(
           children: [
             SizedBox(width: double.infinity ,child: TBrandItemCount(isBorderShow: true)),
-            SizedBox(height: TSizes.spaceBtwSection,),
+            SizedBox(height: Sizes.spaceBtwSection,),
           ],
         ),
       ),

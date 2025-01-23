@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../common/layout_models/product_list_layout.dart';
 import '../../../../../common/text/section_heading.dart';
 import '../../../../../common/widgets/shimmers/category_shimmer.dart';
 import '../../../../../utils/constants/api_constants.dart';
@@ -18,8 +19,8 @@ class ScrollingCategoriesImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ScrollController scrollController = ScrollController();
     final categoryController = Get.put(CategoryController());
-    const double imageDimension = 85;
-    const double imageRadius = TSizes.defaultRadius;
+    const double imageDimension = Sizes.categoryImageSize;
+    const double imageRadius = Sizes.categoryImageRadius;
 
     scrollController.addListener(() async {
       if (scrollController.position.extentAfter < 0.2 * scrollController.position.maxScrollExtent) {
@@ -43,11 +44,11 @@ class ScrollingCategoriesImage extends StatelessWidget {
         return Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: TSizes.spaceBtwItems),
+              padding: const EdgeInsets.only(left: Sizes.spaceBtwItems),
               child: TSectionHeading(title: 'Popular Categories', seeActionButton: true, onPressed: () => Get.to(() => const CategoryScreen())),
             ),
             const Padding(
-              padding: EdgeInsets.only(top: TSizes.spaceBtwItems, left: TSizes.spaceBtwItems),
+              padding: EdgeInsets.only(top: Sizes.spaceBtwItems, left: Sizes.spaceBtwItems),
               child: TCategoryShimmer(imageDimension: imageDimension, imageRadius: imageRadius),
             ),
           ],
@@ -60,38 +61,32 @@ class ScrollingCategoriesImage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: TSizes.spaceBtwItems),
+              padding: const EdgeInsets.only(left: Sizes.spaceBtwItems),
               child: TSectionHeading(title: 'Popular Categories', seeActionButton: true, onPressed: () => Get.to(() => const CategoryScreen())),
             ),
-            SizedBox(
+            ListLayout(
               height: imageDimension + 60,
-              child: ListView.separated(
-                controller: scrollController,
-                scrollDirection: Axis.horizontal,
-                physics: const BouncingScrollPhysics(),
-                itemCount: categoryController.isLoadingMore.value ? categories.length + 3 : categories.length,
-                separatorBuilder: (_, __) => const SizedBox(width: TSizes.spaceBtwItems),
-                itemBuilder: (context, index) {
-                  if (index < categories.length) {
-                    final category = categories[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(top: TSizes.spaceBtwItems, left: TSizes.spaceBtwItems),
-                      child: SingleCategoryItem(
-                          imageDimension: imageDimension,
-                          imageRadius: imageRadius,
-                          title: category.name ?? '',
-                          image: category.image ?? '',
-                          onTap: () => Get.to(
-                              CategoryTapBarScreen(initialIndex: index))),
-                    );
-                  } else {
-                      return const Padding(
-                        padding: EdgeInsets.only(top: TSizes.spaceBtwItems, left: TSizes.spaceBtwItems),
-                        child: TCategoryShimmer(imageDimension: imageDimension, imageRadius: imageRadius, itemCount: 1),
-                      );
-                  }
-                },
-              ),
+              controller: scrollController,
+              itemCount: categoryController.isLoadingMore.value ? categories.length + 3 : categories.length,
+              itemBuilder: (context, index) {
+                if (index < categories.length) {
+                  final category = categories[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(top: Sizes.spaceBtwItems, left: Sizes.spaceBtwItems),
+                    child: SingleCategoryItem(
+                        imageDimension: imageDimension,
+                        imageRadius: imageRadius,
+                        title: category.name ?? '',
+                        image: category.image ?? '',
+                        onTap: () => Get.to(CategoryTapBarScreen(initialIndex: index))),
+                  );
+                } else {
+                  return const Padding(
+                    padding: EdgeInsets.only(top: Sizes.spaceBtwItems, left: Sizes.spaceBtwItems),
+                    child: TCategoryShimmer(imageDimension: imageDimension, imageRadius: imageRadius, itemCount: 1),
+                  );
+                }
+              },
             ),
           ],
         );          }

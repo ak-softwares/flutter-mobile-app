@@ -27,9 +27,9 @@ class TSocialButtons extends StatelessWidget {
                   onPressed: () => socialLoginController.signInWithGoogle(),
                   // onPressed: () => GoogleAuth.googleLogin(),
                   icon: const Image(
-                      height: TSizes.iconMd,
-                      width: TSizes.iconMd,
-                      image: AssetImage(TImages.google)
+                      height: Sizes.iconMd,
+                      width: Sizes.iconMd,
+                      image: AssetImage(Images.google)
                   ),
                 ),
               ),
@@ -65,11 +65,11 @@ class TSocialButtons extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image(
-                          height: TSizes.iconMd,
-                          width: TSizes.iconMd,
-                          image: AssetImage(TImages.google)
+                          height: Sizes.iconMd,
+                          width: Sizes.iconMd,
+                          image: AssetImage(Images.google)
                       ),
-                      SizedBox(width: TSizes.spaceBtwInputFields),
+                      SizedBox(width: Sizes.spaceBtwInputFields),
                       Text('Login with Google')
                     ],
                   )

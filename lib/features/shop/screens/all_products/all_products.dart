@@ -2,30 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../common/layout_models/grid_layout.dart';
+import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/widgets/loaders/animation_loader.dart';
-import '../../../../common/widgets/product/product_cards/product_card_vertical.dart';
-import '../../../../common/widgets/shimmers/vertical_product_shimmer.dart';
+import '../../../../common/widgets/product/product_cards/product_card.dart';
+import '../../../../common/widgets/shimmers/product_shimmer.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../controllers/product/all_product_controller.dart';
 import '../../models/product_model.dart';
+import '../home_page_section/scrolling_products/widgets/scrolling_products.dart';
 
 class TAllProducts extends StatelessWidget {
-  const TAllProducts({super.key, required this.title, this.futureMethod, this.futureMethodTwoString, this.categoryId, this.sharePageLink});
+  const TAllProducts({super.key, required this.title, this.futureMethod, this.orientation = OrientationType.vertical, this.futureMethodTwoString, this.categoryId, this.sharePageLink});
 
   final String title;
   final String? categoryId;
   final String? sharePageLink;
+  final OrientationType orientation;
   final Future<List<ProductModel>> Function(String)? futureMethod;
   final Future<List<ProductModel>> Function(String, String)? futureMethodTwoString;
 
   @override
   Widget build(BuildContext context) {
-    
+    FBAnalytics.logPageView('all_products_screen');
     final allProductController = Get.put(AllProductController());
     final ScrollController scrollController = ScrollController();
 
@@ -55,7 +58,10 @@ class TAllProducts extends StatelessWidget {
         }
       }
     });
-
+    final Widget emptyWidget = const TAnimationLoaderWidgets(
+      text: 'Whoops! No products fount...',
+      animation: Images.pencilAnimation,
+    );
     return Scaffold(
         appBar: TAppBar2(titleText: title, showBackArrow: true, showCartIcon: true, sharePageLink: sharePageLink ?? "",),
         body: RefreshIndicator(
@@ -82,32 +88,8 @@ class TAllProducts extends StatelessWidget {
                     .map((option) => DropdownMenuItem(value: option, child: Text(option)))
                     .toList(),
               ),
-              const SizedBox(height: TSizes.defaultSpace),
-              Obx(() {
-                if (allProductController.isLoading.value){
-                  return const TVerticalProductsShimmer(itemCount: 6);
-                } else if(allProductController.products.isEmpty) {
-                  return const TAnimationLoaderWidgets(
-                    text: 'Whoops! No products fount...',
-                    animation: TImages.pencilAnimation,
-                  );
-                }else {
-                  //Product found!
-                  final products = allProductController.products;
-                  return TGridLayout(
-                    crossAxisCount: 2,
-                    // mainAxisExtent: 130,
-                    itemCount: allProductController.isLoadingMore.value ? products.length + 2 : products.length,
-                    itemBuilder: (context, index) {
-                      if (index < products.length) {
-                        return TProductCardVertical(product: products[index]);
-                      } else {
-                        return const TVerticalProductsShimmer(itemCount: 1, crossAxisCount: 1,);
-                      }
-                    },
-                  );
-                }
-              }),
+              const SizedBox(height: Sizes.defaultSpace),
+              ProductGridLayout(controller: allProductController, emptyWidget: emptyWidget),
             ],
           ),
         ),

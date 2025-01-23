@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../utils/constants/db_constants.dart';
 import '../../../utils/formatters/formatters.dart';
 import '../../personalization/models/address_model.dart';
+import '../../settings/app_settings.dart';
 import '../controllers/checkout_controller/checkout_controller.dart';
 import 'cart_item_model.dart';
 import 'coupon_model.dart';
@@ -179,7 +180,7 @@ class OrderModel {
     {
       "method_id": "flat_rate",
       "method_title": "Shipping",
-      "total": '${CheckoutController.instance.shippingPrice}'
+      "total": '${AppSettings.shippingCharge}'
     }
   ];
 

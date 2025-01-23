@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/local_storage_constants.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
@@ -19,12 +20,14 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
+
   late final PageController pageController;
   late int currentPage;
 
   @override
   void initState() {
     super.initState();
+    FBAnalytics.logPageView('onboarding_screen');
     pageController = PageController();
     currentPage = pageController.initialPage;
   }
@@ -50,15 +53,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               // print('Current Page: ${currentPage + 1}');
             },
             children: const [
-              OnBoardingPage(image: TImages.onBoardingImage1, title: TTexts.onBoardingTitle1, subTitle: TTexts.onBoardingSubTitle1),
-              OnBoardingPage(image: TImages.onBoardingImage2, title: TTexts.onBoardingTitle2, subTitle: TTexts.onBoardingSubTitle2),
-              OnBoardingPage(image: TImages.onBoardingImage3, title: TTexts.onBoardingTitle3, subTitle: TTexts.onBoardingSubTitle3),
+              OnBoardingPage(image: Images.onBoardingImage1, title: TTexts.onBoardingTitle1, subTitle: TTexts.onBoardingSubTitle1),
+              OnBoardingPage(image: Images.onBoardingImage2, title: TTexts.onBoardingTitle2, subTitle: TTexts.onBoardingSubTitle2),
+              OnBoardingPage(image: Images.onBoardingImage3, title: TTexts.onBoardingTitle3, subTitle: TTexts.onBoardingSubTitle3),
             ],
           ),
           // Skip button
           Positioned(
             top: TDeviceUtils.getAppBarHeight(),
-            right: TSizes.defaultSpace,
+            right: Sizes.defaultSpace,
             child: TextButton(
               onPressed: skip,
               child: const Text('Skip'),
@@ -68,7 +71,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           // Dot navigation smoothPageIndicator
           Positioned(
             bottom: TDeviceUtils.getBottomNavigationBarHeight() + 25,
-            left: TSizes.defaultSpace,
+            left: Sizes.defaultSpace,
             child: Row(
               children: List<Widget>.generate(
                 3, (index) {
@@ -90,7 +93,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           // Circular Next Button
           Positioned(
             bottom: TDeviceUtils.getBottomNavigationBarHeight(),
-            right: TSizes.defaultSpace,
+            right: Sizes.defaultSpace,
             child: ElevatedButton(
               onPressed: () {
                 if(currentPage == 2){

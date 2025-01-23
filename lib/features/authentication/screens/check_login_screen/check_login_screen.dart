@@ -7,7 +7,7 @@ import '../../../../utils/helpers/navigation_helper.dart';
 
 class CheckLoginScreen extends StatelessWidget {
   const CheckLoginScreen({
-    super.key, this.text = 'Please Login! to access this page', this.animation = TImages.pencilAnimation,
+    super.key, this.text = 'Please Login! to access this page', this.animation = Images.pencilAnimation,
   });
   final String text;
   final String animation;

@@ -1,27 +1,29 @@
+import 'package:aramarket/features/shop/screens/home_page_section/scrolling_products/widgets/scrolling_products.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../common/layout_models/grid_layout.dart';
+import '../../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../../common/styles/spacing_style.dart';
 import '../../../../../common/text/section_heading.dart';
 import '../../../../../common/widgets/loaders/animation_loader.dart';
-import '../../../../../common/widgets/product/product_cards/product_card_search.dart';
-import '../../../../../common/widgets/product/product_cards/product_card_vertical.dart';
-import '../../../../../common/widgets/shimmers/horizontal_product_shimmer.dart';
-import '../../../../../common/widgets/shimmers/vertical_product_shimmer.dart';
+import '../../../../../common/widgets/product/product_cards/product_card.dart';
+import '../../../../../common/widgets/shimmers/product_shimmer.dart';
+import '../../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/image_strings.dart';
+import '../../../../../utils/constants/sizes.dart';
 import '../../../controllers/search_controller/search_controller.dart';
 
 class SearchProductScreen extends StatelessWidget {
-  const SearchProductScreen({super.key, required this.title, required this.searchQuery, this.verticalOrientation = true});
+  const SearchProductScreen({super.key, required this.title, required this.searchQuery, this.orientation = OrientationType.vertical});
 
-  final bool verticalOrientation;
+  final OrientationType orientation;
   final String title;
   final String searchQuery;
 
   @override
   Widget build(BuildContext context) {
+    FBAnalytics.logPageView('search_screen');
 
     final ScrollController scrollController = ScrollController();
     final searchController = Get.put(SearchQueryController());
@@ -39,7 +41,7 @@ class SearchProductScreen extends StatelessWidget {
         if(!searchController.isLoadingMore.value){
           // User has scrolled to 80% of the content's height
           const int itemsPerPage = 10; // Number of items per page
-          if (searchController.searchProducts.length % itemsPerPage != 0) {
+          if (searchController.products.length % itemsPerPage != 0) {
             // If the length of orders is not a multiple of itemsPerPage, it means all items have been fetched
             return; // Stop fetching
           }
@@ -59,42 +61,7 @@ class SearchProductScreen extends StatelessWidget {
         padding: TSpacingStyle.defaultPagePadding,
         children: [
           TSectionHeading(title: title),
-          Obx(() {
-            if (searchController.isLoading.value){
-              return verticalOrientation ? const TVerticalProductsShimmer(itemCount: 6) : const THorizontalProductsShimmer(itemCount: 4);
-            } else if(searchController.searchProducts.isEmpty) {
-              return const TAnimationLoaderWidgets(
-                text: 'Whoops! No Product Found...',
-                animation: TImages.pencilAnimation,
-              );
-            } else {
-              final products = searchController.searchProducts;
-              return verticalOrientation
-                ? TGridLayout(
-                    itemCount: searchController.isLoadingMore.value ? products.length + 2 : products.length,
-                    itemBuilder: (context, index) {
-                      if (index < products.length) {
-                        return TProductCardVertical(product: products[index]);
-                      } else {
-                        return const TVerticalProductsShimmer(itemCount: 1, crossAxisCount: 1,);
-                      }
-                    },
-                  )
-                : TGridLayout(
-                    crossAxisCount: 1,
-                    mainAxisExtent: 85,
-                    mainAxisSpacing: 7,
-                    itemCount: searchController.isLoadingMore.value ? products.length + 2 : products.length,
-                    itemBuilder: (context, index) {
-                      if (index < products.length) {
-                        return TProductCardSearch(product: products[index]);
-                      } else {
-                        return const THorizontalProductsShimmer(itemCount: 2);
-                      }
-                    },
-                  );
-            }
-          }),
+          ProductGridLayout(controller: searchController, orientation: orientation),
         ],
       ),
     );

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../../features/shop/controllers/cart_controller/cart_controller.dart';
 import '../../../../features/shop/controllers/favorite/favorite_controller.dart';
 import '../../../../features/shop/screens/cart/cart.dart';
-import '../../../../features/shop/screens/wishlist/wishlist.dart';
+import '../../../../features/shop/screens/favourite/favourite.dart';
 import '../../../../utils/constants/colors.dart';
 
 class TCartCounterIcon extends StatelessWidget {

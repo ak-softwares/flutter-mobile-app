@@ -6,6 +6,7 @@ class CartItemModel {
   int productId;
   int? variationId;
   int quantity;
+  String? category;
   String? subtotal;
   String? subtotalTax;
   String? totalTax;
@@ -23,6 +24,7 @@ class CartItemModel {
     required this.productId,
     this.variationId,
     required this.quantity,
+    this.category,
     this.subtotal,
     this.subtotalTax,
     this.totalTax,
@@ -34,11 +36,10 @@ class CartItemModel {
     this.isCODBlocked,
   });
 
-  //Empty cart
   // Empty cart
   static CartItemModel empty() => CartItemModel(id: 0, name: '', productId: 0, quantity: 0, price: 0);
 
-  //Convert a cartItem to a Json map
+  // Convert a cartItem to a Json map
   Map<String, dynamic> toJson() {
     return {
       CartFieldName.id: id,
@@ -46,6 +47,7 @@ class CartItemModel {
       CartFieldName.productId: productId,
       CartFieldName.variationId: variationId,
       CartFieldName.quantity: quantity,
+      CartFieldName.category: category,
       CartFieldName.subtotal: subtotal,
       CartFieldName.subtotalTax: subtotalTax,
       CartFieldName.totalTax: totalTax,
@@ -67,7 +69,7 @@ class CartItemModel {
     };
   }
 
-  //create a cartItem from a json map
+  // Create a cartItem from a json map
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
     return CartItemModel(
       id: json[CartFieldName.id] ?? 0,
@@ -75,6 +77,7 @@ class CartItemModel {
       productId: json[CartFieldName.productId] ?? 0, // Changed to product_id
       variationId: json[CartFieldName.variationId] ?? 0, // Changed to variation_id
       quantity: json[CartFieldName.quantity] ?? 0,
+      category: json[CartFieldName.category] ?? '',
       subtotal: json[CartFieldName.subtotal] ?? '',
       subtotalTax: json[CartFieldName.subtotalTax] ?? '',
       totalTax: json[CartFieldName.totalTax] ?? '',
@@ -89,7 +92,8 @@ class CartItemModel {
       isCODBlocked: json[CartFieldName.isCODBlocked] ?? false,
     );
   }
-//create a cartItem from a json map
+
+  // create a cartItem from a json map
   factory CartItemModel.fromJsonLocalStorage(Map<String, dynamic> json) {
     return CartItemModel(
       id: json[CartFieldName.id] ?? 0,
@@ -97,6 +101,7 @@ class CartItemModel {
       productId: json[CartFieldName.productId] ?? 0, // Changed to product_id
       variationId: json[CartFieldName.variationId] ?? 0, // Changed to variation_id
       quantity: json[CartFieldName.quantity] ?? 0,
+      category: json[CartFieldName.category] ?? '',
       subtotal: json[CartFieldName.subtotal] ?? '',
       subtotalTax: json[CartFieldName.subtotalTax] ?? '',
       totalTax: json[CartFieldName.totalTax] ?? '',

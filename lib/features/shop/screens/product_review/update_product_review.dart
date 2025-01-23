@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/validators/validation.dart';
@@ -17,6 +18,8 @@ class UpdateReviewScreen extends StatelessWidget {
   final ReviewModel review;
   @override
   Widget build(BuildContext context) {
+    FBAnalytics.logPageView('review_update_screen');
+
     final authenticationRepository = Get.put(AuthenticationRepository());
     final productReviewController = Get.put(ProductReviewController());
     productReviewController.editRating.value = review.rating ?? 0;
@@ -32,7 +35,7 @@ class UpdateReviewScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Overall Rating', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: TSizes.sm),
+                  const SizedBox(height: Sizes.sm),
                   Obx(() => Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: List.generate(5, (index) => GestureDetector(
@@ -57,9 +60,9 @@ class UpdateReviewScreen extends StatelessWidget {
                       ),
                     ),
                   )),
-                  const SizedBox(height: TSizes.xs),
+                  const SizedBox(height: Sizes.xs),
                   Text('Click to rate', style: Theme.of(context).textTheme.bodyMedium),
-                  const SizedBox(height: TSizes.xl),
+                  const SizedBox(height: Sizes.xl),
                   Form(
                     key: productReviewController.editReviewFormKey,
                     child: Column(
@@ -68,7 +71,7 @@ class UpdateReviewScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('Product review*', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold)),
-                              const SizedBox(height: TSizes.xs),
+                              const SizedBox(height: Sizes.xs),
                               TextFormField(
                                 controller: productReviewController.editProductReview,
                                 validator: (value) => TValidator.validateEmptyText(value, 'Product review'),
@@ -84,11 +87,11 @@ class UpdateReviewScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: TSizes.spaceBtwSection),
+                  const SizedBox(height: Sizes.spaceBtwSection),
                   ElevatedButton(
                     onPressed: () => productReviewController.updateReview(review.id),
                     child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: TSizes.lg),
+                      padding: EdgeInsets.symmetric(horizontal: Sizes.lg),
                       child: Text('Update product review'),
                     )
                   )

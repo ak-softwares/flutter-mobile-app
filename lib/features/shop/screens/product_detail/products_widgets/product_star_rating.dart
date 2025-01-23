@@ -8,11 +8,11 @@ import '../../../../../utils/constants/sizes.dart';
 
 class ProductStarRating extends StatelessWidget {
   const ProductStarRating({
-    super.key, required this.averageRating, required this.ratingCount, this.bigSize = false, this.onTap,
+    super.key, required this.averageRating, required this.ratingCount, this.size = 12, this.onTap,
   });
   final double averageRating;
   final int ratingCount;
-  final bool bigSize;
+  final double size;
   final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
@@ -25,12 +25,15 @@ class ProductStarRating extends StatelessWidget {
             // const Text('  ', style:TextStyle(fontSize: 9),),
             RatingBarIndicator(
               rating: averageRating,
-              itemSize: bigSize ? 18 : 15,
+              itemSize: size*1.3,
               unratedColor: Colors.grey[300],
               itemBuilder: (_, __) => const Icon(Iconsax.star1, color: TColors.ratingStar),
             ),
-            Text(' ${averageRating.toStringAsFixed(1)}($ratingCount)', style: Theme.of(context).textTheme.labelMedium!.copyWith(fontSize: bigSize ? 15 : 12),),
-            const SizedBox(width: TSizes.spaceBtwItems / 2),
+            Text(
+              ' ${averageRating.toStringAsFixed(1)}($ratingCount)',
+              style: Theme.of(context).textTheme.labelMedium!
+                  .copyWith(fontSize: size)),
+            const SizedBox(width: Sizes.spaceBtwItems / 2),
             //Brand
             // TBrandWithVerifiedIcon(brandName: "Ultium"),
           ],

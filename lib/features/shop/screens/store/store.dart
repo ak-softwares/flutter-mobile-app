@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/layout_models/grid_layout.dart';
+import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/navigation_bar/tabbar.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/brands/branditemcount.dart';
 import '../../../../common/widgets/brands/brandshowcase.dart';
-import '../../../../common/widgets/product/product_cards/product_card_vertical.dart';
+import '../../../../common/widgets/product/product_cards/product_card.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../controllers/product/product_controller.dart';
@@ -20,6 +21,8 @@ class StoreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FBAnalytics.logPageView('store_screen');
+
     final controller = Get.put(ProductController());
 
     return DefaultTabController(
@@ -36,7 +39,7 @@ class StoreScreen extends StatelessWidget {
                 backgroundColor: Colors.white,
                 expandedHeight: 440,
                 flexibleSpace: Container(
-                  padding: const EdgeInsets.all(TSizes.defaultSpace / 2),
+                  padding: const EdgeInsets.all(Sizes.defaultSpace / 2),
                   child: ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -52,7 +55,7 @@ class StoreScreen extends StatelessWidget {
                         onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => const AllBrandScreen()));},
                       ),
                       // Featured brand container
-                      TGridLayout(
+                      GridLayout(
                           itemCount: 4,
                           mainAxisExtent: 70,
                           itemBuilder: (context, index) {
@@ -80,67 +83,67 @@ class StoreScreen extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(TSizes.md),
+                  padding: const EdgeInsets.all(Sizes.md),
                   child: Column(
                     children: [
                       ///-Brands
-                      const TBrandShowcase(images: [TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder],),
+                      const TBrandShowcase(images: [Images.defaultWooPlaceholder, Images.defaultWooPlaceholder, Images.defaultWooPlaceholder],),
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
-                      const SizedBox(height: TSizes.spaceBtwItems,),
-                      TGridLayout(itemCount: 6, itemBuilder: (context, index) => TProductCardVertical(product: controller.featuredProducts[index]))
+                      const SizedBox(height: Sizes.spaceBtwItems,),
+                      GridLayout(mainAxisExtent: 290,itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index]))
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(TSizes.md),
+                  padding: const EdgeInsets.all(Sizes.md),
                   child: Column(
                     children: [
                       ///-Brands
-                      const TBrandShowcase(images: [TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder],),
+                      const TBrandShowcase(images: [Images.defaultWooPlaceholder, Images.defaultWooPlaceholder, Images.defaultWooPlaceholder],),
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
-                      const SizedBox(height: TSizes.spaceBtwItems,),
-                      TGridLayout(itemCount: 6, itemBuilder: (context, index) => TProductCardVertical(product: controller.featuredProducts[index]))
+                      const SizedBox(height: Sizes.spaceBtwItems,),
+                      GridLayout(mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index]))
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(TSizes.md),
+                  padding: const EdgeInsets.all(Sizes.md),
                   child: Column(
                     children: [
                       ///-Brands
-                      const TBrandShowcase(images: [TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder],),
+                      const TBrandShowcase(images: [Images.defaultWooPlaceholder, Images.defaultWooPlaceholder, Images.defaultWooPlaceholder],),
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
-                      const SizedBox(height: TSizes.spaceBtwItems,),
-                      TGridLayout(itemCount: 6, itemBuilder: (context, index) => TProductCardVertical(product: controller.featuredProducts[index]))
+                      const SizedBox(height: Sizes.spaceBtwItems,),
+                      GridLayout(mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index]))
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(TSizes.md),
+                  padding: const EdgeInsets.all(Sizes.md),
                   child: Column(
                     children: [
                       ///-Brands
-                      const TBrandShowcase(images: [TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder],),
+                      const TBrandShowcase(images: [Images.defaultWooPlaceholder, Images.defaultWooPlaceholder, Images.defaultWooPlaceholder],),
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
-                      const SizedBox(height: TSizes.spaceBtwItems,),
-                      TGridLayout(itemCount: 6, itemBuilder: (context, index) => TProductCardVertical(product: controller.featuredProducts[index]))
+                      const SizedBox(height: Sizes.spaceBtwItems,),
+                      GridLayout( mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index]))
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(TSizes.md),
+                  padding: const EdgeInsets.all(Sizes.md),
                   child: Column(
                     children: [
                       ///-Brands
-                      const TBrandShowcase(images: [TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder, TImages.defaultWooPlaceholder],),
+                      const TBrandShowcase(images: [Images.defaultWooPlaceholder, Images.defaultWooPlaceholder, Images.defaultWooPlaceholder],),
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
-                      const SizedBox(height: TSizes.spaceBtwItems,),
-                      TGridLayout(itemCount: 6, itemBuilder: (context, index) => TProductCardVertical(product: controller.featuredProducts[index]))
+                      const SizedBox(height: Sizes.spaceBtwItems,),
+                      GridLayout(mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index]))
                     ],
                   ),
                 ),

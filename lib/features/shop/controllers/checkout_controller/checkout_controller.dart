@@ -4,12 +4,14 @@ import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../common/widgets/success_screen/success_screen.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
 import '../../../../utils/popups/full_screen_loader.dart';
 import '../../../personalization/controllers/address_controller.dart';
 import '../../../personalization/controllers/user_controller.dart';
+import '../../../settings/app_settings.dart';
 import '../../../settings/controllers/settings_controller.dart';
 import '../../models/coupon_model.dart';
 import '../../models/order_model.dart';
@@ -33,7 +35,6 @@ class CheckoutController extends GetxController {
   RxDouble tax = 0.0.obs;
   RxDouble total = 0.0.obs;
 
-  final double shippingPrice = 100.0;
   Rx<CouponModel> coupon = CouponModel().obs;
   Rx<PaymentModel> selectedPaymentMethod = PaymentModel.empty().obs;
 
@@ -96,9 +97,11 @@ class CheckoutController extends GetxController {
 
   Future<void> initiateCheckout() async {
     String transactionId = '';
+    // Log the beginning of the checkout process
+    // FBAnalytics.logBeginCheckout(cartItems: cartController.cartItems);
     try {
       //start loader
-      TFullScreenLoader.openLoadingDialog('Processing your order', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('Processing your order', Images.docerAnimation);
 
       //check internet connectivity
       final isConnected = await networkManager.isConnected();
@@ -150,13 +153,14 @@ class CheckoutController extends GetxController {
       //Create Order
       final OrderModel createdOrder = await Get.put(OrderController()).saveOrderByCustomerId(transactionId: transactionId);
 
+      FBAnalytics.logCheckout(cartItems: cartController.cartItems);
       //update the cart status
       cartController.clearCart();
       coupon.value = CouponModel.empty();
       updateCheckout();
       //Show success screen
       Get.offAll(() => TSuccessScreen(
-          image: TImages.orderCompletedAnimation,
+          image: Images.orderCompletedAnimation,
           title: 'Payment Success! #${createdOrder.id}',
           subTitle: 'Your order status is ${createdOrder.status}',
           // In the onPressed callback of TSuccessScreen
@@ -248,6 +252,6 @@ class CheckoutController extends GetxController {
     }else if(subtotal > 980) {
       return 0;
     }
-    return shippingPrice;
+    return AppSettings.shippingCharge;
   }
 }

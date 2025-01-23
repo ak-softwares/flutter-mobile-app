@@ -2,12 +2,6 @@
 class TTexts {
   TTexts._();
 
-  //Home - Appbar title
-  static const String appName         = "ARAMARKET";
-  static const String appBarSubTitle  = "Wholesale Market Place";
-
-  static const String currencySymbol  = "₹";
-
   //OnBoarding Text
   static const String onBoardingTitle1  = "Choose your product";
   static const String onBoardingTitle2  = "Select payment Method";

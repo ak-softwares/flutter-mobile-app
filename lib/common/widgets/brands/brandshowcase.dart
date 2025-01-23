@@ -12,12 +12,12 @@ class TBrandShowcase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(TSizes.md),
-      margin: const EdgeInsets.only(bottom: TSizes.spaceBtwItems),
+      padding: const EdgeInsets.all(Sizes.md),
+      margin: const EdgeInsets.only(bottom: Sizes.spaceBtwItems),
       decoration: BoxDecoration(
         color: Colors.transparent,
         border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(TSizes.productImageRadius),
+        borderRadius: BorderRadius.circular(Sizes.productImageRadius),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -32,12 +32,12 @@ class TBrandShowcase extends StatelessWidget {
     return Expanded(
       child: Container(
         height: 100,
-        margin: const EdgeInsets.only(right: TSizes.md),
-        padding: const EdgeInsets.all(TSizes.md),
+        margin: const EdgeInsets.only(right: Sizes.md),
+        padding: const EdgeInsets.all(Sizes.md),
         decoration: BoxDecoration(
           color: Colors.transparent,
           border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(TSizes.productImageRadius),
+          borderRadius: BorderRadius.circular(Sizes.productImageRadius),
         ),
         child: Image(image: AssetImage(image), fit: BoxFit.contain),
       ),

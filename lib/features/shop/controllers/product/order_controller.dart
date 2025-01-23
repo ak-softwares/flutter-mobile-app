@@ -1,26 +1,14 @@
-import 'package:aramarket/features/shop/models/payment_model.dart';
-import 'package:aramarket/features/shop/screens/orders/order.dart';
-import 'package:aramarket/utils/helpers/navigation_helper.dart';
 import 'package:get/get.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-
-import '../../../../common/navigation_bar/bottom_navigation_bar2.dart';
 import '../../../../common/widgets/loaders/loader.dart';
-import '../../../../common/widgets/network_manager/network_manager.dart';
-import '../../../../common/widgets/success_screen/success_screen.dart';
 import '../../../../data/repositories/firebase/orders/order_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/orders/woo_orders_repository.dart';
-import '../../../../utils/constants/image_strings.dart';
-import '../../../../utils/constants/text_strings.dart';
-import '../../../../utils/popups/full_screen_loader.dart';
 import '../../../personalization/controllers/address_controller.dart';
 import '../../../personalization/controllers/user_controller.dart';
-import '../../models/coupon_model.dart';
+import '../../../settings/app_settings.dart';
 import '../../models/order_model.dart';
 import '../cart_controller/cart_controller.dart';
 import '../checkout_controller/checkout_controller.dart';
 import '../checkout_controller/payment_controller.dart';
-import '../coupon/coupon_controller.dart';
 
 class OrderController extends GetxController {
   static OrderController get instance => Get.find();
@@ -38,11 +26,6 @@ class OrderController extends GetxController {
   final orderRepository = Get.put(OrderRepository());
   final userController = Get.put(UserController());
   final paymentController = Get.put(PaymentController());
-
-  Future<String> getAppVersion() async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    return packageInfo.version; // This retrieves the version from pubspec.yaml
-  }
 
   //Fetch orders
   Future<void> fetchOrders() async {
@@ -132,7 +115,7 @@ class OrderController extends GetxController {
   Future<OrderModel> saveOrderByCustomerId({String transactionId = ''}) async {
     try {
       //Add Details
-      final appVersion = await getAppVersion();
+      final appVersion = await AppSettings.getAppVersion();
       final order = OrderModel(
         customerId: userController.customer.value.id,
         paymentMethod: checkoutController.selectedPaymentMethod.value.id,

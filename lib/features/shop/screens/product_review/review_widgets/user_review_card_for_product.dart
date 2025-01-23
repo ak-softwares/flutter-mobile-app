@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:readmore/readmore.dart';
 
 import '../../../../../common/widgets/custom_shape/image/circular_image.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/icons.dart';
 import '../../../../../utils/constants/image_strings.dart';
 import '../../../../../utils/constants/sizes.dart';
-import '../../../../../utils/formatters/formatters.dart';
-import '../../../../../utils/validators/validation.dart';
-import '../../../../personalization/controllers/user_controller.dart';
 import '../../../controllers/product/image_controller.dart';
-import '../../../controllers/product/product_review_controller.dart';
 import '../../../models/product_review_model.dart';
-import '../../product_detail/products_widgets/product_title_text.dart';
-import '../update_product_review.dart';
 
 class SingleReviewCard extends StatelessWidget {
   SingleReviewCard({super.key, required this.review});
@@ -34,13 +27,13 @@ class SingleReviewCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TRoundedImage(
-              image: review.reviewerAvatarUrl ?? TImages.tProfileImage,
+              image: review.reviewerAvatarUrl ?? Images.tProfileImage,
               height: imageSize,
               width: imageSize,
               borderRadius: 50,
               isNetworkImage: true,
             ),
-            const SizedBox(width: TSizes.spaceBtwItems,),
+            const SizedBox(width: Sizes.spaceBtwItems,),
             SizedBox(
               width: 210,
               child: Column(
@@ -53,7 +46,7 @@ class SingleReviewCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodySmall
                   ),
-                  const SizedBox(height: TSizes.xs),
+                  const SizedBox(height: Sizes.xs),
                   Flexible(
                     child: RatingBarIndicator(
                       rating: review.rating!.toDouble(),

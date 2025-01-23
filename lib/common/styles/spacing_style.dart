@@ -4,11 +4,11 @@ import '../../utils/constants/sizes.dart';
 
 class TSpacingStyle {
   static const EdgeInsetsGeometry paddingWidthAppbarHeight = EdgeInsets.only(
-    top: TSizes.appBarHeight,
-    left: TSizes.defaultSpace,
-    bottom: TSizes.defaultSpace,
-    right: TSizes.defaultSpace,
+    top: Sizes.appBarHeight,
+    left: Sizes.defaultSpace,
+    bottom: Sizes.defaultSpace,
+    right: Sizes.defaultSpace,
   );
-  static const EdgeInsetsGeometry defaultPagePadding = EdgeInsets.all(TSizes.defaultSpace);
-  static const EdgeInsetsGeometry defaultSpaceLg = EdgeInsets.all(TSizes.defaultSpaceLg);
+  static const EdgeInsetsGeometry defaultPagePadding = EdgeInsets.all(Sizes.defaultSpace);
+  static const EdgeInsetsGeometry defaultSpaceLg = EdgeInsets.all(Sizes.defaultSpaceLg);
 }

@@ -6,6 +6,7 @@ import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/loaders/animation_loader.dart';
 import '../../../../common/widgets/shimmers/order_shimmer.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
@@ -17,6 +18,7 @@ class CouponScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FBAnalytics.logPageView('coupon_screen');
     final couponController = Get.put(CouponController());
     final ScrollController scrollController = ScrollController();
 
@@ -55,14 +57,14 @@ class CouponScreen extends StatelessWidget {
               }else if(couponController.coupons.isEmpty) {
                 return const TAnimationLoaderWidgets(
                   text: 'Whoops! Order is Empty...',
-                  animation: TImages.pencilAnimation,
+                  animation: Images.pencilAnimation,
                 );
               }else {
                 return ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: couponController.isLoadingMore.value ? couponController.coupons.length + 1 : couponController.coupons.length,
-                  separatorBuilder: (context, index) => const SizedBox(height: TSizes.defaultSpace),
+                  separatorBuilder: (context, index) => const SizedBox(height: Sizes.defaultSpace),
                   itemBuilder: (context, index) {
                     if (index < couponController.coupons.length) {
                       return SingleCouponItem(coupon: couponController.coupons[index]);

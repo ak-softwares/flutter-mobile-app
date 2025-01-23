@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../common/navigation_bar/bottom_navigation_bar2.dart';
+import '../common/navigation_bar/bottom_navigation_bar.dart';
 import '../common/web_view/my_web_view.dart';
 import '../features/shop/screens/orders/order.dart';
 import '../features/shop/screens/product_detail/product_detail.dart';
@@ -16,7 +16,7 @@ class DeeplinkGoRouter {
       GoRoute(
         path: RoutesPath.home,
         builder: (BuildContext context, GoRouterState state) {
-          return const BottomNavigation2();
+          return const BottomNavigation();
         },
         routes: <RouteBase>[
           GoRoute(

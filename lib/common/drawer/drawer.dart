@@ -3,10 +3,11 @@ import 'package:get/get.dart';
 
 import '../../data/repositories/authentication/authentication_repository.dart';
 import '../../features/personalization/controllers/user_controller.dart';
-import '../../features/personalization/screens/settings/settings_screen.dart';
-import '../../features/personalization/screens/settings/widgets/contact_widget.dart';
-import '../../features/personalization/screens/settings/widgets/follow_us.dart';
-import '../../features/personalization/screens/settings/widgets/menu.dart';
+import '../../features/personalization/screens/user_menu/user_menu_screen.dart';
+import '../../features/personalization/screens/user_menu/widgets/contact_widget.dart';
+import '../../features/personalization/screens/user_menu/widgets/follow_us.dart';
+import '../../features/personalization/screens/user_menu/widgets/menu.dart';
+import '../../services/firebase_analytics/firebase_analytics.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/sizes.dart';
 import '../text/section_heading.dart';
@@ -16,6 +17,7 @@ class MyDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FBAnalytics.logPageView('drawer_menu_screen');
     final userController = Get.put(UserController());
     final authenticationRepository = Get.put(AuthenticationRepository());
 
@@ -31,7 +33,7 @@ class MyDrawer extends StatelessWidget {
               height: 100,
               width: double.infinity,
               color: TColors.primaryBackground,
-              padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
+              padding: const EdgeInsets.symmetric(horizontal: Sizes.defaultSpace),
               child: Align(alignment: Alignment.bottomRight,child: IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.close),)),
             ),
 
@@ -40,7 +42,7 @@ class MyDrawer extends StatelessWidget {
                 ? Container(
                     width: double.infinity,
                     color: TColors.primaryBackground,
-                    padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
+                    padding: const EdgeInsets.symmetric(horizontal: Sizes.defaultSpace),
                     child: CustomerProfileCard(userController: userController),
                   )
                 : const SizedBox.shrink(),
@@ -53,7 +55,7 @@ class MyDrawer extends StatelessWidget {
             Container(
               color: TColors.primaryBackground,
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
+              padding: const EdgeInsets.symmetric(horizontal: Sizes.defaultSpace),
               child: Column(
                 children: [
                   const TSectionHeading(title: 'Contact us', verticalPadding: false),
@@ -72,9 +74,9 @@ class MyDrawer extends StatelessWidget {
             ),
 
             //Follow us
-            const SizedBox(height: TSizes.spaceBtwInputFields),
+            const SizedBox(height: Sizes.spaceBtwInputFields),
             const FollowUs(),
-            const SizedBox(height: TSizes.spaceBtwInputFields),
+            const SizedBox(height: Sizes.spaceBtwInputFields),
           ],
         ),
       ),

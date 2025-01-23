@@ -254,6 +254,7 @@ class CartFieldName {
   static const String productId = 'product_id';
   static const String variationId = 'variation_id';
   static const String quantity = 'quantity';
+  static const String category = 'category';
   static const String subtotal = 'subtotal';
   static const String subtotalTax = 'subtotal_tax';
   static const String totalTax = 'total_tax';

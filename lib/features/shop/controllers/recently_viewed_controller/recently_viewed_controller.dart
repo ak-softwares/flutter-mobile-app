@@ -16,7 +16,7 @@ class RecentlyViewedController extends GetxController{
   RxInt currentPage = 1.obs;
   RxBool isLoading = false.obs;
   RxBool isLoadingMore = false.obs;
-  RxList<ProductModel> recentlyViewedProducts = <ProductModel>[].obs;
+  RxList<ProductModel> products = <ProductModel>[].obs;
 
   final RxList<String> recentlyViewed = <String>[].obs;
   final localStorage = GetStorage();
@@ -45,7 +45,7 @@ class RecentlyViewedController extends GetxController{
   }
   void clearHistory() {
     recentlyViewed.clear();
-    recentlyViewedProducts.clear(); // Clear existing orders
+    products.clear(); // Clear existing orders
     localStorage.write(LocalStorage.recentlyViewed, recentlyViewed); //save data in Local Storage
   }
 
@@ -59,7 +59,7 @@ class RecentlyViewedController extends GetxController{
       if(recentlyViewed.isNotEmpty){
         final jointedString = recentlyViewed.join(',');
         final newFavorites = await wooProductRepository.fetchProductsByIds(productIds: jointedString, page: currentPage.toString());
-        recentlyViewedProducts.addAll(newFavorites);
+        products.addAll(newFavorites);
       }
     } catch (e) {
       throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
@@ -70,7 +70,7 @@ class RecentlyViewedController extends GetxController{
     try {
       isLoading(true);
       currentPage.value = 1; // Reset page number
-      recentlyViewedProducts.clear(); // Clear existing orders
+      products.clear(); // Clear existing orders
       await getRecentProducts();
     } catch (error) {
       TLoaders.warningSnackBar(title: 'Errors', message: error.toString());

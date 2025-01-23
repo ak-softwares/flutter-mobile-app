@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/layout_models/grid_layout.dart';
+import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/widgets/loaders/animation_loader.dart';
@@ -20,11 +20,11 @@ class CategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FBAnalytics.logPageView('Category');
+    FBAnalytics.logPageView('category_screen');
     final categoryController = Get.put(CategoryController());
     final ScrollController scrollController = ScrollController();
-    const double imageDimension = 80;
-    const double imageRadius = TSizes.productImageRadius;
+    const double imageDimension = Sizes.categoryImageSize;
+    const double imageRadius = Sizes.categoryImageRadius;
 
     scrollController.addListener(() async {
       if (scrollController.position.extentAfter < 0.2 * scrollController.position.maxScrollExtent) {
@@ -58,20 +58,20 @@ class CategoryScreen extends StatelessWidget {
               } else if(categoryController.categories.isEmpty) {
                 return const TAnimationLoaderWidgets(
                   text: 'Whoops! Categories is Empty...',
-                  animation: TImages.pencilAnimation,
+                  animation: Images.pencilAnimation,
                 );
               } else {
                 final categories = categoryController.categories;
-                return TGridLayout(
+                return GridLayout(
                   crossAxisCount: 4,
-                  mainAxisExtent: 130,
+                  mainAxisExtent: Sizes.categoryCardHeight,
                   itemCount: categoryController.isLoadingMore.value ? categories.length + 4 : categories.length,
                   itemBuilder: (context, index) {
                     if (index < categories.length) {
                       final category = categories[index];
                       return SingleCategoryItem(
                           imageDimension: imageDimension,
-                          imageRadius: 5,
+                          imageRadius: imageRadius,
                           title: category.name ?? '',
                           image: category.image ?? '',
                           onTap: () =>

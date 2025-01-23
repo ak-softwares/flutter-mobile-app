@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../data/repositories/user/user_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/products/woo_product_repositories.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/local_storage_constants.dart';
 import '../../models/product_model.dart';
@@ -15,7 +16,7 @@ class FavoriteController extends GetxController{
   RxInt currentPage = 1.obs;
   RxBool isLoading = false.obs;
   RxBool isLoadingMore = false.obs;
-  RxList<ProductModel> favoritesProducts = <ProductModel>[].obs;
+  RxList<ProductModel> products = <ProductModel>[].obs;
 
   final RxList<String> favorites = <String>[].obs;
   final localStorage = GetStorage();
@@ -39,9 +40,11 @@ class FavoriteController extends GetxController{
     return favorites.contains(productId) ? true : false;
   }
 
-  void toggleFavoriteProduct(String productId) {
+  void toggleFavoriteProduct({required ProductModel product}) {
+    final String productId = product.id.toString();
     if(!favorites.contains(productId)) {
       favorites.add(productId);
+      FBAnalytics.logAddToWishlist(product: product);
       TLoaders.customToast(message: 'Product added to the wishlist.');
     } else {
       favorites.remove(productId);
@@ -52,15 +55,15 @@ class FavoriteController extends GetxController{
   }
 
   Future<void> saveWishlistData() async {
-    localStorage.write(LocalStorage.wishlist, favorites); //save data in Local Storage
-    await UserRepository.instance.updateMetaData(UserFieldName.wishlistItems, favorites); //save data in Cloud Storage
+    localStorage.write(LocalStorage.wishlist, favorites); // save data in Local Storage
+    // await UserRepository.instance.updateMetaData(UserFieldName.wishlistItems, favorites); //save data in Cloud Storage
   }
 
   Future<void> getFavoriteProducts() async {
     try {
       if(favorites.isNotEmpty){
         final newFavorites = await wooProductRepository.fetchProductsByIds(productIds: favorites.join(','), page: currentPage.toString());
-        favoritesProducts.addAll(newFavorites);
+        products.addAll(newFavorites);
       }
     } catch (e) {
       throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
@@ -71,7 +74,7 @@ class FavoriteController extends GetxController{
     try {
       isLoading(true);
       currentPage.value = 1; // Reset page number
-      favoritesProducts.clear(); // Clear existing orders
+      products.clear(); // Clear existing orders
       await getFavoriteProducts();
     } catch (error) {
       TLoaders.warningSnackBar(title: 'Error', message: error.toString());

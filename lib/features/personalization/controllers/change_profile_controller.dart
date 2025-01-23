@@ -13,7 +13,7 @@ import '../../../utils/constants/local_storage_constants.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/popups/full_screen_loader.dart';
 import '../models/user_model.dart';
-import '../screens/profile/profile.dart';
+import '../screens/user_profile/user_profile.dart';
 import '/features/personalization/controllers/user_controller.dart';
 import '../../../data/repositories/user/user_repository.dart';
 
@@ -42,7 +42,7 @@ class ChangeProfileController extends GetxController {
   Future<void> wooChangeProfileDetails() async {
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('We are updating your information..', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('We are updating your information..', Images.docerAnimation);
       //check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
@@ -78,7 +78,7 @@ class ChangeProfileController extends GetxController {
       TLoaders.customToast(message: 'Details updated successfully!');
       // move to next screen
       Get.close(1);
-      Get.off(() => const ProfileScreen());
+      Get.off(() => const UserProfileScreen());
     } catch (error) {
       //remove Loader
       TFullScreenLoader.stopLoading();
@@ -135,7 +135,7 @@ class ChangeProfileController extends GetxController {
   Future<void> changeProfileDetails() async {
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('We are updating your information..', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('We are updating your information..', Images.docerAnimation);
       //check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
@@ -179,7 +179,7 @@ class ChangeProfileController extends GetxController {
     return showModalBottomSheet(
         context: context,
         builder: (_) => Container(
-          padding: const EdgeInsets.all(TSizes.lg),
+          padding: const EdgeInsets.all(Sizes.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -191,7 +191,7 @@ class ChangeProfileController extends GetxController {
               const Expanded(
                 child: Text('hi'),
               ),
-              const SizedBox(height: TSizes.defaultSpace * 2),
+              const SizedBox(height: Sizes.defaultSpace * 2),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(

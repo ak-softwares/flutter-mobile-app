@@ -1,20 +1,17 @@
 import 'package:aramarket/features/shop/screens/cart/cart.dart';
 import 'package:aramarket/features/shop/screens/checkout/checkout.dart';
-import 'package:aramarket/features/shop/screens/home_page_section/banner/banner_layout.dart';
 import 'package:aramarket/features/shop/screens/store/store.dart';
 import 'package:aramarket/utils/constants/api_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../bindings/general_bindings.dart';
-import '../common/navigation_bar/bottom_navigation_bar2.dart';
-import '../features/personalization/screens/settings/settings_screen.dart';
+import '../common/navigation_bar/bottom_navigation_bar.dart';
+import '../features/personalization/screens/user_menu/user_menu_screen.dart';
 import '../features/shop/screens/category/category_screen.dart';
-import '../features/shop/screens/coupon/coupon_screen.dart';
+import '../features/shop/screens/favourite/favourite.dart';
 import '../features/shop/screens/orders/order.dart';
 import '../features/shop/screens/product_detail/product_detail.dart';
-import '../features/shop/screens/wishlist/wishlist.dart';
 import '/routes/routes_name_path.dart';
 
 
@@ -28,12 +25,12 @@ class MyMiddleware extends GetMiddleware {
 
 class AppRoutes {
   static final pages = [
-    GetPage(name: RoutesPath.home, page: () => const BottomNavigation2()),
+    GetPage(name: RoutesPath.home, page: () => const BottomNavigation()),
     GetPage(name: RoutesPath.product, page: () => ProductDetailScreen(slug: Get.parameters['slug']),),
     GetPage(name: RoutesPath.category, page: () => const CategoryScreen(), middlewares: [MyMiddleware()],),
     GetPage(name: RoutesPath.tracking, page: () => const TOrderScreen()),
     GetPage(name: RoutesPath.store, page: () => const TOrderScreen()),
-    GetPage(name: RoutesPath.settingsScreen, page: () => const SettingsScreen()),
+    GetPage(name: RoutesPath.settingsScreen, page: () => const UserMenuScreen()),
     GetPage(name: RoutesPath.favouritesScreen, page: () => const FavouriteScreen(), transition: Transition.rightToLeft,),
     GetPage(name: RoutesPath.cart, page: () => const CartScreen(), transition: Transition.rightToLeft),
     GetPage(name: RoutesPath.cart, page: () => const TCheckoutScreen(), transition: Transition.rightToLeft),

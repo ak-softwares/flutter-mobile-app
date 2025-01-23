@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../data/repositories/user/user_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/products/woo_product_repositories.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/local_storage_constants.dart';
 import '../../models/cart_item_model.dart';
 import '../../models/product_model.dart';
@@ -13,7 +14,7 @@ import '../product/product_controller.dart';
 class CartController extends GetxController{
   static CartController get instance => Get.find();
 
-  //Variable
+  // Variables
   RxBool isLoading = false.obs;
   RxBool isCancelLoading = false.obs;
   RxInt noOfCartItems = 0.obs;
@@ -31,9 +32,9 @@ class CartController extends GetxController{
   }
 
   // Add to cart
-  void addToCart(ProductModel product, int quantity){
+  void addToCart({required ProductModel product, required int quantity}) {
     try {
-      //Quantity Check
+      // Quantity Check
       if (quantity < 1) {
         throw 'Select Quantity';
       }
@@ -41,20 +42,21 @@ class CartController extends GetxController{
       if (!product.isProductAvailable()) {
         throw 'Selected product is out of stock';
       }
-      //Convert the productModel to a cartItemModel with the give quantity
+      // Convert the productModel to a cartItemModel with the give quantity
       final selectedCartItem = convertToCartItem(product, quantity);
 
       //check if item already in cart or not
       int index = cartItems.indexWhere((cartItem) => cartItem.productId == selectedCartItem.productId);
       if (index >= 0) {
-        //This quantity is already added or updated/remove from the design
+        // This quantity is already added or updated/remove from the design
         cartItems[index].quantity = selectedCartItem.quantity;
-        cartItems[index].subtotal =
-            (selectedCartItem.quantity * cartItems[index].price!)
-                .toStringAsFixed(0);
+        cartItems[index].subtotal = (selectedCartItem.quantity * cartItems[index].price!).toStringAsFixed(0);
       } else {
         cartItems.add(selectedCartItem);
       }
+
+      // Log the add to cart event
+      FBAnalytics.logAddToCart(cartItem: selectedCartItem);
 
       //update cart and show success message
       updateCart();
@@ -67,31 +69,36 @@ class CartController extends GetxController{
 
   // Toggle Cart item
   void toggleCartProduct(ProductModel product) {
+    // Convert the productModel to a cartItemModel with the give quantity
+    final convertedCartItem = convertToCartItem(product, 1);
+
     if(!isInCart(product.id)) {
-      addToCart(product, 1);
+      addToCart(product: product, quantity: 1);
     } else {
-      removeFromCart(product.id);
+      removeFromCart(item: convertedCartItem);
       TLoaders.customToast(message: 'Product removed from the Cart.');
     }
   }
 
-  //Remove item to cart without dialog
-  void removeFromCart(int productId) {
-    int index = cartItems.indexWhere((cartItem) => cartItem.productId == productId);
+  // Remove item to cart without dialog
+  void removeFromCart({required CartItemModel item}) {
+    // Log the add to cart event
+    FBAnalytics.logRemoveFromCart(cartItem: item);
+    int index = cartItems.indexWhere((cartItem) => cartItem.productId == item.productId);
     if(index >= 0) {
       cartItems.removeAt(index);
     }
     updateCart();
   }
 
-  //Show dialog box before removing product
+  // Show dialog box before removing product
   void removeFromCartDialog(CartItemModel item) {
     Get.defaultDialog(
         title: 'Remove Product',
         middleText: 'Are you sure you want to remove this product?',
         onConfirm: () {
           //remove the item form cart
-          removeFromCart(item.productId);
+          removeFromCart(item: item);
           TLoaders.customToast(message: 'Product removed form the cart.');
           Get.back();
         },
@@ -99,7 +106,7 @@ class CartController extends GetxController{
     );
   }
 
-  //Add single item to cart
+  // Add single item to cart
   void addOneToCart(CartItemModel item) {
     int index = cartItems.indexWhere((cartItem) => cartItem.productId == item.productId);
     if(index >= 0){
@@ -112,7 +119,7 @@ class CartController extends GetxController{
     updateCart();
   }
 
-  //Remove single item to cart
+  // Remove single item to cart
   void removeOneToCart(CartItemModel item) {
     int index = cartItems.indexWhere((cartItem) => cartItem.productId == item.productId);
     if(index >= 0) {
@@ -120,14 +127,14 @@ class CartController extends GetxController{
         cartItems[index].quantity -= 1;
         cartItems[index].subtotal = (cartItems[index].quantity * cartItems[index].price!).toStringAsFixed(0);
       } else {
-        //Show dialog before completely removing
+        // Show dialog before completely removing
         cartItems[index].quantity == 1 ? removeFromCartDialog(item) : cartItems.removeAt(index);
       }
     }
     updateCart();
   }
 
-  //This function converts a productModel to a cartItemModel
+  // This function converts a productModel to a cartItemModel
   CartItemModel convertToCartItem(ProductModel product, int quantity) {
     return CartItemModel(
       id: 1,
@@ -135,6 +142,7 @@ class CartController extends GetxController{
       productId: product.id,
       variationId: 0,
       quantity: quantity,
+      category: product.categories?[0].name,
       subtotal: (quantity * product.getPrice()).toStringAsFixed(0),
       subtotalTax: '0',
       totalTax: '0',
@@ -213,7 +221,7 @@ class CartController extends GetxController{
     updateCart();
   }
 
-  //check product is in cart
+  // check product is in cart
   bool isInCart(int productId) {
     int index = cartItems.indexWhere((cartItem) => cartItem.productId == productId);
     if(index >= 0){
@@ -236,7 +244,7 @@ class CartController extends GetxController{
         );
         // Add to cart
         isLoading.value = false; // Show loader
-        addToCart(product, cartItem.quantity);
+        addToCart(product: product, quantity: cartItem.quantity);
       }
       // cartItems.addAll(selectedCartItems);
       Get.to(() => const CartScreen());

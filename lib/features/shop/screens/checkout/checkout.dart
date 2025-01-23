@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/layout_models/grid_layout.dart';
+import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
 import '../../../../common/widgets/product/product_cards/product_card_cart_items.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../authentication/screens/check_login_screen/check_login_screen.dart';
+import '../../../settings/app_settings.dart';
 import '../../controllers/cart_controller/cart_controller.dart';
 import '../../controllers/checkout_controller/checkout_controller.dart';
 import '../../controllers/product/order_controller.dart';
@@ -22,9 +24,12 @@ class TCheckoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final cartController = Get.put(CartController());
     final checkoutController = Get.put(CheckoutController());
     final authenticationRepository = Get.put(AuthenticationRepository());
+    FBAnalytics.logPageView('checkout_screen');
+    FBAnalytics.logBeginCheckout(cartItems: cartController.cartItems);
     // Trigger updateCheckout on widget initialization
     Future.microtask(() => checkoutController.updateCheckout());
 
@@ -33,11 +38,11 @@ class TCheckoutScreen extends StatelessWidget {
       bottomNavigationBar: Obx((){
         if (authenticationRepository.isUserLogin.value && cartController.cartItems.isNotEmpty){
           return Padding(
-              padding: const EdgeInsets.all(TSizes.defaultSpace),
+              padding: const EdgeInsets.all(Sizes.defaultSpace),
               child: ElevatedButton(
                   onPressed: () => checkoutController.initiateCheckout(),
                   // onPressed: () {},
-                  child: Obx(() => Text('Place Order (${TTexts.currencySymbol +
+                  child: Obx(() => Text('Place Order (${AppSettings.appCurrencySymbol +
                       checkoutController.total.value.toStringAsFixed(0)})'))
               ),
             );
@@ -48,14 +53,13 @@ class TCheckoutScreen extends StatelessWidget {
       body: !authenticationRepository.isUserLogin.value
           ? const CheckLoginScreen(text: 'Please Login! before Checkout!')
           : SingleChildScrollView(
-            padding: const EdgeInsets.all(TSizes.defaultSpace),
+            padding: const EdgeInsets.all(Sizes.defaultSpace),
             child: Column(
               children: [
                 Obx(
-                  () => TGridLayout(
+                  () => GridLayout(
                     crossAxisCount: 1,
                     mainAxisExtent: 90,
-                    mainAxisSpacing: 5,
                     itemCount: cartController.cartItems.length,
                     itemBuilder: (_, index) => Stack(
                         children:[
@@ -64,37 +68,37 @@ class TCheckoutScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: TSizes.spaceBtwSection,),
+                const SizedBox(height: Sizes.spaceBtwSection,),
 
                 /// -- coupon TextField
                 const TCouponCode(),
-                const SizedBox(height: TSizes.spaceBtwSection,),
+                const SizedBox(height: Sizes.spaceBtwSection,),
 
                 /// -- Billing Sections
                 const TRoundedContainer(
                   showBorder: true,
-                  padding: EdgeInsets.all(TSizes.md),
+                  padding: EdgeInsets.all(Sizes.md),
                   child: Column(
                     children: [
                       /// pricing
                       TBillingAmountSection(),
-                      SizedBox(height: TSizes.spaceBtwItems,),
+                      SizedBox(height: Sizes.spaceBtwItems,),
 
                       /// Divider
                       Divider(),
-                      SizedBox(height: TSizes.spaceBtwItems),
+                      SizedBox(height: Sizes.spaceBtwItems),
 
                       /// payment method
                       TBillingPaymentSection(),
-                      SizedBox(height: TSizes.spaceBtwItems),
+                      SizedBox(height: Sizes.spaceBtwItems),
 
                       /// Divider
                       Divider(),
-                      SizedBox(height: TSizes.spaceBtwItems),
+                      SizedBox(height: Sizes.spaceBtwItems),
 
                       /// address
                       TBillingAddressSection(),
-                      SizedBox(height: TSizes.spaceBtwItems),
+                      SizedBox(height: Sizes.spaceBtwItems),
                     ],
                   ),
                 ),///

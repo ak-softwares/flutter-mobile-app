@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class AppSettings {
 
-  static final String appName       =  'aramarket.in';
-  static final String appCurrency   =  '₹';
-  static final int freeShippingOver     =  999;
+  static const String appName             =  'aramarket.in';
+  static const String subTitle            =  'Wholesale Market Place';
+
+  static const String appCurrency         =  'INR';
+  static const String appCurrencySymbol   =  '₹';
+  static const int freeShippingOver       =  999;
+  static const double shippingCharge      =  100;
 
   // Images
   static const String lightAppLogo = 'assets/logos/araMarket_light_logo.png';
@@ -19,9 +24,9 @@ class AppSettings {
   static const Color secondaryBackground = Color(0xFFf4f4f2); //Zomato
 
   // Support
-  static final String supportWhatsApp   =  '+919368994493';
-  static final String supportMobile     =  '+919368994493';
-  static final String supportEmail      =  'support@aramarket.in';
+  static const String supportWhatsApp   =  '+919368994493';
+  static const String supportMobile     =  '+919368994493';
+  static const String supportEmail      =  'support@aramarket.in';
 
   // Policy Urls
   static const String privacyPrivacy        = 'https://aramarket.in/privacy-policy/';
@@ -37,4 +42,8 @@ class AppSettings {
   static const String youtube               = 'https://www.youtube.com/@aramarket';
   static const String playStore             = 'https://play.google.com/store/apps/details?id=com.company.aramarketin&hl=en_IN&gl=US';
 
+  static Future<String> getAppVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version; // This retrieves the version from pubspec.yaml
+  }
 }

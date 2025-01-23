@@ -10,15 +10,16 @@ import '../../../common/widgets/network_manager/network_manager.dart';
 import '../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../data/repositories/user/user_repository.dart';
 import '../../../data/repositories/woocommerce_repositories/customers/woo_customer_repository.dart';
+import '../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../utils/constants/db_constants.dart';
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/local_storage_constants.dart';
 import '../../../utils/helpers/navigation_helper.dart';
 import '../../../utils/permissions/permissions.dart';
 import '../../../utils/popups/full_screen_loader.dart';
-import '../../authentication/screens/email_password_login/login.dart';
+import '../../authentication/screens/email_login/email_login.dart';
+import '../../authentication/screens/email_login/re_auth_user_login.dart';
 import '../models/user_model.dart';
-import '../screens/profile/re_auth_user_login.dart';
 
 class UserController extends GetxController {
   static UserController get instance => Get.find();
@@ -97,7 +98,7 @@ class UserController extends GetxController {
   // delete user account
   void deleteUserAccount() async {
     try{
-      TFullScreenLoader.openLoadingDialog('Processing', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('Processing', Images.docerAnimation);
 
       ///First re-auth user
       final auth = AuthenticationRepository.instance;
@@ -108,7 +109,7 @@ class UserController extends GetxController {
           await auth.signInWithGoogle();
           await auth.deleteAccount();
           TFullScreenLoader.stopLoading();
-          Get.offAll(() => const LoginScreen());
+          Get.offAll(() => const EmailLoginScreen());
         } else if (provider == 'password'){
           TFullScreenLoader.stopLoading();
           Get.to(() => const ReAuthLoginForm());
@@ -124,7 +125,7 @@ class UserController extends GetxController {
   Future<void> reAuthenticateEmailAndPasswordUser() async {
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('Processing', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('Processing', Images.docerAnimation);
       //check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {TFullScreenLoader.stopLoading(); return;}
@@ -133,10 +134,10 @@ class UserController extends GetxController {
 
       await AuthenticationRepository.instance.reAuthenticateWithEmailAndPassword(verifyEmail.text.trim(), verifyPassword.text.trim());
       await AuthenticationRepository.instance.deleteAccount();
-
+      FBAnalytics.logLogin('re_auth_user_login');
       TLoaders.successSnackBar(title: 'Congratulation', message: 'Your Account Deleted successfully!');
       TFullScreenLoader.stopLoading();
-      Get.off(() => const LoginScreen());
+      Get.off(() => const EmailLoginScreen());
     } catch (error) {
       //remove Loader
       TFullScreenLoader.stopLoading();
@@ -149,7 +150,7 @@ class UserController extends GetxController {
   Future<void> wooDeleteAccount() async {
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('Processing', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('Processing', Images.docerAnimation);
       //check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {TFullScreenLoader.stopLoading(); return;}

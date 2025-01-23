@@ -54,7 +54,7 @@ class TOrderListItems extends StatelessWidget {
                 ),
                 IconButton(
                     onPressed: () => Get.to(() => SingleOrderScreen(order: order)),
-                    icon: const Icon(Iconsax.arrow_right_34, size: TSizes.iconSm,)
+                    icon: const Icon(Iconsax.arrow_right_34, size: Sizes.iconSm,)
                 )
               ],
             ),
@@ -65,12 +65,12 @@ class TOrderListItems extends StatelessWidget {
               Row(
                 children: [
                   const Icon(Iconsax.calendar),
-                  const SizedBox(width: TSizes.spaceBtwItems),
+                  const SizedBox(width: Sizes.spaceBtwItems),
                   Text(
                     'Order Date',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  const SizedBox(width: TSizes.spaceBtwItems),
+                  const SizedBox(width: Sizes.spaceBtwItems),
                   Text(
                     order.formattedOrderDate,//order.formattedOrderDate,
                     style: Theme.of(context).textTheme.bodyMedium,
@@ -79,11 +79,11 @@ class TOrderListItems extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: TSizes.sm),
+          const SizedBox(height: Sizes.sm),
           Row(
             children: [
               Text('Shipment status - ', style: Theme.of(context).textTheme.bodyMedium,),
-              const SizedBox(width: TSizes.sm),
+              const SizedBox(width: Sizes.sm),
               TOrderHelper.mapOrderStatus(order.status ?? '')
             ],
           ),

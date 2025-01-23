@@ -4,14 +4,11 @@ import 'package:aramarket/common/widgets/custom_shape/containers/rounded_contain
 import 'package:aramarket/features/shop/models/product_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import '../../../../common/widgets/loaders/loader.dart';
-import '../../../../common/widgets/shimmers/order_shimmer.dart';
 import '../../../../common/widgets/shimmers/review_shimmer_on_product.dart';
 import '../../../../data/repositories/woocommerce_repositories/product_review/product_review.dart';
 import '../../../../utils/constants/api_constants.dart';
-import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/icons.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../models/product_review_model.dart';
@@ -106,7 +103,7 @@ class _ProductReviewHorizontalState extends State<ProductReviewHorizontal> {
               radius: 10,
               backgroundColor: Colors.grey.shade100,
               child: Padding(
-                padding: const EdgeInsets.all(TSizes.defaultSpace),
+                padding: const EdgeInsets.all(Sizes.defaultSpace),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -124,7 +121,7 @@ class _ProductReviewHorizontalState extends State<ProductReviewHorizontal> {
                         Text(' ${widget.product.averageRating?.toStringAsFixed(1)} (${widget.product.ratingCount.toString()})', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey.shade500)),
                       ],
                     ),
-                    const SizedBox(height: TSizes.sm),
+                    const SizedBox(height: Sizes.sm),
                     CarouselSlider(
                       options: CarouselOptions(
                         height: 50,

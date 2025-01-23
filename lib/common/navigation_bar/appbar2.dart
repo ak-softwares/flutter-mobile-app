@@ -4,7 +4,9 @@ import 'package:iconsax/iconsax.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../data/repositories/authentication/authentication_repository.dart';
+import '../../features/settings/app_settings.dart';
 import '../../features/shop/screens/search/search.dart';
+import '../../services/share/share.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/icons.dart';
 import '../../utils/constants/sizes.dart';
@@ -40,7 +42,18 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
       title: Text(titleText, style: Theme.of(context).textTheme.titleSmall!.copyWith(color: color, fontWeight: FontWeight.w600)),
       actions: [
             showSearchIcon ? IconButton( icon: Icon(TIcons.search), color: color, onPressed: () => showSearch(context: context, delegate: TSearchDelegate())) : const SizedBox.shrink(),
-            sharePageLink.isNotEmpty ? IconButton( icon: Icon(TIcons.share), color: color, onPressed: () => Share.share('${TTexts.appName} - $sharePageLink')) : const SizedBox.shrink(),
+            sharePageLink.isNotEmpty
+                ? IconButton(
+                    icon: Icon(TIcons.share),
+                    color: color,
+                    onPressed: () => AppShare.shareUrl(
+                        url: sharePageLink,
+                        contentType: 'Category',
+                        itemName: titleText,
+                        itemId:  ''
+                    ),
+                  )
+                : const SizedBox.shrink(),
             showCartIcon ? const TCartCounterIcon(iconColor: color) : const SizedBox.shrink(),
             Obx(() => AuthenticationRepository.instance.isUserLogin.value && seeLogoutButton
                 ? InkWell(
@@ -48,9 +61,9 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
                     child: Row(
                       children: [
                         const Text('Logout'),
-                        const SizedBox(width: TSizes.sm),
+                        const SizedBox(width: Sizes.sm),
                         Icon(TIcons.logout, size: 20),
-                        const SizedBox(width: TSizes.sm),
+                        const SizedBox(width: Sizes.sm),
                       ],
                     )
                   )

@@ -16,9 +16,9 @@ class SingleProductShimmer extends StatelessWidget {
         const SizedBox(
           height: mainImageHeight, //Main image height
           width: double.infinity,
-          child: Center(child: TShimmerEffect(height: mainImageHeight, width: mainImageHeight, radius: TSizes.productImageRadius,)),
+          child: Center(child: ShimmerEffect(height: mainImageHeight, width: mainImageHeight, radius: Sizes.productImageRadius,)),
         ),
-        const SizedBox(height: TSizes.spaceBtwItems),
+        const SizedBox(height: Sizes.spaceBtwItems),
         SizedBox(
           height: galleryImageHeight,
           child: ListView.separated(
@@ -26,20 +26,20 @@ class SingleProductShimmer extends StatelessWidget {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             physics: const AlwaysScrollableScrollPhysics(),
-            separatorBuilder: (_,__) => const SizedBox(width: TSizes.spaceBtwItems),
-            itemBuilder: (_, index) => const TShimmerEffect(height: galleryImageHeight, width: galleryImageHeight, radius: TSizes.productImageRadius,)
+            separatorBuilder: (_,__) => const SizedBox(width: Sizes.spaceBtwItems),
+            itemBuilder: (_, index) => const ShimmerEffect(height: galleryImageHeight, width: galleryImageHeight, radius: Sizes.productImageRadius,)
           )
         ),
-        const SizedBox(height: TSizes.spaceBtwSection),
-        const TShimmerEffect(width: 100, height: 10, radius: 0,),
-        const SizedBox(height: TSizes.spaceBtwInputFields),
-        const TShimmerEffect(width: double.infinity, height: 25, radius: 0,),
-        const SizedBox(height: TSizes.spaceBtwItems),
-        const TShimmerEffect(width: 300, height: 25, radius: 0,),
-        const SizedBox(height: TSizes.spaceBtwSection),
-        const TShimmerEffect(width: 150, height: 15),
-        const SizedBox(height: TSizes.spaceBtwItems),
-        const TShimmerEffect(width: 100, height: 15),
+        const SizedBox(height: Sizes.spaceBtwSection),
+        const ShimmerEffect(width: 100, height: 10, radius: 0,),
+        const SizedBox(height: Sizes.spaceBtwInputFields),
+        const ShimmerEffect(width: double.infinity, height: 25, radius: 0,),
+        const SizedBox(height: Sizes.spaceBtwItems),
+        const ShimmerEffect(width: 300, height: 25, radius: 0,),
+        const SizedBox(height: Sizes.spaceBtwSection),
+        const ShimmerEffect(width: 150, height: 15),
+        const SizedBox(height: Sizes.spaceBtwItems),
+        const ShimmerEffect(width: 100, height: 15),
       ],
     );
   }

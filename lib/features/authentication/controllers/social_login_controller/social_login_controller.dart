@@ -27,7 +27,7 @@ class SocialLoginController extends GetxController{
     String googleEmail = ''; // Initialize with an empty string
     try {
       // Start Loading
-      TFullScreenLoader.openLoadingDialog('Logging you in...', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('Logging you in...', Images.docerAnimation);
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
         TFullScreenLoader.stopLoading();
@@ -39,7 +39,7 @@ class SocialLoginController extends GetxController{
       final customer = await wooCustomersRepository.fetchCustomerByEmail(googleEmail);
 
       TFullScreenLoader.stopLoading();
-      authenticationRepository.login(customer);
+      authenticationRepository.login(customer: customer, loginMethod: 'Google');
     } catch (error) {
       // Remove Loader
       TFullScreenLoader.stopLoading();

@@ -36,7 +36,7 @@ class CancelOrderWidget extends StatelessWidget {
             : Row(
                 children: [
                   Text('Cancel Order', style: Theme.of(context).textTheme.bodyMedium!,),
-                  const SizedBox(width: TSizes.sm),
+                  const SizedBox(width: Sizes.sm),
                   const Icon(Icons.cancel, size: 18, color: Colors.red),
                 ],
               )

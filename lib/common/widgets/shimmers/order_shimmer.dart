@@ -24,7 +24,7 @@ class OrderShimmer extends StatelessWidget {
           height: height,
           child: ListView.separated(
             itemCount: itemCount,
-            separatorBuilder: (context, index) => const SizedBox(height: TSizes.defaultSpace),
+            separatorBuilder: (context, index) => const SizedBox(height: Sizes.defaultSpace),
             itemBuilder: (_, __) => TRoundedContainer(
                 height: 120,
                 showBorder: true,
@@ -33,13 +33,13 @@ class OrderShimmer extends StatelessWidget {
                 child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TShimmerEffect(width: 300, height: 15),
-                    SizedBox(height: TSizes.spaceBtwItems),
-                    TShimmerEffect(width: 200, height: 15),
-                    SizedBox(height: TSizes.spaceBtwItems),
-                    TShimmerEffect(width: 250, height: 15),
-                    SizedBox(height: TSizes.spaceBtwItems),
-                    TShimmerEffect(width: 110, height: 15),
+                    ShimmerEffect(width: 300, height: 15),
+                    SizedBox(height: Sizes.spaceBtwItems),
+                    ShimmerEffect(width: 200, height: 15),
+                    SizedBox(height: Sizes.spaceBtwItems),
+                    ShimmerEffect(width: 250, height: 15),
+                    SizedBox(height: Sizes.spaceBtwItems),
+                    ShimmerEffect(width: 110, height: 15),
                   ],
                 ),
               ),

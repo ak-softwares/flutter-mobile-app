@@ -11,6 +11,7 @@ import '../../../features/onboarding/controllers/is_first_run/is_first_run.dart'
 import '../../../features/personalization/controllers/change_profile_controller.dart';
 import '../../../features/personalization/controllers/user_controller.dart';
 import '../../../features/personalization/models/user_model.dart';
+import '../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../services/notification/firebase_notification.dart';
 import '../../../utils/constants/db_constants.dart';
 import '../../../utils/constants/local_storage_constants.dart';
@@ -44,7 +45,10 @@ class AuthenticationRepository extends GetxController {
   }
 
   // this function run after successfully login
-  Future<void> login(CustomerModel customer) async {
+  Future<void> login({required CustomerModel customer, required String loginMethod}) async {
+    loginMethod == 'signup'
+            ? FBAnalytics.logSignup(loginMethod)
+            : FBAnalytics.logLogin(loginMethod);
     Get.put(UserController()).customer(customer); //update user value
     isUserLogin.value = true; //make user login
     localStorage.write(LocalStorage.authUserID, customer.id.toString()); // store token in local storage for stay login

@@ -13,6 +13,7 @@ import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/image_strings.dart';
+import '../../../settings/app_settings.dart';
 import '../../models/payment_model.dart';
 import 'checkout_controller.dart';
 
@@ -27,7 +28,7 @@ class PaymentController extends GetxController {
       PaymentFieldName.id           : 'razorpay',
       PaymentFieldName.title        : 'Razorpay Payment Gateway',
       PaymentFieldName.description  : 'UPI/QR/Card/NetBanking',
-      PaymentFieldName.image        : TImages.razorpay,
+      PaymentFieldName.image        : Images.razorpay,
       PaymentFieldName.key          : APIConstant.razorpayKey,
       PaymentFieldName.secret       : APIConstant.razorpaySecret,
     },
@@ -35,7 +36,7 @@ class PaymentController extends GetxController {
       PaymentFieldName.id           : 'cod',
       PaymentFieldName.title        : 'COD (Cash on Delivery)',
       PaymentFieldName.description  : 'COD (Cash on Delivery)',
-      PaymentFieldName.image        : TImages.cod,
+      PaymentFieldName.image        : Images.cod,
       PaymentFieldName.key          : '',
       PaymentFieldName.secret       : '',
     },
@@ -87,7 +88,7 @@ class PaymentController extends GetxController {
     var options = {
       'key': checkoutController.selectedPaymentMethod.value.key,
       'amount': amount * 100, // * 100 Amount in smallest currency unit
-      'name': TTexts.appName,
+      'name': AppSettings.appName,
       // 'order_id': 13456,
       'description': productName,
       'prefill': {

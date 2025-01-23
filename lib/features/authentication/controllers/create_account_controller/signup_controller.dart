@@ -40,7 +40,7 @@ class SignupController extends GetxController{
   void signupWithEmailPassword() async {
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('We are creating account..', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('We are creating account..', Images.docerAnimation);
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
         TFullScreenLoader.stopLoading();
@@ -78,7 +78,7 @@ class SignupController extends GetxController{
       }
 
       TFullScreenLoader.stopLoading();
-      authenticationRepository.login(customer);
+      authenticationRepository.login(customer: customer, loginMethod: 'signup');
     } catch (error) {
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(title: 'Oh Snap!', message: error.toString());
@@ -88,7 +88,7 @@ class SignupController extends GetxController{
   void signup() async {
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('We are creating account..', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('We are creating account..', Images.docerAnimation);
 
       //check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();

@@ -1,72 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
-import '../../../../../utils/constants/sizes.dart';
-import '../../../../../utils/constants/text_strings.dart';
-class TProductPrice extends StatelessWidget {
-  const TProductPrice({
-    super.key, required this.regularPrice , this.salePrice = 0, this.smallSize = false, this.priceInSeries = false,
+import '../../../../settings/app_settings.dart';
+import '../../home_page_section/scrolling_products/widgets/scrolling_products.dart';
+
+class ProductPrice extends StatelessWidget {
+  const ProductPrice({
+    super.key,
+    required this.regularPrice,
+    this.salePrice = 0,
+    this.size = 18,
+    this.orientation = OrientationType.vertical,
   });
+
   final double regularPrice;
   final double? salePrice;
-  final bool smallSize;
-  final bool priceInSeries;
+  final double size;
+  final OrientationType orientation;
 
   @override
   Widget build(BuildContext context) {
-    if(salePrice == 0) {
-      return Text(TTexts.currencySymbol + regularPrice.toStringAsFixed(0),
-        style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontSize: smallSize ? 18 : 20),
+    final currencySymbol = AppSettings.appCurrencySymbol;
+    final regularPriceText = Flexible(
+      child: Text(
+        '$currencySymbol${regularPrice.toStringAsFixed(0)}',
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+          decoration: salePrice != 0 ? TextDecoration.lineThrough : null,
+          fontSize: salePrice != 0 ? size * 0.7 : size,
+        ),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
-      );
-    }
-    return priceInSeries
-        ? Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              TTexts.currencySymbol + regularPrice.toStringAsFixed(0),
-              style: smallSize
-                  ? Theme.of(context).textTheme.bodySmall!.copyWith(decoration: TextDecoration.lineThrough)
-                  : Theme.of(context).textTheme.bodyLarge!.copyWith(decoration: TextDecoration.lineThrough),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-            const SizedBox(width: TSizes.spaceBtwItems),
-            Text(
-              TTexts.currencySymbol + salePrice!.toStringAsFixed(0),
-              style: smallSize
-                  ? Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600)
-                  : Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w600),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              )
-            ],
-          )
-        : Column(
-          // mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              TTexts.currencySymbol + regularPrice.toStringAsFixed(0),
-              style: smallSize
-                  ? Theme.of(context).textTheme.bodySmall!.copyWith(decoration: TextDecoration.lineThrough)
-                  : Theme.of(context).textTheme.bodyMedium!.copyWith(decoration: TextDecoration.lineThrough),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-            // const SizedBox(height: TSizes.xs),
-            Text(
-              TTexts.currencySymbol + salePrice!.toStringAsFixed(0),
-              style: smallSize
-                  ? Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600)
-                  : Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            )
-          ],
-        );
+      ),
+    );
+
+    if (salePrice == 0) return regularPriceText;
+
+    final salePriceText = Text(
+      '$currencySymbol${salePrice!.toStringAsFixed(0)}',
+      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+        fontWeight: FontWeight.w600,
+        fontSize: size,
+      ),
+      overflow: TextOverflow.ellipsis,
+      maxLines: 1,
+    );
+    return orientation == OrientationType.horizontal
+        ? ConstrainedBox(constraints: BoxConstraints(maxWidth: 100), child: Row(children: [regularPriceText, const SizedBox(width: 4), salePriceText]))
+        : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [regularPriceText, salePriceText]);
   }
 }
+
 

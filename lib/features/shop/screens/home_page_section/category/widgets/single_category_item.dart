@@ -10,7 +10,7 @@ import '../../../../../../utils/constants/sizes.dart';
 class SingleCategoryItem extends StatelessWidget {
   const SingleCategoryItem({
     super.key, // Use 'Key?' instead of 'super.key'
-    this.image = TImages.defaultCategoryIcon,
+    this.image = Images.defaultCategoryIcon,
     required this.title,
     this.textColor = Colors.black,
     this.backgroundColor = Colors.white,
@@ -59,7 +59,7 @@ class SingleCategoryItem extends StatelessWidget {
                 // onTap: () => Get.toNamed(banner.targetScreen),
               ),
             ),
-            const SizedBox(height: TSizes.spaceBtwItems),
+            const SizedBox(height: Sizes.spaceBtwItems),
 
             //Category Name
             SizedBox(

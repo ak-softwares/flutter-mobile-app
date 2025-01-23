@@ -12,7 +12,7 @@ class SearchQueryController extends GetxController {
   RxBool isLoadingMore = false.obs;
   RxInt currentPage = 1.obs;
   RxString searchQuery = ''.obs;
-  RxList<ProductModel> searchProducts = <ProductModel>[].obs;
+  RxList<ProductModel> products = <ProductModel>[].obs;
   final wooProductRepository = Get.put(WooProductRepository());
 
 
@@ -21,7 +21,7 @@ class SearchQueryController extends GetxController {
     try {
       if(query.isNotEmpty){
         final newFavorites = await wooProductRepository.fetchProductsBySearchQuery(query: query,  page: currentPage.toString());
-        searchProducts.addAll(newFavorites);
+        products.addAll(newFavorites);
       }
     } catch (e) {
       throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
@@ -32,7 +32,7 @@ class SearchQueryController extends GetxController {
     try {
       isLoading(true);
       currentPage.value = 1; // Reset page number
-      searchProducts.clear(); // Clear existing orders
+      products.clear(); // Clear existing orders
       await getProductsBySearchQuery(query);
     } catch (error) {
       TLoaders.warningSnackBar(title: 'Error', message: error.toString());

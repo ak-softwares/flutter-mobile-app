@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../features/settings/app_settings.dart';
 import '../../../utils/constants/text_strings.dart';
 
 class TProductPriceText extends StatelessWidget {
   const TProductPriceText({
     super.key,
-    this.currencySign = TTexts.currencySymbol,
+    this.currencySign = AppSettings.appCurrencySymbol,
     required this.price,
     this.maxLines = 1,
     this.isLarge = false,

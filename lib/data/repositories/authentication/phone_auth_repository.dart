@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../common/widgets/loaders/loader.dart';
-import '../../../features/authentication/screens/phone_otp_login/mobile_no_screen.dart';
+import '../../../features/authentication/screens/phone_otp_login/mobile_login_screen.dart';
 import '../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../utils/exceptions/format_exceptions.dart';
 import 'authentication_repository.dart';

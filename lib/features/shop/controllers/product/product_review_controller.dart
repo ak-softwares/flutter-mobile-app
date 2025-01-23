@@ -60,7 +60,7 @@ class ProductReviewController extends GetxController {
   Future<void> submitReview(int productId) async {
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('We are adding your review..', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('We are adding your review..', Images.docerAnimation);
       //check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
@@ -107,7 +107,7 @@ class ProductReviewController extends GetxController {
   Future<void> updateReview(int reviewId) async {
     try {
       //Start Loading
-      TFullScreenLoader.openLoadingDialog('We are updating your review..', TImages.docerAnimation);
+      TFullScreenLoader.openLoadingDialog('We are updating your review..', Images.docerAnimation);
       //check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {

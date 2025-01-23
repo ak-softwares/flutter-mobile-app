@@ -17,7 +17,7 @@ class ScrollingCategoryName extends StatelessWidget {
     final ScrollController scrollController = ScrollController();
     final categoryController = Get.put(CategoryController());
     const double imageDimension = 40;
-    const double imageRadius = TSizes.defaultRadius;
+    const double imageRadius = Sizes.defaultRadius;
 
     scrollController.addListener(() async {
       if (scrollController.position.extentAfter < 0.2 * scrollController.position.maxScrollExtent) {
@@ -39,15 +39,15 @@ class ScrollingCategoryName extends StatelessWidget {
     return Obx(() {
       if (categoryController.isLoading.value){
         return const Padding(
-          padding: EdgeInsets.all(TSizes.spaceBtwItems),
+          padding: EdgeInsets.all(Sizes.spaceBtwItems),
           child: Column(
             children: [
               TSectionHeading(title: 'Popular Categories'),
               Row(
                 children: [
-                  TShimmerEffect(height: imageDimension, width: 100, radius: imageRadius),
-                  SizedBox(width: TSizes.spaceBtwItems),
-                  TShimmerEffect(height: imageDimension, width: 150, radius: imageRadius),
+                  ShimmerEffect(height: imageDimension, width: 100, radius: imageRadius),
+                  SizedBox(width: Sizes.spaceBtwItems),
+                  ShimmerEffect(height: imageDimension, width: 150, radius: imageRadius),
                 ],
               ),
             ],
@@ -58,7 +58,7 @@ class ScrollingCategoryName extends StatelessWidget {
       } else {
         final categories = categoryController.categories;
         return Padding(
-          padding: const EdgeInsets.only(left: TSizes.spaceBtwItems),
+          padding: const EdgeInsets.only(left: Sizes.spaceBtwItems),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -70,12 +70,12 @@ class ScrollingCategoryName extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
                   itemCount: categoryController.isLoadingMore.value ? categories.length + 1 : categories.length,
-                  separatorBuilder: (_, __) => const SizedBox(width: TSizes.spaceBtwItems),
+                  separatorBuilder: (_, __) => const SizedBox(width: Sizes.spaceBtwItems),
                   itemBuilder: (context, index) {
                     if (index < categories.length) {
                       final category = categories[index];
                       return Container(
-                        padding: const EdgeInsets.all(TSizes.spaceBtwItems),
+                        padding: const EdgeInsets.all(Sizes.spaceBtwItems),
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.black, // Change to your desired border color
@@ -91,7 +91,7 @@ class ScrollingCategoryName extends StatelessWidget {
                         )
                       );
                     } else {
-                      return const TShimmerEffect(height: imageDimension, width: 120, radius: imageRadius);
+                      return const ShimmerEffect(height: imageDimension, width: 120, radius: imageRadius);
                     }
                   },
                 ),

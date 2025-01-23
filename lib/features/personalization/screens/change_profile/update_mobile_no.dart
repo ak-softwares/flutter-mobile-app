@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../data/repositories/authentication/authentication_repository.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/validators/validation.dart';
@@ -13,6 +14,8 @@ class UpdateMobileNo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FBAnalytics.logPageView('update_profile_screen');
+
     final authenticationRepository = Get.put(AuthenticationRepository());
     final changeProfileController = Get.put(ChangeProfileController());
     final userController = Get.put(UserController());
@@ -47,7 +50,7 @@ class UpdateMobileNo extends StatelessWidget {
                   phone == ''
                       ? Text('Please update your phone number.', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold))
                       : Text('Please provide a valid phone number', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold)),
-                  const SizedBox(height: TSizes.sm),
+                  const SizedBox(height: Sizes.sm),
                   Row(
                     children: [
                       Expanded(

@@ -5,6 +5,7 @@ import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/widgets/loaders/animation_loader.dart';
 import '../../../../common/widgets/shimmers/order_shimmer.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/icons.dart';
 import '../../../../utils/constants/image_strings.dart';
@@ -22,6 +23,7 @@ class ProductReviewScreen extends StatelessWidget {
   final ProductModel product;
   @override
   Widget build(BuildContext context) {
+    FBAnalytics.logPageView('review_screen');
     final productReviewController = Get.put(ProductReviewController());
     final ScrollController scrollController = ScrollController();
 
@@ -47,7 +49,7 @@ class ProductReviewScreen extends StatelessWidget {
     return Scaffold(
       appBar: const TAppBar2(titleText: 'Reviews & Ratings', showBackArrow: true, showCartIcon: true,),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(TSizes.md),
+        padding: const EdgeInsets.all(Sizes.md),
         child: OutlinedButton(
             onPressed: () => Get.to(() => CreateReviewScreen(productId: product.id,)),
             child: const Text('Add product review')
@@ -61,11 +63,11 @@ class ProductReviewScreen extends StatelessWidget {
           padding: TSpacingStyle.defaultPagePadding,
           children: [
             //Section 1
-            const SizedBox(height: TSizes.lg),
+            const SizedBox(height: Sizes.lg),
             Center(child: Text('Overall Rating', style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.grey))),
-            const SizedBox(height: TSizes.md),
+            const SizedBox(height: Sizes.md),
             Center(child: Text(product.averageRating!.toStringAsFixed(1), style: Theme.of(context).textTheme.displayMedium)),
-            const SizedBox(height: TSizes.sm),
+            const SizedBox(height: Sizes.sm),
             Center(
               child: RatingBarIndicator(
                 rating: product.averageRating ?? 0.0,
@@ -74,9 +76,9 @@ class ProductReviewScreen extends StatelessWidget {
                 itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: TColors.ratingStar),
               ),
             ),
-            const SizedBox(height: TSizes.sm),
+            const SizedBox(height: Sizes.sm),
             Center(child: Text('Based on ${product.ratingCount} reviews', style: Theme.of(context).textTheme.labelLarge)),
-            const SizedBox(height: TSizes.lg),
+            const SizedBox(height: Sizes.lg),
 
             //Section 2
             // user review list
@@ -89,7 +91,7 @@ class ProductReviewScreen extends StatelessWidget {
                   } else if(productReviewController.reviews.isEmpty) {
                     return const TAnimationLoaderWidgets(
                       text: 'Whoops! No Review yet! Be the First Reviewer',
-                      animation: TImages.pencilAnimation,
+                      animation: Images.pencilAnimation,
                     );
                   } else{
 
@@ -115,9 +117,9 @@ class ProductReviewScreen extends StatelessWidget {
                         TRatingProgressIndicator(text: 'Average', value: averagePercentage,color: Colors.yellow),
                         TRatingProgressIndicator(text: 'Below Average', value: belowAveragePercentage,color: Colors.orangeAccent),
                         TRatingProgressIndicator(text: 'Poor', value: poorPercentage,color: Colors.redAccent),
-                        const SizedBox(height: TSizes.lg),
+                        const SizedBox(height: Sizes.lg),
                         const Divider(color: TColors.borderSecondary,),
-                        const SizedBox(height: TSizes.sm),
+                        const SizedBox(height: Sizes.sm),
                         ListView.separated(
                           shrinkWrap: true,
                           itemCount: productReviewController.isLoadingMore.value ? reviews.length + 1 : reviews.length,

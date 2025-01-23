@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../controllers/category_controller/category_controller.dart';
 import '../../controllers/product/product_controller.dart';
@@ -12,6 +13,7 @@ class CategoryTapBarScreen extends StatelessWidget {
   final int initialIndex;
   @override
   Widget build(BuildContext context) {
+    FBAnalytics.logPageView('category_tap_bar_screen');
     final categoryController = Get.put(CategoryController());
     final productController = Get.put(ProductController());
 

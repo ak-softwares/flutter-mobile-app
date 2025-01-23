@@ -18,7 +18,7 @@ class YouTuberSingleBanner extends StatelessWidget {
     return InkWell(
       onTap: () => launchUrlString(youtubeChannelUrl),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: TSizes.defaultSpace),
+        padding: const EdgeInsets.symmetric(vertical: Sizes.defaultSpace),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +32,7 @@ class YouTuberSingleBanner extends StatelessWidget {
               isNetworkImage: false,
               padding: 0,
             ),
-            const SizedBox(height: TSizes.md),
+            const SizedBox(height: Sizes.md),
             Row(
               children: [
                 TRoundedImage(
@@ -44,7 +44,7 @@ class YouTuberSingleBanner extends StatelessWidget {
                   isNetworkImage: false,
                   padding: 0,
                 ),
-                const SizedBox(width: TSizes.defaultSpace),
+                const SizedBox(width: Sizes.defaultSpace),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,

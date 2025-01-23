@@ -1,5 +1,7 @@
+import 'package:aramarket/features/shop/screens/home_page_section/scrolling_products/widgets/scrolling_products.dart';
 import 'package:aramarket/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import 'widgets/empty_search_screen.dart';
 import 'widgets/search_product_screen.dart';
@@ -42,15 +44,19 @@ class TSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
+    // FBAnalytics.logViewSearchResults(searchTerm: query, resultsCount: '');
     return SearchProductScreen(
         title: 'Search result for ${query.isEmpty ? '' : '"$query"'}',
         searchQuery: query,
-        verticalOrientation: true,
+        orientation: OrientationType.vertical,
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    if (query.isNotEmpty && query.length >= 3) {
+      FBAnalytics.logSearch(searchTerm: query); // Log search only when query length is >= 3
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -62,7 +68,7 @@ class TSearchDelegate extends SearchDelegate {
             child: SearchProductScreen(
               title: 'Search result for ${query.isEmpty ? '' : '"$query"'}',
               searchQuery: query,
-              verticalOrientation: false,
+              orientation: OrientationType.horizontal,
             ),
           ),
         ],
@@ -86,7 +92,7 @@ class TSearchDelegate extends SearchDelegate {
           InputDecorationTheme(
             hintStyle: searchFieldStyle ?? theme.inputDecorationTheme.hintStyle,
             border: InputBorder.none,
-            contentPadding: const EdgeInsets.symmetric(vertical: TSizes.xs, horizontal: TSizes.md), // Define input field height
+            contentPadding: const EdgeInsets.symmetric(vertical: Sizes.xs, horizontal: Sizes.md), // Define input field height
             // fillColor: Colors.grey.shade200, // Customize the background color
             // filled: true, // Ensure the fill color is applied
             // hintStyle: const TextStyle(

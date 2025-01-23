@@ -8,6 +8,7 @@ import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/loaders/animation_loader.dart';
 import '../../../../common/widgets/shimmers/order_shimmer.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
+import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
@@ -22,6 +23,7 @@ class TOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FBAnalytics.logPageView('order_screen');
     final orderController = Get.put(OrderController());
     final ScrollController scrollController = ScrollController();
     final authenticationRepository = Get.put(AuthenticationRepository());
@@ -68,7 +70,7 @@ class TOrderScreen extends StatelessWidget {
                 }else if(orderController.orders.isEmpty) {
                   return TAnimationLoaderWidgets(
                     text: 'Whoops! Order is Empty...',
-                    animation: TImages.orderCompletedAnimation,
+                    animation: Images.orderCompletedAnimation,
                     showAction: true,
                     actionText: 'Let\'s add some',
                     onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
@@ -78,7 +80,7 @@ class TOrderScreen extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: orderController.isLoadingMore.value ? orderController.orders.length + 1 : orderController.orders.length,
-                    separatorBuilder: (context, index) => const SizedBox(height: TSizes.defaultSpace),
+                    separatorBuilder: (context, index) => const SizedBox(height: Sizes.defaultSpace),
                     itemBuilder: (context, index) {
                       if (index < orderController.orders.length) {
                         return TOrderListItems(order: orderController.orders[index]);
