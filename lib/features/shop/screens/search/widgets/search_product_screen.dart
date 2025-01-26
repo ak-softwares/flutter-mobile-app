@@ -5,13 +5,8 @@ import 'package:get/get.dart';
 import '../../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../../common/styles/spacing_style.dart';
 import '../../../../../common/text/section_heading.dart';
-import '../../../../../common/widgets/loaders/animation_loader.dart';
-import '../../../../../common/widgets/product/product_cards/product_card.dart';
-import '../../../../../common/widgets/shimmers/product_shimmer.dart';
 import '../../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../../utils/constants/colors.dart';
-import '../../../../../utils/constants/image_strings.dart';
-import '../../../../../utils/constants/sizes.dart';
 import '../../../controllers/search_controller/search_controller.dart';
 
 class SearchProductScreen extends StatelessWidget {

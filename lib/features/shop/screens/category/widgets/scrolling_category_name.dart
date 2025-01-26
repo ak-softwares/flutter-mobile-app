@@ -38,20 +38,17 @@ class ScrollingCategoryName extends StatelessWidget {
 
     return Obx(() {
       if (categoryController.isLoading.value){
-        return const Padding(
-          padding: EdgeInsets.all(Sizes.spaceBtwItems),
-          child: Column(
-            children: [
-              TSectionHeading(title: 'Popular Categories'),
-              Row(
-                children: [
-                  ShimmerEffect(height: imageDimension, width: 100, radius: imageRadius),
-                  SizedBox(width: Sizes.spaceBtwItems),
-                  ShimmerEffect(height: imageDimension, width: 150, radius: imageRadius),
-                ],
-              ),
-            ],
-          ),
+        return Column(
+          children: [
+            TSectionHeading(title: 'Popular Categories'),
+            Row(
+              children: [
+                ShimmerEffect(height: imageDimension, width: 100, radius: imageRadius),
+                SizedBox(width: Sizes.spaceBtwItems),
+                ShimmerEffect(height: imageDimension, width: 150, radius: imageRadius),
+              ],
+            ),
+          ],
         );
       } else if(categoryController.categories.isEmpty) {
         return const SizedBox.shrink();
@@ -86,7 +83,7 @@ class ScrollingCategoryName extends StatelessWidget {
                           ),
                         ),
                         child: InkWell(
-                          onTap: () => Get.to(CategoryTapBarScreen(initialIndex: index)),
+                          onTap: () => Get.to(CategoryTapBarScreen(categoryId: category.id ?? '')),
                           child: Text(category.name ?? '')
                         )
                       );

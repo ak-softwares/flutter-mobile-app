@@ -33,6 +33,7 @@ class ProductFieldName {
   static const String price = 'regular_price';
   static const String salePrice = 'price';
   static const String regularPrice = 'regular_price';
+  static const String brands = 'brands';
   static const String dateOnSaleFrom = 'date_on_sale_from';
   static const String dateOnSaleTo = 'date_on_sale_to';
   static const String onSale = 'on_sale';
@@ -69,7 +70,12 @@ class ProductFieldName {
   static const String metaData = 'meta_data';
   static const String isCODBlocked = 'easyapp_cod_blocked';
 }
-
+class ProductBrandFieldName {
+  static const String id = 'id';
+  static const String name = 'name';
+  static const String slug = 'slug';
+  static const String imageUrl = 'image_url';
+}
 class ReviewFieldName {
   static const String id = 'id';
   static const String dateCreated = 'date_created';

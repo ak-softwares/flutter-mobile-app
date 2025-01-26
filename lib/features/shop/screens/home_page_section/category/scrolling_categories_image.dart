@@ -78,7 +78,7 @@ class ScrollingCategoriesImage extends StatelessWidget {
                         imageRadius: imageRadius,
                         title: category.name ?? '',
                         image: category.image ?? '',
-                        onTap: () => Get.to(CategoryTapBarScreen(initialIndex: index))),
+                        onTap: () => Get.to(CategoryTapBarScreen(categoryId: category.id ?? ''))),
                   );
                 } else {
                   return const Padding(

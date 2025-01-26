@@ -19,8 +19,8 @@ import 'widgets/billing_amount_section.dart';
 import 'widgets/billing_payment_section.dart';
 import 'widgets/coupon_section.dart';
 
-class TCheckoutScreen extends StatelessWidget {
-  const TCheckoutScreen({super.key});
+class CheckoutScreen extends StatelessWidget {
+  const CheckoutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

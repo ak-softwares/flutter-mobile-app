@@ -47,7 +47,7 @@ class Menu extends StatelessWidget {
               subtitle: Text('Experience shopping like never before.', style: Theme.of(context).textTheme.bodySmall),
             ),
             ListTile(
-              onTap: () => Get.to(() => const TOrderScreen()),
+              onTap: () => Get.to(() => const OrderScreen()),
               leading: Icon(TIcons.order, size: 20),
               title: Text('My Orders', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),
               subtitle: Text('Track and repeat orders', style: Theme.of(context).textTheme.bodySmall),

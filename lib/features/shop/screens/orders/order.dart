@@ -18,8 +18,8 @@ import '../../../personalization/controllers/address_controller.dart';
 import '../../controllers/product/order_controller.dart';
 import 'widgets/order_list_items.dart';
 
-class TOrderScreen extends StatelessWidget {
-  const TOrderScreen({super.key});
+class OrderScreen extends StatelessWidget {
+  const OrderScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

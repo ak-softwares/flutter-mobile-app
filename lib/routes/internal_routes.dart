@@ -30,7 +30,7 @@ class InternalAppRoutes {
     } else if (url.contains(APIConstant.urlContainProductCategory)) {
       Get.to(() => TAllProducts(title: 'Products', categoryId: slug, futureMethodTwoString: productController.getProductsByCategorySlug));
     } else if (url.contains(APIConstant.urlContainOrders)) {
-      Get.to(() => const TOrderScreen());
+      Get.to(() => const OrderScreen());
     } else {
       Get.to(() => MyWebView(title: 'Web view', url: url));
     }

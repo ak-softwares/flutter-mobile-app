@@ -13,7 +13,6 @@ class EmptySearchScreen extends StatelessWidget {
     final productController = Get.put(ProductController());
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.only(top: Sizes.lg),
       child: Column(
         children: [
           const ScrollingCategoryName(),

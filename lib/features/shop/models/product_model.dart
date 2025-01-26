@@ -1,3 +1,4 @@
+import 'package:aramarket/features/shop/models/brand_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
@@ -45,6 +46,7 @@ class ProductModel {
   List<int>? crossSellIds;
   int? parentId;
   String? purchaseNote;
+  List<ProductBrand>? brands;
   List<CategoryModel>? categories;
   List<Map<String, dynamic>>? tags;
   List<Map<String, dynamic>>? images;
@@ -98,6 +100,7 @@ class ProductModel {
     this.parentId,
     this.purchaseNote,
     this.categories,
+    this.brands,
     this.tags,
     this.images,
     this.attributes,
@@ -157,8 +160,14 @@ class ProductModel {
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     // Extracting category data from the JSON
     List<CategoryModel>? categories = [];
-    if (json.containsKey('categories') && json['categories'] is List) {
-      categories = (json['categories'] as List).map((cat) => CategoryModel.fromJson(cat)).toList();
+    if (json.containsKey(ProductFieldName.categories) && json[ProductFieldName.categories] is List) {
+      categories = (json[ProductFieldName.categories] as List).map((cat) => CategoryModel.fromJson(cat)).toList();
+    }
+
+    // Extracting brands data from the JSON
+    List<ProductBrand>? brands = [];
+    if (json.containsKey(ProductFieldName.brands) && json[ProductFieldName.brands] is List) {
+      brands = (json[ProductFieldName.brands] as List).map((cat) => ProductBrand.fromJson(cat)).toList();
     }
 
     return ProductModel(
@@ -206,6 +215,7 @@ class ProductModel {
       parentId: json[ProductFieldName.parentId],
       purchaseNote: json[ProductFieldName.purchaseNote],
       categories: categories,
+      brands: brands,
       // categories: json[ProductFieldName.categories] != null && json[ProductFieldName.categories].isNotEmpty ? json[ProductFieldName.categories][0]['name'] : '',
       tags: List<Map<String, dynamic>>.from(json[ProductFieldName.tags] ?? []),
       images: json[ProductFieldName.images] != null

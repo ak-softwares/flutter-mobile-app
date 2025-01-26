@@ -74,8 +74,7 @@ class CategoryScreen extends StatelessWidget {
                           imageRadius: imageRadius,
                           title: category.name ?? '',
                           image: category.image ?? '',
-                          onTap: () =>
-                              Get.to(CategoryTapBarScreen(initialIndex: index))
+                          onTap: () => Get.to(CategoryTapBarScreen(categoryId: category.id ?? ''))
                       );
                     } else {
                       return const TCategoryShimmer(imageDimension: imageDimension, imageRadius: imageRadius, isCategoryScreenTrue: true, itemCount: 1,);

@@ -8,6 +8,8 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../common/navigation_bar/bottom_navigation_bar.dart';
 import '../features/personalization/screens/user_menu/user_menu_screen.dart';
+import '../features/shop/controllers/product/product_controller.dart';
+import '../features/shop/screens/all_products/all_products.dart';
 import '../features/shop/screens/category/category_screen.dart';
 import '../features/shop/screens/favourite/favourite.dart';
 import '../features/shop/screens/orders/order.dart';
@@ -27,14 +29,15 @@ class AppRoutes {
   static final pages = [
     GetPage(name: RoutesPath.home, page: () => const BottomNavigation()),
     GetPage(name: RoutesPath.product, page: () => ProductDetailScreen(slug: Get.parameters['slug']),),
-    GetPage(name: RoutesPath.category, page: () => const CategoryScreen(), middlewares: [MyMiddleware()],),
-    GetPage(name: RoutesPath.tracking, page: () => const TOrderScreen()),
-    GetPage(name: RoutesPath.store, page: () => const TOrderScreen()),
+    // GetPage(name: RoutesPath.category, page: () => const CategoryScreen(), middlewares: [MyMiddleware()],),
+    GetPage(name: RoutesPath.category, page: () => TAllProducts(title: 'Products', categoryId: Get.parameters['slug'], futureMethodTwoString: ProductController.instance.getProductsByCategorySlug)),
+    GetPage(name: RoutesPath.tracking, page: () => const OrderScreen()),
     GetPage(name: RoutesPath.settingsScreen, page: () => const UserMenuScreen()),
     GetPage(name: RoutesPath.favouritesScreen, page: () => const FavouriteScreen(), transition: Transition.rightToLeft,),
     GetPage(name: RoutesPath.cart, page: () => const CartScreen(), transition: Transition.rightToLeft),
-    GetPage(name: RoutesPath.cart, page: () => const TCheckoutScreen(), transition: Transition.rightToLeft),
+    GetPage(name: RoutesPath.checkout, page: () => const CheckoutScreen(), transition: Transition.rightToLeft),
     GetPage(name: RoutesPath.store, page: () => const StoreScreen()),
+    GetPage(name: RoutesPath.orders, page: () => const OrderScreen()),
 
     // mixin ProductRouteMixin {
   // String get slug => Get.parameters['slug']!;
@@ -45,7 +48,7 @@ class AppRoutes {
   // Define a default route
   static final defaultRoute = GetPage(
     name: '/:route', // Matches any route
-    page: () => const Material(child: TOrderScreen()), // Display a "Page Not Found" screen
+    page: () => const Material(child: OrderScreen()), // Display a "Page Not Found" screen
     middlewares: [MyMiddleware()],
   );
 

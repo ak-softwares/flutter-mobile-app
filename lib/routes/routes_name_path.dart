@@ -3,7 +3,7 @@ class RoutesPath {
   static const home = '/';
   static const product = '/product/:slug';
   static const category = '/product-category/:slug';
-  static const orders = '/orders';
+  static const orders = '/my-account/orders';
   static const tracking = '/tracking';
   static const settingsScreen = '/my-account';
   static const store = '/store';

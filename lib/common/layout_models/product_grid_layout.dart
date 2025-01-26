@@ -59,14 +59,15 @@ class GridLayout extends StatelessWidget {
   const GridLayout({
     super.key,
     required this.itemCount,
-    required this.mainAxisExtent,
     this.crossAxisCount = 1,
+    this.crossAxisSpacing = Sizes.defaultSpaceBWTCard,
+    this.mainAxisSpacing = Sizes.defaultSpaceBWTCard,
+    required this.mainAxisExtent,
     required this.itemBuilder,
   });
 
-  final int itemCount;
-  final double mainAxisExtent;
-  final int crossAxisCount;
+  final int itemCount, crossAxisCount;
+  final double mainAxisExtent, crossAxisSpacing, mainAxisSpacing;
   final Widget? Function(BuildContext, int) itemBuilder;
 
   @override
@@ -75,13 +76,13 @@ class GridLayout extends StatelessWidget {
       shrinkWrap: true,
       padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: itemCount,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
-          crossAxisSpacing: Sizes.defaultSpaceBWTCard,
-          mainAxisSpacing: Sizes.defaultSpaceBWTCard,
+          crossAxisSpacing: crossAxisSpacing,
+          mainAxisSpacing: mainAxisSpacing,
           mainAxisExtent: mainAxisExtent
       ),
+      itemCount: itemCount,
       itemBuilder: itemBuilder,
     );
   }

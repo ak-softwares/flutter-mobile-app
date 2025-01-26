@@ -23,6 +23,7 @@ import '../../controllers/product/product_controller.dart';
 import '../../controllers/recently_viewed_controller/recently_viewed_controller.dart';
 import '../../models/product_model.dart';
 import '../all_products/all_products.dart';
+import '../category/category_tap_bar.dart';
 import '../home_page_section/scrolling_products/widgets/products_scrolling_by_category.dart';
 import '../product_review/product_review.dart';
 import '../product_review/product_review_horizontal.dart';
@@ -33,7 +34,12 @@ import 'products_widgets/product_price.dart';
 import 'products_widgets/sale_label.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  const ProductDetailScreen({super.key, this.product, this.slug, this.productId});
+  ProductDetailScreen({
+    Key? key,
+    this.product,
+    this.slug,
+    this.productId,
+  }) : super(key: key ?? UniqueKey());
 
   final ProductModel? product;
   final String? productId;
@@ -48,8 +54,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   RxInt quantityInCart = 1.obs;
 
   final Rx<ProductModel> _product = ProductModel.empty().obs;
-  final cartController = Get.put(CartController());
-  final productController = Get.put(ProductController());
+  final cartController = Get.put(CartController(), permanent: true);
+  final productController = Get.put(ProductController(), permanent: true);
 
   @override
   void initState() {
@@ -151,11 +157,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 // Category
                 InkWell(
                     onTap: () => Get.to(() => TAllProducts(
-                        title: _product.value.categories?[0].name ?? '',
-                        categoryId: _product.value.categories?[0].id ?? '',
-                        sharePageLink: '${AppSettings.appName} - ${_product.value.categories?[0].permalink}',
-                        futureMethodTwoString: productController.getProductsByCategoryId)
-                    ),
+                            title: _product.value.categories?[0].name ?? '',
+                            categoryId: _product.value.categories?[0].id ?? '',
+                            sharePageLink: '${AppSettings.appName} - ${_product.value.categories?[0].permalink}',
+                            futureMethodTwoString: productController.getProductsByCategoryId)
+                        ),
+                    // onTap: () => Get.to(CategoryTapBarScreen(categoryId: _product.value.categories?[0].id ?? '')),
                     child: Row(
                       children: [
                         Text(_product.value.categories?[0].name ?? '',
@@ -180,7 +187,23 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 const SizedBox(height: Sizes.sm),
 
-                //Star Rating
+                // Brands
+                _product.value.brands != null && _product.value.brands!.isNotEmpty
+                    ? Column(
+                        children: [
+                          Text(
+                            _product.value.brands?.map((brand) => brand.name).join(', ') ?? '', // Join brand names with commas
+                            style: Theme.of(context)
+                            .textTheme
+                            .labelLarge!
+                            .copyWith(color: TColors.linkColor),
+                          ),
+                          const SizedBox(height: Sizes.sm),
+                        ],
+                      )
+                    : SizedBox.shrink(),
+
+                // Star Rating
                 // const SizedBox(height: TSizes.sm),
                 // ProductStarRating(
                 //     averageRating: _product.value.averageRating ?? 0.0,

@@ -168,7 +168,7 @@ class CheckoutController extends GetxController {
             // Close current screen
             Get.close(1);
             // Navigate to TOrderScreen
-            Get.to(() => const TOrderScreen())?.then((value) {
+            Get.to(() => const OrderScreen())?.then((value) {
               // After returning from TOrderScreen, navigate to home screen
               NavigationHelper.navigateToBottomNavigation();
               // Get.offAll(() => const BottomNavigation2());

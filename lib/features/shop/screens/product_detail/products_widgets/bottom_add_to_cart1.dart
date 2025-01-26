@@ -34,7 +34,7 @@ class TBottomAddToCart1 extends StatelessWidget {
                 // Usage example
                 try {
                   onPressed: () => cartController.addToCart(product: product, quantity: quantity);
-                  Get.to(() => const TCheckoutScreen());
+                  Get.to(() => const CheckoutScreen());
                 } catch (e) {
                   null;
                 }

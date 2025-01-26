@@ -33,7 +33,7 @@ class DeeplinkGoRouter {
               if (orderId != null) {
                 return MyWebView(title: 'Track Order #$orderId', url: '${APIConstant.wooTrackingUrl}$orderId');
               } else {
-                return const TOrderScreen();
+                return const OrderScreen();
               }
             },
           ),
@@ -41,7 +41,7 @@ class DeeplinkGoRouter {
       ),
     ],
     errorPageBuilder: (BuildContext context, GoRouterState state) {
-      return const MaterialPage(child: TOrderScreen());
+      return const MaterialPage(child: OrderScreen());
     },
   );
 }

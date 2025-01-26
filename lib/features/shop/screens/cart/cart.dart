@@ -38,7 +38,7 @@ class CartScreen extends StatelessWidget {
               child: ElevatedButton(
                   onPressed: () {
                     checkoutController.updateCheckout();
-                    Get.to(const TCheckoutScreen());
+                    Get.to(const CheckoutScreen());
                   },
                   child: Obx(() => Text('Buy Now (${AppSettings.appCurrencySymbol + (cartController.totalCartPrice.value).toStringAsFixed(0)})'))
               ),

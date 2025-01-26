@@ -9,7 +9,9 @@ import 'common/navigation_bar/bottom_navigation_bar.dart';
 import 'data/repositories/authentication/authentication_repository.dart';
 import 'features/settings/app_settings.dart';
 import 'firebase_options.dart';
+import 'routes/deeplink_get_router.dart';
 import 'routes/internal_routes.dart';
+import 'routes/routes_name_path.dart';
 import 'services/firebase_analytics/firebase_analytics.dart';
 import 'services/notification/firebase_notification.dart';
 import 'services/notification/local_notification.dart';
@@ -33,7 +35,6 @@ void main() async {
   await dotenv.load(
     fileName: ".env"
   );
-
   // Add widgets Binding
   final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
@@ -71,19 +72,67 @@ void main() async {
   runApp(const MyApp());
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Function to handle deep link at app start
+    String? handleInitialDeepLink() {
+      final String? deepLinkString = Get.parameters['uri']; // Get the deep link as a String
+      final Uri? deepLinkUri = deepLinkString != null ? Uri.tryParse(deepLinkString) : null; // Parse to Uri
+
+      if (deepLinkUri != null && deepLinkUri.path.contains('/product/')) {
+        final slug = deepLinkUri.pathSegments.last;
+        return RoutesPath.product.replaceFirst(':slug', slug);
+      }
+      return null; // No deep link detected
+    }
+
+    String? initialDeepLinkHandler() {
+      final String? deepLinkString = Get.parameters['uri']; // Get the deep link as a String
+      final Uri? uri = deepLinkString != null ? Uri.tryParse(deepLinkString) : null; // Parse to Uri
+
+      if (uri?.path == '/product') {
+        return RoutesPath.product; // Replace with logic for deep link
+      }
+      return null;
+    }
+
+    // Handling cold start and setting the initial route
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Set the initial route if a deep link is detected
+      final initialRoute = handleInitialDeepLink();
+      if (initialRoute != null) {
+        Get.offAllNamed(initialRoute); // Clears navigation stack and sets the route
+      }
+    });
+
+
     // FBAnalytics.logPageView('main_function_screen');
     return GetMaterialApp(  //add .router when use go_router
       debugShowCheckedModeBanner: false,
+      navigatorKey: navigatorKey,
       navigatorObservers: [FBAnalytics.observer],
       title: AppSettings.appName,
       theme: TAppTheme.lightTheme,
       initialBinding: GeneralBindings(),
+      getPages: AppRoutes.pages,
+      // initialRoute: RoutesPath.home, // Default route
+      initialRoute: initialDeepLinkHandler() ?? RoutesPath.home,
 
+      // getPages: [
+      //   ...AppRoutes.pages,
+      //   AppRoutes.defaultRoute,
+      // ],
+      // routingCallback: (routing) {
+      //   // Optional: Log or handle route changes
+      //   if (routing?.current != null) {
+      //     debugPrint("Navigated to: ${routing?.current}");
+      //   }
+      // },
       //these are the method for Get routes
       // initialRoute: CustomRoutes.home,
       // getPages: [

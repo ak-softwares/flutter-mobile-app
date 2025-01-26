@@ -8,9 +8,10 @@ import '../../controllers/product/product_controller.dart';
 import 'widgets/tabview_products_by_category.dart';
 
 class CategoryTapBarScreen extends StatelessWidget {
-  const CategoryTapBarScreen({super.key, this.initialIndex = 0});
+  const CategoryTapBarScreen({super.key, this.categoryId = '0'});
 
-  final int initialIndex;
+  final String categoryId;
+
   @override
   Widget build(BuildContext context) {
     FBAnalytics.logPageView('category_tap_bar_screen');
@@ -18,10 +19,13 @@ class CategoryTapBarScreen extends StatelessWidget {
     final productController = Get.put(ProductController());
 
     final categories = categoryController.categories;
+    // Find the index of the category with the given id
+    final initialIndex = categories.indexWhere((category) => category.id == categoryId);
 
-
+    // Handle cases where the category ID is not found
+    final safeInitialIndex = initialIndex >= 0 ? initialIndex : 0;
     return DefaultTabController(
-          initialIndex: initialIndex,
+          initialIndex: safeInitialIndex,
           length: categories.length,
           child: Scaffold(
             appBar: AppBar(
