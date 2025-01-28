@@ -1,16 +1,15 @@
 import 'dart:math';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../features/shop/models/product_model.dart';
 import '../../../../features/shop/screens/home_page_section/scrolling_products/widgets/scrolling_products.dart';
-import '../../../../features/shop/screens/product_detail/product_detail.dart';
-import '../../../../features/shop/screens/product_detail/products_widgets/product_price.dart';
-import '../../../../features/shop/screens/product_detail/products_widgets/product_star_rating.dart';
-import '../../../../features/shop/screens/product_detail/products_widgets/product_title_text.dart';
-import '../../../../features/shop/screens/product_detail/products_widgets/sale_label.dart';
+import '../../../../features/shop/screens/products/product_detail.dart';
+import '../../../../features/shop/screens/products/products_widgets/product_price.dart';
+import '../../../../features/shop/screens/products/products_widgets/product_star_rating.dart';
+import '../../../../features/shop/screens/products/products_widgets/product_title_text.dart';
+import '../../../../features/shop/screens/products/products_widgets/sale_label.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../styles/shadows.dart';

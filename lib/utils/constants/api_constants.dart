@@ -21,10 +21,13 @@ class APIConstant {
   //Define urls
   static const String urlContainProduct         = '/product/';
   static const String urlContainProductCategory = '/product-category/';
+  static const String urlProductBrand           = '/brand/';
   static const String urlContainOrders          = '/my-account/orders';
-  static String allCategoryUrl                     = 'https://$wooBaseUrl$urlContainProductCategory';
+  static String allCategoryUrl                  = 'https://$wooBaseUrl$urlContainProductCategory';
+  static String productBrandUrl                 = 'https://$wooBaseUrl$urlProductBrand';
 
   static const String wooProductsApiPath    = '/wp-json/wc/v3/products/';
+  static const String wooProductBrandsApiPath    = '/wp-json/wc/v3/products/brands/';
   static const String wooCategoriesApiPath  = '/wp-json/wc/v3/products/categories/';
   static const String wooCouponsApiPath     = '/wp-json/wc/v3/coupons/';
   static const String wooOrdersApiPath      = '/wp-json/wc/v3/orders/';

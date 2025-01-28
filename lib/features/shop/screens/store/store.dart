@@ -12,8 +12,8 @@ import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../controllers/product/product_controller.dart';
-import '../Brand/all_brand.dart';
-import '../home_page_section/search/search_input_field.dart';
+import '../brands/all_brands.dart';
+import '../search/search_input_field.dart';
 
 
 class StoreScreen extends StatelessWidget {

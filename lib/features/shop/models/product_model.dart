@@ -46,7 +46,7 @@ class ProductModel {
   List<int>? crossSellIds;
   int? parentId;
   String? purchaseNote;
-  List<ProductBrand>? brands;
+  List<ProductBrandModel>? brands;
   List<CategoryModel>? categories;
   List<Map<String, dynamic>>? tags;
   List<Map<String, dynamic>>? images;
@@ -165,9 +165,9 @@ class ProductModel {
     }
 
     // Extracting brands data from the JSON
-    List<ProductBrand>? brands = [];
+    List<ProductBrandModel>? brands = [];
     if (json.containsKey(ProductFieldName.brands) && json[ProductFieldName.brands] is List) {
-      brands = (json[ProductFieldName.brands] as List).map((cat) => ProductBrand.fromJson(cat)).toList();
+      brands = (json[ProductFieldName.brands] as List).map((cat) => ProductBrandModel.fromJson(cat)).toList();
     }
 
     return ProductModel(

@@ -136,7 +136,7 @@ class SingleOrderScreen extends StatelessWidget {
             ),
             const SizedBox(height: Sizes.spaceBtwSection),
 
-            //Track order
+            // Track order
             TRoundedContainer(
               showBorder: true,
               padding: TSpacingStyle.defaultPagePadding,
@@ -145,7 +145,7 @@ class SingleOrderScreen extends StatelessWidget {
             ),
             const SizedBox(height: Sizes.spaceBtwItems),
 
-            //Repeat Order
+            // Repeat Order
             TRoundedContainer(
                 showBorder: true,
                 padding: TSpacingStyle.defaultPagePadding,
@@ -154,7 +154,7 @@ class SingleOrderScreen extends StatelessWidget {
             ),
             const SizedBox(height: Sizes.spaceBtwItems),
 
-            //Cancel order
+            // Cancel order
             TOrderHelper.checkOrderStatusForReturn(order.status ?? '')
               ? TRoundedContainer(
                 showBorder: true,

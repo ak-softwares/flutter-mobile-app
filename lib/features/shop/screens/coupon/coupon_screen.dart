@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
@@ -9,7 +10,6 @@ import '../../../../common/widgets/shimmers/order_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
-import '../../../../utils/constants/sizes.dart';
 import '../../controllers/coupon/coupon_controller.dart';
 import 'widgets/single_coupon.dart';
 
@@ -49,6 +49,7 @@ class CouponScreen extends StatelessWidget {
         child: ListView(
           controller: scrollController,
           padding: TSpacingStyle.defaultPagePadding,
+          physics: const AlwaysScrollableScrollPhysics(),
           children: [
             const TSectionHeading(title: 'My Coupons'),
             Obx(() {
@@ -60,11 +61,9 @@ class CouponScreen extends StatelessWidget {
                   animation: Images.pencilAnimation,
                 );
               }else {
-                return ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
+                return GridLayout(
+                  mainAxisExtent: 120,
                   itemCount: couponController.isLoadingMore.value ? couponController.coupons.length + 1 : couponController.coupons.length,
-                  separatorBuilder: (context, index) => const SizedBox(height: Sizes.defaultSpace),
                   itemBuilder: (context, index) {
                     if (index < couponController.coupons.length) {
                       return SingleCouponItem(coupon: couponController.coupons[index]);

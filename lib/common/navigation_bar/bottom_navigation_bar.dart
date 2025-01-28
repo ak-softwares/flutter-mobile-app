@@ -6,7 +6,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import '../../features/personalization/screens/user_menu/user_menu_screen.dart';
 import '../../features/shop/controllers/cart_controller/cart_controller.dart';
 import '../../features/shop/screens/cart/cart.dart';
-import '../../features/shop/screens/category/category_screen.dart';
+import '../../features/shop/screens/category/all_category_screen.dart';
 import '../../features/shop/screens/home/home.dart';
 import '../../services/firebase_analytics/firebase_analytics.dart';
 import '../../utils/constants/colors.dart';

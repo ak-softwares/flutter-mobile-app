@@ -14,6 +14,7 @@ class Sizes {
   static const double defaultRadius = 5;
   static const double defaultSpace = 12.0;
   static const double defaultSpaceLg = 30.0;
+  static const double defaultBtwTiles = 10.0;
 
   // Default spacing between sections
   static const double spaceBtwItems = 8;
@@ -67,11 +68,26 @@ class Sizes {
   static const double cartCardHorizontalHeight = 105.0;
   static const double cartCardHorizontalWidth = 300.0;
 
-  // Category
-  static const double categoryImageSize = 85.0;
-  static const double categoryImageRadius = 5;
-  static const double categoryCardHeight = 130;
-  static const double categoryCardWidth = 300.0;
+  // Category Tile
+  static const double categoryTileHeight = 140;
+  static const double categoryTileWidth = 85.0;
+  static const double categoryTileRadius = 5.0;
+  static const double categoryImageHeight = 85.0;
+  static const double categoryImageWidth = 85.0;
+
+  // Brand Tile
+  static const double brandTileHeight = 90;
+  static const double brandTileWidth = 100.0;
+  static const double brandTileRadius = 5.0;
+  static const double brandImageHeight = 50.0;
+  static const double brandImageWidth = 100.0;
+
+  // Order Tile
+  static const double orderTileHeight = 125;
+  static const double orderTileWidth = 100.0;
+  static const double orderTileRadius = 10.0;
+  static const double orderImageHeight = 50.0;
+  static const double orderImageWidth = 100.0;
 
   // Input Field
   static const double inputFieldRadius = 5;

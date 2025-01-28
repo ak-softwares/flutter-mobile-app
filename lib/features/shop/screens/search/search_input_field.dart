@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../utils/constants/colors.dart';
-import '../../../../../utils/constants/sizes.dart';
-import '../../../../../utils/device/device_utility.dart';
-import '../../search/search.dart';
+import '../../../../utils/constants/colors.dart';
+import '../../../../utils/constants/sizes.dart';
+import '../../../../utils/device/device_utility.dart';
+import 'search.dart';
 
 class TSearchBar extends StatelessWidget {
   const TSearchBar({super.key, this.searchText = "Search", this.padding = false});

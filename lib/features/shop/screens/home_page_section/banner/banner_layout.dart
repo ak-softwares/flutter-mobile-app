@@ -21,16 +21,31 @@ class HomeBanner extends StatelessWidget {
     const double bannerWidth = double.infinity;
 
     return Obx(() {
-      //loader
-      if(bannerController.isLoading.value) return const ShimmerEffect(height: bannerHeight, width: bannerWidth, radius: 0);
-
+      // loader
+      if (bannerController.isLoading.value) {
+        return Column(
+          spacing: Sizes.spaceBtwItems,
+          children: [
+            const ShimmerEffect(height: bannerHeight + 2, width: bannerWidth, radius: 0),
+            Row(
+              spacing: Sizes.spaceBtwItems,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const ShimmerEffect(height: 5, width: 10, radius: 10),
+                const ShimmerEffect(height: 5, width: 10, radius: 10),
+                const ShimmerEffect(height: 5, width: 10, radius: 10),
+              ],
+            ),
+          ],
+        );
+      }
       // check empty
-      if(bannerController.banners.isEmpty) {
+      if (bannerController.banners.isEmpty) {
         // return const Center(child: Text('No data found',style: TextStyle(color: Colors.black)));}
         return const SizedBox.shrink();
       }
-
       return Column(
+        spacing: Sizes.spaceBtwItems,
         children: [
           CarouselSlider(
             options: CarouselOptions(
@@ -40,37 +55,36 @@ class HomeBanner extends StatelessWidget {
                 onPageChanged: (index, _) => bannerController.updatePageIndicator(index)
             ),
             items: bannerController.banners.map((banner) => TRoundedImage(
-                  height: bannerHeight,
-                  width: bannerWidth,
-                  borderRadius: 0,
-                  padding: 0,
-                  image: banner.imageUrl ?? '',
-                  isNetworkImage: true,
-                  onTap: () => InternalAppRoutes.internalRouteHandle(url: banner.targetPageUrl ?? ''),
-                )
+              height: bannerHeight,
+              width: bannerWidth,
+              borderRadius: 0,
+              padding: 0,
+              image: banner.imageUrl ?? '',
+              isNetworkImage: true,
+              onTap: () => InternalAppRoutes.internalRouteHandle(url: banner.targetPageUrl ?? ''),
+            )
             ).toList(),
           ),
-          const SizedBox(height: Sizes.spaceBtwItems),
           Center(
             child: Obx(() => Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    for(int i = 0; i < bannerController.banners.length; i++)
-                      bannerController.carousalCurrentIndex.value == i
-                        ? const TRoundedContainer(
-                            width: 20,
-                            height: 4,
-                            margin: EdgeInsets.only(right: 6),
-                            backgroundColor: TColors.primaryColor,
-                          )
-                        : const TRoundedContainer(
-                            width: 10,
-                            height: 4,
-                            margin: EdgeInsets.only(right: 6),
-                            backgroundColor: TColors.secondaryColor,
-                          )
-                  ],
-                )
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for(int i = 0; i < bannerController.banners.length; i++)
+                  bannerController.carousalCurrentIndex.value == i
+                      ? const TRoundedContainer(
+                    width: 20,
+                    height: 4,
+                    margin: EdgeInsets.only(right: 6),
+                    backgroundColor: TColors.primaryColor,
+                  )
+                      : const TRoundedContainer(
+                    width: 10,
+                    height: 4,
+                    margin: EdgeInsets.only(right: 6),
+                    backgroundColor: TColors.secondaryColor,
+                  )
+              ],
+            )
             ),
           )
         ],
@@ -78,3 +92,4 @@ class HomeBanner extends StatelessWidget {
     });
   }
 }
+

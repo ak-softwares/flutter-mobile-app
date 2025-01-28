@@ -62,6 +62,7 @@ class RecentlyViewed extends StatelessWidget {
                 child: ListView(
                   controller: scrollController,
                   padding: TSpacingStyle.defaultPagePadding,
+                  physics: const AlwaysScrollableScrollPhysics(),
                   children: [
                     InkWell(
                       onTap: recentlyViewedController.clearHistory,

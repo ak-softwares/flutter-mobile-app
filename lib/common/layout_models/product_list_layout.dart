@@ -29,7 +29,7 @@ class ListLayout extends StatelessWidget {
         children: [
           SizedBox(
             height: height,
-            width: double.infinity,
+            // width: double.infinity,
             child: ListView.separated(
               controller: controller,
               scrollDirection: Axis.horizontal,

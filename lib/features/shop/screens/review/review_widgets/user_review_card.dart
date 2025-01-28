@@ -14,7 +14,7 @@ import '../../../../personalization/controllers/user_controller.dart';
 import '../../../controllers/product/image_controller.dart';
 import '../../../controllers/product/product_review_controller.dart';
 import '../../../models/product_review_model.dart';
-import '../../product_detail/products_widgets/product_title_text.dart';
+import '../../products/products_widgets/product_title_text.dart';
 import '../update_product_review.dart';
 
 class TUserReviewCard extends StatelessWidget {

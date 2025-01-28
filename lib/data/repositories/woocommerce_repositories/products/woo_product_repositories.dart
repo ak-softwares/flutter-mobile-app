@@ -10,7 +10,7 @@ import '../../../../utils/constants/api_constants.dart';
 class WooProductRepository extends GetxController {
   static WooProductRepository get instance => Get.find();
 
-  //Fetch All Products
+  // Fetch All Products
   Future<List<ProductModel>> fetchAllProducts({required String page}) async {
     try{
       final Map<String, String> queryParams = {
@@ -51,7 +51,7 @@ class WooProductRepository extends GetxController {
     }
   }
 
-  //Fetch All Featured Products
+  // Fetch All Featured Products
   Future<List<ProductModel>> fetchFeaturedProducts({required String page}) async {
     try{
       final Map<String, String> queryParams = {
@@ -90,7 +90,7 @@ class WooProductRepository extends GetxController {
     }
   }
 
-  //Fetch All Featured Products
+  // Fetch Products Under price
   Future<List<ProductModel>> fetchProductsUnderPrice({required String page, required String price}) async {
     try{
       final Map<String, String> queryParams = {
@@ -131,8 +131,8 @@ class WooProductRepository extends GetxController {
     }
   }
 
-  //Fetch Products By Category
-  Future<List<ProductModel>> fetchProductsByCategory({required String categoryId, required String page}) async {
+  // Fetch Products By Category ID
+  Future<List<ProductModel>> fetchProductsByCategoryID({required String categoryId, required String page}) async {
     try{
       final Map<String, String> queryParams = {
         'category': categoryId,
@@ -172,7 +172,48 @@ class WooProductRepository extends GetxController {
     }
   }
 
-  //Fetch Products By Ids
+  // Fetch Products By Brand ID
+  Future<List<ProductModel>> fetchProductsByBrandID({required String brandID, required String page}) async {
+    try{
+      final Map<String, String> queryParams = {
+        'brand': brandID,
+        'orderby': 'popularity', //date, id, include, title, slug, price, popularity and rating. Default is date.
+        'per_page': '10',
+        'page': page,
+      };
+
+      final Uri uri = Uri.https(
+        APIConstant.wooBaseUrl,
+        APIConstant.wooProductsApiPath,
+        queryParams,
+      );
+
+      final response = await http.get(
+        uri,
+        headers: {
+          'Authorization': APIConstant.authorization,
+        },
+      ).timeout(const Duration(seconds: 30));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> productsByBrandIDJson = json.decode(response.body);
+        final List<ProductModel> productsByBrandID = productsByBrandIDJson.map((json) => ProductModel.fromJson(json)).toList();
+        return productsByBrandID;
+      } else {
+        final Map<String, dynamic> errorJson = json.decode(response.body);
+        final errorMessage = errorJson['message'];
+        throw errorMessage ?? 'Failed to fetch Products';
+      }
+    } catch(error){
+      if (error is TimeoutException) {
+        throw 'Connection timed out. Please check your internet connection and try again.';
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  // Fetch Products By Ids
   Future<List<ProductModel>> fetchProductsByIds({required String productIds, required String page}) async {
     try{
       final Map<String, String> queryParams = {
@@ -215,7 +256,7 @@ class WooProductRepository extends GetxController {
     }
   }
 
-  //Fetch Product By Id
+  // Fetch Product By Id
   Future<ProductModel> fetchProductById(String productId) async {
     try{
       final Uri uri = Uri.https(
@@ -244,7 +285,7 @@ class WooProductRepository extends GetxController {
     }
   }
 
-  //Fetch Product By Slug
+  // Fetch Product By Slug
   Future<ProductModel> fetchProductBySlug(String slug) async {
     try{
       final Map<String, String> queryParams = {
@@ -282,7 +323,7 @@ class WooProductRepository extends GetxController {
     }
   }
 
-  //Fetch Products By Search Query
+  // Fetch Products By Search Query
   Future<List<ProductModel>> fetchProductsBySearchQuery({required String query, required String page}) async {
     try{
       final Map<String, String> queryParams = {
@@ -324,7 +365,7 @@ class WooProductRepository extends GetxController {
     }
   }
 
-  //Fetch Frequently Bought Together Products
+  // Fetch Frequently Bought Together Products
   Future<List<ProductModel>> fetchFBTProducts({required String productId}) async {
     try{
       final Map<String, String> queryParams = {

@@ -2,11 +2,11 @@ import 'package:aramarket/common/widgets/shimmers/shimmer_effect.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../common/text/section_heading.dart';
-import '../../../../../utils/constants/api_constants.dart';
-import '../../../../../utils/constants/sizes.dart';
-import '../../../controllers/category_controller/category_controller.dart';
-import '../../category/category_tap_bar.dart';
+import '../../../../common/text/section_heading.dart';
+import '../../../../utils/constants/api_constants.dart';
+import '../../../../utils/constants/sizes.dart';
+import '../../controllers/category_controller/category_controller.dart';
+import 'category_tap_bar.dart';
 
 
 class ScrollingCategoryName extends StatelessWidget {

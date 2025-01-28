@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/widgets/product/cart/cart_counter_icon.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
+import '../../../../utils/constants/icons.dart';
 import '../../controllers/category_controller/category_controller.dart';
 import '../../controllers/product/product_controller.dart';
-import 'widgets/tabview_products_by_category.dart';
+import '../search/search.dart';
+import 'widgets/tabview_products.dart';
 
 class CategoryTapBarScreen extends StatelessWidget {
   const CategoryTapBarScreen({super.key, this.categoryId = '0'});
@@ -32,6 +35,10 @@ class CategoryTapBarScreen extends StatelessWidget {
               centerTitle: false,
               backgroundColor: TColors.primaryColor,
               title: Text('Products by categories', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600)),
+              actions: [
+                IconButton( icon: Icon(TIcons.search), color: TColors.secondaryColor, onPressed: () => showSearch(context: context, delegate: TSearchDelegate())),
+                TCartCounterIcon(iconColor: TColors.secondaryColor),
+              ],
               bottom: TabBar(
                 unselectedLabelColor: Colors.black87,
                 indicatorColor: TColors.secondaryColor,
@@ -46,7 +53,12 @@ class CategoryTapBarScreen extends StatelessWidget {
             ),
             body: TabBarView(
               children: categories.map((category) {
-                return TabviewProductsByCategory(category: category, futureMethod: productController.getProductsByCategoryId);
+                return TabviewProducts(
+                    itemID: category.id.toString(),
+                    itemName: category.name ?? '',
+                    itemUrl: category.permalink,
+                    futureMethod: productController.getProductsByCategoryId
+                );
               }).toList(),
             ),
           ),

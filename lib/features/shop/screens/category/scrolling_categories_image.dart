@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../common/layout_models/product_list_layout.dart';
-import '../../../../../common/text/section_heading.dart';
-import '../../../../../common/widgets/shimmers/category_shimmer.dart';
-import '../../../../../utils/constants/api_constants.dart';
-import '../../../../../utils/constants/sizes.dart';
-import '../../../controllers/category_controller/category_controller.dart';
-import '../../category/category_screen.dart';
-import '../../category/category_tap_bar.dart';
+import '../../../../common/layout_models/product_list_layout.dart';
+import '../../../../common/text/section_heading.dart';
+import '../../../../common/widgets/shimmers/category_shimmer.dart';
+import '../../../../utils/constants/api_constants.dart';
+import '../../../../utils/constants/sizes.dart';
+import '../../controllers/category_controller/category_controller.dart';
+import '../home_page_section/scrolling_products/widgets/scrolling_products.dart';
+import 'all_category_screen.dart';
+import 'category_tap_bar.dart';
 import 'widgets/single_category_item.dart';
 
 
@@ -19,8 +20,7 @@ class ScrollingCategoriesImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ScrollController scrollController = ScrollController();
     final categoryController = Get.put(CategoryController());
-    const double imageDimension = Sizes.categoryImageSize;
-    const double imageRadius = Sizes.categoryImageRadius;
+    final double categoryTileHeight = Sizes.categoryTileHeight;
 
     scrollController.addListener(() async {
       if (scrollController.position.extentAfter < 0.2 * scrollController.position.maxScrollExtent) {
@@ -45,12 +45,9 @@ class ScrollingCategoriesImage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: Sizes.spaceBtwItems),
-              child: TSectionHeading(title: 'Popular Categories', seeActionButton: true, onPressed: () => Get.to(() => const CategoryScreen())),
+              child: TSectionHeading(title: 'Categories Loading...', seeActionButton: true, onPressed: () => Get.to(() => const CategoryScreen())),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: Sizes.spaceBtwItems, left: Sizes.spaceBtwItems),
-              child: TCategoryShimmer(imageDimension: imageDimension, imageRadius: imageRadius),
-            ),
+            CategoryTileShimmer(itemCount: 4, orientation: OrientationType.horizontal),
           ],
         );
       } else if(categoryController.categories.isEmpty) {
@@ -65,26 +62,21 @@ class ScrollingCategoriesImage extends StatelessWidget {
               child: TSectionHeading(title: 'Popular Categories', seeActionButton: true, onPressed: () => Get.to(() => const CategoryScreen())),
             ),
             ListLayout(
-              height: imageDimension + 60,
+              height: categoryTileHeight,
               controller: scrollController,
-              itemCount: categoryController.isLoadingMore.value ? categories.length + 3 : categories.length,
+              itemCount: categoryController.isLoadingMore.value ? categories.length + 2 : categories.length,
               itemBuilder: (context, index) {
                 if (index < categories.length) {
                   final category = categories[index];
                   return Padding(
-                    padding: const EdgeInsets.only(top: Sizes.spaceBtwItems, left: Sizes.spaceBtwItems),
-                    child: SingleCategoryItem(
-                        imageDimension: imageDimension,
-                        imageRadius: imageRadius,
+                    padding: const EdgeInsets.only(left: Sizes.defaultBtwTiles, top: Sizes.defaultBtwTiles),
+                    child: SingleCategoryTile(
                         title: category.name ?? '',
                         image: category.image ?? '',
                         onTap: () => Get.to(CategoryTapBarScreen(categoryId: category.id ?? ''))),
                   );
                 } else {
-                  return const Padding(
-                    padding: EdgeInsets.only(top: Sizes.spaceBtwItems, left: Sizes.spaceBtwItems),
-                    child: TCategoryShimmer(imageDimension: imageDimension, imageRadius: imageRadius, itemCount: 1),
-                  );
+                  return CategoryTileShimmer(itemCount: 1, orientation: OrientationType.horizontal);
                 }
               },
             ),

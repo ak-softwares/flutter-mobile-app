@@ -9,6 +9,7 @@ class TOrderHelper {
   static bool checkOrderStatusForInTransit(String orderStatus) {
     return orderStatus == OrderStatusName.processing ||
         orderStatus == OrderStatusName.readyToShip ||
+        orderStatus == OrderStatusName.inTransit ||
         orderStatus == OrderStatusName.pendingPickup ||
         orderStatus == OrderStatusName.returnInTransit ||
         orderStatus == OrderStatusName.returnPending ||

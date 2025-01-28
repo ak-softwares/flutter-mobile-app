@@ -54,6 +54,7 @@ class SearchProductScreen extends StatelessWidget {
       child: ListView(
         controller: scrollController,
         padding: TSpacingStyle.defaultPagePadding,
+        physics: const AlwaysScrollableScrollPhysics(),
         children: [
           TSectionHeading(title: title),
           ProductGridLayout(controller: searchController, orientation: orientation),

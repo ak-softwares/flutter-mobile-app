@@ -18,21 +18,25 @@ import '../../../../../utils/constants/text_strings.dart';
 import '../../../../settings/app_settings.dart';
 import '../../../models/product_model.dart';
 
-class TabviewProductsByCategory extends StatefulWidget {
-  final CategoryModel category;
-  final Future<List<ProductModel>> Function(String, String) futureMethod;
-
-  const TabviewProductsByCategory({
+class TabviewProducts extends StatefulWidget {
+  const TabviewProducts({
     super.key,
-    required this.category,
+    this.itemUrl = '',
+    this.itemName = '',
+    required this.itemID,
     required this.futureMethod,
   });
 
+  final String itemID;
+  final String itemName;
+  final String? itemUrl;
+  final Future<List<ProductModel>> Function(String, String) futureMethod;
+
   @override
-  _TabviewProductsByCategoryState createState() => _TabviewProductsByCategoryState();
+  _TabviewProductsState createState() => _TabviewProductsState();
 }
 
-class _TabviewProductsByCategoryState extends State<TabviewProductsByCategory> {
+class _TabviewProductsState extends State<TabviewProducts> {
   late final ScrollController _scrollController;
   final RxInt currentPage = 1.obs;
   final RxBool isLoading = false.obs;
@@ -56,7 +60,7 @@ class _TabviewProductsByCategoryState extends State<TabviewProductsByCategory> {
 
   Future<void> _getAllProducts() async {
     try {
-      final List<ProductModel> newProducts = await widget.futureMethod(widget.category.id ?? '', currentPage.toString());
+      final List<ProductModel> newProducts = await widget.futureMethod(widget.itemID ?? '', currentPage.toString());
       products.addAll(newProducts);
     } catch (e) {
       throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
@@ -97,40 +101,39 @@ class _TabviewProductsByCategoryState extends State<TabviewProductsByCategory> {
     return RefreshIndicator(
       color: TColors.refreshIndicator,
       onRefresh: () async => _refreshAllProducts(),
-      child: SingleChildScrollView(
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
         padding: TSpacingStyle.defaultPagePadding,
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.centerRight, // Float the InkWell to the left
-              child: InkWell(
-                onTap: () => AppShare.shareUrl(
-                    url: widget.category.permalink ?? '',
-                    contentType: 'Category',
-                    itemName: widget.category.name ?? '',
-                    itemId:  widget.category.id.toString()
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min, // Shrink-wrap the Row's width to its content
-                  children: [
-                    Text('Share',
-                        style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor)
-                    ),
-                    SizedBox(width: Sizes.sm),
-                    Icon(
-                      TIcons.share,
-                      size: Sizes.md,
-                      color: TColors.linkColor,
-                    ),
-                  ],
-                ),
+        children: [
+          Align(
+            alignment: Alignment.centerRight, // Float the InkWell to the left
+            child: InkWell(
+              onTap: () => AppShare.shareUrl(
+                  url: widget.itemUrl ?? '',
+                  contentType: 'tap_bar',
+                  itemName: widget.itemName,
+                  itemId:  widget.itemID.toString()
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min, // Shrink-wrap the Row's width to its content
+                children: [
+                  Text('Share',
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor)
+                  ),
+                  SizedBox(width: Sizes.sm),
+                  Icon(
+                    TIcons.share,
+                    size: Sizes.md,
+                    color: TColors.linkColor,
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: Sizes.sm),
-            ProductGridLayout(controller: this),
-          ],
-        ),
+          ),
+          SizedBox(height: Sizes.sm),
+          ProductGridLayout(controller: this),
+        ],
       ),
     );
   }

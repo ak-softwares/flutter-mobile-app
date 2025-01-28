@@ -10,15 +10,17 @@ import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../controllers/banner_controller/banner_controller.dart';
+import '../../controllers/brand_controller/brand_controller.dart';
 import '../../controllers/category_controller/category_controller.dart';
 import '../../controllers/home/home_controller.dart';
 import '../../controllers/product/product_controller.dart';
 import '../home_page_section/banner/banner_layout.dart';
-import '../home_page_section/category/scrolling_categories_image.dart';
+import '../brands/scrolling_brand.dart';
+import '../category/scrolling_categories_image.dart';
 import '../home_page_section/scrolling_products/products_carousal_by_categories.dart';
 import '../home_page_section/scrolling_products/widgets/products_scrolling_by_category.dart';
 import '../home_page_section/scrolling_products/widgets/scrolling_products.dart';
-import '../home_page_section/search/search_input_field.dart';
+import '../search/search_input_field.dart';
 import '../home_page_section/youtuber_banner/youtuber_banner.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -32,6 +34,7 @@ class MyHomePage extends StatelessWidget {
     final productController = Get.put(ProductController());
     final categoryController = Get.put(CategoryController());
     final bannerController = Get.put(BannerController());
+    final brandController = Get.put(BrandController());
 
     scrollController.addListener(() async {
       if (scrollController.position.extentAfter < 0.2 * scrollController.position.maxScrollExtent) {
@@ -58,38 +61,39 @@ class MyHomePage extends StatelessWidget {
       body: RefreshIndicator(
         color: TColors.refreshIndicator,
         onRefresh: () async {
-          categoryController.refreshCategories();
           bannerController.refreshBanners();
+          categoryController.refreshCategories();
+          brandController.refreshBrands();
         },
-        child: SingleChildScrollView(
+        child: ListView(
           controller: scrollController,
-          child: Column(
-            children: [
-              // const CircularProgressIndicator(), // Display a loading indicator until categories are fetched
-              const TSearchBar(searchText: TTexts.search, padding: true),
-              const HomeBanner(),
-              const ScrollingCategoriesImage(),
-              const Divider(),
-              const YouTuberBanner(title: 'YouTuber\'s who like our products'),
-              const Divider(),
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            // const CircularProgressIndicator(), // Display a loading indicator until categories are fetched
+            const TSearchBar(searchText: TTexts.search, padding: true),
+            const HomeBanner(),
+            const ScrollingBrandsImage(),
+            const ScrollingCategoriesImage(),
+            const Divider(),
+            const YouTuberBanner(title: 'YouTuber\'s who like our products'),
+            const Divider(),
 
-              // ProductsScrollingByCategory(title: 'Products under, "₹199"', parameter: '199', futureMethod: productController.getProductsUnderPrice),
-              // const SizedBox(height: TSizes.sm),
-              ScrollingProducts(title: 'Recently viewed', futureMethod: productController.getRecentProducts, orientation: OrientationType.horizontal),
-              const SizedBox(height: Sizes.sm),
-              ScrollingProducts(title: 'Top Selling',  futureMethod: productController.getAllProducts),
-              const SizedBox(height: Sizes.sm),
-              ScrollingProducts(title: 'Popular Products',  futureMethod: productController.getFeaturedProducts),
-              const SizedBox(height: Sizes.sm),
-              // ProductsScrollingByCategory(title: 'Mobile Repairing Tools', parameter: '617', futureMethod: productController.getProductsByCategoryId,),
-              // const SizedBox(height: TSizes.sm),
-              // ProductsScrollingByCategory(title: 'TV Repairing Tools', parameter: '662', futureMethod: productController.getProductsByCategoryId,),
-              // const SizedBox(height: TSizes.sm),
-              ProductsScrollingByCategory(title: 'Soldering Irons', parameter: '61', futureMethod: productController.getProductsByCategoryId,),
-              const SizedBox(height: Sizes.sm),
-              const ProductCarousalByCategory(),
-            ],
-          ),
+            // ProductsScrollingByCategory(title: 'Products under, "₹199"', parameter: '199', futureMethod: productController.getProductsUnderPrice),
+            // const SizedBox(height: TSizes.sm),
+            ScrollingProducts(title: 'Recently viewed', futureMethod: productController.getRecentProducts, orientation: OrientationType.horizontal),
+            const SizedBox(height: Sizes.sm),
+            ScrollingProducts(title: 'Top Selling',  futureMethod: productController.getAllProducts),
+            const SizedBox(height: Sizes.sm),
+            ScrollingProducts(title: 'Popular Products',  futureMethod: productController.getFeaturedProducts),
+            const SizedBox(height: Sizes.sm),
+            // ProductsScrollingByCategory(title: 'Mobile Repairing Tools', parameter: '617', futureMethod: productController.getProductsByCategoryId,),
+            // const SizedBox(height: TSizes.sm),
+            // ProductsScrollingByCategory(title: 'TV Repairing Tools', parameter: '662', futureMethod: productController.getProductsByCategoryId,),
+            // const SizedBox(height: TSizes.sm),
+            ProductsScrollingByItemID(itemName: 'Soldering Irons', itemID: '61', futureMethod: productController.getProductsByCategoryId,),
+            const SizedBox(height: Sizes.sm),
+            const ProductCarousalByCategory(),
+          ],
         ),
       ),
     );

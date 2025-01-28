@@ -10,10 +10,9 @@ import '../common/navigation_bar/bottom_navigation_bar.dart';
 import '../features/personalization/screens/user_menu/user_menu_screen.dart';
 import '../features/shop/controllers/product/product_controller.dart';
 import '../features/shop/screens/all_products/all_products.dart';
-import '../features/shop/screens/category/category_screen.dart';
 import '../features/shop/screens/favourite/favourite.dart';
 import '../features/shop/screens/orders/order.dart';
-import '../features/shop/screens/product_detail/product_detail.dart';
+import '../features/shop/screens/products/product_detail.dart';
 import '/routes/routes_name_path.dart';
 
 

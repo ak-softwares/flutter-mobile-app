@@ -1,3 +1,4 @@
+import 'package:aramarket/common/layout_models/product_grid_layout.dart';
 import 'package:aramarket/features/personalization/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,6 +28,7 @@ class OrderScreen extends StatelessWidget {
     final orderController = Get.put(OrderController());
     final ScrollController scrollController = ScrollController();
     final authenticationRepository = Get.put(AuthenticationRepository());
+    final double orderTileHeight = Sizes.orderTileHeight;
 
     orderController.refreshOrders();
 
@@ -62,11 +64,12 @@ class OrderScreen extends StatelessWidget {
         child: ListView(
             controller: scrollController,
             padding: TSpacingStyle.defaultPagePadding,
+            physics: const AlwaysScrollableScrollPhysics(),
             children: [
               const TSectionHeading(title: 'My Orders'),
               Obx(() {
                 if(orderController.isLoading.value){
-                  return const OrderShimmer();
+                  return const OrderShimmer(itemCount: 4);
                 }else if(orderController.orders.isEmpty) {
                   return TAnimationLoaderWidgets(
                     text: 'Whoops! Order is Empty...',
@@ -75,15 +78,13 @@ class OrderScreen extends StatelessWidget {
                     actionText: 'Let\'s add some',
                     onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
                   );
-                }else {
-                  return ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
+                } else {
+                  return GridLayout(
+                    mainAxisExtent: orderTileHeight,
                     itemCount: orderController.isLoadingMore.value ? orderController.orders.length + 1 : orderController.orders.length,
-                    separatorBuilder: (context, index) => const SizedBox(height: Sizes.defaultSpace),
                     itemBuilder: (context, index) {
                       if (index < orderController.orders.length) {
-                        return TOrderListItems(order: orderController.orders[index]);
+                        return SingleOrderTile(order: orderController.orders[index]);
                       } else {
                         return const OrderShimmer();
                         // return const Center(child: CircularProgressIndicator(),);

@@ -11,25 +11,25 @@ import '../../../../models/product_model.dart';
 import '../../../all_products/all_products.dart';
 import 'scrolling_products.dart';
 
-class ProductsScrollingByCategory extends StatefulWidget {
-  final String? title;
-  final dynamic parameter;
+class ProductsScrollingByItemID extends StatefulWidget {
+  final String? itemName;
+  final dynamic itemID;
   final Future<List<ProductModel>> Function(String, String) futureMethod;
   final OrientationType orientation;
 
-  const ProductsScrollingByCategory({
+  const ProductsScrollingByItemID({
     super.key,
-    this.title,
+    this.itemName,
     required this.futureMethod,
-    required this.parameter,
+    required this.itemID,
     this.orientation = OrientationType.vertical, // Default value
   });
 
   @override
-  _ProductsScrollingByCategoryState createState() => _ProductsScrollingByCategoryState();
+  _ProductsScrollingByItemIDState createState() => _ProductsScrollingByItemIDState();
 }
 
-class _ProductsScrollingByCategoryState extends State<ProductsScrollingByCategory> {
+class _ProductsScrollingByItemIDState extends State<ProductsScrollingByItemID> {
   late final ScrollController _scrollController;
   final RxInt _currentPage = 1.obs;
   final RxBool _isLoading = false.obs;
@@ -53,7 +53,7 @@ class _ProductsScrollingByCategoryState extends State<ProductsScrollingByCategor
 
   Future<void> _getAllProducts() async {
     try {
-      final List<ProductModel> newProducts = await widget.futureMethod(widget.parameter, _currentPage.toString());
+      final List<ProductModel> newProducts = await widget.futureMethod(widget.itemID, _currentPage.toString());
       _products.addAll(newProducts);
     } catch (e) {
       throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
@@ -101,7 +101,7 @@ class _ProductsScrollingByCategoryState extends State<ProductsScrollingByCategor
           children: [
             Padding(
               padding: const EdgeInsets.only(left: Sizes.spaceBtwItems),
-              child: widget.title != null ? const TSectionHeading(title: 'Products Loading..') : const SizedBox.shrink(),
+              child: widget.itemName != null ? const TSectionHeading(title: 'Products Loading..') : const SizedBox.shrink(),
             ),
             Padding(
                 padding: EdgeInsets.all(defaultSpaceBWTCard / 2),
@@ -119,14 +119,14 @@ class _ProductsScrollingByCategoryState extends State<ProductsScrollingByCategor
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.title != null
+            widget.itemName != null
               ? Padding(
                 padding: const EdgeInsets.only(left: Sizes.spaceBtwItems),
                 child: TSectionHeading(
-                    title: widget.title!,
+                    title: widget.itemName!,
                     seeActionButton: true,
                     verticalPadding: true,
-                    onPressed: () => Get.to(() => TAllProducts(title: widget.title ?? 'Products', categoryId: widget.parameter, futureMethodTwoString: widget.futureMethod)),
+                    onPressed: () => Get.to(() => TAllProducts(title: widget.itemName ?? 'Products', categoryId: widget.itemID, futureMethodTwoString: widget.futureMethod)),
                 ),
               )
               : const SizedBox.shrink(),

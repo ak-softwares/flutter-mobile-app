@@ -1,5 +1,5 @@
 import '../../../features/shop/screens/home_page_section/scrolling_products/widgets/scrolling_products.dart';
-import '../../../features/shop/screens/product_detail/products_widgets/product_star_rating.dart';
+import '../../../features/shop/screens/products/products_widgets/product_star_rating.dart';
 import '../../styles/shadows.dart';
 import '/common/widgets/shimmers/shimmer_effect.dart';
 import 'package:flutter/material.dart';

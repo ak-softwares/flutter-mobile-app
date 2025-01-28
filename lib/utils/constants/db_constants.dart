@@ -70,12 +70,19 @@ class ProductFieldName {
   static const String metaData = 'meta_data';
   static const String isCODBlocked = 'easyapp_cod_blocked';
 }
+
 class ProductBrandFieldName {
-  static const String id = 'id';
-  static const String name = 'name';
-  static const String slug = 'slug';
-  static const String imageUrl = 'image_url';
+  static const String id          = 'id';
+  static const String name        = 'name';
+  static const String slug        = 'slug';
+  static const String image       = 'image';
+  static const String parent      = 'parent';
+  static const String description = 'description';
+  static const String display     = 'display';
+  static const String menuOrder   = 'menu_order';
+  static const String count       = 'count';
 }
+
 class ReviewFieldName {
   static const String id = 'id';
   static const String dateCreated = 'date_created';

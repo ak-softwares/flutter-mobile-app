@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 
+import '../../../../../common/styles/shadows.dart';
 import '../../../../../common/styles/spacing_style.dart';
 import '../../../../../common/widgets/custom_shape/containers/rounded_container.dart';
 import '../../../../../utils/constants/colors.dart';
@@ -17,84 +18,71 @@ import 'order_image_gallery.dart';
 import 'repeat_order.dart';
 import 'track_now.dart';
 
-class TOrderListItems extends StatelessWidget {
-  const TOrderListItems({super.key, required this.order});
+class SingleOrderTile extends StatelessWidget {
+  const SingleOrderTile({super.key, required this.order});
 
   final OrderModel order;
 
   @override
   Widget build(BuildContext context) {
-    return TRoundedContainer(
-      showBorder: true,
-      padding: TSpacingStyle.defaultPagePadding,
-      borderColor: TColors.borderPrimary,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 30,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final double orderImageHeight = Sizes.orderImageHeight;
+    final double orderImageWidth = Sizes.orderImageWidth;
+    final double orderTileHeight = Sizes.orderTileHeight;
+    final double orderTileRadius = Sizes.orderTileRadius;
+
+    return InkWell(
+      onTap: () => Get.to(() => SingleOrderScreen(order: order)),
+      child: Container(
+        padding: TSpacingStyle.defaultPagePadding,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(orderTileRadius),
+          boxShadow: const [TShadowStyle.horizontalProductShadow],
+        ),
+        child: Stack(
+          children: [
+            Column(
+              spacing: Sizes.xs,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    const Icon(Iconsax.tag),
-                    Text('  #${order.id}', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.w500)),
-                    IconButton(
-                        icon: const Icon(Icons.copy, size: 20,),
-                        onPressed: () {
-                          Clipboard.setData(ClipboardData(text: order.id.toString()));
-                          // You might want to show a snackbar or toast to indicate successful copy
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Order Id copied')),
-                          );
-                        },
-                    )
-                  ],
+                OrderImageGallery(order: order, galleryImageHeight: 60),
+                Container(
+                  height: 1,
+                  color: TColors.borderSecondary,
                 ),
-                IconButton(
-                    onPressed: () => Get.to(() => SingleOrderScreen(order: order)),
-                    icon: const Icon(Iconsax.arrow_right_34, size: Sizes.iconSm,)
-                )
+                SizedBox(
+                  height: 30,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Text(' #${order.id}', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500)),
+                          IconButton(
+                            icon: const Icon(Icons.copy, size: 17,),
+                            onPressed: () {
+                              Clipboard.setData(ClipboardData(text: order.id.toString()));
+                              // You might want to show a snackbar or toast to indicate successful copy
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Order Id copied')),
+                              );
+                            },
+                          )
+                        ],
+                      ),
+                      TOrderHelper.checkOrderStatusForReturn(order.status ?? '')
+                          ? CancelOrderWidget(orderId: order.id.toString())
+                          : TOrderHelper.checkOrderStatusForInTransit(order.status ?? '')
+                            ? TrackOrderWidget(orderId: order.id.toString())
+                            : RepeatOrderWidget(cartItems: order.lineItems ?? []),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-          const Divider(color: TColors.borderSecondary),
-          Row(
-            children: [
-              Row(
-                children: [
-                  const Icon(Iconsax.calendar),
-                  const SizedBox(width: Sizes.spaceBtwItems),
-                  Text(
-                    'Order Date',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(width: Sizes.spaceBtwItems),
-                  Text(
-                    order.formattedOrderDate,//order.formattedOrderDate,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: Sizes.sm),
-          Row(
-            children: [
-              Text('Shipment status - ', style: Theme.of(context).textTheme.bodyMedium,),
-              const SizedBox(width: Sizes.sm),
-              TOrderHelper.mapOrderStatus(order.status ?? '')
-            ],
-          ),
-          OrderImageGallery(order: order, galleryImageHeight: 60),
-          const Divider(color: TColors.borderSecondary),
-          TOrderHelper.checkOrderStatusForReturn(order.status ?? '')
-          ? CancelOrderWidget(orderId: order.id.toString())
-          : TOrderHelper.checkOrderStatusForInTransit(order.status ?? '')
-              ? TrackOrderWidget(orderId: order.id.toString())
-              : RepeatOrderWidget(cartItems: order.lineItems ?? []),
-        ],
+            Positioned(top: 0, right: 0, child: TOrderHelper.mapOrderStatus(order.status ?? '')),
+          ],
+        ),
       ),
     );
   }

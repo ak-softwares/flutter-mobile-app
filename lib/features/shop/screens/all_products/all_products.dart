@@ -76,6 +76,7 @@ class TAllProducts extends StatelessWidget {
           child: ListView(
             controller: scrollController,
             padding: TSpacingStyle.defaultPagePadding,
+            physics: const AlwaysScrollableScrollPhysics(),
             children: [
               DropdownButtonFormField(
                 decoration: const InputDecoration(prefixIcon: Icon(Iconsax.sort)),

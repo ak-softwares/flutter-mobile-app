@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 import '../../../../../common/widgets/custom_shape/image/circular_image.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../models/cart_item_model.dart';
 import '../../../models/order_model.dart';
-import '../../product_detail/product_detail.dart';
+
 class OrderImageGallery extends StatelessWidget {
   const OrderImageGallery({
     super.key,
@@ -36,24 +34,24 @@ class OrderImageGallery extends StatelessWidget {
                   backgroundColor: Colors.white,
                   padding: Sizes.sm / 2,
                   isNetworkImage: true,
-                  onTap: () => Get.to(() => ProductDetailScreen(productId: cartItems[index].productId.toString())),
+                  // onTap: () => Get.to(() => ProductDetailScreen(productId: cartItems[index].productId.toString())),
                   image: cartItems[index].image ?? '',
               )
           ),
-          cartItems.length >= 5
-            ? Positioned(
-                left: 0,
-                height: galleryImageHeight,
-                child: Icon(Iconsax.arrow_left_2, color: Colors.grey[400], size: 20)
-              )
-            : const SizedBox.shrink(),
-          cartItems.length >= 5
-            ? Positioned(
-                right: 0,
-                height: galleryImageHeight,
-                child: Icon(Iconsax.arrow_right_34, color: Colors.grey[400], size: 20)
-              )
-            : const SizedBox.shrink(),
+          // cartItems.length >= 5
+          //   ? Positioned(
+          //       left: 0,
+          //       height: galleryImageHeight,
+          //       child: Icon(Iconsax.arrow_left_2, color: Colors.grey[400], size: 20)
+          //     )
+          //   : const SizedBox.shrink(),
+          // cartItems.length >= 5
+          //   ? Positioned(
+          //       right: 0,
+          //       height: galleryImageHeight,
+          //       child: Icon(Iconsax.arrow_right_34, color: Colors.grey[400], size: 20)
+          //     )
+          //   : const SizedBox.shrink(),
         ],
       ),
     );

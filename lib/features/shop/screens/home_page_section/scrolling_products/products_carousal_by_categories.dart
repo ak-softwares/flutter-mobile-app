@@ -49,9 +49,9 @@ class ProductCarousalByCategory extends StatelessWidget {
                       onPressed: () => Get.to(() => TAllProducts(title: category.name ?? '', categoryId: category.id, futureMethodTwoString: productController.getProductsByCategoryId)),
                     ),
                   ),
-                  ProductsScrollingByCategory(
+                  ProductsScrollingByItemID(
                     futureMethod: productController.getProductsByCategoryId,
-                    parameter: category.id.toString(),
+                    itemID: category.id.toString(),
                   ),
                 ],
               );

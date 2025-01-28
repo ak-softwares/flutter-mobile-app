@@ -65,9 +65,13 @@ class FavouriteScreen extends StatelessWidget {
               child: ListView(
                 controller: scrollController,
                 padding: TSpacingStyle.defaultPagePadding,
+                physics: const AlwaysScrollableScrollPhysics(),
                 children: [
                   const TSectionHeading(title: 'Favourite Products'),
-                  ProductGridLayout(controller: favoriteController, emptyWidget: emptyWidget),
+                  ProductGridLayout(
+                    controller: favoriteController,
+                    emptyWidget: emptyWidget,
+                  ),
                 ],
               ),
             )

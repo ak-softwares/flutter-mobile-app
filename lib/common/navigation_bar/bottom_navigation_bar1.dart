@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../features/personalization/screens/user_menu/user_menu_screen.dart';
 import '../../features/shop/screens/cart/cart.dart';
-import '../../features/shop/screens/category/category_screen.dart';
+import '../../features/shop/screens/category/all_category_screen.dart';
 import '../../features/shop/screens/home/home.dart';
 import '../../services/firebase_analytics/firebase_analytics.dart';
 import '../../utils/constants/icons.dart';

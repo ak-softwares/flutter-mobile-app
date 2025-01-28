@@ -61,6 +61,7 @@ class ProductReviewScreen extends StatelessWidget {
         child: ListView(
           controller: scrollController,
           padding: TSpacingStyle.defaultPagePadding,
+          physics: const AlwaysScrollableScrollPhysics(),
           children: [
             //Section 1
             const SizedBox(height: Sizes.lg),

@@ -24,7 +24,7 @@ class ProductController extends GetxController {
   final recentlyViewedController = Get.put(RecentlyViewedController());
 
 
-  //Get All products
+  // Get All products
   Future<List<ProductModel>> getAllProducts(String page) async {
     try{
       //fetch products
@@ -36,7 +36,7 @@ class ProductController extends GetxController {
     }
   }
 
-  //Get All Featured products
+  // Get All Featured products
   Future<List<ProductModel>> getFeaturedProducts(String page) async {
     try{
       //fetch products
@@ -48,7 +48,7 @@ class ProductController extends GetxController {
     }
   }
 
-  //Get Products under ₹199
+  // Get Products under ₹199
   Future<List<ProductModel>> getProductsUnderPrice( String price, String page) async {
     try{
       //fetch products
@@ -61,6 +61,7 @@ class ProductController extends GetxController {
     }
   }
 
+  // Get recent products
   Future<List<ProductModel>> getRecentProducts(String page) async {
     try{
       //fetch products
@@ -76,11 +77,11 @@ class ProductController extends GetxController {
     }
   }
 
-  //Get products by category id
+  // Get products by category id
   Future<List<ProductModel>> getProductsByCategoryId(String categoryId, String page) async {
     try{
       //fetch products
-      final products = await wooProductRepository.fetchProductsByCategory(categoryId: categoryId, page: page);
+      final products = await wooProductRepository.fetchProductsByCategoryID(categoryId: categoryId, page: page);
       return products;
     } catch (e){
       TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
@@ -88,12 +89,24 @@ class ProductController extends GetxController {
     }
   }
 
-  //Get products by category id
+  // Get products by category id
+  Future<List<ProductModel>> getProductsByBrandId(String brandID, String page) async {
+    try{
+      //fetch products
+      final products = await wooProductRepository.fetchProductsByBrandID(brandID: brandID, page: page);
+      return products;
+    } catch (e){
+      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      return [];
+    }
+  }
+
+  // Get products by category slug
   Future<List<ProductModel>> getProductsByCategorySlug(String slug, String page) async {
     try{
       //fetch products
       final CategoryModel category = await wooCategoryRepository.fetchCategoryBySlug(slug);
-      final products = await wooProductRepository.fetchProductsByCategory(categoryId: category.id ?? '', page: page);
+      final products = await wooProductRepository.fetchProductsByCategoryID(categoryId: category.id ?? '', page: page);
       return products;
     } catch (e){
       TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
@@ -101,7 +114,7 @@ class ProductController extends GetxController {
     }
   }
 
-  //Get products by products ids
+  // Get products by products ids
   Future<List<ProductModel>> getProductsByIds(String productIds, String page) async {
     try{
       //fetch products
@@ -137,42 +150,7 @@ class ProductController extends GetxController {
     }
   }
 
-  //
-  // Future<void> fetchProduct({ProductModel? product, String? slug, String? productId}) async {
-  //   try {
-  //     // this.product.value = ProductModel.empty();
-  //     isLoading(true); // Set loading state to true
-  //     if (product != null) {
-  //       // If product is provided, set it directly
-  //       this.product.value = product;
-  //     } else if (slug != null) {
-  //       final fetchedProduct = await getProductBySlug(slug);
-  //       this.product.value = fetchedProduct;
-  //     } else if (productId != null) {
-  //       final fetchedProduct = await getProductById(productId);
-  //       this.product.value = fetchedProduct;
-  //     } else {
-  //       throw Exception('Either product or productId must be provided.');
-  //     }
-  //   } catch (e) {
-  //     rethrow;
-  //   } finally {
-  //     isLoading(false); // Set loading state to false
-  //   }
-  // }
-  //
-  // //Get products by Refresh page
-  // Future<void> refreshProduct() async{
-  //   final productId = product.value.id;
-  //   try {
-  //     product.value = ProductModel.empty();
-  //     await fetchProduct(productId: productId.toString());
-  //   } catch (error) {
-  //     TLoaders.warningSnackBar(title: 'Error', message: error.toString());
-  //   }
-  // }
-
-  //Get Products By Search Query
+  // Get Products By Search Query
   Future<List<ProductModel>> getProductsBySearchQuery(String searchQuery) async {
     try{
       //fetch products
@@ -181,19 +159,6 @@ class ProductController extends GetxController {
     } catch (e){
       TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return [];
-    }
-  }
-
-  //Get Limited featured products
-  void fetchFeaturedProducts() async {
-    try{
-      //fetch products
-      final products = await productRepository.getFeaturedProducts();
-      //assign Products
-      featuredProducts.assignAll(products);
-
-    } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
     }
   }
 

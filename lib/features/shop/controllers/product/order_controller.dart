@@ -131,9 +131,9 @@ class OrderController extends GetxController {
         couponLines: [checkoutController.coupon.value],
         metaData: [
           OrderMedaDataModel(key: "_wc_order_attribution_source_type", value: "organic"), //referral, organic, Unknown, utm, Web Admin, typein (Direct)
-          OrderMedaDataModel(key: "_wc_order_attribution_utm_source", value: "Android App v$appVersion")
+          OrderMedaDataModel(key: "_wc_order_attribution_utm_source", value: "Android App v$appVersion"),
           // OrderMedaDataModel(key: "_wc_order_attribution_referrer", value: "https://www.google.com/"), //this only use for referral
-          // OrderMedaDataModel(key: "_wc_order_attribution_utm_medium", value: "organic"),
+          OrderMedaDataModel(key: "_wc_order_attribution_utm_medium", value: "search"),
           // OrderMedaDataModel(key: "_wc_order_attribution_utm_medium", value: "organic"),
         ],
       );

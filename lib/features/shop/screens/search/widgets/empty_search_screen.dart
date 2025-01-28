@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../../utils/constants/sizes.dart';
 import '../../../controllers/product/product_controller.dart';
-import '../../category/widgets/scrolling_category_name.dart';
+import '../../category/scrolling_category_name.dart';
 class EmptySearchScreen extends StatelessWidget {
   const EmptySearchScreen({super.key});
 
