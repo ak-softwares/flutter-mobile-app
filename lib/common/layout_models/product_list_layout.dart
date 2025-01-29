@@ -7,7 +7,7 @@ import 'package:iconsax/iconsax.dart';
 
 import '../../features/shop/models/product_model.dart';
 import '../../features/shop/screens/all_products/all_products.dart';
-import '../../features/shop/screens/home_page_section/scrolling_products/widgets/scrolling_products.dart';
+import '../../features/shop/screens/products/scrolling_products.dart';
 import '../../utils/constants/image_strings.dart';
 import '../../utils/constants/sizes.dart';
 import '../text/section_heading.dart';

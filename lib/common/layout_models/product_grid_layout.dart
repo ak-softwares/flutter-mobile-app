@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
-import '../../features/shop/screens/home_page_section/scrolling_products/widgets/scrolling_products.dart';
+import '../../features/shop/screens/products/scrolling_products.dart';
 import '../../utils/constants/image_strings.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/navigation_helper.dart';
@@ -13,11 +13,13 @@ class ProductGridLayout extends StatelessWidget {
   const ProductGridLayout({
     super.key,
     required this.controller,
+    required this.sourcePage,
     this.orientation = OrientationType.vertical,
     this.emptyWidget = const TAnimationLoaderWidgets(text: 'Whoops! No products found...', animation: Images.pencilAnimation),
   });
 
   final dynamic controller;
+  final String sourcePage;
   final OrientationType orientation;
   final Widget emptyWidget;
 
@@ -40,7 +42,7 @@ class ProductGridLayout extends StatelessWidget {
           mainAxisExtent: orientation == OrientationType.vertical ? Sizes.productCardVerticalHeight : Sizes.productCardHorizontalHeight,
           itemBuilder: (context, index) {
             if (index < products.length) {
-              return ProductCard(product: products[index], orientation: orientation,);
+              return ProductCard(product: products[index], orientation: orientation, pageSource: sourcePage);
             } else {
               return ProductShimmer(
                 itemCount: 1,

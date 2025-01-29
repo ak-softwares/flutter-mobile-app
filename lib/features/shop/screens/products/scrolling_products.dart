@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../../common/layout_models/product_list_layout.dart';
-import '../../../../../../common/text/section_heading.dart';
-import '../../../../../../common/widgets/loaders/loader.dart';
-import '../../../../../../common/widgets/product/product_cards/product_card.dart';
-import '../../../../../../common/widgets/shimmers/product_shimmer.dart';
-import '../../../../../../utils/constants/api_constants.dart';
-import '../../../../../../utils/constants/sizes.dart';
-import '../../../../models/product_model.dart';
-import '../../../all_products/all_products.dart';
+import '../../../../common/layout_models/product_list_layout.dart';
+import '../../../../common/text/section_heading.dart';
+import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/widgets/product/product_cards/product_card.dart';
+import '../../../../common/widgets/shimmers/product_shimmer.dart';
+import '../../../../utils/constants/api_constants.dart';
+import '../../../../utils/constants/sizes.dart';
+import '../../models/product_model.dart';
+import '../all_products/all_products.dart';
 
 enum OrientationType { horizontal, vertical }
 
@@ -136,7 +136,7 @@ class _ScrollingProductsState extends State<ScrollingProducts> {
                 if (index < products.length) {
                   return Padding(
                     padding: EdgeInsets.all(Sizes.defaultSpaceBWTCard / 2),
-                    child: ProductCard(product: products[index], orientation: widget.orientation),
+                    child: ProductCard(product: products[index], orientation: widget.orientation, pageSource: widget.title,),
                   );
                 } else {
                   return Padding(

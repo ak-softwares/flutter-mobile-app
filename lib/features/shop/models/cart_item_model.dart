@@ -16,6 +16,7 @@ class CartItemModel {
   String? image;
   String? parentName;
   bool? isCODBlocked;
+  String? pageSource;
 
   //constructor
   CartItemModel({
@@ -34,6 +35,7 @@ class CartItemModel {
     this.image,
     this.parentName,
     this.isCODBlocked,
+    this.pageSource
   });
 
   // Empty cart
@@ -57,6 +59,7 @@ class CartItemModel {
       CartFieldName.image: image,
       CartFieldName.parentName: parentName,
       CartFieldName.isCODBlocked: isCODBlocked,
+      CartFieldName.pageSource: pageSource,
     };
   }
 
@@ -111,6 +114,7 @@ class CartItemModel {
       image: json[CartFieldName.image],
       parentName: json[CartFieldName.parentName] ?? '',
       isCODBlocked: json[CartFieldName.isCODBlocked] ?? false,
+      pageSource: json[CartFieldName.pageSource] ?? '',
     );
   }
 

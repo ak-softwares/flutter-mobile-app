@@ -4,7 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../features/shop/models/product_model.dart';
-import '../../../../features/shop/screens/home_page_section/scrolling_products/widgets/scrolling_products.dart';
+import '../../../../features/shop/screens/products/scrolling_products.dart';
 import '../../../../features/shop/screens/products/product_detail.dart';
 import '../../../../features/shop/screens/products/products_widgets/product_price.dart';
 import '../../../../features/shop/screens/products/products_widgets/product_star_rating.dart';
@@ -18,9 +18,10 @@ import '../cart/cart_card_icon.dart';
 import '../favourite_icon/favourite_icon.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key, required this.product, this.orientation = OrientationType.vertical});
+  const ProductCard({super.key, required this.product, this.pageSource = 'pc', this.orientation = OrientationType.vertical});
 
   final ProductModel product;
+  final String pageSource;
   final OrientationType orientation;
 
 
@@ -28,7 +29,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductDetailScreen(product: product))),
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductDetailScreen(product: product, pageSource: pageSource,))),
       // onTap: () => Get.to(ProductDetailScreen(product: product)),
       child: orientation == OrientationType.vertical
         ? productCardVertical()
@@ -178,7 +179,7 @@ class ProductCard extends StatelessWidget {
                   child: SizedBox(
                       width: Sizes.iconLg * 1.2,
                       height: Sizes.iconLg * 1.2,
-                      child: Center(child: TCartIcon(product: product))
+                      child: Center(child: CartIcon(product: product, sourcePage: pageSource))
                   ),
               )
             ],
@@ -277,7 +278,7 @@ class ProductCard extends StatelessWidget {
                         child: SizedBox(
                             width: Sizes.iconLg,
                             height: Sizes.iconLg,
-                            child: Center(child: TCartIcon(product: product))
+                            child: Center(child: CartIcon(product: product, sourcePage: pageSource,))
                         ),
                       )
                     ],

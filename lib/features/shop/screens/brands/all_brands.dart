@@ -12,7 +12,7 @@ import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../controllers/brand_controller/brand_controller.dart';
 import '../../controllers/product/product_controller.dart';
-import '../home_page_section/scrolling_products/widgets/scrolling_products.dart';
+import '../products/scrolling_products.dart';
 import 'brand_tap_bar.dart';
 import 'widgets/single_brand_tile.dart';
 

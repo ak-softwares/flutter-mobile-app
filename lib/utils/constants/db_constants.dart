@@ -278,7 +278,7 @@ class CartFieldName {
   static const String src = 'src';
   static const String parentName = 'parent_name';
   static const String isCODBlocked = 'easyapp_cod_blocked';
-
+  static const String pageSource = 'page_source';
 }
 
 class StoragePath{

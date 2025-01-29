@@ -7,9 +7,10 @@ import '../../../models/product_model.dart';
 import '../../checkout/checkout.dart';
 
 class TBottomAddToCart1 extends StatelessWidget {
-  const TBottomAddToCart1({super.key, this.quantity = 1, required this.product});
+  const TBottomAddToCart1({super.key, this.quantity = 1, this.pageSource = '', required this.product});
 
   final int quantity;
+  final String pageSource;
   final ProductModel product;
 
   @override
@@ -23,7 +24,7 @@ class TBottomAddToCart1 extends StatelessWidget {
         children: [
           Expanded(
             child: OutlinedButton(
-              onPressed: () => cartController.addToCart(product: product, quantity: quantity),
+              onPressed: () => cartController.addToCart(product: product, quantity: quantity, pageSource: pageSource),
               child: const Text('ADD TO CART'),
             ),
           ),
@@ -33,7 +34,7 @@ class TBottomAddToCart1 extends StatelessWidget {
               onPressed: (){
                 // Usage example
                 try {
-                  onPressed: () => cartController.addToCart(product: product, quantity: quantity);
+                  onPressed: () => cartController.addToCart(product: product, quantity: quantity, pageSource: pageSource);
                   Get.to(() => const CheckoutScreen());
                 } catch (e) {
                   null;

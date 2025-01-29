@@ -71,6 +71,7 @@ class FavouriteScreen extends StatelessWidget {
                   ProductGridLayout(
                     controller: favoriteController,
                     emptyWidget: emptyWidget,
+                    sourcePage: 'wishlist',
                   ),
                 ],
               ),

@@ -8,7 +8,7 @@ import '../../../../utils/constants/icons.dart';
 import '../../controllers/category_controller/category_controller.dart';
 import '../../controllers/product/product_controller.dart';
 import '../search/search.dart';
-import 'widgets/tabview_products.dart';
+import '../products/tabview_products.dart';
 
 class CategoryTapBarScreen extends StatelessWidget {
   const CategoryTapBarScreen({super.key, this.categoryId = '0'});

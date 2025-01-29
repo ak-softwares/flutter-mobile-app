@@ -9,9 +9,10 @@ import '../../../../utils/constants/local_storage_constants.dart';
 import '../../models/cart_item_model.dart';
 import '../../models/product_model.dart';
 import '../../screens/cart/cart.dart';
+import '../order/order_controller.dart';
 import '../product/product_controller.dart';
 
-class CartController extends GetxController{
+class CartController extends GetxController {
   static CartController get instance => Get.find();
 
   // Variables
@@ -32,7 +33,7 @@ class CartController extends GetxController{
   }
 
   // Add to cart
-  void addToCart({required ProductModel product, required int quantity}) {
+  void addToCart({required ProductModel product, required int quantity, String pageSource = 'atc'}) {
     try {
       // Quantity Check
       if (quantity < 1) {
@@ -43,7 +44,7 @@ class CartController extends GetxController{
         throw 'Selected product is out of stock';
       }
       // Convert the productModel to a cartItemModel with the give quantity
-      final selectedCartItem = convertToCartItem(product, quantity);
+      final selectedCartItem = convertProductToCart(product: product, quantity: quantity, pageSource: pageSource);
 
       //check if item already in cart or not
       int index = cartItems.indexWhere((cartItem) => cartItem.productId == selectedCartItem.productId);
@@ -57,7 +58,6 @@ class CartController extends GetxController{
 
       // Log the add to cart event
       FBAnalytics.logAddToCart(cartItem: selectedCartItem);
-
       //update cart and show success message
       updateCart();
       TLoaders.customToast(message: 'Product added ${selectedCartItem.quantity} product to Cart.');
@@ -68,13 +68,12 @@ class CartController extends GetxController{
   }
 
   // Toggle Cart item
-  void toggleCartProduct(ProductModel product) {
-    // Convert the productModel to a cartItemModel with the give quantity
-    final convertedCartItem = convertToCartItem(product, 1);
-
+  void toggleCartProduct({required ProductModel product, required String sourcePage}) {
     if(!isInCart(product.id)) {
-      addToCart(product: product, quantity: 1);
+      addToCart(product: product, quantity: 1, pageSource: sourcePage);
     } else {
+      // Convert the productModel to a cartItemModel with the give quantity
+      final convertedCartItem = convertProductToCart(product: product, quantity: 1);
       removeFromCart(item: convertedCartItem);
       TLoaders.customToast(message: 'Product removed from the Cart.');
     }
@@ -134,34 +133,14 @@ class CartController extends GetxController{
     updateCart();
   }
 
-  // This function converts a productModel to a cartItemModel
-  CartItemModel convertToCartItem(ProductModel product, int quantity) {
-    return CartItemModel(
-      id: 1,
-      name: product.name,
-      productId: product.id,
-      variationId: 0,
-      quantity: quantity,
-      category: product.categories?[0].name,
-      subtotal: (quantity * product.getPrice()).toStringAsFixed(0),
-      subtotalTax: '0',
-      totalTax: '0',
-      sku: product.sku,
-      price: product.getPrice().toInt(),
-      image: product.mainImage,
-      parentName: '0',
-      isCODBlocked: product.isCODBlocked,
-    );
-  }
-
-  //update cart
+  // Update cart
   void updateCart() {
     updateCartTotal();
     saveCartItems();
     cartItems.refresh();
   }
 
-  //update cart total
+  // Update cart total
   void updateCartTotal(){
     double calculateTotalPrice = 0.0;
     int calculatedNoOfItems = 0;
@@ -174,20 +153,41 @@ class CartController extends GetxController{
     noOfCartItems.value = calculatedNoOfItems;
   }
 
-  //save cart data to local storage
+  // Get cart quantity for a given product
+  int getCartQuantity(int productId) {
+    // Find the product in the cart items and calculate the total quantity
+    final cartQuantity = cartItems
+        .where((item) => item.productId == productId)
+        .fold(0, (previousValue, element) => previousValue + element.quantity);
+
+    // If no item is found, return 1, otherwise return the calculated quantity
+    return cartQuantity <= 0 ? 1 : cartQuantity;
+  }
+
+  // Clear cart
+  void clearCart(){
+    productQuantityInCart.value = 0;
+    cartItems.clear();
+    updateCart();
+  }
+
+  // Check product is in cart
+  bool isInCart(int productId) {
+    int index = cartItems.indexWhere((cartItem) => cartItem.productId == productId);
+    if(index >= 0){
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  // Save cart data to local storage
   Future<void> saveCartItems() async {
     final cartItemsStrings = cartItems.map((item) => item.toJson()).toList();
     localStorage.write(LocalStorage.cartItems, cartItemsStrings);
-
-    // final List<String> productIds = cartItems.map((item) => item.productId.toString()).toList();
-    // if(!compareLists(productIds, productIdsForCloud)) {
-    //   productIdsForCloud = List.from(productIds);
-    //   // productIdsForCloud.addAll(List<String>.from(productIds));
-    //   await userRepository.updateMetaData(UserFieldName.cartItems, productIds); //save data in Cloud Storage
-    // }
   }
 
-  //load cart items from local storage
+  // Load cart items from local storage
   Future<void> loadCartItems() async {
     final List<dynamic>? cartItemStrings = localStorage.read(LocalStorage.cartItems);
     if (cartItemStrings != null) {
@@ -203,34 +203,28 @@ class CartController extends GetxController{
     }
   }
 
-  // Get cart quantity for a given product
-  int getCartQuantity(int productId) {
-    // Find the product in the cart items and calculate the total quantity
-    final cartQuantity = cartItems
-        .where((item) => item.productId == productId)
-        .fold(0, (previousValue, element) => previousValue + element.quantity);
-
-    // If no item is found, return 1, otherwise return the calculated quantity
-    return cartQuantity <= 0 ? 1 : cartQuantity;
+  // This function converts a productModel to a cartItemModel
+  CartItemModel convertProductToCart({required ProductModel product, required int quantity, String pageSource = 'cpc'}) {
+    return CartItemModel(
+      id: 1,
+      name: product.name,
+      productId: product.id,
+      variationId: 0,
+      quantity: quantity,
+      category: product.categories?[0].name,
+      subtotal: (quantity * product.getPrice()).toStringAsFixed(0),
+      subtotalTax: '0',
+      totalTax: '0',
+      sku: product.sku,
+      price: product.getPrice().toInt(),
+      image: product.mainImage,
+      parentName: '0',
+      isCODBlocked: product.isCODBlocked,
+      pageSource: pageSource,
+    );
   }
 
-  //clear cart
-  void clearCart(){
-    productQuantityInCart.value = 0;
-    cartItems.clear();
-    updateCart();
-  }
-
-  // check product is in cart
-  bool isInCart(int productId) {
-    int index = cartItems.indexWhere((cartItem) => cartItem.productId == productId);
-    if(index >= 0){
-      return true;
-    } else{
-      return false;
-    }
-  }
-
+  // Repeat order
   Future<void> repeatOrder(List<CartItemModel> selectedCartItems) async {
     try{
       isLoading.value = true; // Show loader
@@ -244,7 +238,7 @@ class CartController extends GetxController{
         );
         // Add to cart
         isLoading.value = false; // Show loader
-        addToCart(product: product, quantity: cartItem.quantity);
+        addToCart(product: product, quantity: cartItem.quantity, pageSource: 'repeat_order');
       }
       // cartItems.addAll(selectedCartItems);
       Get.to(() => const CartScreen());

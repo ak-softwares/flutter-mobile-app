@@ -91,7 +91,7 @@ class StoreScreen extends StatelessWidget {
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
                       const SizedBox(height: Sizes.spaceBtwItems,),
-                      GridLayout(mainAxisExtent: 290,itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index]))
+                      GridLayout(mainAxisExtent: 290,itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index], pageSource: '',))
                     ],
                   ),
                 ),
@@ -104,7 +104,7 @@ class StoreScreen extends StatelessWidget {
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
                       const SizedBox(height: Sizes.spaceBtwItems,),
-                      GridLayout(mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index]))
+                      GridLayout(mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index], pageSource: '',))
                     ],
                   ),
                 ),
@@ -117,7 +117,7 @@ class StoreScreen extends StatelessWidget {
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
                       const SizedBox(height: Sizes.spaceBtwItems,),
-                      GridLayout(mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index]))
+                      GridLayout(mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index], pageSource: '',))
                     ],
                   ),
                 ),
@@ -130,7 +130,7 @@ class StoreScreen extends StatelessWidget {
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
                       const SizedBox(height: Sizes.spaceBtwItems,),
-                      GridLayout( mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index]))
+                      GridLayout( mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index], pageSource: '',))
                     ],
                   ),
                 ),
@@ -143,7 +143,7 @@ class StoreScreen extends StatelessWidget {
                       ///-Products
                       const TSectionHeading(title: 'You might like'),
                       const SizedBox(height: Sizes.spaceBtwItems,),
-                      GridLayout(mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index]))
+                      GridLayout(mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index], pageSource: '',))
                     ],
                   ),
                 ),

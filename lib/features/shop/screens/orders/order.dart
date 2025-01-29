@@ -16,7 +16,7 @@ import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
 import '../../../authentication/screens/check_login_screen/check_login_screen.dart';
 import '../../../personalization/controllers/address_controller.dart';
-import '../../controllers/product/order_controller.dart';
+import '../../controllers/order/order_controller.dart';
 import 'widgets/order_list_items.dart';
 
 class OrderScreen extends StatelessWidget {

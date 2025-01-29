@@ -20,11 +20,11 @@ import '../../../../utils/constants/sizes.dart';
 import '../../../settings/app_settings.dart';
 import '../../controllers/cart_controller/cart_controller.dart';
 import '../../controllers/product/product_controller.dart';
-import '../../controllers/recently_viewed_controller/recently_viewed_controller.dart';
+import '../../controllers/recently_viewed/recently_viewed_controller.dart';
 import '../../models/product_model.dart';
 import '../all_products/all_products.dart';
-import '../home_page_section/scrolling_products/widgets/products_scrolling_by_category.dart';
-import '../home_page_section/scrolling_products/widgets/scrolling_products.dart';
+import 'scrolling_products_by_item_id.dart';
+import 'scrolling_products.dart';
 import '../review/product_review.dart';
 import 'products_widgets/bottom_add_to_cart.dart';
 import 'products_widgets/in_stock_label.dart';
@@ -115,7 +115,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
 
     return Scaffold(
       appBar: TAppBar2(titleText: widget.product?.name ?? 'Product Details', showCartIcon: true),
-      bottomNavigationBar: Obx(() => TBottomAddToCart(product: _product.value, quantity: quantityInCart.value)),
+      bottomNavigationBar: Obx(() => TBottomAddToCart(product: _product.value, quantity: quantityInCart.value, pageSource: 'product_detail1',)),
       body: RefreshIndicator(
         color: TColors.refreshIndicator,
         onRefresh: () async => _refreshProduct(),

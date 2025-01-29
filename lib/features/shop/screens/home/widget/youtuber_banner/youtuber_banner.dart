@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../common/text/section_heading.dart';
-import '../../../../../utils/constants/sizes.dart';
+import '../../../../../../common/text/section_heading.dart';
+import '../../../../../../utils/constants/sizes.dart';
 import 'widgets/youtuber_single_banner.dart';
 
 class YouTuberBanner extends StatelessWidget {

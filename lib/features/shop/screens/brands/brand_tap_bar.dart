@@ -8,7 +8,7 @@ import '../../../../utils/constants/icons.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../controllers/brand_controller/brand_controller.dart';
 import '../../controllers/product/product_controller.dart';
-import '../category/widgets/tabview_products.dart';
+import '../products/tabview_products.dart';
 import '../search/search.dart';
 import 'widgets/single_brand_tile.dart';
 

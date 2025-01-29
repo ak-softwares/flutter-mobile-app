@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../../common/layout_models/product_list_layout.dart';
-import '../../../../../../common/text/section_heading.dart';
-import '../../../../../../common/widgets/loaders/loader.dart';
-import '../../../../../../common/widgets/product/product_cards/product_card.dart';
-import '../../../../../../common/widgets/shimmers/product_shimmer.dart';
-import '../../../../../../utils/constants/api_constants.dart';
-import '../../../../../../utils/constants/sizes.dart';
-import '../../../../models/product_model.dart';
-import '../../../all_products/all_products.dart';
+import '../../../../common/layout_models/product_list_layout.dart';
+import '../../../../common/text/section_heading.dart';
+import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/widgets/product/product_cards/product_card.dart';
+import '../../../../common/widgets/shimmers/product_shimmer.dart';
+import '../../../../utils/constants/api_constants.dart';
+import '../../../../utils/constants/sizes.dart';
+import '../../models/product_model.dart';
+import '../all_products/all_products.dart';
 import 'scrolling_products.dart';
 
 class ProductsScrollingByItemID extends StatefulWidget {
-  final String? itemName;
-  final dynamic itemID;
-  final Future<List<ProductModel>> Function(String, String) futureMethod;
-  final OrientationType orientation;
-
   const ProductsScrollingByItemID({
     super.key,
     this.itemName,
@@ -24,6 +19,11 @@ class ProductsScrollingByItemID extends StatefulWidget {
     required this.itemID,
     this.orientation = OrientationType.vertical, // Default value
   });
+
+  final String? itemName;
+  final String itemID;
+  final OrientationType orientation;
+  final Future<List<ProductModel>> Function(String, String) futureMethod;
 
   @override
   _ProductsScrollingByItemIDState createState() => _ProductsScrollingByItemIDState();
@@ -140,7 +140,7 @@ class _ProductsScrollingByItemIDState extends State<ProductsScrollingByItemID> {
                 if (index < _products.length) {
                   return Padding(
                     padding: EdgeInsets.all(defaultSpaceBWTCard / 2),
-                    child: ProductCard(product: _products[index], orientation: widget.orientation),
+                    child: ProductCard(product: _products[index], orientation: widget.orientation, pageSource: 'PSC_${widget.itemName}'),
                   );
                 } else {
                   return Padding(

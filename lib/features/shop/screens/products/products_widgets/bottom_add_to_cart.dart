@@ -9,9 +9,10 @@ import '../../../models/product_model.dart';
 import '../../checkout/checkout.dart';
 
 class TBottomAddToCart extends StatelessWidget {
-  const TBottomAddToCart({super.key, this.quantity = 1, required this.product});
+  const TBottomAddToCart({super.key, this.quantity = 1, this.pageSource = 'atcb', required this.product});
 
   final int quantity;
+  final String pageSource;
   final ProductModel product;
 
   @override
@@ -43,7 +44,7 @@ class TBottomAddToCart extends StatelessWidget {
           Expanded(
             flex: 50,
             child: ElevatedButton(
-              onPressed: () => cartController.addToCart(product: product, quantity: quantityInCart.value),
+              onPressed: () => cartController.addToCart(product: product, quantity: quantityInCart.value, pageSource: pageSource),
               child: const Text('ADD TO CART'),
             ),
           ),

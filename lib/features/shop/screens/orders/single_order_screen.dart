@@ -63,7 +63,7 @@ class SingleOrderScreen extends StatelessWidget {
                     itemCount: order.lineItems!.length,
                     itemBuilder: (_, index) => Stack(
                         children:[
-                          TProductCardForCart(cartItem: order.lineItems![index]),
+                          ProductCardForCart(cartItem: order.lineItems![index]),
                         ]
                     ),
                   ),

@@ -5,7 +5,7 @@ import '../../../../../common/dialog_box/dialog_massage.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../controllers/cart_controller/cart_controller.dart';
-import '../../../controllers/product/order_controller.dart';
+import '../../../controllers/order/order_controller.dart';
 
 class CancelOrderWidget extends StatelessWidget {
   const CancelOrderWidget({

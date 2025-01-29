@@ -14,14 +14,14 @@ import '../../controllers/brand_controller/brand_controller.dart';
 import '../../controllers/category_controller/category_controller.dart';
 import '../../controllers/home/home_controller.dart';
 import '../../controllers/product/product_controller.dart';
-import '../home_page_section/banner/banner_layout.dart';
 import '../brands/scrolling_brand.dart';
 import '../category/scrolling_categories_image.dart';
-import '../home_page_section/scrolling_products/products_carousal_by_categories.dart';
-import '../home_page_section/scrolling_products/widgets/products_scrolling_by_category.dart';
-import '../home_page_section/scrolling_products/widgets/scrolling_products.dart';
+import '../products/products_carousal_by_categories.dart';
+import '../products/scrolling_products_by_item_id.dart';
+import '../products/scrolling_products.dart';
 import '../search/search_input_field.dart';
-import '../home_page_section/youtuber_banner/youtuber_banner.dart';
+import 'widget/banner/banner_layout.dart';
+import 'widget/youtuber_banner/youtuber_banner.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});

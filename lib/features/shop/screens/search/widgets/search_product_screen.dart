@@ -1,4 +1,4 @@
-import 'package:aramarket/features/shop/screens/home_page_section/scrolling_products/widgets/scrolling_products.dart';
+import 'package:aramarket/features/shop/screens/products/scrolling_products.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -57,7 +57,7 @@ class SearchProductScreen extends StatelessWidget {
         physics: const AlwaysScrollableScrollPhysics(),
         children: [
           TSectionHeading(title: title),
-          ProductGridLayout(controller: searchController, orientation: orientation),
+          ProductGridLayout(controller: searchController, orientation: orientation, sourcePage: 'Search',),
         ],
       ),
     );

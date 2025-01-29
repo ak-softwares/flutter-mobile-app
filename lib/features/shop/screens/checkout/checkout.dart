@@ -13,7 +13,7 @@ import '../../../authentication/screens/check_login_screen/check_login_screen.da
 import '../../../settings/app_settings.dart';
 import '../../controllers/cart_controller/cart_controller.dart';
 import '../../controllers/checkout_controller/checkout_controller.dart';
-import '../../controllers/product/order_controller.dart';
+import '../../controllers/order/order_controller.dart';
 import 'widgets/billing_address_section.dart';
 import 'widgets/billing_amount_section.dart';
 import 'widgets/billing_payment_section.dart';
@@ -63,7 +63,7 @@ class CheckoutScreen extends StatelessWidget {
                     itemCount: cartController.cartItems.length,
                     itemBuilder: (_, index) => Stack(
                         children:[
-                          TProductCardForCart(cartItem: cartController.cartItems[index]),
+                          ProductCardForCart(cartItem: cartController.cartItems[index]),
                         ]
                     ),
                   ),

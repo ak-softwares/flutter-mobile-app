@@ -11,7 +11,7 @@ import '../features/shop/controllers/cart_controller/cart_controller.dart';
 import '../features/shop/controllers/checkout_controller/checkout_controller.dart';
 import '../features/shop/controllers/favorite/favorite_controller.dart';
 import '../features/shop/controllers/product/product_controller.dart';
-import '../features/shop/controllers/recently_viewed_controller/recently_viewed_controller.dart';
+import '../features/shop/controllers/recently_viewed/recently_viewed_controller.dart';
 
 class GeneralBindings extends Bindings {
   @override

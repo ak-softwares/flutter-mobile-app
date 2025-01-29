@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../common/text/section_heading.dart';
-import '../../../../../common/widgets/shimmers/product_shimmer.dart';
-import '../../../../../utils/constants/sizes.dart';
-import '../../../controllers/category_controller/category_controller.dart';
-import '../../../controllers/product/product_controller.dart';
-import '../../all_products/all_products.dart';
-import 'widgets/products_scrolling_by_category.dart';
+import '../../../../common/text/section_heading.dart';
+import '../../../../common/widgets/shimmers/product_shimmer.dart';
+import '../../../../utils/constants/sizes.dart';
+import '../../controllers/category_controller/category_controller.dart';
+import '../../controllers/product/product_controller.dart';
+import '../all_products/all_products.dart';
+import 'scrolling_products_by_item_id.dart';
 
 
 class ProductCarousalByCategory extends StatelessWidget {
@@ -38,22 +38,10 @@ class ProductCarousalByCategory extends StatelessWidget {
           itemBuilder: (context, index) {
             if (index < categories.length) {
               final category = categories[index];
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: Sizes.spaceBtwItems),
-                    child: TSectionHeading(
-                      title: category.name ?? '',
-                      seeActionButton: true,
-                      verticalPadding: true,
-                      onPressed: () => Get.to(() => TAllProducts(title: category.name ?? '', categoryId: category.id, futureMethodTwoString: productController.getProductsByCategoryId)),
-                    ),
-                  ),
-                  ProductsScrollingByItemID(
-                    futureMethod: productController.getProductsByCategoryId,
-                    itemID: category.id.toString(),
-                  ),
-                ],
+              return ProductsScrollingByItemID(
+                futureMethod: productController.getProductsByCategoryId,
+                itemID: category.id.toString(),
+                itemName: category.name,
               );
             } else {
               // Return your loading indicator widget here

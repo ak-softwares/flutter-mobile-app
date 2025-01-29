@@ -40,7 +40,7 @@ class TSubCategoriesScreen extends StatelessWidget {
                   GridLayout(
                     mainAxisExtent: 290,
                     itemCount: products.length,
-                    itemBuilder: (_, index) => ProductCard(product: products[index]),
+                    itemBuilder: (_, index) => ProductCard(product: products[index],pageSource: 'sub_categories'),
                   ),
                 ],
               );

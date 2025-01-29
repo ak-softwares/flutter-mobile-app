@@ -1,4 +1,3 @@
-
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/widgets/loaders/animation_loader.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -7,8 +6,8 @@ import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
 import '../../../authentication/screens/check_login_screen/check_login_screen.dart';
-import '../../controllers/recently_viewed_controller/recently_viewed_controller.dart';
-import '../home_page_section/scrolling_products/widgets/scrolling_products.dart';
+import '../../controllers/recently_viewed/recently_viewed_controller.dart';
+import '../products/scrolling_products.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -78,7 +77,7 @@ class RecentlyViewed extends StatelessWidget {
                         ),
                       ),
                     ),
-                    ProductGridLayout(controller: recentlyViewedController, orientation: OrientationType.horizontal, emptyWidget: emptyWidget),
+                    ProductGridLayout(controller: recentlyViewedController, orientation: OrientationType.horizontal, emptyWidget: emptyWidget, sourcePage: 'recently_view',),
                   ],
                 ),
               )

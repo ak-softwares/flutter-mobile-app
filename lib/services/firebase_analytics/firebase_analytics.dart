@@ -6,6 +6,7 @@ import '../../data/repositories/authentication/authentication_repository.dart';
 import '../../features/personalization/controllers/user_controller.dart';
 import '../../features/settings/app_settings.dart';
 import '../../features/shop/controllers/checkout_controller/checkout_controller.dart';
+import '../../features/shop/controllers/order/order_controller.dart';
 import '../../features/shop/models/cart_item_model.dart';
 
 class FBAnalytics {
@@ -115,7 +116,6 @@ class FBAnalytics {
   }
 
   static void logAddToCart({required CartItemModel cartItem}) {
-    // print('logAddToCart: itemId - $itemId, itemName - $itemName, price - $price, quantity - $quantity,');
     _analytics.logAddToCart(
       items: [
         AnalyticsEventItem(

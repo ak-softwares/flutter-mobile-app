@@ -14,7 +14,7 @@ import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../controllers/product/all_product_controller.dart';
 import '../../models/product_model.dart';
-import '../home_page_section/scrolling_products/widgets/scrolling_products.dart';
+import '../products/scrolling_products.dart';
 
 class TAllProducts extends StatelessWidget {
   const TAllProducts({super.key, required this.title, this.futureMethod, this.orientation = OrientationType.vertical, this.futureMethodTwoString, this.categoryId, this.sharePageLink});
@@ -28,7 +28,7 @@ class TAllProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FBAnalytics.logPageView('all_products_screen');
+    FBAnalytics.logPageView('APS_$title');
     final allProductController = Get.put(AllProductController());
     final ScrollController scrollController = ScrollController();
 
@@ -90,7 +90,7 @@ class TAllProducts extends StatelessWidget {
                     .toList(),
               ),
               const SizedBox(height: Sizes.defaultSpace),
-              ProductGridLayout(controller: allProductController, emptyWidget: emptyWidget),
+              ProductGridLayout(controller: allProductController, emptyWidget: emptyWidget, sourcePage: 'APS_$title'),
             ],
           ),
         ),

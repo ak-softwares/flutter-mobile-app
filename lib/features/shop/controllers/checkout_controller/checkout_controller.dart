@@ -19,7 +19,7 @@ import '../../models/payment_model.dart';
 import '../../screens/orders/order.dart';
 import '../cart_controller/cart_controller.dart';
 import '../coupon/coupon_controller.dart';
-import '../product/order_controller.dart';
+import '../order/order_controller.dart';
 import 'payment_controller.dart';
 
 class CheckoutController extends GetxController {

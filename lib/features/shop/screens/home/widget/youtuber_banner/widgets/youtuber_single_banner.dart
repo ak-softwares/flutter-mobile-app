@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../../../common/widgets/custom_shape/image/circular_image.dart';
-import '../../../../../../utils/constants/sizes.dart';
+import '../../../../../../../common/widgets/custom_shape/image/circular_image.dart';
+import '../../../../../../../utils/constants/sizes.dart';
+
 
 class YouTuberSingleBanner extends StatelessWidget {
   const YouTuberSingleBanner({super.key, required this.thumbnail, required this.profilePic, required this.youtubeChannelUrl, required this.youtuberName, required this.subscriber,});

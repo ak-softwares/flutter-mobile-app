@@ -13,8 +13,8 @@ import '../../custom_shape/containers/rounded_container.dart';
 import '../../custom_shape/image/circular_image.dart';
 import '../quantity_add_buttons/quantity_add_buttons.dart';
 
-class TProductCardForCart extends StatelessWidget {
-  const TProductCardForCart({super.key, required this.cartItem, this.showBottomBar = false});
+class ProductCardForCart extends StatelessWidget {
+  const ProductCardForCart({super.key, required this.cartItem, this.showBottomBar = false});
 
   final CartItemModel cartItem;
   final bool showBottomBar;
@@ -26,7 +26,7 @@ class TProductCardForCart extends StatelessWidget {
     final cartController = CartController.instance;
 
     return InkWell(
-      onTap: () => Get.to(() => ProductDetailScreen(productId: cartItem.productId.toString())),
+      onTap: () => Get.to(() => ProductDetailScreen(productId: cartItem.productId.toString(), pageSource: 'ProductCardForCart',)),
       child: Stack(
         children: [
           Container(

@@ -16,6 +16,7 @@ import '../../../authentication/screens/check_login_screen/check_login_screen.da
 import '../../../settings/app_settings.dart';
 import '../../controllers/cart_controller/cart_controller.dart';
 import '../../controllers/checkout_controller/checkout_controller.dart';
+import '../../controllers/order/order_controller.dart';
 import '../checkout/checkout.dart';
 
 
@@ -65,15 +66,18 @@ class CartScreen extends StatelessWidget {
           // check empty cart
           if(cartController.cartItems.isEmpty) {
             return emptyWidget;
-          } else{
-            return SingleChildScrollView(
+          } else {
+            return ListView(
               padding: TSpacingStyle.defaultPagePadding,
-              child: GridLayout(
-                crossAxisCount: 1,
-                mainAxisExtent: Sizes.cartCardHorizontalHeight,
-                itemCount: cartController.cartItems.length,
-                itemBuilder: (_, index) => TProductCardForCart(cartItem: cartController.cartItems[index], showBottomBar: true),
-              ),
+              children: [
+                GridLayout(
+                  crossAxisCount: 1,
+                  mainAxisExtent: Sizes.cartCardHorizontalHeight,
+                  itemCount: cartController.cartItems.length,
+                  itemBuilder: (_, index) => ProductCardForCart(cartItem: cartController.cartItems[index], showBottomBar: true),
+                ),
+                // Center(child: Text(cartController.cartItems.map((item) => item.pageSource ?? 'NA').join(', ')))
+              ],
             );
           }
         }

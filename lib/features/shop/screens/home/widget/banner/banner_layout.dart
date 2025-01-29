@@ -2,14 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../common/widgets/custom_shape/containers/rounded_container.dart';
-import '../../../../../common/widgets/custom_shape/image/circular_image.dart';
-import '../../../../../common/widgets/shimmers/shimmer_effect.dart';
-import '../../../../../routes/internal_routes.dart';
-import '../../../../../utils/constants/colors.dart';
-import '../../../../../utils/constants/sizes.dart';
-import '../../../controllers/banner_controller/banner_controller.dart';
-import '../../../models/banner_model.dart';
+import '../../../../../../common/widgets/custom_shape/containers/rounded_container.dart';
+import '../../../../../../common/widgets/custom_shape/image/circular_image.dart';
+import '../../../../../../common/widgets/shimmers/shimmer_effect.dart';
+import '../../../../../../routes/internal_routes.dart';
+import '../../../../../../utils/constants/colors.dart';
+import '../../../../../../utils/constants/sizes.dart';
+import '../../../../controllers/banner_controller/banner_controller.dart';
 
 class HomeBanner extends StatelessWidget {
   const HomeBanner({super.key});

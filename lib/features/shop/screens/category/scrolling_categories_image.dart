@@ -7,7 +7,7 @@ import '../../../../common/widgets/shimmers/category_shimmer.dart';
 import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../controllers/category_controller/category_controller.dart';
-import '../home_page_section/scrolling_products/widgets/scrolling_products.dart';
+import '../products/scrolling_products.dart';
 import 'all_category_screen.dart';
 import 'category_tap_bar.dart';
 import 'widgets/single_category_item.dart';

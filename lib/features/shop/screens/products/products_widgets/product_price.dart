@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../../../settings/app_settings.dart';
-import '../../home_page_section/scrolling_products/widgets/scrolling_products.dart';
+import '../scrolling_products.dart';
 
 class ProductPrice extends StatelessWidget {
   const ProductPrice({

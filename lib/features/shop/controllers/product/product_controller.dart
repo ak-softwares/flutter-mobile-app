@@ -1,7 +1,4 @@
-import 'dart:isolate';
-
 import 'package:aramarket/features/shop/models/category_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/widgets/loaders/loader.dart';
@@ -9,7 +6,7 @@ import '../../../../data/repositories/firebase/products/product_repository.dart'
 import '../../../../data/repositories/woocommerce_repositories/category/woo_category_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/products/woo_product_repositories.dart';
 import '../../models/product_model.dart';
-import '../recently_viewed_controller/recently_viewed_controller.dart';
+import '../recently_viewed/recently_viewed_controller.dart';
 
 class ProductController extends GetxController {
   static ProductController get instance => Get.find();
