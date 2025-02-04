@@ -17,11 +17,12 @@ class TIcons {
   static IconData user = LineIcons.user;
   static IconData search = LineIcons.search;
 
-  //cart
+  // cart
   static IconData bottomNavigationCart = LineIcons.shoppingBag;
   static IconData counterCart = FontAwesomeIcons.cartPlus;
   static IconData cartEmpty = FontAwesomeIcons.cartPlus;
   static IconData cartFull = FontAwesomeIcons.cartShopping;
+  static IconData cartVariation = FontAwesomeIcons.plus;
 
   //Menu Icons
   // static IconData location = LineIcons.mapMarker;
@@ -35,7 +36,7 @@ class TIcons {
   // static IconData logout = LineIcons.firstOrder;
   static IconData logout = FontAwesomeIcons.rightFromBracket;
 
-  //Form Icons
+  // Form Icons
   static IconData edit = FontAwesomeIcons.pen;
   static IconData whatsapp = FontAwesomeIcons.whatsapp;
   static IconData email = FontAwesomeIcons.paperPlane;

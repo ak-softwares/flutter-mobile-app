@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../../utils/constants/db_constants.dart';
 import 'category_model.dart';
+import 'product_attribute_model.dart';
 
 class ProductModel {
   int id;
@@ -46,12 +47,14 @@ class ProductModel {
   List<int>? crossSellIds;
   int? parentId;
   String? purchaseNote;
-  List<ProductBrandModel>? brands;
+  List<BrandModel>? brands;
   List<CategoryModel>? categories;
   List<Map<String, dynamic>>? tags;
   List<Map<String, dynamic>>? images;
-  List<Map<String, dynamic>>? attributes;
-  List<Map<String, dynamic>>? variations;
+  String? image;
+  List<ProductAttributeModel>? attributes;
+  List<ProductAttributeModel>? defaultAttributes;
+  List<int>? variations;
   List<int>? groupedProducts;
   int? menuOrder;
   List<int>? relatedIds;
@@ -103,7 +106,9 @@ class ProductModel {
     this.brands,
     this.tags,
     this.images,
+    this.image,
     this.attributes,
+    this.defaultAttributes,
     this.variations,
     this.groupedProducts,
     this.menuOrder,
@@ -156,18 +161,34 @@ class ProductModel {
     return mergedIds.join(',');
   }
 
-
   factory ProductModel.fromJson(Map<String, dynamic> json) {
+
+    final String type = json[ProductFieldName.type] ?? '';
+
     // Extracting category data from the JSON
-    List<CategoryModel>? categories = [];
+    List<CategoryModel>? categories = [CategoryModel.empty()];
     if (json.containsKey(ProductFieldName.categories) && json[ProductFieldName.categories] is List) {
-      categories = (json[ProductFieldName.categories] as List).map((cat) => CategoryModel.fromJson(cat)).toList();
+      categories = (json[ProductFieldName.categories] as List).map((category) => CategoryModel.fromJson(category)).toList();
     }
 
     // Extracting brands data from the JSON
-    List<ProductBrandModel>? brands = [];
+    List<BrandModel>? brands = [];
     if (json.containsKey(ProductFieldName.brands) && json[ProductFieldName.brands] is List) {
-      brands = (json[ProductFieldName.brands] as List).map((cat) => ProductBrandModel.fromJson(cat)).toList();
+      brands = (json[ProductFieldName.brands] as List).map((brand) => BrandModel.fromJson(brand)).toList();
+    }
+
+    // Extracting Attribute data from the JSON
+    List<ProductAttributeModel>? attributes = [];
+    if (json.containsKey(ProductFieldName.attributes) && json[ProductFieldName.attributes] is List) {
+      attributes = (json[ProductFieldName.attributes] as List).map((attribute) =>
+        ProductAttributeModel.fromJson(attribute)).toList();
+    }
+
+    // Extracting Attribute data from the JSON
+    List<ProductAttributeModel>? defaultAttributes = [];
+    if (json.containsKey(ProductFieldName.defaultAttributes) && json[ProductFieldName.defaultAttributes] is List) {
+      defaultAttributes = (json[ProductFieldName.defaultAttributes] as List).map((attribute) =>
+          ProductAttributeModel.fromJson(attribute)).toList();
     }
 
     return ProductModel(
@@ -175,58 +196,60 @@ class ProductModel {
       name: json[ProductFieldName.name].replaceAll('&amp;', '&'),
       mainImage: json[ProductFieldName.images] != null && json[ProductFieldName.images].isNotEmpty
           ? json[ProductFieldName.images][0]['src'] : '',
-      permalink: json[ProductFieldName.permalink],
-      slug: json[ProductFieldName.slug],
-      dateCreated: json[ProductFieldName.dateCreated],
-      type: json[ProductFieldName.type],
-      status: json[ProductFieldName.status],
-      featured: json[ProductFieldName.featured],
-      catalogVisibility: json[ProductFieldName.catalogVisibility],
-      description: json[ProductFieldName.description],
-      shortDescription: json[ProductFieldName.shortDescription],
-      sku: json[ProductFieldName.sku],
-      price: double.tryParse(json[ProductFieldName.price]) ?? 0.0,
-      salePrice: double.tryParse(json[ProductFieldName.salePrice]) ?? 0.0,
-      regularPrice: double.tryParse(json[ProductFieldName.regularPrice]) ?? 0.0,
-      dateOnSaleFrom: json[ProductFieldName.dateOnSaleFrom],
-      dateOnSaleTo: json[ProductFieldName.dateOnSaleTo],
-      onSale: json[ProductFieldName.onSale],
-      purchasable: json[ProductFieldName.purchasable],
-      totalSales: json[ProductFieldName.totalSales],
-      virtual: json[ProductFieldName.virtual],
-      downloadable: json[ProductFieldName.downloadable],
-      taxStatus: json[ProductFieldName.taxStatus],
-      taxClass: json[ProductFieldName.taxClass],
-      manageStock: json[ProductFieldName.manageStock],
-      stockQuantity: json[ProductFieldName.stockQuantity],
-      weight: json[ProductFieldName.weight],
+      permalink: json[ProductFieldName.permalink] ?? '',
+      slug: json[ProductFieldName.slug] ?? '',
+      dateCreated: json[ProductFieldName.dateCreated] ?? '',
+      type: type,
+      status: json[ProductFieldName.status] ?? '',
+      featured: json[ProductFieldName.featured] ?? false,
+      catalogVisibility: json[ProductFieldName.catalogVisibility] ?? '',
+      description: json[ProductFieldName.description] ?? '',
+      shortDescription: json[ProductFieldName.shortDescription] ?? '',
+      sku: json[ProductFieldName.sku] ?? '',
+      price: double.tryParse(json[ProductFieldName.price] ?? '0.0'),
+      salePrice: double.tryParse(json[ProductFieldName.salePrice] ?? '0.0'),
+      regularPrice: double.tryParse(json[ProductFieldName.regularPrice] ?? '0.0'),
+      dateOnSaleFrom: json[ProductFieldName.dateOnSaleFrom] ?? '',
+      dateOnSaleTo: json[ProductFieldName.dateOnSaleTo] ?? '',
+      onSale: json[ProductFieldName.onSale] ?? '',
+      purchasable: json[ProductFieldName.purchasable] ?? false,
+      totalSales: json[ProductFieldName.totalSales] ?? 0,
+      virtual: json[ProductFieldName.virtual] ?? false,
+      downloadable: json[ProductFieldName.downloadable] ?? false,
+      taxStatus: json[ProductFieldName.taxStatus] ?? '',
+      taxClass: json[ProductFieldName.taxClass] ?? '',
+      manageStock: json[ProductFieldName.manageStock] ?? false,
+      stockQuantity: json[ProductFieldName.stockQuantity] ?? 0,
+      weight: json[ProductFieldName.weight] ?? '',
       dimensions: json[ProductFieldName.dimensions] != null
           ? Map<String, dynamic>.from(json[ProductFieldName.dimensions])
           : null,
-      shippingRequired: json[ProductFieldName.shippingRequired],
-      shippingTaxable: json[ProductFieldName.shippingTaxable],
-      shippingClass: json[ProductFieldName.shippingClass],
-      shippingClassId: json[ProductFieldName.shippingClassId],
-      reviewsAllowed: json[ProductFieldName.reviewsAllowed],
-      averageRating: double.tryParse(json[ProductFieldName.averageRating]),
-      ratingCount: json[ProductFieldName.ratingCount],
+      shippingRequired: json[ProductFieldName.shippingRequired] ?? false,
+      shippingTaxable: json[ProductFieldName.shippingTaxable] ?? false,
+      shippingClass: json[ProductFieldName.shippingClass] ?? '',
+      shippingClassId: json[ProductFieldName.shippingClassId] ?? 0,
+      reviewsAllowed: json[ProductFieldName.reviewsAllowed] ?? false,
+      averageRating: double.tryParse(json[ProductFieldName.averageRating] ?? '0.0'),
+      ratingCount: json[ProductFieldName.ratingCount] ?? 0,
       upsellIds: List<int>.from(json[ProductFieldName.upsellIds] ?? []),
       crossSellIds: List<int>.from(json[ProductFieldName.crossSellIds] ?? []),
-      parentId: json[ProductFieldName.parentId],
-      purchaseNote: json[ProductFieldName.purchaseNote],
-      categories: categories,
-      brands: brands,
-      // categories: json[ProductFieldName.categories] != null && json[ProductFieldName.categories].isNotEmpty ? json[ProductFieldName.categories][0]['name'] : '',
+      parentId: json[ProductFieldName.parentId] ?? 0,
+      purchaseNote: json[ProductFieldName.purchaseNote] ?? '',
       tags: List<Map<String, dynamic>>.from(json[ProductFieldName.tags] ?? []),
       images: json[ProductFieldName.images] != null
           ? List<Map<String, dynamic>>.from(json[ProductFieldName.images])
           : [],
-      attributes: List<Map<String, dynamic>>.from(json[ProductFieldName.attributes] ?? []),
-      // variations: List<Map<String, dynamic>>.from(json[ProductFieldName.variations] ?? []),
+      image: json[ProductFieldName.image] != null && json[ProductFieldName.image].isNotEmpty
+          ? json[ProductFieldName.image]['src'] : '',
+      categories: categories,
+      brands: brands,
+      attributes: attributes,
+      defaultAttributes: defaultAttributes,
+      variations: List<int>.from(json[ProductFieldName.variations] ?? []),
       groupedProducts: List<int>.from(json[ProductFieldName.groupedProducts] ?? []),
       menuOrder: json[ProductFieldName.menuOrder],
       relatedIds: List<int>.from(json[ProductFieldName.relatedIds] ?? []),
-      stockStatus: json[ProductFieldName.stockStatus],
+      stockStatus: json[ProductFieldName.stockStatus] ?? '',
       isCODBlocked: (json[ProductFieldName.metaData] as List?)?.any((meta) => meta['key'] == ProductFieldName.isCODBlocked && meta['value'] == "1") ?? false,
     );
   }
@@ -299,6 +322,35 @@ class ProductModel {
       // productType: data[ProductFieldName.productType] ?? '',
       // images: data[ProductFieldName.images] !=null ? List<String>.from(data[ProductFieldName.images]) : [],
       // productAttributes: (data['ProductAttributes'] as List<dynamic>).map((e) => ProductAttributeModel.fromJson(e)).toList(),
+    );
+  }
+
+  // Add the copyWith method
+  ProductModel copyWith({
+    int? id,
+    String? name,
+    String? mainImage,
+    List<Map<String, dynamic>>? images,
+    double? regularPrice,
+    double? salePrice,
+    String? description,
+    List<ProductAttributeModel>? defaultAttributes,
+    String? type,
+    List<int>? variations,
+    String? stockStatus,
+  }) {
+    return ProductModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      mainImage: mainImage ?? this.mainImage,
+      images: images ?? this.images,
+      regularPrice: regularPrice ?? this.regularPrice,
+      salePrice: salePrice ?? this.salePrice,
+      description: description ?? this.description,
+      defaultAttributes: defaultAttributes ?? this.defaultAttributes,
+      type: type ?? this.type,
+      variations: variations ?? this.variations,
+      stockStatus: stockStatus ?? this.stockStatus,
     );
   }
 

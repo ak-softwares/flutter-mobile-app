@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # of the product and file versions while build-number is used as the build suffix.
 
 # where 2.0.0 is app version and +5 is Version code 2 update every time when update on play store
-version: 2.4.2+57
+version: 2.5.0+57
 
 
 environment:

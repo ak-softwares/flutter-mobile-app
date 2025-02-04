@@ -1,7 +1,7 @@
 import '../../../utils/constants/api_constants.dart';
 import '../../../utils/constants/db_constants.dart';
 
-class ProductBrandModel {
+class BrandModel {
   final int? id;
   final String? name;
   final String? slug;
@@ -14,7 +14,7 @@ class ProductBrandModel {
   final int? count;
 
   // Constructor
-  ProductBrandModel({
+  BrandModel({
     this.id,
     this.name,
     this.slug,
@@ -29,10 +29,10 @@ class ProductBrandModel {
 
 
   // Factory method to create a Brand object from a JSON map
-  factory ProductBrandModel.fromJson(Map<String, dynamic> json) {
+  factory BrandModel.fromJson(Map<String, dynamic> json) {
     final slug = json[ProductBrandFieldName.slug] ?? '';
     final permalink = '${APIConstant.productBrandUrl + slug}/';
-    return ProductBrandModel(
+    return BrandModel(
       id: json[ProductBrandFieldName.id] ?? 0,
       name: json[ProductBrandFieldName.name] ?? '',
       slug: slug,

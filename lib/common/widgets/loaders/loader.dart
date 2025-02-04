@@ -1,13 +1,15 @@
+import 'package:aramarket/features/shop/screens/favourite/favourite.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/sizes.dart';
 class TLoaders  extends GetxController {
 
   static hideSnackBar() => ScaffoldMessenger.of(Get.context!).hideCurrentSnackBar();
 
-  static customToast({required message}) {
+  static customToast({required message, String urlTitle = 'view page', VoidCallback? onTap,}) {
     // Remove any existing toast before showing a new one
     hideSnackBar();
     ScaffoldMessenger.of(Get.context!).showSnackBar(
@@ -22,8 +24,25 @@ class TLoaders  extends GetxController {
                 borderRadius: BorderRadius.circular(30),
                 color: Colors.grey.shade400.withOpacity(0.9),
               ),
-              child: Center(child: Text(message,
-                  style: const TextStyle(color: Colors.black, fontSize: 13, fontWeight: FontWeight.w400))),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: Center(
+                      child: Text(message,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: Colors.black, fontSize: 13, fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ),
+                  onTap != null
+                      ? InkWell(
+                    onTap: onTap,
+                    child: Text(urlTitle, style: const TextStyle(color: TColors.linkColor, fontSize: 14, fontWeight: FontWeight.w500),),
+                  )
+                      : SizedBox.shrink()
+                ],
+              ),
             )
         )
     );

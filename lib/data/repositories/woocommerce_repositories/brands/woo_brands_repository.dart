@@ -11,7 +11,7 @@ class WooProductBrandsRepository extends GetxController {
   static WooProductBrandsRepository get instance => Get.find();
 
   //Fetch All Products
-  Future<List<ProductBrandModel>> fetchAllBrands({required String page}) async {
+  Future<List<BrandModel>> fetchAllBrands({required String page}) async {
     try {
       final Map<String, String> queryParams = {
         'orderby': 'name', // id, include, name, slug, term_group, description, and count
@@ -34,7 +34,7 @@ class WooProductBrandsRepository extends GetxController {
 
       if (response.statusCode == 200) {
         final List<dynamic> productBrandsJson = json.decode(response.body);
-        final List<ProductBrandModel> productBrands = productBrandsJson.map((json) => ProductBrandModel.fromJson(json)).toList();
+        final List<BrandModel> productBrands = productBrandsJson.map((json) => BrandModel.fromJson(json)).toList();
         return productBrands;
       } else {
         final Map<String, dynamic> errorJson = json.decode(response.body);

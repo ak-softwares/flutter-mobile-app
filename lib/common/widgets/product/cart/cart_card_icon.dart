@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../../features/shop/controllers/cart_controller/cart_controller.dart';
 import '../../../../features/shop/models/product_model.dart';
 import '../../../../utils/constants/colors.dart';
+import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/icons.dart';
 class CartIcon extends StatelessWidget {
   const CartIcon({super.key, this.iconSize, required this.sourcePage, required this.product});
@@ -15,15 +16,17 @@ class CartIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartController = CartController.instance;
-    return IconButton(
-        onPressed: () => cartController.toggleCartProduct(product: product, sourcePage: sourcePage),
-        iconSize: iconSize,
-        color: TColors.secondaryColor,
-        icon: Obx(() {
-            final productQuantityInCart = cartController.isInCart(product.id);
-            return Icon(productQuantityInCart ? TIcons.cartFull : TIcons.cartEmpty, size: 20,);
-          }
-        ),
-    );
+    return product.type == ProductFieldName.typeVariable
+        ? Icon(TIcons.cartVariation, size: 20,)
+        : IconButton(
+            onPressed: () => cartController.toggleCartProduct(product: product, sourcePage: sourcePage),
+            iconSize: iconSize,
+            color: TColors.secondaryColor,
+            icon: Obx(() {
+                final productQuantityInCart = cartController.isInCart(product.id);
+                return Icon(productQuantityInCart ? TIcons.cartFull : TIcons.cartEmpty, size: 20,);
+              }
+            ),
+        );
   }
 }

@@ -51,7 +51,7 @@ class TColors{
   static const Color warning = Color(0xFFF57C00);
   static const Color info = Color(0xFF1976D2);
 
-  //Neutral Shades
+  // Neutral Shades
   static const Color black = Color(0xFF232323);
   static const Color darkerGrey = Color(0xFF4F4F4F);
   static const Color darkGrey = Color(0xFF939393);
@@ -72,4 +72,32 @@ class TColors{
      Color(0xFFFAD0C4),
      Color(0xFFFAD0C4)
   ]);
+
+  // Method to get color based on string input
+  static Color getColorFromString(String colorName) {
+    Map<String, Color> colorMap = {
+      'black': Colors.black,
+      'white': Colors.white,
+      'red': Colors.red,
+      'blue': Colors.blue,
+      'green': Colors.green,
+      'yellow': Colors.yellow,
+      'orange': Colors.orange,
+      'purple': Colors.purple,
+      'pink': Colors.pink,
+      'brown': Colors.brown,
+      'grey': Colors.grey,
+      'indigo': Colors.indigo,
+      'cyan': Colors.cyan,
+      'amber': Colors.amber,
+      'teal': Colors.teal,
+      'lime': Colors.lime,
+      'deepPurple': Colors.deepPurple,
+      'deepOrange': Colors.deepOrange,
+      // Add more colors as needed
+    };
+    // Return the color from map, or a default color if not found
+    return colorMap[colorName] ?? Colors.transparent;
+  }
+
 }

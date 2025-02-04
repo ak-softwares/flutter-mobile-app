@@ -8,20 +8,18 @@ import '../../../../data/repositories/woocommerce_repositories/products/woo_prod
 import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/local_storage_constants.dart';
 import '../../models/product_model.dart';
+import '../product/product_controller.dart';
 
 class RecentlyViewedController extends GetxController{
   static RecentlyViewedController get instance => Get.find();
 
-  //Variable
+  // Variable
   RxInt currentPage = 1.obs;
   RxBool isLoading = false.obs;
   RxBool isLoadingMore = false.obs;
   RxList<ProductModel> products = <ProductModel>[].obs;
-
-  final RxList<String> recentlyViewed = <String>[].obs;
+  final RxList<String> recentlyViewed = <String>[].obs;      //   10913, 10914
   final localStorage = GetStorage();
-  final wooProductRepository = Get.put(WooProductRepository());
-
 
   @override
   void onInit() {
@@ -56,9 +54,8 @@ class RecentlyViewedController extends GetxController{
 
   Future<void> getRecentProducts() async {
     try {
-      if(recentlyViewed.isNotEmpty){
-        final jointedString = recentlyViewed.join(',');
-        final newFavorites = await wooProductRepository.fetchProductsByIds(productIds: jointedString, page: currentPage.toString());
+      if(recentlyViewed.isNotEmpty) {
+        final newFavorites = await ProductController().getRecentProducts(currentPage.toString());
         products.addAll(newFavorites);
       }
     } catch (e) {

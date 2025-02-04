@@ -15,7 +15,7 @@ class BrandController extends GetxController {
   RxInt currentPage = 1.obs;
   RxBool isLoading = false.obs;
   RxBool isLoadingMore = false.obs;
-  RxList<ProductBrandModel> productBrands = <ProductBrandModel>[].obs;
+  RxList<BrandModel> productBrands = <BrandModel>[].obs;
 
   final wooProductBrandsRepository = Get.put(WooProductBrandsRepository());
 

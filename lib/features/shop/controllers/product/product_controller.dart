@@ -63,7 +63,8 @@ class ProductController extends GetxController {
     try{
       //fetch products
       if(recentlyViewedController.recentlyViewed.isNotEmpty) {
-        final products = await wooProductRepository.fetchProductsByIds(productIds: recentlyViewedController.recentlyViewed.join(','), page: page);
+        final jointedString = recentlyViewedController.recentlyViewed.reversed.toList().join(',');
+        final products = await wooProductRepository.fetchProductsByIds(productIds: jointedString, page: page);
         return products;
       }else{
         return [];
@@ -123,6 +124,16 @@ class ProductController extends GetxController {
     }
   }
 
+  Future<List<ProductModel>> getVariationByProductsIds({required String parentID}) async {
+    try {
+      final List<ProductModel> variations = await wooProductRepository.fetchVariationByProductsIds(parentID: parentID);
+      return variations;
+    } catch (e){
+      TLoaders.errorSnackBar(title: 'Error in Products Variation Fetching', message: e.toString());
+      return [];
+    }
+  }
+
   //Get products by product id
   Future<ProductModel> getProductById(String productsId) async {
     try{
@@ -134,6 +145,7 @@ class ProductController extends GetxController {
       return ProductModel.empty();
     }
   }
+
 
   //Get products by product's slug
   Future<ProductModel> getProductBySlug(String permalink) async {

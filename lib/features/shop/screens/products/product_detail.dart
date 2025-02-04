@@ -1,4 +1,7 @@
+import 'package:aramarket/common/layout_models/product_grid_layout.dart';
 import 'package:aramarket/common/widgets/custom_shape/containers/rounded_container.dart';
+import 'package:aramarket/common/widgets/custom_shape/image/circular_image.dart';
+import 'package:aramarket/features/shop/models/product_attribute_model.dart';
 import 'package:aramarket/features/shop/screens/products/scrolling_products.dart';
 import 'package:aramarket/utils/constants/icons.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +18,7 @@ import '../../../../common/widgets/shimmers/single_product_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../services/share/share.dart';
 import '../../../../utils/constants/colors.dart';
+import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../settings/app_settings.dart';
@@ -52,48 +56,167 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final RxBool _isLoading = false.obs;
-  RxInt quantityInCart = 1.obs;
+  final RxBool _isLoadingVariation = false.obs;
+  final RxInt _quantityInCart = 1.obs;
 
   final Rx<ProductModel> _product = ProductModel.empty().obs;
+  final Rx<ProductModel> _parentProduct = ProductModel.empty().obs;
+  final RxList<ProductModel> _productVariations = RxList<ProductModel>();
+  late List<ProductAttributeModel?> filteredAttributes = [];
+  RxMap<String, String> selectedOptions = <String, String>{}.obs;
   final cartController = Get.put(CartController(), permanent: true);
   final productController = Get.put(ProductController(), permanent: true);
 
   @override
   void initState() {
     super.initState();
+    // Initialize product
     _fetchProduct(product: widget.product, slug: widget.slug, productId: widget.productId);
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   // Fetch product data when the screen is loaded
-  //   WidgetsBinding.instance?.addPostFrameCallback((_) {
-  //     quantityInCart.value = cartController.getCartQuantity(_product.value.id);
-  //     // _refreshProduct(); // Call the method to set isLoading after the widget is built
-  //   });
-  // }
+  @override
+  void dispose() {
+    _clearSelectedOptions();
+    super.dispose(); // Call super to ensure proper cleanup
+  }
+
+  String _getVariationImage(String attribute, String option) {
+    for (var product in _productVariations.value) {
+      if (product.attributes != null) {
+        // Loop through the product's attributes to find a match
+        for (var attributeMap in product.attributes!) {
+          // Check if both attribute and option match (case-insensitive)
+          if (attributeMap.name?.toLowerCase() == attribute.toLowerCase() &&
+              attributeMap.option?.toLowerCase() == option.toLowerCase()) {
+            return product.image ?? ''; // Return the image if a match is found
+          }
+        }
+      }
+    }
+    return '';
+  }
+
+
+  void _filterAttributes() {
+    filteredAttributes = _product.value.attributes!
+        .where((attribute) => attribute.variation ?? false)
+        .toList();
+  }
+
+  void _clearSelectedOptions() {
+    if(!_isProductVariable(_product.value)){
+      return;
+    }
+    selectedOptions.clear();
+    _product.update((prod) {
+      prod?.name = _parentProduct.value.name;
+      prod?.mainImage = _parentProduct.value.mainImage;
+      prod?.images = _parentProduct.value.images;
+      prod?.regularPrice = _parentProduct.value.regularPrice;
+      prod?.salePrice = _parentProduct.value.salePrice;
+      prod?.description = _parentProduct.value.description;
+      prod?.stockStatus = _parentProduct.value.stockStatus;
+    });
+  }
+
+  void _setDefaultVariation() {
+    if (_product.value.defaultAttributes != null) {
+      for (var defaultAttr in _product.value.defaultAttributes!) {
+        _updateVariation(defaultAttr.name ?? '', defaultAttr.option ?? '');
+      }
+    }
+  }
+
+  bool _isProductVariable(ProductModel product) {
+    return product.type == ProductFieldName.typeVariable && product.variations != null && product.variations!.isNotEmpty;
+  }
+
+  // Function to update the variation
+  void _updateVariation(String attribute, String value) {
+    selectedOptions[attribute.toLowerCase()] = value.toLowerCase();
+    _updateProductAfterVariationSelected();
+  }
+
+  // Function to get the variation
+  String? _getVariation(String attribute) {
+    return selectedOptions[attribute];
+  }
+
+  bool _hasKeyValue(String key, String value) {
+    return selectedOptions.containsKey(key.toLowerCase()) && selectedOptions[key.toLowerCase()] == value.toLowerCase();
+  }
+
+  ProductModel _getSelectedVariation() {
+    return _productVariations.firstWhere((variation) =>
+      variation.attributes != null && variation.attributes!.every((attr) =>
+            selectedOptions.containsKey(attr.name?.toLowerCase()) && selectedOptions[attr.name?.toLowerCase()] == attr.option?.toLowerCase(),
+          ),
+      orElse: () => ProductModel.empty(),
+    );
+  }
+
+  void _updateProductAfterVariationSelected() {
+    final selectedVariation = _getSelectedVariation();
+    if(selectedVariation.id != 0) {
+      // Creating a string with selected options dynamically
+      String formattedOptions = selectedOptions.entries
+          .map((entry) => '${entry.key.capitalizeFirst}: ${entry.value.capitalizeFirst}')
+          .join(' , '); // Join with a comma separator
+      _product.update((prod) {
+        prod?.name = '${_parentProduct.value.name} - ($formattedOptions)';
+        prod?.mainImage = selectedVariation.image;
+        prod?.images = [{'src': selectedVariation.image}];
+        prod?.regularPrice = selectedVariation.regularPrice;
+        prod?.salePrice = selectedVariation.salePrice;
+        prod?.description = selectedVariation.description;
+        prod?.stockStatus = selectedVariation.stockStatus;
+      });
+    }
+  }
+
+  Future<void> _fetchProductVariations({required String parentID}) async {
+    try {
+      _isLoadingVariation(true);
+      final List<ProductModel> productVariations = await productController.getVariationByProductsIds(parentID: parentID);
+      _productVariations.value = productVariations;
+    } catch (error) {
+      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+    } finally {
+      _isLoadingVariation(false);
+      _updateProductAfterVariationSelected();
+    }
+  }
 
   Future<void> _fetchProduct({ProductModel? product, String? slug, String? productId}) async {
+    final ProductModel fetchedProduct;
     try {
       _isLoading(true);
-      // this.product.value = ProductModel.empty();
       if (product != null) {
-        // If product is provided, set it directly
-        _product.value = product;
+        fetchedProduct = product;
       } else if (slug != null) {
-        final fetchedProduct = await productController.getProductBySlug(slug);
-        _product.value = fetchedProduct;
+        final product = await productController.getProductBySlug(slug);
+        fetchedProduct = product;
       } else if (productId != null) {
-        final fetchedProduct = await productController.getProductById(productId);
-        _product.value = fetchedProduct;
+        final product = await productController.getProductById(productId);
+        fetchedProduct = product;
       } else {
         throw Exception('Either product or productId must be provided.');
+      }
+      _product.value = fetchedProduct;
+      if (_isProductVariable(_product.value)) {
+        _parentProduct.value = fetchedProduct.copyWith();
       }
     } catch (e) {
       rethrow;
     } finally {
-      quantityInCart.value = cartController.getCartQuantity(_product.value.id);
+      _quantityInCart.value = cartController.getCartQuantity(_product.value.id);
+      // Check is product variable or not
+      if (_isProductVariable(_product.value)) {
+        String parentID = _product.value.id.toString();
+        _setDefaultVariation();
+        _filterAttributes();
+        _fetchProductVariations(parentID: parentID);
+      }
       _isLoading(false); // Set loading state to false
     }
   }
@@ -104,6 +227,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     try {
       _product.value = ProductModel.empty();
       await _fetchProduct(productId: productId.toString());
+      // Check is product variable or not
+      if (_product.value.type == "variable" && _product.value.variations != null && _product.value.variations!.isNotEmpty) {
+        _productVariations.value = [ProductModel.empty()];
+        String parentID = _product.value.id.toString();
+        _fetchProductVariations(parentID: parentID);
+      }
     } catch (error) {
       TLoaders.warningSnackBar(title: 'Error', message: error.toString());
     }
@@ -112,7 +241,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     FBAnalytics.logPageView('product_screen');
-
     // Adding the product to recently viewed outside Obx's reactive context
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_product.value.id != 0) {
@@ -121,8 +249,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     });
 
     return Scaffold(
-      appBar: TAppBar2(titleText: widget.product?.name ?? 'Product Details', showCartIcon: true),
-      bottomNavigationBar: Obx(() => TBottomAddToCart(product: _product.value, quantity: quantityInCart.value, pageSource: widget.pageSource)),
+      appBar: TAppBar2(titleText: widget.product?.name ?? 'Product Details', showSearchIcon: true, showCartIcon: true),
+      bottomNavigationBar: Obx(() => TBottomAddToCart(product: _product.value, quantity: _quantityInCart.value, variationId: _getSelectedVariation().id, pageSource: widget.pageSource)),
       body: RefreshIndicator(
         color: TColors.refreshIndicator,
         onRefresh: () async => _refreshProduct(),
@@ -131,7 +259,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
             Obx(() {
-              if (_isLoading.value){
+              if (_isLoading.value) {
                 return const SingleProductShimmer();
               }
               if(_product.value.id == 0) {
@@ -154,7 +282,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   const Divider(),
 
                   // Title
-                  Text(_product.value.name ?? '', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),
+                  SelectableText(_product.value.name ?? '', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500)),
                   // const SizedBox(height: TSizes.sm),
 
                   // Category
@@ -206,15 +334,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         )
                       : SizedBox.shrink(),
 
-                  // Star Rating
-                  // const SizedBox(height: TSizes.sm),
-                  // ProductStarRating(
-                  //     averageRating: _product.value.averageRating ?? 0.0,
-                  //     ratingCount: _product.value.ratingCount ?? 0,
-                  //     onTap: () => Get.to(() => ProductReviewScreen(product: _product.value)),
-                  //     bigSize: true
-                  // ),
-
                   // Price
                   Row(
                     children: [
@@ -229,7 +348,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       // TSaleLabel(discount: salePercentage),
                     ],
                   ),
-                  const SizedBox(height: Sizes.sm /2 ),
+                  const SizedBox(height: Sizes.sm / 2 ),
 
                   // Free Delivery Label
                   _product.value.getPrice() >= AppSettings.freeShippingOver
@@ -263,25 +382,111 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                   const SizedBox(height: Sizes.spaceBtwItems),
 
-
                   // In Stock
                   InStock(isProductAvailable: _product.value.isProductAvailable()),
                   const SizedBox(height: Sizes.sm),
 
-                  // const TSectionHeading(title: 'Select Quantity'),
-                  // Obx(() {
-                  //   return QuantityAddButtons(
-                  //         size: 35,
-                  //         quantity: quantityInCart.value,
-                  //         // Accessing value of RxInt
-                  //         add: () => quantityInCart.value += 1,
-                  //         // Incrementing value
-                  //         remove: () => quantityInCart.value <= 1
-                  //             ? null
-                  //             : quantityInCart.value -= 1,
-                  //       );
-                  // }),
-                  // const SizedBox(height: TSizes.defaultSpace),
+                  // Variation
+                  _product.value.type == "variable" && filteredAttributes.isNotEmpty
+                      ? GridLayout(
+                            mainAxisExtent: 80,
+                            itemCount: filteredAttributes.length,
+                            itemBuilder: (context, attrIndex) {
+                              final attribute = filteredAttributes[attrIndex];
+                              if(attribute?.variation ?? false) {
+                                bool lastAttribute =  attrIndex == (filteredAttributes.length - 1);
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Select ${attribute?.name}',
+                                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500)
+                                    ),
+                                    SizedBox(height: 10),
+                                    GridLayout(
+                                        mainAxisExtent: 40,
+                                        crossAxisCount: 3,
+                                        itemCount: lastAttribute ? (attribute?.options?.length ?? 0) + 1 : (attribute?.options?.length ?? 0),
+                                        itemBuilder: (context, index) {
+                                          // Check if this is the last item
+                                          if (lastAttribute) {
+                                            bool lastAttributeChild =  index == ((attribute?.options?.length ?? 0));
+                                            if(lastAttributeChild) {
+                                              return InkWell(
+                                                onTap: () => _clearSelectedOptions(),
+                                                child: Center(
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Icon(Icons.close, size: 19,),
+                                                        Text('Clear', ),
+                                                      ],
+                                                )),
+                                              );
+                                            }
+                                          }
+                                          final option = attribute?.options?[index];
+                                          return InkWell(
+                                            onTap: () {
+                                              _updateVariation(attribute?.name ?? '', option ?? '');
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: _hasKeyValue(attribute?.name ?? '', option ?? '') ? Colors.blue : Colors.grey, // Highlight selected item
+                                                  width: _hasKeyValue(attribute?.name ?? '', option ?? '') ? 2 : 1,
+                                                ),
+                                                borderRadius: BorderRadius.circular(8),
+                                                color: _hasKeyValue(attribute?.name ?? '', option ?? '') ? Colors.blue.withOpacity(0.2) : Colors.transparent, // Optional background color
+                                              ),
+                                              child: attribute?.name?.toLowerCase() == 'color' &&
+                                                  TColors.getColorFromString(option?.toLowerCase() ?? '') != Colors.transparent
+                                                  ? Padding(
+                                                    padding: EdgeInsets.all(Sizes.sm),
+                                                    child: TRoundedContainer(
+                                                        height: 20,
+                                                        width: 20,
+                                                        radius: 100,
+                                                        backgroundColor: TColors.getColorFromString(option?.toLowerCase() ?? ''),
+                                                      ),
+                                                  )
+                                                  : Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      filteredAttributes.length == 1
+                                                          ? Row(
+                                                            children: [
+                                                              TRoundedImage(
+                                                                    height: 30,
+                                                                    width: 30,
+                                                                    padding: 0,
+                                                                    borderRadius: 3,
+                                                                    isNetworkImage: true,
+                                                                    image: _getVariationImage(attribute?.name ?? '', option ?? '')
+                                                                    // image: _productVariations.first.image ?? '',
+                                                                ),
+                                                              SizedBox(width: Sizes.sm),
+                                                            ],
+                                                          )
+                                                          : SizedBox.shrink(),
+                                                      Text(option ?? '',
+                                                          overflow: TextOverflow.ellipsis,
+                                                          maxLines: 1,
+                                                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500)
+                                                      ),
+                                                    ],
+                                                  ),
+                                            ),
+                                          );
+                                        }
+                                    ),
+                                  ],
+                                );
+                              }
+                              return SizedBox.shrink();
+                            }
+                        )
+                      : SizedBox.shrink(),
+                  const SizedBox(height: Sizes.spaceBtwItems),
 
                   // Product review
                   _product.value.averageRating != 0
@@ -314,7 +519,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         )
                       : const SizedBox.shrink(),
 
-                  //Shown products by category
+                  // Shown products by category
                   ProductsScrollingByItemID(
                       itemName: _product.value.categories?[0].name ?? '',
                       itemID: _product.value.categories?[0].id ?? '',
@@ -322,7 +527,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                   const SizedBox(height: Sizes.sm),
 
-                  //Shown products by related products, up sale,cross sale
+                  // Shown products by related products, up sale,cross sale
                   ProductsScrollingByItemID(
                       itemName: 'Related Products',
                       itemID: _product.value.getAllRelatedProductsIdsAsString(),
@@ -331,7 +536,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   const SizedBox(height: Sizes.sm),
                   const Divider(),
 
-                  //Review
+                  // Review
                   const SizedBox(height: Sizes.spaceBtwItems),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

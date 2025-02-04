@@ -217,8 +217,8 @@ class WooProductRepository extends GetxController {
   Future<List<ProductModel>> fetchProductsByIds({required String productIds, required String page}) async {
     try{
       final Map<String, String> queryParams = {
-        'include': productIds, //date, id, include, title, slug, price, popularity and rating. Default is date.
-        'orderby' : 'include', //date, id, include, title, slug, price, popularity and rating. Default is date.
+        'include': productIds,
+        'orderby' : 'include', // date, id, include, title, slug, price, popularity and rating. Default is date.
         'per_page': '10',
         'page': page,
         // 'page': page.toString(),
@@ -246,6 +246,41 @@ class WooProductRepository extends GetxController {
         final Map<String, dynamic> errorJson = json.decode(response.body);
         final errorMessage = errorJson['message'];
         throw errorMessage ?? 'Failed to fetch Products by Ids';
+      }
+    } catch(error) {
+      if (error is TimeoutException) {
+        throw 'Connection timed out. Please check your internet connection and try again.';
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  // Fetch Products By Ids
+  Future<List<ProductModel>> fetchVariationByProductsIds({required String parentID}) async {
+    try {
+
+      final Uri uri = Uri.https(
+        APIConstant.wooBaseUrl,
+        '${APIConstant.wooProductsApiPath}$parentID/variations/',
+      );
+
+      final response = await http.get(
+        uri,
+        headers: {
+          'Authorization': APIConstant.authorization,
+        },
+      ).timeout(const Duration(seconds: 30)); // Set a timeout of 30 seconds for the HTTP request
+
+      if (response.statusCode == 200) {
+        final List<dynamic> childrenJson = json.decode(response.body) as List<dynamic>;
+        final List<ProductModel> childrenByParentID =
+              childrenJson.map((json) => ProductModel.fromJson(json as Map<String, dynamic>)).toList();
+        return childrenByParentID;
+      } else {
+        final Map<String, dynamic> errorJson = json.decode(response.body);
+        final errorMessage = errorJson['message'];
+        throw errorMessage ?? 'Failed to fetch Children by parentID';
       }
     } catch(error) {
       if (error is TimeoutException) {

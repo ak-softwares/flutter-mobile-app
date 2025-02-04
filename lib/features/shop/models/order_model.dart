@@ -148,7 +148,7 @@ class OrderModel {
     };
   }
 
-  Map<String, dynamic> toJsonForWoo(){
+  Map<String, dynamic> toJsonForWoo() {
     final Map<String, dynamic> json = {
       OrderFieldName.customerId: customerId ?? 0,
       OrderFieldName.status: status ?? '',

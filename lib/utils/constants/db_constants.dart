@@ -24,6 +24,7 @@ class ProductFieldName {
   static const String slug = 'slug';
   static const String dateCreated = 'date_created';
   static const String type = 'type';
+  static const String typeVariable = 'variable';
   static const String status = 'status';
   static const String featured = 'featured';
   static const String catalogVisibility = 'catalog_visibility';
@@ -61,7 +62,9 @@ class ProductFieldName {
   static const String categories = 'categories';
   static const String tags = 'tags';
   static const String images = 'images';
+  static const String image = 'image';
   static const String attributes = 'attributes';
+  static const String defaultAttributes = 'default_attributes';
   static const String variations = 'variations';
   static const String groupedProducts = 'grouped_products';
   static const String menuOrder = 'menu_order';
@@ -69,6 +72,17 @@ class ProductFieldName {
   static const String stockStatus = 'stock_status';
   static const String metaData = 'meta_data';
   static const String isCODBlocked = 'easyapp_cod_blocked';
+}
+
+class ProductAttributeFieldName {
+  static const String id          = 'id';
+  static const String name        = 'name';
+  static const String slug        = 'slug';
+  static const String position    = 'position';
+  static const String visible     = 'visible';
+  static const String variation   = 'variation';
+  static const String options     = 'options';
+  static const String option     = 'option';
 }
 
 class ProductBrandFieldName {
@@ -97,12 +111,6 @@ class ReviewFieldName {
   static const String rating = 'rating';
   static const String verified = 'verified';
   static const String reviewerAvatarUrls = 'reviewer_avatar_urls';
-}
-
-class ProductAttributeFieldName {
-  static const String id          = 'id';
-  static const String name        = 'name';
-  static const String value       = 'value';
 }
 
 class CategoryFieldName {

@@ -5,6 +5,7 @@ import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../data/repositories/user/user_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/products/woo_product_repositories.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
+import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/local_storage_constants.dart';
 import '../../models/cart_item_model.dart';
 import '../../models/product_model.dart';
@@ -33,7 +34,7 @@ class CartController extends GetxController {
   }
 
   // Add to cart
-  void addToCart({required ProductModel product, required int quantity, String pageSource = 'atc'}) {
+  void addToCart({required ProductModel product, required int quantity, int variationId = 0, String pageSource = 'atc'}) {
     try {
       // Quantity Check
       if (quantity < 1) {
@@ -43,11 +44,19 @@ class CartController extends GetxController {
       if (!product.isProductAvailable()) {
         throw 'Selected product is out of stock';
       }
+      // Check for variable product
+      if(product.type == ProductFieldName.typeVariable) {
+        if(variationId == 0) {
+          throw 'Please Select at least one variation';
+        }
+      }
       // Convert the productModel to a cartItemModel with the give quantity
-      final selectedCartItem = convertProductToCart(product: product, quantity: quantity, pageSource: pageSource);
+      final selectedCartItem = convertProductToCart(product: product, quantity: quantity, variationId: variationId, pageSource: pageSource);
 
-      //check if item already in cart or not
-      int index = cartItems.indexWhere((cartItem) => cartItem.productId == selectedCartItem.productId);
+      // Check if item already in cart or not
+      int index = cartItems.indexWhere(
+              (cartItem) => cartItem.productId == selectedCartItem.productId && cartItem.variationId == selectedCartItem.variationId
+      );
       if (index >= 0) {
         // This quantity is already added or updated/remove from the design
         cartItems[index].quantity = selectedCartItem.quantity;
@@ -60,7 +69,11 @@ class CartController extends GetxController {
       FBAnalytics.logAddToCart(cartItem: selectedCartItem);
       //update cart and show success message
       updateCart();
-      TLoaders.customToast(message: 'Product added ${selectedCartItem.quantity} product to Cart.');
+      TLoaders.customToast(
+          urlTitle: 'View cart',
+          onTap: () => Get.to(CartScreen()),
+          message: 'Product added ${selectedCartItem.quantity} product to Cart.'
+      );
     } catch(e) {
       TLoaders.warningSnackBar(title: 'Oh Snap!', message: e.toString());
       rethrow;
@@ -204,12 +217,12 @@ class CartController extends GetxController {
   }
 
   // This function converts a productModel to a cartItemModel
-  CartItemModel convertProductToCart({required ProductModel product, required int quantity, String pageSource = 'cpc'}) {
+  CartItemModel convertProductToCart({required ProductModel product, required int quantity, int variationId = 0, String pageSource = 'cpc'}) {
     return CartItemModel(
       id: 1,
       name: product.name,
       productId: product.id,
-      variationId: 0,
+      variationId: variationId,
       quantity: quantity,
       category: product.categories?[0].name,
       subtotal: (quantity * product.getPrice()).toStringAsFixed(0),
