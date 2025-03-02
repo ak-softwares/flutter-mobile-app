@@ -6,10 +6,12 @@ import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/loaders/animation_loader.dart';
+import '../../../../common/widgets/shimmers/coupon_shimmer.dart';
 import '../../../../common/widgets/shimmers/order_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
+import '../../../../utils/constants/sizes.dart';
 import '../../controllers/coupon/coupon_controller.dart';
 import 'widgets/single_coupon.dart';
 
@@ -48,13 +50,14 @@ class CouponScreen extends StatelessWidget {
         onRefresh: () async => couponController.refreshCoupons(),
         child: ListView(
           controller: scrollController,
-          padding: TSpacingStyle.defaultPagePadding,
+          padding: TSpacingStyle.defaultPageVertical,
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
-            const TSectionHeading(title: 'My Coupons'),
+            Heading(title: 'Coupons', paddingLeft: Sizes.defaultSpace),
+            SizedBox(height: Sizes.spaceBtwItems),
             Obx(() {
               if(couponController.isLoading.value){
-                return const OrderShimmer();
+                return const CouponShimmer();
               }else if(couponController.coupons.isEmpty) {
                 return const TAnimationLoaderWidgets(
                   text: 'Whoops! Order is Empty...',
@@ -62,14 +65,13 @@ class CouponScreen extends StatelessWidget {
                 );
               }else {
                 return GridLayout(
-                  mainAxisExtent: 120,
+                  mainAxisExtent: 80,
                   itemCount: couponController.isLoadingMore.value ? couponController.coupons.length + 1 : couponController.coupons.length,
                   itemBuilder: (context, index) {
                     if (index < couponController.coupons.length) {
                       return SingleCouponItem(coupon: couponController.coupons[index]);
                     } else {
-                      return const OrderShimmer();
-                      // return const Center(child: CircularProgressIndicator(),);
+                      return const CouponShimmer();
                     }
                   },
                 );

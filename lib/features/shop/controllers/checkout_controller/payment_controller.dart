@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:aramarket/features/personalization/controllers/user_controller.dart';
-import 'package:aramarket/utils/constants/text_strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -13,6 +11,7 @@ import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/image_strings.dart';
+import '../../../personalization/controllers/user_controller.dart';
 import '../../../settings/app_settings.dart';
 import '../../models/payment_model.dart';
 import 'checkout_controller.dart';

@@ -1,10 +1,10 @@
-import 'package:aramarket/features/shop/screens/products/scrolling_products.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../utils/constants/sizes.dart';
 import '../../../controllers/product/product_controller.dart';
 import '../../category/scrolling_category_name.dart';
+import '../../products/scrolling_products.dart';
 class EmptySearchScreen extends StatelessWidget {
   const EmptySearchScreen({super.key});
 

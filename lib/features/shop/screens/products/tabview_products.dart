@@ -1,21 +1,13 @@
-import 'package:aramarket/features/shop/models/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:share_plus/share_plus.dart';
 import '../../../../../common/widgets/loaders/loader.dart';
-import '../../../../../common/widgets/product/product_cards/product_card.dart';
-import '../../../../../common/widgets/shimmers/product_shimmer.dart';
 import '../../../../../utils/constants/api_constants.dart';
 import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/styles/spacing_style.dart';
-import '../../../../common/widgets/loaders/animation_loader.dart';
 import '../../../../services/share/share.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/icons.dart';
-import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
-import '../../../../utils/constants/text_strings.dart';
-import '../../../settings/app_settings.dart';
 import '../../models/product_model.dart';
 
 class TabviewProducts extends StatefulWidget {

@@ -12,7 +12,7 @@ import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/data/state_iso_code_map.dart';
 import '../../../utils/helpers/cloud_helper_function.dart';
-import '../../../utils/popups/full_screen_loader.dart';
+import '../../../common/widgets/loaders/full_screen_loader.dart';
 import '../../shop/controllers/checkout_controller/checkout_controller.dart';
 import '../models/address_model.dart';
 import '../models/user_model.dart';

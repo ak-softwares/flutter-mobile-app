@@ -1,25 +1,22 @@
 flutter_native_splash:
+
+  # Light theme
   color: "#FFC61A"
-  image: assets/logos/splash_logo_black.png
+  image: assets/logos/aramarket_dark_light.png
 
-#  color_dark: "#272727"
-#  image_dark: assets/logos/splash_logo_white.png
-
-# this for theme color
-#  color: "#FFC61A"
-#  color_dark: "#272727"
-#  image: assets/logos/splash_logo_black.png
-#  image_dark: assets/logos/splash_logo_yellow.png
+  # Dark theme
+  color_dark: "#25282D"
+  image_dark: assets/logos/aramarket_dark_splash.png
 
   android_12:
     color: "#FFC61A"
-    image: assets/logos/splash_logo_black.png
+    image: assets/logos/aramarket_dark_light.png
 
-  #  color_dark: "#272727"
-  #  image_dark: assets/logos/splash_logo_white.png
+    color_dark: "#25282D"
+    image_dark: assets/logos/aramarket_dark_splash.png
 
   web: false
 
-#  flutter pub run flutter_native_splash:create --path=splash.yaml
-#  flutter pub run flutter_native_splash:remove
-#  image length should be 1155x1155 and logo size is 768x768
+#  dart run flutter_native_splash:create --path=splash.yaml
+#  dart run flutter_native_splash:remove --path=splash.yaml
+#  image Size should be 1155x1155 and logo size within image is 768x768

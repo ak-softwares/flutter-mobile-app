@@ -1,13 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'bindings/general_bindings.dart';
 import 'common/navigation_bar/bottom_navigation_bar.dart';
 import 'data/repositories/authentication/authentication_repository.dart';
+import 'features/authentication/screens/phone_otp_login/mobile_login_screen.dart';
 import 'features/settings/app_settings.dart';
+import 'features/shop/screens/cart/cart.dart';
+import 'features/shop/screens/orders/order.dart';
 import 'firebase_options.dart';
 import 'routes/deeplink_get_router.dart';
 import 'routes/internal_routes.dart';
@@ -69,6 +74,12 @@ void main() async {
     //   // AppRoutes.pageRouteHandle(routeName: response.payload.toString());
     // }
   );
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+  ));
+
   runApp(const MyApp());
 }
 
@@ -80,53 +91,82 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Function to handle deep link at app start
-    String? handleInitialDeepLink() {
-      final String? deepLinkString = Get.parameters['uri']; // Get the deep link as a String
-      final Uri? deepLinkUri = deepLinkString != null ? Uri.tryParse(deepLinkString) : null; // Parse to Uri
+    // String? handleInitialDeepLink() {
+    //   final String? deepLinkString = Get.parameters['uri']; // Get the deep link as a String
+    //   final Uri? deepLinkUri = deepLinkString != null ? Uri.tryParse(deepLinkString) : null; // Parse to Uri
+    //
+    //   if (deepLinkUri != null && deepLinkUri.path.contains('/product/')) {
+    //     final slug = deepLinkUri.pathSegments.last;
+    //     return RoutesPath.product.replaceFirst(':slug', slug);
+    //   }
+    //   return null; // No deep link detected
+    // }
+    //
+    // String? initialDeepLinkHandler() {
+    //   final String? deepLinkString = Get.parameters['uri']; // Get the deep link as a String
+    //   final Uri? uri = deepLinkString != null ? Uri.tryParse(deepLinkString) : null; // Parse to Uri
+    //
+    //   if (uri?.path == '/product') {
+    //     return RoutesPath.product; // Replace with logic for deep link
+    //   }
+    //   return null;
+    // }
+    //
+    // // Handling cold start and setting the initial route
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   // Set the initial route if a deep link is detected
+    //   final initialRoute = handleInitialDeepLink();
+    //   if (initialRoute != null) {
+    //     Get.offAllNamed(initialRoute); // Clears navigation stack and sets the route
+    //   }
+    // });
 
-      if (deepLinkUri != null && deepLinkUri.path.contains('/product/')) {
-        final slug = deepLinkUri.pathSegments.last;
-        return RoutesPath.product.replaceFirst(':slug', slug);
-      }
-      return null; // No deep link detected
-    }
-
-    String? initialDeepLinkHandler() {
-      final String? deepLinkString = Get.parameters['uri']; // Get the deep link as a String
-      final Uri? uri = deepLinkString != null ? Uri.tryParse(deepLinkString) : null; // Parse to Uri
-
-      if (uri?.path == '/product') {
-        return RoutesPath.product; // Replace with logic for deep link
-      }
-      return null;
-    }
-
-    // Handling cold start and setting the initial route
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Set the initial route if a deep link is detected
-      final initialRoute = handleInitialDeepLink();
-      if (initialRoute != null) {
-        Get.offAllNamed(initialRoute); // Clears navigation stack and sets the route
-      }
-    });
-
+    // Function to handle deep link
+    // void handleDeepLink() {
+    //   final String? deepLinkString = Get.parameters['uri'];
+    //   final Uri? deepLinkUri = deepLinkString != null ? Uri.tryParse(deepLinkString) : null;
+    //
+    //   if (deepLinkUri != null) {
+    //     Future.delayed(Duration(milliseconds: 500), () {
+    //       Get.toNamed(deepLinkUri.path);
+    //     });
+    //   }
+    // }
+    //
+    // // Always start from home, then navigate to the deep link
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   handleDeepLink();
+    // });
 
     // FBAnalytics.logPageView('main_function_screen');
+    AuthenticationRepository.instance.checkIsUserLogin();
+    final bool isUserLogin = AuthenticationRepository.instance.isUserLogin.value;
     return GetMaterialApp(  //add .router when use go_router
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       navigatorObservers: [FBAnalytics.observer],
       title: AppSettings.appName,
       theme: TAppTheme.lightTheme,
+      darkTheme: TAppTheme.darkTheme,
       initialBinding: GeneralBindings(),
-      getPages: AppRoutes.pages,
-      // initialRoute: RoutesPath.home, // Default route
-      initialRoute: initialDeepLinkHandler() ?? RoutesPath.home,
-
+      home: isUserLogin ? const BottomNavigation() : const MobileLoginScreen(),
+      // initialRoute: '/',
       // getPages: [
-      //   ...AppRoutes.pages,
-      //   AppRoutes.defaultRoute,
+      //   GetPage(name: '/', page: () => const BottomNavigation()),
+      //   GetPage(name: '/page1', page: () => const CartScreen()),
+      //   GetPage(name: '/page2', page: () => const OrderScreen()),
       // ],
+      // getPages: AppRoutes.pages,
+      initialRoute: RoutesPath.home, // Always start from home
+
+      // getPages: AppRoutes.pages,
+      // // initialRoute: RoutesPath.home, // Default route
+      // initialRoute: initialDeepLinkHandler() ?? RoutesPath.home,
+
+      getPages: [
+        ...AppRoutes.pages,
+        AppRoutes.defaultRoute,
+      ],
       // routingCallback: (routing) {
       //   // Optional: Log or handle route changes
       //   if (routing?.current != null) {
@@ -153,11 +193,24 @@ class MyApp extends StatelessWidget {
       // routeInformationParser: DeeplinkGoRouter.router.routeInformationParser,
       // routeInformationProvider: DeeplinkGoRouter.router.routeInformationProvider,
 
-      home: const BottomNavigation(),
     );
   }
 }
 
+class DeepLinkObserver extends NavigatorObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPush(route, previousRoute);
+    if (route.settings.name != '/') {
+      Future.delayed(Duration.zero, () {
+        Get.offAllNamed('/');
+        Future.delayed(Duration(milliseconds: 500), () {
+          Get.toNamed(route.settings.name!);
+        });
+      });
+    }
+  }
+}
 
 // class MyApp extends StatelessWidget {
 //   const MyApp({super.key});

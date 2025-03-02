@@ -13,7 +13,7 @@ import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/local_storage_constants.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
-import '../../../../utils/popups/full_screen_loader.dart';
+import '../../../../common/widgets/loaders/full_screen_loader.dart';
 import '../../../personalization/controllers/user_controller.dart';
 import '../../../personalization/models/user_model.dart';
 import '../login_controller/login_controller.dart';

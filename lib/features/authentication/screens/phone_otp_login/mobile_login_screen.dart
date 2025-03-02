@@ -33,7 +33,7 @@ class MobileLoginScreen extends StatelessWidget {
                 right: 0,
                 child: TextButton(
                   onPressed: () => NavigationHelper.navigateToBottomNavigation(),
-                  child: const Text('Skip')
+                  child: Text('Skip', style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant))
                 )
               ),
               Padding(
@@ -61,6 +61,7 @@ class MobileLoginScreen extends StatelessWidget {
                         labelText: 'Phone Number',
                         border: OutlineInputBorder(
                           borderSide: BorderSide(),
+                          borderRadius: BorderRadius.all(Radius.circular(Sizes.buttonRadius)), // Adjust radius as needed
                         ),
                       ),
                       validator: (value) => TValidator.validatePhoneNumber(value.toString()),
@@ -121,7 +122,7 @@ class MobileLoginScreen extends StatelessWidget {
                             onPressed: () => otpController.fast2SmsSendOpt(phone: otpController.phoneNumber.value),
                             child: otpController.isLoading.value
                                 ? const SizedBox(height: 25, width: 25, child: CircularProgressIndicator(color: TColors.linkColor,))
-                                : Text('Get OTP', style: Theme.of(context).textTheme.bodyLarge)
+                                : Text('Get OTP')
                         ),
                       ),
                     ),

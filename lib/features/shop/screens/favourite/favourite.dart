@@ -55,11 +55,9 @@ class FavouriteScreen extends StatelessWidget {
       onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
     );
 
-    return Obx(() => Scaffold(
-          appBar: const TAppBar2(titleText: 'Wishlist', showCartIcon: true,),
-          body: !authenticationRepository.isUserLogin.value
-            ? const CheckLoginScreen(text: 'Please Login! before Add to ❤️ favorite!')
-            : RefreshIndicator(
+    return Scaffold(
+          appBar: const TAppBar2(titleText: 'Wishlist', showCartIcon: true),
+          body: RefreshIndicator(
               color: TColors.refreshIndicator,
               onRefresh: () async => favoriteController.refreshFavorites(),
               child: ListView(
@@ -76,8 +74,7 @@ class FavouriteScreen extends StatelessWidget {
                 ],
               ),
             )
-        ),
-    );
+        );
   }
 }
 

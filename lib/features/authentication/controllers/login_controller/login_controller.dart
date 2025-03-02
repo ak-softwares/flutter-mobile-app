@@ -11,7 +11,7 @@ import '../../../../data/repositories/woocommerce_repositories/customers/woo_cus
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/local_storage_constants.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
-import '../../../../utils/popups/full_screen_loader.dart';
+import '../../../../common/widgets/loaders/full_screen_loader.dart';
 import '../../../personalization/models/user_model.dart';
 
 class LoginController extends GetxController {
@@ -51,7 +51,7 @@ class LoginController extends GetxController {
       //Start Loading
       TFullScreenLoader.openLoadingDialog('We are processing your information..', Images.docerAnimation);
       //check internet connectivity
-      final isConnected = await NetworkManager.instance.isConnected();
+      final isConnected = await Get.put(NetworkManager()).isConnected();
       if (!isConnected) {
         //remove Loader
         TFullScreenLoader.stopLoading();

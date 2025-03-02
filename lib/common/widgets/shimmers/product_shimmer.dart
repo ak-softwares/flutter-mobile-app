@@ -36,12 +36,12 @@ class ProductShimmer extends StatelessWidget {
           width: orientation == OrientationType.vertical
               ? productCardVerticalWidth
               : productCardHorizontalWidth,
-          child: buildGridView(),
+          child: buildGridView(context: context),
         )
-        : buildGridView();
+        : buildGridView(context: context);
   }
 
-  GridView buildGridView() {
+  GridView buildGridView({required BuildContext context}) {
     return GridView.builder(
       shrinkWrap: true,
       padding: EdgeInsets.zero,
@@ -56,12 +56,12 @@ class ProductShimmer extends StatelessWidget {
             : productCardHorizontalHeight,
       ),
       itemBuilder: (_, __) => orientation == OrientationType.vertical
-        ? verticalProductShimmer()
-        : horizontalProductShimmer(),
+        ? verticalProductShimmer(context: context)
+        : horizontalProductShimmer(context: context),
     );
   }
 
-  Container verticalProductShimmer() {
+  Container verticalProductShimmer({required BuildContext context}) {
     const double productImageSizeVertical = Sizes.productImageSizeVertical;
     const double productCardVerticalHeight = Sizes.productCardVerticalHeight;
     const double productCardVerticalWidth = Sizes.productCardVerticalWidth;
@@ -70,10 +70,8 @@ class ProductShimmer extends StatelessWidget {
       width: productCardVerticalWidth,
       padding: const EdgeInsets.all(Sizes.xs),
       decoration: BoxDecoration(
-        boxShadow: [TShadowStyle.verticalProductShadow],
-        borderRadius: BorderRadius.circular(productImageRadius),
-        color: Colors.white,
-        // border: Border.all(color: TColors.borderSecondary.withOpacity(0.5)),
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(Sizes.productImageRadius),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,15 +124,14 @@ class ProductShimmer extends StatelessWidget {
     );
   }
 
-  Container horizontalProductShimmer() {
+  Container horizontalProductShimmer({required BuildContext context}) {
     const double productImageSizeHorizontal = Sizes.productImageSizeHorizontal;
     const double productImageRadius = Sizes.productImageRadius;
     return Container(
       padding: const EdgeInsets.all(Sizes.xs),
       decoration: BoxDecoration(
-        boxShadow: [TShadowStyle.verticalProductShadow],
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(Sizes.productImageRadius),
-        color: Colors.white,
       ),
       child: Row(
         children: [

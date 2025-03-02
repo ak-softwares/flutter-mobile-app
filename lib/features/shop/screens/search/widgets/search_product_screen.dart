@@ -1,4 +1,3 @@
-import 'package:aramarket/features/shop/screens/products/scrolling_products.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +7,7 @@ import '../../../../../common/text/section_heading.dart';
 import '../../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../controllers/search_controller/search_controller.dart';
+import '../../products/scrolling_products.dart';
 
 class SearchProductScreen extends StatelessWidget {
   const SearchProductScreen({super.key, required this.title, required this.searchQuery, this.orientation = OrientationType.vertical});

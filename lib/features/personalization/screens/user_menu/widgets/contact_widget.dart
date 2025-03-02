@@ -7,48 +7,35 @@ import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/icons.dart';
 import '../../../../settings/app_settings.dart';
 class SupportWidget extends StatelessWidget {
-  const SupportWidget({
-    super.key, this.showHeading = false,
-  });
+  const SupportWidget({super.key,});
 
-  final bool showHeading;
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: TColors.primaryBackground,
-        width: double.infinity,
-        padding: TSpacingStyle.defaultPagePadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            showHeading
-              ? const Column(
-                  children: [
-                    TSectionHeading(title: 'Support', verticalPadding: false),
-                    Divider(color: TColors.primaryColor, thickness: 2,),
-                  ],
-                )
-              : const SizedBox.shrink(),
-            ListTile(
-              onTap: SendMSG.sendWhatsAppMessage,
-              leading: Icon(TIcons.whatsapp, size: 20, color: const Color(0xFF25D366)),
-              title: Text('Whatsapp us', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),
-              subtitle: Text(AppSettings.supportWhatsApp),
-            ),
-            ListTile(
-              onTap: SendMSG.sendEmail,
-              leading: Icon(TIcons.email, size: 20, color: Colors.pinkAccent),
-              title: Text('Email us', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),
-              subtitle: Text(AppSettings.supportEmail),
-            ),
-            ListTile(
-              onTap: SendMSG.call,
-              leading: Icon(TIcons.phone, size: 20, color: Colors.cyan),
-              title: Text('Call us', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),
-              subtitle: Text(AppSettings.supportMobile),
-            ),
-          ],
-        )
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListTile(
+          onTap: SendMSG.sendWhatsAppMessage,
+          leading: Icon(Icons.chat, size: 20),
+          title: Text('Whatsapp us'),
+          subtitle: Text(AppSettings.supportWhatsApp),
+          trailing: Icon(TIcons.whatsapp, size: 20, color: Colors.blue),
+        ),
+        ListTile(
+          onTap: SendMSG.sendEmail,
+          leading: Icon(Icons.email, size: 20),
+          title: Text('Email us'),
+          subtitle: Text(AppSettings.supportEmail),
+          trailing: Icon(Icons.email_outlined, size: 20, color: Colors.blue),
+        ),
+        ListTile(
+          onTap: SendMSG.call,
+          leading: Icon(Icons.call_end_sharp, size: 20),
+          title: Text('Call us'),
+          subtitle: Text(AppSettings.supportMobile),
+          trailing: Icon(Icons.phone, size: 20, color: Colors.blue),
+        ),
+      ],
     );
   }
 }

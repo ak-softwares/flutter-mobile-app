@@ -1,9 +1,9 @@
-import 'package:aramarket/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../common/text/section_heading.dart';
 import '../../../../../utils/constants/colors.dart';
+import '../../../../../utils/constants/sizes.dart';
 import '../../../controllers/checkout_controller/checkout_controller.dart';
 import '../../../controllers/checkout_controller/payment_controller.dart';
 import '../../../models/payment_model.dart';

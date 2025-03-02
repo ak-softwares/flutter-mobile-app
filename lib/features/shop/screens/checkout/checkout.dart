@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 
 import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/styles/spacing_style.dart';
+import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
 import '../../../../common/widgets/product/product_cards/product_card_cart_items.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
@@ -53,50 +55,44 @@ class CheckoutScreen extends StatelessWidget {
       body: !authenticationRepository.isUserLogin.value
           ? const CheckLoginScreen(text: 'Please Login! before Checkout!')
           : SingleChildScrollView(
-            padding: const EdgeInsets.all(Sizes.defaultSpace),
             child: Column(
               children: [
-                Obx(
-                  () => GridLayout(
-                    crossAxisCount: 1,
-                    mainAxisExtent: 90,
-                    itemCount: cartController.cartItems.length,
-                    itemBuilder: (_, index) => Stack(
-                        children:[
-                          ProductCardForCart(cartItem: cartController.cartItems[index]),
-                        ]
+                // Cart Items
+                Obx(() => Column(
+                  children: [
+                    Padding(
+                      padding: TSpacingStyle.defaultPageHorizontal,
+                      child: const TSectionHeading(title: 'Cart Items'),
                     ),
-                  ),
-                ),
+                    GridLayout(
+                        crossAxisCount: 1,
+                        mainAxisExtent: 90,
+                        itemCount: cartController.cartItems.length,
+                        itemBuilder: (_, index) => ProductCardForCart(cartItem: cartController.cartItems[index]),
+                      ),
+                  ],
+                )),
                 const SizedBox(height: Sizes.spaceBtwSection,),
 
-                /// -- coupon TextField
-                const TCouponCode(),
-                const SizedBox(height: Sizes.spaceBtwSection,),
-
-                /// -- Billing Sections
-                const TRoundedContainer(
-                  showBorder: true,
-                  padding: EdgeInsets.all(Sizes.md),
+                // Billing Sections
+                Container(
+                  padding: TSpacingStyle.defaultPagePadding,
                   child: Column(
                     children: [
-                      /// pricing
+                      // coupon TextField
+                      const TCouponCode(),
+                      const SizedBox(height: Sizes.spaceBtwSection,),
+
+                      // pricing
+                      Divider(),
                       TBillingAmountSection(),
-                      SizedBox(height: Sizes.spaceBtwItems,),
 
-                      /// Divider
+                      // payment method
                       Divider(),
-                      SizedBox(height: Sizes.spaceBtwItems),
-
-                      /// payment method
                       TBillingPaymentSection(),
-                      SizedBox(height: Sizes.spaceBtwItems),
 
-                      /// Divider
+                      // address
                       Divider(),
-                      SizedBox(height: Sizes.spaceBtwItems),
-
-                      /// address
                       TBillingAddressSection(),
                       SizedBox(height: Sizes.spaceBtwItems),
                     ],

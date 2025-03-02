@@ -51,11 +51,9 @@ class RecentlyViewed extends StatelessWidget {
       actionText: 'Let\'s add some',
       onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
     );
-    return Obx(() => Scaffold(
-        appBar: const TAppBar2(titleText: 'Recently viewed', showCartIcon: true),
-        body: !authenticationRepository.isUserLogin.value
-            ? const CheckLoginScreen()
-            : RefreshIndicator(
+    return Scaffold(
+        appBar: const TAppBar2(titleText: 'Recently viewed', showCartIcon: true,),
+        body: RefreshIndicator(
                 color: TColors.refreshIndicator,
                 onRefresh: () async => recentlyViewedController.refreshRecentProducts(),
                 child: ListView(
@@ -81,7 +79,7 @@ class RecentlyViewed extends StatelessWidget {
                   ],
                 ),
               )
-    ));
+    );
   }
 }
 

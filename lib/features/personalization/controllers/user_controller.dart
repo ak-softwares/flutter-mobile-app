@@ -16,9 +16,10 @@ import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/local_storage_constants.dart';
 import '../../../utils/helpers/navigation_helper.dart';
 import '../../../utils/permissions/permissions.dart';
-import '../../../utils/popups/full_screen_loader.dart';
+import '../../../common/widgets/loaders/full_screen_loader.dart';
 import '../../authentication/screens/email_login/email_login.dart';
 import '../../authentication/screens/email_login/re_auth_user_login.dart';
+import '../../settings/app_settings.dart';
 import '../models/user_model.dart';
 
 class UserController extends GetxController {
@@ -27,6 +28,8 @@ class UserController extends GetxController {
   RxBool isLoading = false.obs;
   final localStorage = GetStorage();
   Rx<CustomerModel> customer = CustomerModel.empty().obs;
+
+  final RxString appVersion = ''.obs;
 
   final hidePassword = true.obs; //Observable for hiding/showing password
   final imageUploading = false.obs;
@@ -37,6 +40,20 @@ class UserController extends GetxController {
   final userRepository = Get.put(UserRepository());
   final wooCustomersRepository = Get.put(WooCustomersRepository());
   final authenticationRepository = Get.put(AuthenticationRepository());
+
+  @override
+  void onInit() {
+    super.onInit();
+    _loadAppVersion();
+  }
+
+  Future<void> _loadAppVersion() async {
+    try {
+      appVersion.value = await AppSettings.getAppVersion();
+    } catch (e) {
+      appVersion.value = '';
+    }
+  }
 
   //Fetch user record
   Future<void> fetchCustomerData() async {

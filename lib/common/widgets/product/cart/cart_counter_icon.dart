@@ -1,4 +1,3 @@
-import 'package:aramarket/utils/constants/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +6,7 @@ import '../../../../features/shop/controllers/favorite/favorite_controller.dart'
 import '../../../../features/shop/screens/cart/cart.dart';
 import '../../../../features/shop/screens/favourite/favourite.dart';
 import '../../../../utils/constants/colors.dart';
+import '../../../../utils/constants/icons.dart';
 
 class TCartCounterIcon extends StatelessWidget {
   const TCartCounterIcon({

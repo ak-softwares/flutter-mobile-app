@@ -1,4 +1,3 @@
-import 'package:aramarket/features/shop/models/product_model.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +7,7 @@ import '../../features/settings/app_settings.dart';
 import '../../features/shop/controllers/checkout_controller/checkout_controller.dart';
 import '../../features/shop/controllers/order/order_controller.dart';
 import '../../features/shop/models/cart_item_model.dart';
+import '../../features/shop/models/product_model.dart';
 
 class FBAnalytics {
 

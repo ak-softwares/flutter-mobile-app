@@ -1,8 +1,8 @@
-import 'package:aramarket/features/shop/models/brand_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../utils/constants/db_constants.dart';
+import 'brand_model.dart';
 import 'category_model.dart';
 import 'product_attribute_model.dart';
 

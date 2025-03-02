@@ -12,16 +12,25 @@ class AppSettings {
   static const double shippingCharge      =  100;
 
   // Images
-  static const String lightAppLogo = 'assets/logos/araMarket_light_logo.png';
-  static const String darkAppLogo  = 'assets/logos/aramarket_new.png';
+  static const String lightAppLogo  = 'assets/logos/aramarket_light.png';
+  static const String darkAppLogo   = 'assets/logos/aramarket_dark.png';
 
   // App Basic Colors
   static const Color primaryColor = Color(0xFFFFC61A);
-  // static const Color secondaryColor = Color(0xFF092143);
-  static const Color secondaryColor = Color(0xFF2d2d2d); //Zomato
+  static const Color secondaryColor = Color(0xFF2d2d2d); // 0xFF092143
   static const Color accent = Color(0xFFB0C7FF);
-  static const Color primaryBackground = Color(0xFFFFFFFF); //Zomato
-  static const Color secondaryBackground = Color(0xFFf4f4f2); //Zomato
+
+  static const Color lightText = Color(0xFF0B1014);    // Text Color
+  static const Color lightTextSofter = Color(0xFF8A929D); // Text Color Softer
+  static const Color lightBackground = Color(0xFFFFFFFF); // background
+  static const Color lightTileBackground = Color(0xFFF4F5F7); // Background for cards, dialogs, etc.
+
+  // FF0B1014 whatsapp // FF0C0F14 Instagram // Chrome Background FF15202F // Tile Background FF313C4C // input field FF1B2636
+  static const Color darkText = Color(0xFF0B1014);    // Text Color
+  static const Color darkTextSofter = Color(0xFFA3AAB4); // Text Color Softer
+  static const Color darkBackground = Color(0xFF0B1014); // background
+  static const Color darkTileBackground = Color(0xFF25282D); // Background for cards, dialogs, etc.
+  // static const Color darkInputFieldBackground = Color(0xFF25282D);
 
   // Support
   static const String supportWhatsApp   =  '+919368994493';

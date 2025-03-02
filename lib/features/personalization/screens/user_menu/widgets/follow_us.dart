@@ -12,9 +12,8 @@ class FollowUs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text('Follow us'),
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(icon: Icon(TIcons.facebook, size: 20, color: Colors.blue),
               onPressed: () => launchUrlString(AppSettings.facebook)),

@@ -14,23 +14,23 @@ class TCouponCode extends StatelessWidget {
 
     return Column(
       children: [
-        SizedBox(
-          height: 60,
-          child: TextFormField(
-            controller: couponController.coupon,
-            decoration: InputDecoration(
-              hintText: 'Enter coupon code',
-              prefixIcon: const Icon(Iconsax.discount_shape),
-              prefixIconColor: TColors.primaryColor,
-              suffixIcon: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: TextButton(
-                  onPressed: () {couponController.applyCoupon(couponController.coupon.text.trim());},
-                  child: Obx(() => couponController.isCouponLoad.value
-                      ? const SizedBox(width: 25, height: 25, child: CircularProgressIndicator(color: TColors.linkColor),)
-                      : const Text('Apply', style: TextStyle(color: Colors.blue))),
-                ),
-              ),
+        TextFormField(
+          controller: couponController.coupon,
+          decoration: InputDecoration(
+            hintText: 'Enter coupon code',
+            hintStyle: TextStyle(color: Colors.grey[500]), // Ensure hint is visible
+            isDense: true, // Prevent excessive padding
+            contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12), // Prevent squeezing
+            prefixIcon: Icon(Iconsax.discount_shape, size: 20),
+            suffixIcon: TextButton(
+              onPressed: () => couponController.applyCoupon(couponController.coupon.text.trim()),
+              child: Obx(() => couponController.isCouponLoad.value
+                  ? SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: TColors.linkColor),
+                    )
+                  : Text('Apply', style: TextStyle(color: Colors.blue, fontSize: 15, fontWeight: FontWeight.w500))),
             ),
           ),
         ),
@@ -38,7 +38,7 @@ class TCouponCode extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: TextButton(
               onPressed: () => Get.to(() => const CouponScreen()),
-              child: Text('View All Coupons', style: Theme.of(context).textTheme.labelLarge),
+              child: Text('View All Coupons', style: TextStyle(fontSize: 14, color: TColors.linkColor)),
           ),
         )
       ],

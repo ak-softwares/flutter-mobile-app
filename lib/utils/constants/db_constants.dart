@@ -215,6 +215,7 @@ class OrderFieldName {
   static const String number = 'number';
   static const String metaData = 'meta_data';
   static const String lineItems = 'line_items';
+  static const String taxLines = 'tax_lines';
   static const String shippingLines = 'shipping_lines';
   static const String couponLines = 'coupon_lines';
   static const String paymentUrl = 'payment_url';

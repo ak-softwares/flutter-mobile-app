@@ -1,17 +1,14 @@
-import 'package:aramarket/common/layout_models/product_grid_layout.dart';
-import 'package:aramarket/common/widgets/custom_shape/containers/rounded_container.dart';
-import 'package:aramarket/common/widgets/custom_shape/image/circular_image.dart';
-import 'package:aramarket/features/shop/models/product_attribute_model.dart';
-import 'package:aramarket/features/shop/screens/products/scrolling_products.dart';
-import 'package:aramarket/utils/constants/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
+import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
+import '../../../../common/widgets/custom_shape/image/circular_image.dart';
 import '../../../../common/widgets/loaders/animation_loader.dart';
 import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../common/widgets/shimmers/single_product_shimmer.dart';
@@ -19,14 +16,17 @@ import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../services/share/share.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/db_constants.dart';
+import '../../../../utils/constants/icons.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../settings/app_settings.dart';
 import '../../controllers/cart_controller/cart_controller.dart';
 import '../../controllers/product/product_controller.dart';
 import '../../controllers/recently_viewed/recently_viewed_controller.dart';
+import '../../models/product_attribute_model.dart';
 import '../../models/product_model.dart';
 import '../all_products/all_products.dart';
+import 'scrolling_products.dart';
 import 'scrolling_products_by_item_id.dart';
 import '../review/product_review.dart';
 import '../review/product_review_horizontal.dart';
@@ -255,7 +255,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         color: TColors.refreshIndicator,
         onRefresh: () async => _refreshProduct(),
         child: ListView(
-          padding: TSpacingStyle.defaultPagePadding,
+          padding: TSpacingStyle.defaultPageVertical,
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
             Obx(() {
@@ -281,273 +281,285 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   const SizedBox(height: Sizes.sm),
                   const Divider(),
 
-                  // Title
-                  SelectableText(_product.value.name ?? '', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500)),
-                  // const SizedBox(height: TSizes.sm),
+                  Padding(
+                    padding: TSpacingStyle.defaultPageHorizontal,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Title
+                        SelectableText(_product.value.name ?? '', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500)),
+                        // const SizedBox(height: TSizes.sm),
 
-                  // Category
-                  InkWell(
-                      onTap: () => Get.to(() => TAllProducts(
-                              title: _product.value.categories?[0].name ?? '',
-                              categoryId: _product.value.categories?[0].id ?? '',
-                              sharePageLink: '${AppSettings.appName} - ${_product.value.categories?[0].permalink}',
-                              futureMethodTwoString: productController.getProductsByCategoryId)
-                          ),
-                      // onTap: () => Get.to(CategoryTapBarScreen(categoryId: _product.value.categories?[0].id ?? '')),
-                      child: Row(
-                        children: [
-                          Text(_product.value.categories?[0].name ?? '',
-                              style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor)
-                          ),
-                          SizedBox(width: Sizes.sm,),
-                          GestureDetector(
-                            onTap: () => AppShare.shareUrl(
-                                url: '${_product.value.categories?[0].permalink}',
-                                contentType: 'Category',
-                                itemName: _product.value.categories?[0].name ?? '',
-                                itemId: _product.value.categories?[0].id ?? ''
-                            ),
-                            child: Icon(
-                              TIcons.share,
-                              size: Sizes.md,
-                              color: TColors.linkColor,
-                            ),
-                          )
-                        ],
-                      )
-                  ),
-                  const SizedBox(height: Sizes.sm),
-
-                  // Brands
-                  _product.value.brands != null && _product.value.brands!.isNotEmpty
-                      ? Column(
-                          children: [
-                            Text(
-                              _product.value.brands?.map((brand) => brand.name).join(', ') ?? '', // Join brand names with commas
-                              style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(color: TColors.linkColor),
-                            ),
-                            const SizedBox(height: Sizes.sm),
-                          ],
-                        )
-                      : SizedBox.shrink(),
-
-                  // Price
-                  Row(
-                    children: [
-                      TSaleLabel(discount: _product.value.calculateSalePercentage(), size: 13,),
-                      // TOfferWidget(label: '${_product.value.calculateSalePercentage()}% off'),
-                      const SizedBox(width: Sizes.spaceBtwItems),
-                      ProductPrice(salePrice: _product.value.salePrice,
-                          regularPrice: _product.value.regularPrice ?? 0.0,
-                          orientation: OrientationType.horizontal
-                      ),
-                      // const SizedBox(width: TSizes.spaceBtwItems),
-                      // TSaleLabel(discount: salePercentage),
-                    ],
-                  ),
-                  const SizedBox(height: Sizes.sm / 2 ),
-
-                  // Free Delivery Label
-                  _product.value.getPrice() >= AppSettings.freeShippingOver
-                      ? TRoundedContainer(
-                          radius: Sizes.productImageRadius,
-                          backgroundColor: Colors.blue.shade50,
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text('Free Delivery', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.linkColor, fontSize: 10)),
-                              const SizedBox(width: Sizes.spaceBtwItems),
-                              Icon(TIcons.truck, color: TColors.linkColor, size: 10),
-                              const SizedBox(width: 5),
-                            ],
-                          )
-                        )
-                      : TRoundedContainer(
-                            radius: Sizes.productImageRadius,
-                            backgroundColor: Colors.blue.shade50,
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                        // Category
+                        InkWell(
+                            onTap: () => Get.to(() => TAllProducts(
+                                    title: _product.value.categories?[0].name ?? '',
+                                    categoryId: _product.value.categories?[0].id ?? '',
+                                    sharePageLink: '${AppSettings.appName} - ${_product.value.categories?[0].permalink}',
+                                    futureMethodTwoString: productController.getProductsByCategoryId)
+                                ),
+                            // onTap: () => Get.to(CategoryTapBarScreen(categoryId: _product.value.categories?[0].id ?? '')),
                             child: Row(
-                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text('Free delivery over ₹999', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.linkColor, fontSize: 10)),
-                                const SizedBox(width: Sizes.spaceBtwItems),
-                                Icon(TIcons.truck, color: TColors.linkColor, size: 10),
-                                const SizedBox(width: 5),
+                                Text(_product.value.categories?[0].name ?? '',
+                                    style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor)
+                                ),
+                                SizedBox(width: Sizes.sm,),
+                                GestureDetector(
+                                  onTap: () => AppShare.shareUrl(
+                                      url: '${_product.value.categories?[0].permalink}',
+                                      contentType: 'Category',
+                                      itemName: _product.value.categories?[0].name ?? '',
+                                      itemId: _product.value.categories?[0].id ?? ''
+                                  ),
+                                  child: Icon(
+                                    TIcons.share,
+                                    size: Sizes.md,
+                                    color: TColors.linkColor,
+                                  ),
+                                )
                               ],
                             )
                         ),
-                  const SizedBox(height: Sizes.spaceBtwItems),
+                        const SizedBox(height: Sizes.sm),
 
-                  // In Stock
-                  InStock(isProductAvailable: _product.value.isProductAvailable()),
-                  const SizedBox(height: Sizes.sm),
+                        // Brands
+                        _product.value.brands != null && _product.value.brands!.isNotEmpty
+                            ? Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () => Get.to(() => TAllProducts(
+                                        title: _product.value.brands?[0].name ?? '',
+                                        categoryId: _product.value.brands?[0].id.toString() ?? '',
+                                        sharePageLink: '${AppSettings.appName} - ${_product.value.brands?[0].permalink}',
+                                        futureMethodTwoString: productController.getProductsByBrandId)
+                                    ),
+                                    child: Text(
+                                      _product.value.brands?.map((brand) => brand.name).join(', ') ?? '', // Join brand names with commas
+                                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor),
+                                    ),
+                                  ),
+                                  const SizedBox(height: Sizes.sm),
+                                ],
+                              )
+                            : SizedBox.shrink(),
 
-                  // Variation
-                  _product.value.type == "variable" && filteredAttributes.isNotEmpty
-                      ? GridLayout(
-                            mainAxisExtent: 80,
-                            itemCount: filteredAttributes.length,
-                            itemBuilder: (context, attrIndex) {
-                              final attribute = filteredAttributes[attrIndex];
-                              if(attribute?.variation ?? false) {
-                                bool lastAttribute =  attrIndex == (filteredAttributes.length - 1);
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                        // Price
+                        Row(
+                          children: [
+                            TSaleLabel(discount: _product.value.calculateSalePercentage(), size: 13,),
+                            // TOfferWidget(label: '${_product.value.calculateSalePercentage()}% off'),
+                            const SizedBox(width: Sizes.spaceBtwItems),
+                            ProductPrice(salePrice: _product.value.salePrice,
+                                regularPrice: _product.value.regularPrice ?? 0.0,
+                                orientation: OrientationType.horizontal
+                            ),
+                            // const SizedBox(width: TSizes.spaceBtwItems),
+                            // TSaleLabel(discount: salePercentage),
+                          ],
+                        ),
+                        const SizedBox(height: Sizes.sm / 2 ),
+
+                        // Free Delivery Label
+                        _product.value.getPrice() >= AppSettings.freeShippingOver
+                            ? TRoundedContainer(
+                                radius: Sizes.productImageRadius,
+                                backgroundColor: Colors.blue.shade50,
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text('Select ${attribute?.name}',
-                                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500)
-                                    ),
-                                    SizedBox(height: 10),
-                                    GridLayout(
-                                        mainAxisExtent: 40,
-                                        crossAxisCount: 3,
-                                        itemCount: lastAttribute ? (attribute?.options?.length ?? 0) + 1 : (attribute?.options?.length ?? 0),
-                                        itemBuilder: (context, index) {
-                                          // Check if this is the last item
-                                          if (lastAttribute) {
-                                            bool lastAttributeChild =  index == ((attribute?.options?.length ?? 0));
-                                            if(lastAttributeChild) {
-                                              return InkWell(
-                                                onTap: () => _clearSelectedOptions(),
-                                                child: Center(
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        Icon(Icons.close, size: 19,),
-                                                        Text('Clear', ),
-                                                      ],
-                                                )),
-                                              );
-                                            }
-                                          }
-                                          final option = attribute?.options?[index];
-                                          return InkWell(
-                                            onTap: () {
-                                              _updateVariation(attribute?.name ?? '', option ?? '');
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: _hasKeyValue(attribute?.name ?? '', option ?? '') ? Colors.blue : Colors.grey, // Highlight selected item
-                                                  width: _hasKeyValue(attribute?.name ?? '', option ?? '') ? 2 : 1,
-                                                ),
-                                                borderRadius: BorderRadius.circular(8),
-                                                color: _hasKeyValue(attribute?.name ?? '', option ?? '') ? Colors.blue.withOpacity(0.2) : Colors.transparent, // Optional background color
-                                              ),
-                                              child: attribute?.name?.toLowerCase() == 'color' &&
-                                                  TColors.getColorFromString(option?.toLowerCase() ?? '') != Colors.transparent
-                                                  ? Padding(
-                                                    padding: EdgeInsets.all(Sizes.sm),
-                                                    child: TRoundedContainer(
-                                                        height: 20,
-                                                        width: 20,
-                                                        radius: 100,
-                                                        backgroundColor: TColors.getColorFromString(option?.toLowerCase() ?? ''),
-                                                      ),
-                                                  )
-                                                  : Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      filteredAttributes.length == 1
-                                                          ? Row(
-                                                            children: [
-                                                              TRoundedImage(
-                                                                    height: 30,
-                                                                    width: 30,
-                                                                    padding: 0,
-                                                                    borderRadius: 3,
-                                                                    isNetworkImage: true,
-                                                                    image: _getVariationImage(attribute?.name ?? '', option ?? '')
-                                                                    // image: _productVariations.first.image ?? '',
-                                                                ),
-                                                              SizedBox(width: Sizes.sm),
-                                                            ],
-                                                          )
-                                                          : SizedBox.shrink(),
-                                                      Text(option ?? '',
-                                                          overflow: TextOverflow.ellipsis,
-                                                          maxLines: 1,
-                                                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500)
-                                                      ),
-                                                    ],
-                                                  ),
-                                            ),
-                                          );
-                                        }
-                                    ),
+                                    Text('Free Delivery', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.linkColor, fontSize: 10)),
+                                    const SizedBox(width: Sizes.spaceBtwItems),
+                                    Icon(TIcons.truck, color: TColors.linkColor, size: 10),
+                                    const SizedBox(width: 5),
                                   ],
-                                );
-                              }
-                              return SizedBox.shrink();
-                            }
-                        )
-                      : SizedBox.shrink(),
-                  const SizedBox(height: Sizes.spaceBtwItems),
+                                )
+                              )
+                            : TRoundedContainer(
+                                  radius: Sizes.productImageRadius,
+                                  backgroundColor: Colors.blue.shade50,
+                                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text('Free delivery over ₹999', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.linkColor, fontSize: 10)),
+                                      const SizedBox(width: Sizes.spaceBtwItems),
+                                      Icon(TIcons.truck, color: TColors.linkColor, size: 10),
+                                      const SizedBox(width: 5),
+                                    ],
+                                  )
+                              ),
+                        const SizedBox(height: Sizes.spaceBtwItems),
 
-                  // Product review
-                  _product.value.averageRating != 0
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ProductReviewHorizontal(product: _product.value),
-                            const SizedBox(height: Sizes.sm),
-                          ],
-                        )
-                      : const SizedBox.shrink(),
+                        // In Stock
+                        InStock(isProductAvailable: _product.value.isProductAvailable()),
+                        const SizedBox(height: Sizes.sm),
 
-                  // Frequently Bought together
-                  ProductsScrollingByItemID(
-                      itemName: 'Frequently Bought together',
-                      itemID: _product.value.id.toString(),
-                      futureMethod: productController.getFBTProducts
-                  ),
+                        // Variation
+                        _product.value.type == "variable" && filteredAttributes.isNotEmpty
+                            ? GridLayout(
+                                  mainAxisExtent: 80,
+                                  itemCount: filteredAttributes.length,
+                                  itemBuilder: (context, attrIndex) {
+                                    final attribute = filteredAttributes[attrIndex];
+                                    if(attribute?.variation ?? false) {
+                                      bool lastAttribute =  attrIndex == (filteredAttributes.length - 1);
+                                      return Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Select ${attribute?.name}',
+                                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500)
+                                          ),
+                                          SizedBox(height: 10),
+                                          GridLayout(
+                                              mainAxisExtent: 40,
+                                              crossAxisCount: 3,
+                                              itemCount: lastAttribute ? (attribute?.options?.length ?? 0) + 1 : (attribute?.options?.length ?? 0),
+                                              itemBuilder: (context, index) {
+                                                // Check if this is the last item
+                                                if (lastAttribute) {
+                                                  bool lastAttributeChild =  index == ((attribute?.options?.length ?? 0));
+                                                  if(lastAttributeChild) {
+                                                    return InkWell(
+                                                      onTap: () => _clearSelectedOptions(),
+                                                      child: Center(
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              Icon(Icons.close, size: 19,),
+                                                              Text('Clear', ),
+                                                            ],
+                                                      )),
+                                                    );
+                                                  }
+                                                }
+                                                final option = attribute?.options?[index];
+                                                return InkWell(
+                                                  onTap: () {
+                                                    _updateVariation(attribute?.name ?? '', option ?? '');
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: _hasKeyValue(attribute?.name ?? '', option ?? '') ? Colors.blue : Colors.grey, // Highlight selected item
+                                                        width: _hasKeyValue(attribute?.name ?? '', option ?? '') ? 2 : 1,
+                                                      ),
+                                                      borderRadius: BorderRadius.circular(8),
+                                                      color: _hasKeyValue(attribute?.name ?? '', option ?? '') ? Colors.blue.withOpacity(0.2) : Colors.transparent, // Optional background color
+                                                    ),
+                                                    child: attribute?.name?.toLowerCase() == 'color' &&
+                                                        TColors.getColorFromString(option?.toLowerCase() ?? '') != Colors.transparent
+                                                        ? Padding(
+                                                          padding: EdgeInsets.all(Sizes.sm),
+                                                          child: TRoundedContainer(
+                                                              height: 20,
+                                                              width: 20,
+                                                              radius: 100,
+                                                              backgroundColor: TColors.getColorFromString(option?.toLowerCase() ?? ''),
+                                                            ),
+                                                        )
+                                                        : Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            filteredAttributes.length == 1
+                                                                ? Row(
+                                                                  children: [
+                                                                    TRoundedImage(
+                                                                          height: 30,
+                                                                          width: 30,
+                                                                          padding: 0,
+                                                                          borderRadius: 3,
+                                                                          isNetworkImage: true,
+                                                                          image: _getVariationImage(attribute?.name ?? '', option ?? '')
+                                                                          // image: _productVariations.first.image ?? '',
+                                                                      ),
+                                                                    SizedBox(width: Sizes.sm),
+                                                                  ],
+                                                                )
+                                                                : SizedBox.shrink(),
+                                                            Text(option ?? '',
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 1,
+                                                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500)
+                                                            ),
+                                                          ],
+                                                        ),
+                                                  ),
+                                                );
+                                              }
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    return SizedBox.shrink();
+                                  }
+                              )
+                            : SizedBox.shrink(),
+                        const SizedBox(height: Sizes.spaceBtwItems),
 
-                  const SizedBox(height: Sizes.spaceBtwSection),
-                  _product.value.description != ''
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const TSectionHeading(title: 'Description'),
-                            const SizedBox(height: Sizes.sm),
-                            // Text(product.description ?? ''),
-                            Html(data: _product.value.description)
-                          ],
-                        )
-                      : const SizedBox.shrink(),
+                        // Product review
+                        _product.value.averageRating != 0
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                      onTap: () => _showReviewInBottomSheet(context: context, product: _product.value),
+                                      child: ProductReviewHorizontal(product: _product.value)
+                                  ),
+                                  const SizedBox(height: Sizes.sm),
+                                ],
+                              )
+                            : const SizedBox.shrink(),
 
-                  // Shown products by category
-                  ProductsScrollingByItemID(
-                      itemName: _product.value.categories?[0].name ?? '',
-                      itemID: _product.value.categories?[0].id ?? '',
-                      futureMethod: productController.getProductsByCategoryId
-                  ),
-                  const SizedBox(height: Sizes.sm),
+                        // Frequently Bought together
+                        ProductsScrollingByItemID(
+                            itemName: 'Frequently Bought together',
+                            itemID: _product.value.id.toString(),
+                            futureMethod: productController.getFBTProducts
+                        ),
 
-                  // Shown products by related products, up sale,cross sale
-                  ProductsScrollingByItemID(
-                      itemName: 'Related Products',
-                      itemID: _product.value.getAllRelatedProductsIdsAsString(),
-                      futureMethod: productController.getProductsByIds
-                  ),
-                  const SizedBox(height: Sizes.sm),
-                  const Divider(),
+                        const SizedBox(height: Sizes.spaceBtwSection),
+                        _product.value.description != ''
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const TSectionHeading(title: 'Description'),
+                                  const SizedBox(height: Sizes.sm),
+                                  // Text(product.description ?? ''),
+                                  Html(data: _product.value.description)
+                                ],
+                              )
+                            : const SizedBox.shrink(),
 
-                  // Review
-                  const SizedBox(height: Sizes.spaceBtwItems),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(width: 250,
-                          child: TSectionHeading(title: 'Reviews(${_product.value.ratingCount})')),
-                      IconButton(
-                          onPressed: () => Get.to(() => ProductReviewScreen(product: _product.value)),
-                          icon: const Icon(Iconsax.arrow_right_3, size: 18)
-                      )
-                    ],
+                        // Shown products by category
+                        ProductsScrollingByItemID(
+                            itemName: _product.value.categories?[0].name ?? '',
+                            itemID: _product.value.categories?[0].id ?? '',
+                            futureMethod: productController.getProductsByCategoryId
+                        ),
+                        const SizedBox(height: Sizes.sm),
+
+                        // Shown products by related products, up sale,cross sale
+                        ProductsScrollingByItemID(
+                            itemName: 'Related Products',
+                            itemID: _product.value.getAllRelatedProductsIdsAsString(),
+                            futureMethod: productController.getProductsByIds
+                        ),
+                        const SizedBox(height: Sizes.sm),
+                        const Divider(),
+
+                        // Review
+                        const SizedBox(height: Sizes.spaceBtwItems),
+                        ListTile(
+                          onTap: () => _showReviewInBottomSheet(context: context, product: _product.value),
+                          // leading: const Icon(Icons.reviews_outlined, size: 20),
+                          title: Text('Reviews (Based on ${_product.value.ratingCount})'),
+                          // subtitle: Text('Based on ${_product.value.ratingCount}'),
+                          trailing: Icon(Icons.reviews_outlined, size: 20, color: TColors.linkColor,),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               );
@@ -556,6 +568,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
       ),
     );
+  }
+
+  void _showReviewInBottomSheet({required BuildContext context, required ProductModel product}) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Colors.grey.shade900  // Dark mode background
+          : Colors.white,          // Light mode background
+      builder: (context) {
+        return ProductReviewScreen(product: product);
+      },
+    );
+
   }
 }
 

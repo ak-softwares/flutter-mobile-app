@@ -71,7 +71,7 @@ class EnterOTPScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: Sizes.spaceBtwSection),
 
-                //Otp Input field
+                // Otp Input field
                 SizedBox(
                   width: 250,
                   child: PinFieldAutoFill(
@@ -84,8 +84,8 @@ class EnterOTPScreen extends StatelessWidget {
                     ),
                     textInputAction: TextInputAction.done,
                     decoration: UnderlineDecoration(
-                      textStyle: const TextStyle(fontSize: 18, color: Colors.black),
-                      colorBuilder: FixedColorBuilder(Colors.black.withOpacity(0.4)),
+                      textStyle: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onSurface),
+                      colorBuilder: FixedColorBuilder(Theme.of(context).colorScheme.onSurfaceVariant),
                       // bgColorBuilder: FixedColorBuilder(Colors.grey.withOpacity(0.2))
                     ),
                     controller: otpController.otp,

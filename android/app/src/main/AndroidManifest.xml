@@ -58,22 +58,29 @@
             <!-- App Links (secured)/ Unique Links with assetlinks.json -->
             <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
 
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="https" android:host="aramarket.in" />-->
+<!--            </intent-filter>-->
+
             <!-- For All link open in app -->
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="aramarket.in" android:path="/" />
-            </intent-filter>
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="https" android:host="aramarket.in" android:path="/" />-->
+<!--            </intent-filter>-->
 
             <!-- Only those link open in app which is specify other open in browser -->
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="aramarket.in" android:pathPattern="/product/.*" />
-                <data android:scheme="https" android:host="aramarket.in" android:pathPattern="/product-category/.*" />
-            </intent-filter>
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="https" android:host="aramarket.in" android:pathPattern="/product/.*" />-->
+<!--                <data android:scheme="https" android:host="aramarket.in" android:pathPattern="/product-category/.*" />-->
+<!--            </intent-filter>-->
 
         </activity>
         <!-- Don't delete the meta-data below.

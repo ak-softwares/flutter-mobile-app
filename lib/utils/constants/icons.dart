@@ -12,6 +12,7 @@ class TIcons {
   static IconData home = LineIcons.home;
   static IconData store = FontAwesomeIcons.store;
   static IconData category = LineIcons.box;
+  static IconData category1 = FontAwesomeIcons.box;
   // static IconData favorite = LineIcons.heart;
   static IconData favorite = FontAwesomeIcons.star; //heart
   static IconData user = LineIcons.user;

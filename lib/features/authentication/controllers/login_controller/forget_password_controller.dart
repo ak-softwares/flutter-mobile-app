@@ -7,7 +7,7 @@ import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../data/repositories/woocommerce_repositories/authentication/woo_authentication.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/image_strings.dart';
-import '../../../../utils/popups/full_screen_loader.dart';
+import '../../../../common/widgets/loaders/full_screen_loader.dart';
 import '../../screens/email_login/reset_password_screen.dart';
 
 class ForgetPasswordController extends GetxController{

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
+import '../../../../common/widgets/custom_shape/image/circular_image.dart';
 import '../../../../common/widgets/shimmers/shimmer_effect.dart';
 import '../../../../common/widgets/shimmers/user_shimmer.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
@@ -13,6 +14,7 @@ import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../authentication/screens/check_login_screen/check_login_screen.dart';
+import '../../../settings/app_settings.dart';
 import '../../controllers/user_controller.dart';
 import '../user_profile/user_profile.dart';
 import 'widgets/contact_widget.dart';
@@ -31,82 +33,103 @@ class UserMenuScreen extends StatelessWidget {
     final userController = Get.put(UserController());
     userController.refreshCustomer();
 
-    return  Obx(() => Scaffold(
-        backgroundColor: TColors.secondaryBackground,
-        appBar: const TAppBar2(titleText: 'Profile Setting', seeLogoutButton: true,),
-        body: !AuthenticationRepository.instance.isUserLogin.value
-            ? const CheckLoginScreen()
-            : RefreshIndicator(
+    return  Scaffold(
+        appBar: const TAppBar2(titleText: 'Menu', seeLogoutButton: true),
+        body: RefreshIndicator(
                 color: TColors.refreshIndicator,
                 onRefresh: () async => userController.refreshCustomer(),
                 child: SingleChildScrollView(
-                  padding: TSpacingStyle.defaultPagePadding,
+                  padding: TSpacingStyle.defaultPageVertical,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      //User profile
-                      CustomerProfileCard(userController: userController, showHeading: true),
+                      Obx(() {
+                       if(AuthenticationRepository.instance.isUserLogin.value) {
+                         return Column(
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                             // User profile
+                             Heading(title: 'Your profile', paddingLeft: Sizes.defaultSpace),
+                             CustomerProfileCard(userController: userController),
+                           ],
+                         );
+                       } else {
+                         return SizedBox.shrink();
+                        }
+                      }),
 
-                      //Cart and wishlist
-                      const SizedBox(height: Sizes.spaceBtwInputFields),
-                      const FavouriteWithCart(),
-
-                      //Menu
-                      const SizedBox(height: Sizes.spaceBtwInputFields),
+                      // Menu
+                      Heading(title: 'Menu', paddingLeft: Sizes.defaultSpace),
                       const Menu(),
 
-                      //Contact
-                      const SizedBox(height: Sizes.spaceBtwInputFields),
-                      const SupportWidget(showHeading: true),
+                      // Contact
+                      Heading(title: 'Support', paddingLeft: Sizes.defaultSpace),
+                      const SupportWidget(),
 
-                      //Policy
-                      const SizedBox(height: Sizes.spaceBtwInputFields),
+                      // Policy
+                      Heading(title: 'Support', paddingLeft: Sizes.defaultSpace),
                       const PolicyWidget(),
-
-                      //Follow us
                       const SizedBox(height: Sizes.spaceBtwInputFields),
+
+                      // Follow us
+                      Heading(title: 'Follow us', paddingLeft: Sizes.defaultSpace),
                       const FollowUs(),
+                      const SizedBox(height: Sizes.spaceBtwInputFields),
+
+                      // Version
+                      Center(
+                        child: Stack(
+                          alignment: Alignment.topCenter, // Align text closer to the image
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: Sizes.xs),
+                              child: TRoundedImage(
+                                  backgroundColor: Colors.transparent,
+                                  width: 120,
+                                  padding: 0,
+                                  image: Theme.of(context).brightness != Brightness.dark
+                                      ? AppSettings.lightAppLogo
+                                      : AppSettings.lightAppLogo,
+                              ),
+                            ),
+                            Positioned(
+                                bottom: 0, // Adjust this to bring text closer
+                                child: Obx(() => Text('v${userController.appVersion.value}', style: TextStyle(fontSize: 12),))
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: Sizes.md),
                     ],
                   ),
                 ),
             ),
-      ),
-    );
+      );
   }
 }
 
 class CustomerProfileCard extends StatelessWidget {
   const CustomerProfileCard({
     super.key,
-    required this.userController, this.showHeading = false,
+    required this.userController,
   });
 
-  final bool showHeading;
   final UserController userController;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: TColors.primaryBackground,
-      width: double.infinity,
-      padding: TSpacingStyle.defaultPagePadding,
-      child: Column(
-        children: [
-          showHeading
-            ? Column(
-                children: [
-                  TSectionHeading(title: 'Your profile', verticalPadding: false, seeActionButton: true, buttonTitle: '', onPressed: () => Get.to(() => const UserProfileScreen()),),
-                  const Divider(color: TColors.primaryColor, thickness: 2,),
-                ],
-              )
-            : const SizedBox.shrink(),
-          Obx(() {
-            if(userController.isLoading.value){
-              return const UserTileShimmer();
-            } else {
-               return ListTile(
-                  contentPadding: const EdgeInsets.all(0),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Obx(() {
+          if(userController.isLoading.value){
+            return const UserTileShimmer();
+          } else {
+             return InkWell(
+               onTap: () => Get.to(() => const UserProfileScreen()),
+               child: ListTile(
                   leading: SizedBox(
-                    width: 50, height: 50,
+                    width: 40, height: 40,
                     child:  ClipRRect(
                       borderRadius: BorderRadius.circular(200),
                       child: Obx((){
@@ -130,13 +153,14 @@ class CustomerProfileCard extends StatelessWidget {
                     })
                 ),
                   ),
-                  title: Text(userController.customer.value.name.isEmpty ? "User" : userController.customer.value.name, style: Theme.of(context).textTheme.titleSmall),
-                  subtitle: Text(userController.customer.value.email?.isNotEmpty ?? false ? userController.customer.value.email! : '', style: Theme.of(context).textTheme.bodyMedium),
-               );
-            }
-          }),
-        ],
-      ),
+                  title: Text(userController.customer.value.name.isEmpty ? "User" : userController.customer.value.name,),
+                  subtitle: Text(userController.customer.value.email?.isNotEmpty ?? false ? userController.customer.value.email! : '',),
+                  trailing: Icon(Icons.arrow_forward_ios, size: 20,),
+               ),
+             );
+          }
+        }),
+      ],
     );
   }
 }

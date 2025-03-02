@@ -33,15 +33,15 @@ class CategoryTapBarScreen extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               centerTitle: false,
-              backgroundColor: TColors.primaryColor,
-              title: Text('Products by categories', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600)),
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              title: Text('Products by categories', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
               actions: [
-                IconButton( icon: Icon(TIcons.search), color: TColors.secondaryColor, onPressed: () => showSearch(context: context, delegate: TSearchDelegate())),
-                TCartCounterIcon(iconColor: TColors.secondaryColor),
+                IconButton( icon: Icon(TIcons.search), color: Theme.of(context).colorScheme.onSurface, onPressed: () => showSearch(context: context, delegate: TSearchDelegate())),
+                TCartCounterIcon(iconColor: Theme.of(context).colorScheme.onSurface),
               ],
               bottom: TabBar(
-                unselectedLabelColor: Colors.black87,
-                indicatorColor: TColors.secondaryColor,
+                // unselectedLabelColor: Colors.black87,
+                // indicatorColor: TColors.secondaryColor,
                 isScrollable: true,
                 labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),
                 tabs: categories.map((category) {

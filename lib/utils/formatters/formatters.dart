@@ -1,14 +1,33 @@
 import 'package:intl/intl.dart';
 
 class TFormatter {
+
   static String formatDate(DateTime? date) {
     date ??= DateTime.now();
     return DateFormat('dd-MM-yyyy').format(date);
   }
+
   static String formatStringDate(String dateString) {
     DateTime dateTime = DateTime.parse(dateString);
     String formattedDate = DateFormat('dd, MMMM yyyy').format(dateTime);
     return formattedDate;
+  }
+
+  static String formatRelativeDate(String dateString) {
+    DateTime dateTime = DateTime.parse(dateString);
+    Duration diff = DateTime.now().difference(dateTime);
+
+    if (diff.inDays < 1) {
+      return "1D"; // Less than 1 day
+    } else if (diff.inDays < 7) {
+      return "${diff.inDays}D"; // Days ago
+    } else if (diff.inDays < 30) {
+      return "${(diff.inDays / 7).floor()}W"; // Weeks ago
+    } else if (diff.inDays < 365) {
+      return "${(diff.inDays / 30).floor()}M"; // Months ago
+    } else {
+      return "${(diff.inDays / 365).floor()}Y"; // Years ago
+    }
   }
 
   static String maskEmail(String email) {

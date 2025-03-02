@@ -27,9 +27,12 @@ class OrderShimmer extends StatelessWidget {
         return Container(
           padding: TSpacingStyle.defaultPagePadding,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(orderTileRadius),
-            boxShadow: const [TShadowStyle.horizontalProductShadow],
+            border: Border.all(
+              width: 1,
+              color: Theme.of(context).colorScheme.outline, // Border color
+            )
           ),
           child: Stack(
             children: [

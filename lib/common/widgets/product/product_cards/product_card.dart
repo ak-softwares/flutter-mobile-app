@@ -30,14 +30,13 @@ class ProductCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductDetailScreen(product: product, pageSource: pageSource,))),
-      // onTap: () => Get.to(ProductDetailScreen(product: product)),
       child: orientation == OrientationType.vertical
-        ? productCardVertical()
-        : productCardHorizontal()
+        ? productCardVertical(context: context)
+        : productCardHorizontal(context: context)
     );
   }
 
-  Container productCardVertical() {
+  Container productCardVertical({required BuildContext context}) {
     const double productImageSizeVertical = Sizes.productImageSizeVertical;
     const double productCardVerticalHeight = Sizes.productCardVerticalHeight;
     const double productCardVerticalWidth = Sizes.productCardVerticalWidth;
@@ -47,10 +46,8 @@ class ProductCard extends StatelessWidget {
       width: productCardVerticalWidth,
       padding: const EdgeInsets.all(Sizes.xs),
       decoration: BoxDecoration(
-        boxShadow: [TShadowStyle.verticalProductShadow],
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(productImageRadius),
-        color: Colors.white,
-        // border: Border.all(color: TColors.borderSecondary.withOpacity(0.5)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -189,7 +186,7 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Container productCardHorizontal() {
+  Container productCardHorizontal({required BuildContext context}) {
     const double productImageSizeHorizontal = Sizes.productImageSizeHorizontal;
     const double productCardHorizontalHeight = Sizes.productCardHorizontalHeight;
     const double productCardHorizontalWidth = Sizes.productCardHorizontalWidth;
@@ -199,9 +196,8 @@ class ProductCard extends StatelessWidget {
       width: productCardHorizontalWidth,
       padding: const EdgeInsets.all(Sizes.xs),
       decoration: BoxDecoration(
-        boxShadow: [TShadowStyle.verticalProductShadow],
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(productImageRadius),
-        color: Colors.white,
       ),
       child: Row(
         children: [

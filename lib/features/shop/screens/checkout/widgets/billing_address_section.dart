@@ -1,8 +1,8 @@
-import 'package:aramarket/common/widgets/shimmers/order_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../common/text/section_heading.dart';
+import '../../../../../common/widgets/shimmers/order_shimmer.dart';
 import '../../../../personalization/controllers/user_controller.dart';
 import '../../../../personalization/models/address_model.dart';
 import '../../../../personalization/screens/user_address/address_widgets/single_address.dart';

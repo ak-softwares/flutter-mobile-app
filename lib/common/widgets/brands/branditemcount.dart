@@ -28,7 +28,7 @@ class TBrandItemCount extends StatelessWidget {
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image(
-                image: AssetImage(AppSettings.darkAppLogo),
+                image: AssetImage(AppSettings.lightAppLogo),
                 width: 120),
             Text(
               "25 Products",

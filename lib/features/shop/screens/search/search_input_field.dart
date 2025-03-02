@@ -16,28 +16,19 @@ class TSearchBar extends StatelessWidget {
     return Padding(
       padding: padding ? const EdgeInsets.all(Sizes.spaceBtwItems) : const EdgeInsets.all(0),
       child: InkWell(
-        onTap: () {
-        showSearch(
-            context: context,
-            delegate: TSearchDelegate()
-        );},
+        onTap: () => showSearch(context: context, delegate: TSearchDelegate()),
         child: Container(
-          color: Colors.transparent,
-          child: Container(
-            width: TDeviceUtils.getScreenWidth(context),
-            padding: const EdgeInsets.all(Sizes.sm),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(Sizes.productImageRadius),
-              border: Border.all(color: Colors.grey),
-            ),
-            child: Row(
-              children: [
-                const Icon(Icons.search, color: TColors.secondaryColor),
-                const SizedBox(width: 20),
-                Text(searchText!)
-              ],
-            ),
+          padding: const EdgeInsets.all(Sizes.sm),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(Sizes.productImageRadius),
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.search),
+              const SizedBox(width: 20),
+              Text(searchText!)
+            ],
           ),
         ),
       ),

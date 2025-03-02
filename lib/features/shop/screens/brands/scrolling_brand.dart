@@ -1,4 +1,3 @@
-import 'package:aramarket/features/shop/screens/products/scrolling_products.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +7,7 @@ import '../../../../common/widgets/shimmers/brand_shimmer.dart';
 import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../controllers/brand_controller/brand_controller.dart';
+import '../products/scrolling_products.dart';
 import 'all_brands.dart';
 import 'brand_tap_bar.dart';
 import 'widgets/single_brand_tile.dart';

@@ -1,9 +1,9 @@
-import 'package:aramarket/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../features/settings/app_settings.dart';
+import '../../../utils/constants/colors.dart';
 
 class SendWhatsappScreen extends StatelessWidget {
   const SendWhatsappScreen({super.key});

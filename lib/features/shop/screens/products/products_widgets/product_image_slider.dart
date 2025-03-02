@@ -10,6 +10,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:share_plus/share_plus.dart';
 
 
+import '../../../../../common/styles/spacing_style.dart';
 import '../../../../../common/widgets/custom_shape/image/circular_image.dart';
 import '../../../../../common/widgets/product/favourite_icon/favourite_icon.dart';
 import '../../../../../services/share/share.dart';
@@ -65,6 +66,7 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
     const double mainImageHeight = 340;
     const double galleryImageHeight = 80;
     return Column(
+      spacing: Sizes.spaceBtwItems,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
@@ -174,46 +176,49 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
         ),
 
         //Image Gallery
-        SizedBox(
-          height: galleryImageHeight,
-          child: Stack(
-            children: [
-              ListView.separated(
-                  itemCount: images.length,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  separatorBuilder: (_,__) => const SizedBox(width: Sizes.spaceBtwItems),
-                  itemBuilder: (_, index) => Obx(() {
-                    final imageSelected = _selectedProductImage.value == images[index];
-                    return TRoundedImage(
-                      width: galleryImageHeight,
-                      border: Border.all(color: imageSelected ? TColors.primaryColor : Colors.transparent),
-                      borderRadius: Sizes.sm,
-                      backgroundColor: Colors.white,
-                      padding: Sizes.sm / 2,
-                      isNetworkImage: true,
-                      onTap: () => _carouselController.animateToPage(index),
-                      // onTap: () => _selectedProductImage.value = images[index],
-                      image: images[index],
-                    );
-                  })
-              ),
-              images.length >= 5
-                  ? Positioned(
-                        left: 0,
-                        height: galleryImageHeight,
-                        child: Icon(Iconsax.arrow_left_2, color: Colors.grey[400], size: 20)
-                    )
-                  : const SizedBox.shrink(),
-              images.length >= 5
-                  ? Positioned(
-                        right: 0,
-                        height: galleryImageHeight,
-                        child: Icon(Iconsax.arrow_right_34, color: Colors.grey[400], size: 20)
-                    )
-                  : const SizedBox.shrink(),
-            ],
+        Padding(
+          padding: TSpacingStyle.defaultPageHorizontal,
+          child: SizedBox(
+            height: galleryImageHeight,
+            child: Stack(
+              children: [
+                ListView.separated(
+                    itemCount: images.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    separatorBuilder: (_,__) => const SizedBox(width: Sizes.spaceBtwItems),
+                    itemBuilder: (_, index) => Obx(() {
+                      final imageSelected = _selectedProductImage.value == images[index];
+                      return TRoundedImage(
+                        width: galleryImageHeight,
+                        border: Border.all(color: imageSelected ? TColors.primaryColor : Colors.transparent),
+                        borderRadius: Sizes.sm,
+                        backgroundColor: Colors.white,
+                        padding: Sizes.sm / 2,
+                        isNetworkImage: true,
+                        onTap: () => _carouselController.animateToPage(index),
+                        // onTap: () => _selectedProductImage.value = images[index],
+                        image: images[index],
+                      );
+                    })
+                ),
+                images.length >= 5
+                    ? Positioned(
+                          left: 0,
+                          height: galleryImageHeight,
+                          child: Icon(Iconsax.arrow_left_2, color: Colors.grey[400], size: 20)
+                      )
+                    : const SizedBox.shrink(),
+                images.length >= 5
+                    ? Positioned(
+                          right: 0,
+                          height: galleryImageHeight,
+                          child: Icon(Iconsax.arrow_right_34, color: Colors.grey[400], size: 20)
+                      )
+                    : const SizedBox.shrink(),
+              ],
+            ),
           ),
         ),
       ],

@@ -11,7 +11,7 @@ import '../../../utils/constants/db_constants.dart';
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/local_storage_constants.dart';
 import '../../../utils/constants/sizes.dart';
-import '../../../utils/popups/full_screen_loader.dart';
+import '../../../common/widgets/loaders/full_screen_loader.dart';
 import '../models/user_model.dart';
 import '../screens/user_profile/user_profile.dart';
 import '/features/personalization/controllers/user_controller.dart';

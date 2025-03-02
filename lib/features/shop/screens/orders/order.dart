@@ -1,8 +1,7 @@
-import 'package:aramarket/common/layout_models/product_grid_layout.dart';
-import 'package:aramarket/features/personalization/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
@@ -52,50 +51,49 @@ class OrderScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
       appBar: const TAppBar2(titleText: "My Orders", showBackArrow: true),
       body: !authenticationRepository.isUserLogin.value
-      ? const CheckLoginScreen()
-      : RefreshIndicator(
-        color: TColors.refreshIndicator,
-        onRefresh: () async {
-          await orderController.refreshOrders();
-        },
-        child: ListView(
-            controller: scrollController,
-            padding: TSpacingStyle.defaultPagePadding,
-            physics: const AlwaysScrollableScrollPhysics(),
-            children: [
-              const TSectionHeading(title: 'My Orders'),
-              Obx(() {
-                if(orderController.isLoading.value){
-                  return const OrderShimmer(itemCount: 4);
-                }else if(orderController.orders.isEmpty) {
-                  return TAnimationLoaderWidgets(
-                    text: 'Whoops! Order is Empty...',
-                    animation: Images.orderCompletedAnimation,
-                    showAction: true,
-                    actionText: 'Let\'s add some',
-                    onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
-                  );
-                } else {
-                  return GridLayout(
-                    mainAxisExtent: orderTileHeight,
-                    itemCount: orderController.isLoadingMore.value ? orderController.orders.length + 1 : orderController.orders.length,
-                    itemBuilder: (context, index) {
-                      if (index < orderController.orders.length) {
-                        return SingleOrderTile(order: orderController.orders[index]);
-                      } else {
-                        return const OrderShimmer();
-                        // return const Center(child: CircularProgressIndicator(),);
-                      }
-                    },
-                  );
-                }
-              }),
-            ],
+        ? const CheckLoginScreen()
+        : RefreshIndicator(
+          color: TColors.refreshIndicator,
+          onRefresh: () async {
+            await orderController.refreshOrders();
+          },
+          child: ListView(
+              controller: scrollController,
+              padding: TSpacingStyle.defaultPagePadding,
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+                Heading(title: 'Orders'),
+                SizedBox(height: Sizes.spaceBtwItems),
+                Obx(() {
+                  if(orderController.isLoading.value){
+                    return const OrderShimmer(itemCount: 4);
+                  }else if(orderController.orders.isEmpty) {
+                    return TAnimationLoaderWidgets(
+                      text: 'Whoops! Order is Empty...',
+                      animation: Images.orderCompletedAnimation,
+                      showAction: true,
+                      actionText: 'Let\'s add some',
+                      onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
+                    );
+                  } else {
+                    return GridLayout(
+                      mainAxisExtent: orderTileHeight,
+                      itemCount: orderController.isLoadingMore.value ? orderController.orders.length + 1 : orderController.orders.length,
+                      itemBuilder: (context, index) {
+                        if (index < orderController.orders.length) {
+                          return SingleOrderTile(order: orderController.orders[index]);
+                        } else {
+                          return const OrderShimmer();
+                        }
+                      },
+                    );
+                  }
+                }),
+              ],
+            ),
           ),
-        ),
     );
   }
 }

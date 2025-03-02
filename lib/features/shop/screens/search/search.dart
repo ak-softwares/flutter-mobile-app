@@ -1,5 +1,3 @@
-import 'package:aramarket/features/shop/screens/products/scrolling_products.dart';
-import 'package:aramarket/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -7,6 +5,8 @@ import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/local_storage_constants.dart';
+import '../../../../utils/constants/sizes.dart';
+import '../products/scrolling_products.dart';
 import 'widgets/empty_search_screen.dart';
 import 'widgets/search_product_screen.dart';
 

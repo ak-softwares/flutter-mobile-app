@@ -45,7 +45,7 @@ class TSuccessScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(TIcons.bottomNavigationCart),
+                      Icon(TIcons.bottomNavigationCart, color: Colors.black, size: 20,),
                       const SizedBox(width: Sizes.spaceBtwInputFields),
                       const Text('Go to My Orders'),
                     ],
@@ -60,7 +60,7 @@ class TSuccessScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(TIcons.home),
+                      Icon(TIcons.home, color: Theme.of(context).colorScheme.onSurface, size: 20),
                       const SizedBox(width: Sizes.spaceBtwInputFields),
                       const Text('Go to Home'),
                     ],

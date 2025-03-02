@@ -1,6 +1,5 @@
-import 'package:aramarket/common/layout_models/product_grid_layout.dart';
-
 import '../../../features/shop/screens/products/scrolling_products.dart';
+import '../../layout_models/product_grid_layout.dart';
 import '/common/widgets/shimmers/shimmer_effect.dart';
 import 'package:flutter/material.dart';
 

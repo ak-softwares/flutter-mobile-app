@@ -1,9 +1,9 @@
-import 'package:aramarket/features/shop/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../features/shop/controllers/favorite/favorite_controller.dart';
+import '../../../../features/shop/models/product_model.dart';
 import '../../../../features/shop/screens/favourite/favourite.dart';
 import '../../../../utils/constants/colors.dart';
 

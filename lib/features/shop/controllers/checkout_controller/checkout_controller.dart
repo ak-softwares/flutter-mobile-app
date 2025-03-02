@@ -8,7 +8,7 @@ import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
-import '../../../../utils/popups/full_screen_loader.dart';
+import '../../../../common/widgets/loaders/full_screen_loader.dart';
 import '../../../personalization/controllers/address_controller.dart';
 import '../../../personalization/controllers/user_controller.dart';
 import '../../../settings/app_settings.dart';

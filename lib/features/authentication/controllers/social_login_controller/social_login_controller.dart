@@ -8,7 +8,7 @@ import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/customers/woo_customer_repository.dart';
 import '../../../../utils/constants/image_strings.dart';
-import '../../../../utils/popups/full_screen_loader.dart';
+import '../../../../common/widgets/loaders/full_screen_loader.dart';
 import '../../../personalization/controllers/user_controller.dart';
 import '../../screens/create_account/signup.dart';
 import '../create_account_controller/signup_controller.dart';

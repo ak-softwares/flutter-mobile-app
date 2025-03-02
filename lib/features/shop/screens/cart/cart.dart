@@ -32,9 +32,9 @@ class CartScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: const TAppBar2(titleText: "Cart"),
-        bottomNavigationBar: Obx((){
-          if (AuthenticationRepository.instance.isUserLogin.value && cartController.cartItems.isNotEmpty){
-            return Padding(
+        bottomNavigationBar: Obx(() =>
+            cartController.cartItems.isNotEmpty
+            ? Padding(
               padding: const EdgeInsets.all(Sizes.defaultSpace),
               child: ElevatedButton(
                   onPressed: () {
@@ -43,18 +43,11 @@ class CartScreen extends StatelessWidget {
                   },
                   child: Obx(() => Text('Buy Now (${AppSettings.appCurrencySymbol + (cartController.totalCartPrice.value).toStringAsFixed(0)})'))
               ),
-            );
-          } else {
-            return const SizedBox.shrink();
-          }
-        }),
+            )
+            : const SizedBox.shrink()
+        ),
         body: Obx(() {
-          //check user login_controller
-          if(!AuthenticationRepository.instance.isUserLogin.value){
-            return const CheckLoginScreen(text: 'Please Login! before Add to Cart!', animation: Images.addToCartAnimation);
-          }
-
-          //make empty cart animation
+          // make empty cart animation
           final emptyWidget = TAnimationLoaderWidgets(
             text: 'Whoops! Cart is Empty...',
             animation: Images.addToCartAnimation,
@@ -68,15 +61,33 @@ class CartScreen extends StatelessWidget {
             return emptyWidget;
           } else {
             return ListView(
-              padding: TSpacingStyle.defaultPagePadding,
+              padding: TSpacingStyle.defaultPageVertical,
               children: [
                 GridLayout(
                   crossAxisCount: 1,
                   mainAxisExtent: Sizes.cartCardHorizontalHeight,
                   itemCount: cartController.cartItems.length,
-                  itemBuilder: (_, index) => ProductCardForCart(cartItem: cartController.cartItems[index], showBottomBar: true),
+                    itemBuilder: (context, index) {
+                      return Dismissible(
+                        key: Key(cartController.cartItems[index].id.toString()), // Unique key for each item
+                        direction: DismissDirection.endToStart, // Swipe left to remove
+                        onDismissed: (direction) {
+                          cartController.removeFromCart(item: cartController.cartItems[index]);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Item removed")),
+                          );
+                        },
+                        background: Container(
+                          color: Colors.red,
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: const Icon(Icons.delete, color: Colors.white),
+                        ),
+                        child: ProductCardForCart(cartItem: cartController.cartItems[index], showBottomBar: true),
+                      );
+                    }
+                  // itemBuilder: (_, index) => ProductCardForCart(cartItem: cartController.cartItems[index], showBottomBar: true),
                 ),
-                // Center(child: Text(cartController.cartItems.map((item) => item.pageSource ?? 'NA').join(', ')))
               ],
             );
           }

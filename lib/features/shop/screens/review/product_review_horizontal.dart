@@ -1,16 +1,17 @@
 import 'dart:math';
 
-import 'package:aramarket/common/widgets/custom_shape/containers/rounded_container.dart';
-import 'package:aramarket/features/shop/models/product_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../common/styles/spacing_style.dart';
+import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
 import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../common/widgets/shimmers/review_shimmer_on_product.dart';
 import '../../../../data/repositories/woocommerce_repositories/product_review/product_review.dart';
 import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/icons.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../models/product_model.dart';
 import '../../models/product_review_model.dart';
 import 'product_review.dart';
 import 'review_widgets/user_review_card_for_product.dart';
@@ -97,56 +98,53 @@ class _ProductReviewHorizontalState extends State<ProductReviewHorizontal> {
       } else if (_reviews.isEmpty) {
         return const SizedBox.shrink();
       } else {
-        return InkWell(
-          onTap: () => Get.to(() => ProductReviewScreen(product: widget.product)),
-          child: TRoundedContainer(
-              radius: 10,
-              backgroundColor: Colors.grey.shade100,
-              child: Padding(
-                padding: const EdgeInsets.all(Sizes.defaultSpace),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text('Reviews ', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600)),
-                        // RatingBarIndicator(
-                        //   // rating: 1,
-                        //   // rating: widget.product.averageRating!.toDouble(),
-                        //   itemSize: 14,
-                        //   unratedColor: Colors.grey[300],
-                        //   itemBuilder: (_, __) => Icon(TIcons.starRating, color: TColors.ratingStar),
-                        // ),
-                        Icon(TIcons.starRating, color: Colors.grey[300], size: 14,),
-                        Text(' ${widget.product.averageRating?.toStringAsFixed(1)} (${widget.product.ratingCount.toString()})', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey.shade500)),
-                      ],
-                    ),
-                    const SizedBox(height: Sizes.sm),
-                    CarouselSlider(
-                      options: CarouselOptions(
-                        height: 50,
-                        aspectRatio: 1.0,
-                        enlargeCenterPage: true,
-                        autoPlay: true,
-                        autoPlayInterval: Duration(seconds: Random().nextInt(6) + 3),
-                        // enableInfiniteScroll: false, // Disable infinite scrolling
-                        viewportFraction: 1.0,
-                        scrollPhysics: BouncingScrollPhysics(), // Disable touch scroll
+        return TRoundedContainer(
+            radius: 10,
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            child: Padding(
+              padding: const EdgeInsets.all(Sizes.defaultSpace),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text('Reviews ', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600)),
+                      // RatingBarIndicator(
+                      //   // rating: 1,
+                      //   // rating: widget.product.averageRating!.toDouble(),
+                      //   itemSize: 14,
+                      //   unratedColor: Colors.grey[300],
+                      //   itemBuilder: (_, __) => Icon(TIcons.starRating, color: TColors.ratingStar),
+                      // ),
+                      Icon(TIcons.starRating, color: Colors.grey[300], size: 14,),
+                      Text(' ${widget.product.averageRating?.toStringAsFixed(1)} (${widget.product.ratingCount.toString()})', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey.shade500)),
+                    ],
+                  ),
+                  const SizedBox(height: Sizes.sm),
+                  CarouselSlider(
+                    options: CarouselOptions(
+                      height: 50,
+                      aspectRatio: 1.0,
+                      enlargeCenterPage: true,
+                      autoPlay: true,
+                      autoPlayInterval: Duration(seconds: Random().nextInt(6) + 3),
+                      // enableInfiniteScroll: false, // Disable infinite scrolling
+                      viewportFraction: 1.0,
+                      scrollPhysics: BouncingScrollPhysics(), // Disable touch scroll
 
-                      ),
-                      items: _reviews.map((review) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return SingleReviewCard(review: review);
-                          },
-                        );
-                      }).toList(),
                     ),
-                  ],
-                ),
+                    items: _reviews.map((review) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return SingleReviewCard(review: review);
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ],
               ),
             ),
-        );
+          );
       }
     });
   }

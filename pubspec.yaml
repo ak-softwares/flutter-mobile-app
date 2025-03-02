@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # of the product and file versions while build-number is used as the build suffix.
 
 # where 2.0.0 is app version and +5 is Version code 2 update every time when update on play store
-version: 2.5.0+57
+version: 2.5.0+58
 
 
 environment:
@@ -35,6 +35,7 @@ dependencies:
     sdk: flutter
 
   # Utility Package
+  flex_color_scheme: ^8.1.1
   intl: ^0.20.0
   logger: ^2.0.1
   lottie: ^3.1.0

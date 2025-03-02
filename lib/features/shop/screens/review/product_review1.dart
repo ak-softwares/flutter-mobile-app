@@ -18,8 +18,8 @@ import 'create_product_review.dart';
 import 'review_widgets/rating_progress_indicator.dart';
 import 'review_widgets/user_review_card.dart';
 
-class ProductReviewScreen extends StatelessWidget {
-  const ProductReviewScreen({super.key, required this.product});
+class ProductReviewScreen1 extends StatelessWidget {
+  const ProductReviewScreen1({super.key, required this.product});
 
   final ProductModel product;
   @override
@@ -48,6 +48,7 @@ class ProductReviewScreen extends StatelessWidget {
     });
 
     return Scaffold(
+      appBar: const TAppBar2(titleText: 'Reviews & Ratings', showBackArrow: true, showCartIcon: true,),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(Sizes.md),
         child: OutlinedButton(
@@ -67,22 +68,23 @@ class ProductReviewScreen extends StatelessWidget {
             Padding(
               padding: TSpacingStyle.defaultPageHorizontal,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    spacing: Sizes.spaceBtwItems,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      RatingBarIndicator(
-                        rating: product.averageRating ?? 0.0,
-                        itemSize: 17,
-                        unratedColor: Colors.grey[300],
-                        itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: TColors.ratingStar),
-                      ),
-                      Text(product.averageRating!.toStringAsFixed(1), style: TextStyle(fontSize: 17)),
-                    ],
+                  const SizedBox(height: Sizes.lg),
+                  Center(child: Text('Overall Rating', style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.grey))),
+                  const SizedBox(height: Sizes.md),
+                  Center(child: Text(product.averageRating!.toStringAsFixed(1), style: Theme.of(context).textTheme.displayMedium)),
+                  const SizedBox(height: Sizes.sm),
+                  Center(
+                    child: RatingBarIndicator(
+                      rating: product.averageRating ?? 0.0,
+                      itemSize: 40,
+                      unratedColor: Colors.grey[300],
+                      itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: TColors.ratingStar),
+                    ),
                   ),
-                  Text('Based on ${product.ratingCount} reviews', style: Theme.of(context).textTheme.labelLarge),
+                  const SizedBox(height: Sizes.sm),
+                  Center(child: Text('Based on ${product.ratingCount} reviews', style: Theme.of(context).textTheme.labelLarge)),
+                  const SizedBox(height: Sizes.lg),
                 ],
               ),
             ),
@@ -102,8 +104,36 @@ class ProductReviewScreen extends StatelessWidget {
 
                     final List<ReviewModel> reviews = productReviewController.reviews;
 
+                    int totalReviews = reviews.length;
+                    int excellentCount = reviews.where((review) => review.rating == 5).length;
+                    int goodCount = reviews.where((review) => review.rating == 4).length;
+                    int averageCount = reviews.where((review) => review.rating == 3).length;
+                    int belowAverageCount = reviews.where((review) => review.rating == 2).length;
+                    int poorCount = reviews.where((review) => review.rating == 1).length;
+
+                    double excellentPercentage = totalReviews != 0 ? excellentCount / totalReviews : 0;
+                    double goodPercentage = totalReviews != 0 ? goodCount / totalReviews : 0;
+                    double averagePercentage = totalReviews != 0 ? averageCount / totalReviews : 0;
+                    double belowAveragePercentage = totalReviews != 0 ? belowAverageCount / totalReviews : 0;
+                    double poorPercentage = totalReviews != 0 ? poorCount / totalReviews : 0;
+
                     return Column(
                       children: [
+                        Padding(
+                          padding: TSpacingStyle.defaultPageHorizontal,
+                          child: Column(
+                            children: [
+                              TRatingProgressIndicator(text: 'Excellent', value: excellentPercentage, color: Colors.green,),
+                              TRatingProgressIndicator(text: 'Good', value: goodPercentage,color: Colors.lightGreen),
+                              TRatingProgressIndicator(text: 'Average', value: averagePercentage,color: Colors.yellow),
+                              TRatingProgressIndicator(text: 'Below Average', value: belowAveragePercentage,color: Colors.orangeAccent),
+                              TRatingProgressIndicator(text: 'Poor', value: poorPercentage,color: Colors.redAccent),
+                              const SizedBox(height: Sizes.lg),
+                              const Divider(color: TColors.borderSecondary,),
+                              const SizedBox(height: Sizes.sm),
+                            ],
+                          ),
+                        ),
                         ListView.builder(
                           shrinkWrap: true,
                           itemCount: productReviewController.isLoadingMore.value ? reviews.length + 1 : reviews.length,

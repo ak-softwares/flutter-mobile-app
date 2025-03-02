@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../common/styles/spacing_style.dart';
+import '../../../../../common/text/section_heading.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
@@ -16,128 +18,113 @@ class TBillingAmountSection extends StatelessWidget {
     final checkoutController = Get.put(CheckoutController());
 
     return Obx(() => Column(
+        spacing:  Sizes.spaceBtwItems / 2,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          //SubTotal
+          // SubTotal
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Subtotal', style: Theme.of(context).textTheme.bodyMedium,),
+              Text('Subtotal', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
               Text(AppSettings.appCurrencySymbol + checkoutController.subTotal.value.toStringAsFixed(0),
-                style: Theme.of(context).textTheme.bodyMedium,),
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+              ),
             ],
           ),
-          const SizedBox(height: Sizes.spaceBtwItems / 2),
 
-          //Discount
+          // Discount
           if (checkoutController.discount.value != 0) ...[
-            Column(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Discount ',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        Icon(
-                          Icons.discount, // Using discount icon
-                          color: TColors.offerColor, // Green color for the icon
-                          size: 20, // Adjust the size as needed
-                        ),
-                        Text(
-                          ' ${checkoutController.coupon.value.code!.toUpperCase().toString()}',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: TColors.offerColor),
-                        ),
-                      ],
+                    Text(
+                      'Discount ',
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          '- ${AppSettings.appCurrencySymbol}${checkoutController.discount.value.toStringAsFixed(0)}',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: TColors.offerColor)
-                        ),
-                        const SizedBox(width: 5,),
-                        InkWell(
-                            onTap: () {
-                              checkoutController.coupon.value = CouponModel.empty();
-                              checkoutController.updateCheckout();
-                            },
-                            child: const Icon(Icons.close, color: Colors.red, size: 20,)),
-                      ],
-                    )
+                    Icon(
+                      Icons.discount, // Using discount icon
+                      color: TColors.offerColor, // Green color for the icon
+                      size: 20, // Adjust the size as needed
+                    ),
+                    Text(
+                      ' ${checkoutController.coupon.value.code!.toUpperCase().toString()}',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: TColors.offerColor),
+                    ),
                   ],
                 ),
-                const SizedBox(height: Sizes.spaceBtwItems / 2),
+                Row(
+                  children: [
+                    Text(
+                      '- ${AppSettings.appCurrencySymbol}${checkoutController.discount.value.toStringAsFixed(0)}',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: TColors.offerColor)
+                    ),
+                    const SizedBox(width: 5,),
+                    InkWell(
+                        onTap: () {
+                          checkoutController.coupon.value = CouponModel.empty();
+                          checkoutController.updateCheckout();
+                        },
+                        child: const Icon(Icons.close, color: Colors.red, size: 20,)),
+                  ],
+                )
               ],
             ),
           ],
 
-          //Shipping
+          // Shipping
           if ((checkoutController.shipping.value != 0) || checkoutController.isFreeShipping.value) ...[
-            Column(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Text('Shipping', style: Theme.of(context).textTheme.bodyMedium,),
+                !checkoutController.isFreeShipping.value
+                    ? Text(AppSettings.appCurrencySymbol + checkoutController.shipping.value.toStringAsFixed(0),
+                  style: Theme.of(context).textTheme.bodyMedium,)
+                    : Row(
                   children: [
-                    Text('Shipping', style: Theme.of(context).textTheme.bodyMedium,),
-                    !checkoutController.isFreeShipping.value
-                        ? Text(AppSettings.appCurrencySymbol + checkoutController.shipping.value.toStringAsFixed(0),
-                      style: Theme.of(context).textTheme.bodyMedium,)
-                        : Row(
-                      children: [
-                        Text('Free Shipping',
-                          style: Theme.of(context).textTheme.bodyMedium,),
-                        const SizedBox(width: 5,),
-                        InkWell(
-                            onTap: () {
-                              checkoutController.coupon.value = CouponModel.empty();
-                              checkoutController.updateTotal();
-                            },
-                            child: const Icon(Icons.close, color: Colors.red, size: 20,)
-                        ),
-                      ],
-                    )
+                    Text('Free Shipping',
+                      style: Theme.of(context).textTheme.bodyMedium,),
+                    const SizedBox(width: 5,),
+                    InkWell(
+                        onTap: () {
+                          checkoutController.coupon.value = CouponModel.empty();
+                          checkoutController.updateTotal();
+                        },
+                        child: const Icon(Icons.close, color: Colors.red, size: 20,)
+                    ),
                   ],
-                ),
-                const SizedBox(height: Sizes.spaceBtwItems / 2),
+                )
               ],
             ),
           ],
 
-          //Tax
+          // Tax
           if (checkoutController.tax.value != 0) ...[
-            Column(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Tax', style: Theme.of(context).textTheme.bodyMedium,),
-                    Text(AppSettings.appCurrencySymbol + checkoutController.tax.value.toStringAsFixed(0),
-                      style: Theme.of(context).textTheme.bodyMedium,)
-                  ],
-                ),
-                const SizedBox(height: Sizes.spaceBtwItems / 2),
+                Text('Tax', style: Theme.of(context).textTheme.bodyMedium,),
+                Text(AppSettings.appCurrencySymbol + checkoutController.tax.value.toStringAsFixed(0),
+                  style: Theme.of(context).textTheme.bodyMedium,)
               ],
             ),
           ],
 
-          //Order Total
+          // Order Total
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Total', style: Theme.of(context).textTheme.titleSmall,),
+              Text('Total',  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),),
               Text(AppSettings.appCurrencySymbol + checkoutController.total.value.toStringAsFixed(0),
-                style: Theme.of(context).textTheme.titleSmall,)
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),)
             ],
           ),
-          const SizedBox(height: Sizes.spaceBtwItems / 2),
         ],
       ),
     );

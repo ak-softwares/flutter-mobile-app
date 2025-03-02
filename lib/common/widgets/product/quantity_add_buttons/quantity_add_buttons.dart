@@ -1,4 +1,3 @@
-import 'package:aramarket/common/widgets/custom_shape/containers/rounded_container.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -16,7 +15,8 @@ class QuantityAddButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    final Color color = Colors.black;
+    final Color background = Colors.black;
     return Container(
       padding: EdgeInsets.all(Sizes.xs),
       decoration: BoxDecoration(
@@ -40,13 +40,13 @@ class QuantityAddButtons extends StatelessWidget {
             child: IconButton(
               onPressed: remove,
               style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(0)),
-              icon: const Icon(Iconsax.minus),
+              icon: Icon(Iconsax.minus, color: color),
             ),
           ),
           SizedBox(
             width: size! - 5,
             height: size! - 5,
-            child: Center(child: Text(quantity.toString(), style: Theme.of(context).textTheme.titleSmall)),
+            child: Center(child: Text(quantity.toString(), style: TextStyle(color: color),)),
           ),
           SizedBox(
             width: size,
@@ -54,7 +54,7 @@ class QuantityAddButtons extends StatelessWidget {
             child: IconButton(
               onPressed: add,
               style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(0)),
-              icon: const Icon(Iconsax.add),
+              icon: Icon(Iconsax.add, color: color),
             ),
           ),
         ],

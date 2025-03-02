@@ -40,7 +40,10 @@ class SingleBrandTile extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(brandTileRadius),
-                boxShadow: const [TShadowStyle.horizontalProductShadow],
+                border: Border.all(
+                  width: 1,
+                  color: Theme.of(context).colorScheme.outline, // Border color
+                )
               ),
               child: TRoundedImage(
                 height: brandImageHeight,

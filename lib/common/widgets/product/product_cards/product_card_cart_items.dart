@@ -30,26 +30,23 @@ class ProductCardForCart extends StatelessWidget {
       child: Stack(
         children: [
           Container(
+            padding: EdgeInsets.only(left: Sizes.defaultSpace),
             decoration: BoxDecoration(
-              boxShadow: [TShadowStyle.verticalProductShadow],
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(Sizes.productImageRadius),
-              color: Colors.white,
             ),
             child: Column(
               children: [
                 Row(
                   children: [
                     //Main Image
-                    Padding(
-                      padding: const EdgeInsets.only(left: 0),
-                      child: TRoundedImage(
-                          image: cartItem.image ?? '',
-                          height: imageHeight,
-                          width: imageHeight,
-                          borderRadius: cardRadius,
-                          isNetworkImage: true,
-                          padding: Sizes.sm
-                      ),
+                    TRoundedImage(
+                        image: cartItem.image ?? '',
+                        height: imageHeight,
+                        width: imageHeight,
+                        borderRadius: cardRadius,
+                        isNetworkImage: true,
+                        padding: 0
                     ),
 
                     //Title, Rating and price
@@ -114,9 +111,11 @@ class ProductCardForCart extends StatelessWidget {
                     height: 25,
                     radius: 25,
                     padding: const EdgeInsets.all(0),
-                    backgroundColor: Colors.grey.withOpacity(0.2),
+                    backgroundColor: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey.withOpacity(0.7)  // Dark grey for night mode
+                        : Colors.grey.shade300, // Light grey for day mode,
                     child: IconButton(
-                      color: Colors.grey,
+                      color: Colors.grey.shade900,
                       padding: EdgeInsets.zero,
                       onPressed: () => cartController.removeFromCartDialog(cartItem),
                       icon: const Icon(Icons.close, size: 15),

@@ -54,6 +54,7 @@ class HomeBanner extends StatelessWidget {
                 onPageChanged: (index, _) => bannerController.updatePageIndicator(index)
             ),
             items: bannerController.banners.map((banner) => TRoundedImage(
+              fit: BoxFit.fill,
               height: bannerHeight,
               width: bannerWidth,
               borderRadius: 0,

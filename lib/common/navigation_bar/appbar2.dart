@@ -1,4 +1,7 @@
+import 'package:aramarket/utils/helpers/navigation_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:share_plus/share_plus.dart';
@@ -35,17 +38,19 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     const Color color = TColors.secondaryColor;
-    const Color backgroundColor = TColors.primaryColor;
+    final Color iconColors = TColors.secondaryColor;
+    final Color backgroundColor = TColors.primaryColor;
     return AppBar(
       centerTitle: false,
       backgroundColor: backgroundColor,
-      title: Text(titleText, style: Theme.of(context).textTheme.titleSmall!.copyWith(color: color, fontWeight: FontWeight.w600)),
+      iconTheme: IconThemeData(color: iconColors), // Change back arrow color
+      title: Text(titleText, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: color)),
       actions: [
             showSearchIcon ? IconButton( icon: Icon(TIcons.search), color: color, onPressed: () => showSearch(context: context, delegate: TSearchDelegate())) : const SizedBox.shrink(),
             sharePageLink.isNotEmpty
                 ? IconButton(
                     icon: Icon(TIcons.share),
-                    color: color,
+                    color: iconColors,
                     onPressed: () => AppShare.shareUrl(
                         url: sharePageLink,
                         contentType: 'Category',
@@ -55,22 +60,35 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
                   )
                 : const SizedBox.shrink(),
             showCartIcon ? const TCartCounterIcon(iconColor: color) : const SizedBox.shrink(),
-            Obx(() => AuthenticationRepository.instance.isUserLogin.value && seeLogoutButton
-                ? InkWell(
-                    onTap: () => AuthenticationRepository.instance.logout(),
-                    child: Row(
-                      children: [
-                        const Text('Logout'),
-                        const SizedBox(width: Sizes.sm),
-                        Icon(TIcons.logout, size: 20),
-                        const SizedBox(width: Sizes.sm),
-                      ],
-                    )
-                  )
-                : const SizedBox.shrink(),
-            ),
+            if(seeLogoutButton)
+              ...[
+                Obx(() => AuthenticationRepository.instance.isUserLogin.value
+                    ? InkWell(
+                          onTap: () => AuthenticationRepository.instance.logout(),
+                          child: Row(
+                            children: [
+                              const Text('Logout', style: TextStyle(color: color),),
+                              const SizedBox(width: Sizes.sm),
+                              Icon(TIcons.logout, color: iconColors, size: 20),
+                              const SizedBox(width: Sizes.sm),
+                            ],
+                          )
+                      )
+                    : InkWell(
+                          onTap: () => NavigationHelper.navigateToLoginScreen(),
+                          child: Row(
+                            children: [
+                              Icon(Iconsax.user, color: iconColors, size: 17),
+                              const SizedBox(width: Sizes.sm),
+                              const Text('Login', style: TextStyle(color: color, fontWeight: FontWeight.w500, fontSize: 15),),
+                              const SizedBox(width: Sizes.md),
+                            ],
+                          )
+                      )
+                ),
+              ]
         ],
-      leading: showBackArrow ? IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Iconsax.arrow_left, color: color)) :  null,
+      leading: showBackArrow ? IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Iconsax.arrow_left, color: iconColors)) :  null,
     );
   }
   @override

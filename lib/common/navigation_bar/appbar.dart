@@ -12,15 +12,17 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   Widget build(BuildContext context) {
+    final Color backgroundColor = TColors.primaryColor;
+    final Color iconColors = TColors.secondaryColor;
 
     return AppBar(
       centerTitle: true,
-      backgroundColor: TColors.primaryColor,
-      title: const Image(image: AssetImage(AppSettings.darkAppLogo), height: 34),
+      backgroundColor: backgroundColor,
+      title: const Image(image: AssetImage(AppSettings.lightAppLogo), height: 34),
       actions: [
         IconButton(
           icon: const Icon(Icons.search),
-          color: TColors.secondaryColor,
+          color: iconColors,
           onPressed: () {
             showSearch(
                 context: context,
@@ -28,9 +30,14 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget{
             );
           },
         ),
-        const TCartCounterIcon(iconColor: TColors.secondaryColor),
+        TCartCounterIcon(iconColor: iconColors),
       ],
-      // leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+      leading: IconButton(
+          onPressed: () {
+            Scaffold.of(context).openDrawer(); // Opens the drawer manually
+          },
+          icon: Icon(Icons.menu, color: iconColors,)
+      ),
     );
   }
 
@@ -49,7 +56,7 @@ class TAppBar1 extends StatelessWidget implements PreferredSizeWidget{
       centerTitle: false,
       // backgroundColor: TColors.primaryColor,
 
-      title: const Image(image: AssetImage(AppSettings.darkAppLogo), height: 40),
+      title: const Image(image: AssetImage(AppSettings.lightAppLogo), height: 40),
       actions: [
         IconButton(
           icon: const Icon(Icons.search),

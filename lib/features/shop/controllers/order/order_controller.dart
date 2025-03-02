@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../data/repositories/firebase/orders/order_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/orders/woo_orders_repository.dart';
 import '../../../personalization/controllers/address_controller.dart';
@@ -69,6 +70,7 @@ class OrderController extends GetxController {
   //Get user order by customer id
   Future<void> getOrdersByCustomerId() async {
     try {
+      if(!AuthenticationRepository.instance.isUserLogin.value) return;
       var customerId = userController.customer.value.id;
       if(customerId == null){
         await userController.refreshCustomer();
@@ -77,7 +79,7 @@ class OrderController extends GetxController {
       final newOrders = await wooOrdersRepository.fetchOrdersByCustomerId(customerId: customerId.toString(), page: currentPage.toString());
       orders.addAll(newOrders);
     } catch (e) {
-      TLoaders.warningSnackBar(title: 'Error', message: e.toString());
+      TLoaders.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -120,8 +122,6 @@ class OrderController extends GetxController {
         customerId: userController.customer.value.id,
         paymentMethod: checkoutController.selectedPaymentMethod.value.id,
         paymentMethodTitle: checkoutController.selectedPaymentMethod.value.title,
-        // paymentMethod: 'Paytm Payment Gateway', //Payment method ID. 'Paytm Payment Gateway'
-        // paymentMethodTitle: 'razorpay', //Payment method title.  // 'UPI/QR/Card/NetBanking' 'Paytm Payment Gateway'
         transactionId: transactionId,
         setPaid: true,
         status: "processing",
