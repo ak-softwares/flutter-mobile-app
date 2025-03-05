@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
-import '../../../../data/repositories/woocommerce_repositories/product_review/product_review.dart';
+import '../../../../data/repositories/woocommerce_repositories/product_review/product_review_repository.dart';
 import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../common/widgets/loaders/full_screen_loader.dart';
@@ -36,7 +36,7 @@ class ProductReviewController extends GetxController {
   Future<void> getReviewsByProductId(String productId) async {
     try{
       //fetch products
-      final newReviews = await wooReviewRepository.fetchReviewsByProductId(productIds: productId, page: currentPage.toString());
+      final newReviews = await wooReviewRepository.fetchReviewsByProductId(productId: productId, page: currentPage.toString());
       reviews.addAll(newReviews);
     } catch (e){
       TLoaders.errorSnackBar(title: 'Error', message: e.toString());

@@ -62,4 +62,15 @@ class CategoryModel {
       image: json[CategoryFieldName.image] != null && json[CategoryFieldName.image].isNotEmpty ? json[CategoryFieldName.image]['src'] : '',
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      CategoryFieldName.id: id,
+      CategoryFieldName.name: name,
+      CategoryFieldName.slug: slug,
+      CategoryFieldName.image: image,
+      CategoryFieldName.parentId: parentId,
+    };
+  }
+
 }

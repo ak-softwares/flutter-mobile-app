@@ -24,23 +24,20 @@ class ProductPrice extends StatelessWidget {
     final regularPriceText = Flexible(
       child: Text(
         '$currencySymbol${regularPrice.toStringAsFixed(0)}',
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+        style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w600).copyWith(
           decoration: salePrice != 0 ? TextDecoration.lineThrough : null,
-          fontSize: salePrice != 0 ? size * 0.7 : size,
+          fontSize: salePrice != 0 ? size * 0.8 : size,
         ),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
       ),
     );
 
-    if (salePrice == 0) return regularPriceText;
+    if (salePrice == null && salePrice == 0) return regularPriceText;
 
     final salePriceText = Text(
-      '$currencySymbol${salePrice!.toStringAsFixed(0)}',
-      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-        fontWeight: FontWeight.w600,
-        fontSize: size,
-      ),
+      '$currencySymbol${salePrice?.toStringAsFixed(0)}',
+      style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: size, fontWeight: FontWeight.w600),
       overflow: TextOverflow.ellipsis,
       maxLines: 1,
     );

@@ -35,7 +35,7 @@ class CheckoutController extends GetxController {
   RxDouble tax = 0.0.obs;
   RxDouble total = 0.0.obs;
 
-  Rx<CouponModel> coupon = CouponModel().obs;
+  Rx<CouponModel> appliedCoupon = CouponModel().obs;
   Rx<PaymentModel> selectedPaymentMethod = PaymentModel.empty().obs;
 
   final networkManager = Get.put(NetworkManager());
@@ -78,7 +78,7 @@ class CheckoutController extends GetxController {
     if(cartController.cartItems.any((item) => item.isCODBlocked ?? false)) {
       codDisabledReason.value = 'Products';
       isCODDisabled.value = true;
-    } else if(coupon.value.isCODBlocked ?? false){
+    } else if(appliedCoupon.value.isCODBlocked ?? false){
       codDisabledReason.value = 'Coupon';
       isCODDisabled.value = true;
     } else if(userController.customer.value.isCODBlocked ?? false){
@@ -119,7 +119,7 @@ class CheckoutController extends GetxController {
       }
 
       //validate coupon
-      Get.put(CouponController()).validateCoupon(coupon.value);
+      Get.put(CouponController()).validateCoupon(appliedCoupon.value);
 
       // Check COD is disabled or not
       checkIsCODDisabled();
@@ -156,7 +156,7 @@ class CheckoutController extends GetxController {
       FBAnalytics.logCheckout(cartItems: cartController.cartItems);
       //update the cart status
       cartController.clearCart();
-      coupon.value = CouponModel.empty();
+      appliedCoupon.value = CouponModel.empty();
       updateCheckout();
       //Show success screen
       Get.offAll(() => TSuccessScreen(
@@ -212,7 +212,7 @@ class CheckoutController extends GetxController {
 
   // Function to calculate total
   void updateTotal() {
-    discount.value = calculateDiscount(subTotal.value, coupon.value);
+    discount.value = calculateDiscount(subTotal.value, appliedCoupon.value);
     shipping.value = calculateShippingCost(subTotal.value);
     total.value = (subTotal.value - discount.value) + shipping.value + tax.value;
   }

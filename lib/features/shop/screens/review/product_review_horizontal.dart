@@ -7,7 +7,7 @@ import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
 import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../common/widgets/shimmers/review_shimmer_on_product.dart';
-import '../../../../data/repositories/woocommerce_repositories/product_review/product_review.dart';
+import '../../../../data/repositories/woocommerce_repositories/product_review/product_review_repository.dart';
 import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/icons.dart';
 import '../../../../utils/constants/sizes.dart';
@@ -53,7 +53,7 @@ class _ProductReviewHorizontalState extends State<ProductReviewHorizontal> {
   Future<void> _getReviewsByProductId(String productId) async {
     try {
       //fetch products
-      final newReviews = await wooReviewRepository.fetchReviewsByProductId(productIds: productId, page: _currentPage.toString());
+      final newReviews = await wooReviewRepository.fetchReviewsByProductId(productId: productId, page: _currentPage.toString());
       _reviews.addAll(newReviews);
     } catch (e){
       TLoaders.errorSnackBar(title: 'Error', message: e.toString());

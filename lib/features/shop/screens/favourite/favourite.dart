@@ -1,3 +1,4 @@
+import 'package:aramarket/features/shop/screens/products/scrolling_products.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -56,20 +57,23 @@ class FavouriteScreen extends StatelessWidget {
     );
 
     return Scaffold(
-          appBar: const TAppBar2(titleText: 'Wishlist', showCartIcon: true),
+          appBar: const TAppBar2(titleText: 'Liked products', showCartIcon: true, showSearchIcon: true),
           body: RefreshIndicator(
               color: TColors.refreshIndicator,
               onRefresh: () async => favoriteController.refreshFavorites(),
               child: ListView(
                 controller: scrollController,
-                padding: TSpacingStyle.defaultPagePadding,
+                padding: TSpacingStyle.defaultPageVertical,
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: [
-                  const TSectionHeading(title: 'Favourite Products'),
+                  Heading(title: 'Liked Products', paddingLeft: Sizes.defaultSpace),
+                  SizedBox(height: Sizes.sm),
                   ProductGridLayout(
                     controller: favoriteController,
                     emptyWidget: emptyWidget,
                     sourcePage: 'wishlist',
+                    orientation: OrientationType.horizontal,
+                    isDismissible: true,
                   ),
                 ],
               ),

@@ -18,42 +18,36 @@ class TSearchDelegate extends SearchDelegate {
   final localStorage = GetStorage();
 
   @override
-  String? get searchFieldLabel => 'Search Product..';
+  String? get searchFieldLabel => 'Search Product...';
 
   TSearchDelegate() {
     recentlySearches.value  = _getRecentSearches(); // Call this in the constructor to initialize searches
   }
 
   // Add this property to customize the search text field style
-  @override
-  TextStyle? get searchFieldStyle => const TextStyle(
-    fontSize: 15, // Customize font size
-    fontWeight: FontWeight.w500,
-    color: TColors.secondaryColor, // Customize font color
-  );
+  // @override
+  // TextStyle? get searchFieldStyle => TextStyle(
+  //   fontSize: 14, // Customize font size
+  //   // fontWeight: FontWeight.w500,
+  //   color: Theme.of(context).colorScheme.onSurface, // Customize font color
+  // );
 
 
   @override
   List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-          icon: const Icon(Icons.clear, color: Colors.black),
-          onPressed: () {
-            query = '';
-          }
-      ),
-    ];
+    return [];
   }
 
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.black,),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () {
           close(context, null);
         }
     );
   }
+
 
   @override
   Widget buildResults(BuildContext context) {
@@ -82,90 +76,102 @@ class TSearchDelegate extends SearchDelegate {
       );
     }
     return SingleChildScrollView(
-      child: Obx(() {
-        _updateSuggestionList(query);
-        return Column(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  recentlySearches.isNotEmpty && suggestionList.isNotEmpty
-                      ? GridLayout(
-                        mainAxisSpacing: 0,
-                        mainAxisExtent: 35,
-                        itemCount: suggestionList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            dense: true, // Reduce default padding inside ListTile
-                            leading: const Icon(Icons.history, color: TColors.black, size: 18),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.close, color: TColors.black, size: 18),
-                              onPressed: () => _removeSearch(suggestionList[index]),
-                            ),
-                            title: Text(
-                              suggestionList[index],
-                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: const Color(0xFF1A0DAB),
+      child: Container(
+        color: Theme.of(context).colorScheme.surface,
+        child: Obx(() {
+          _updateSuggestionList(query);
+          return Column(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    recentlySearches.isNotEmpty && suggestionList.isNotEmpty
+                        ? GridLayout(
+                          mainAxisSpacing: 0,
+                          mainAxisExtent: 35,
+                          itemCount: suggestionList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              dense: true, // Reduce default padding inside ListTile
+                              leading: const Icon(Icons.history, size: 18),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.close, size: 18),
+                                onPressed: () => _removeSearch(suggestionList[index]),
                               ),
-                            ),
-                            onTap: () {
-                              query = suggestionList[index];
-                              showResults(context);
-                            },
-                          );
-                        },
-                      )
-                      : SizedBox.shrink(),
-                  EmptySearchScreen(),
-                ],
-              );
-      })
+                              title: Text(suggestionList[index], style: TextStyle(fontSize: 15,
+                                  color: Theme.of(context).colorScheme.onSurfaceVariant),),
+                              onTap: () {
+                                query = suggestionList[index];
+                                showResults(context);
+                              },
+                            );
+                          },
+                        )
+                        : SizedBox.shrink(),
+                    EmptySearchScreen(),
+                  ],
+                );
+        }),
+      )
     );
   }
 
   @override
   ThemeData appBarTheme(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final ColorScheme colorScheme = theme.colorScheme;
-    return theme.copyWith(
+    return Theme.of(context).copyWith(
       appBarTheme: AppBarTheme(
-        backgroundColor: TColors.primaryColor,
+        backgroundColor: Colors.transparent,
         // iconTheme: theme.primaryIconTheme.copyWith(color: Colors.grey),
-        titleTextStyle: theme.textTheme.titleLarge,
-        toolbarTextStyle: theme.textTheme.bodyMedium,
+        // titleTextStyle: TextStyle(color: Colors.blue),
+        // toolbarTextStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+        // toolbarHeight: 90,
       ),
-      primaryColor: TColors.primaryColor,
-      inputDecorationTheme: searchFieldDecorationTheme ??
-          InputDecorationTheme(
-            hintStyle: searchFieldStyle ?? theme.inputDecorationTheme.hintStyle,
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.symmetric(vertical: Sizes.xs, horizontal: Sizes.md), // Define input field height
-            // fillColor: Colors.grey.shade200, // Customize the background color
-            // filled: true, // Ensure the fill color is applied
-            // hintStyle: const TextStyle(
-            //   fontSize: 15, // Customize hint text font size
-            //   color: Colors.grey, // Customize hint text color
-            // ),
-
-            // enabledBorder: OutlineInputBorder(
-            //   borderSide: BorderSide(
-            //     color: Colors.blue, // Customize the border color when enabled
-            //     width: 2.0, // Customize the border width
-            //   ),
-            //   borderRadius: BorderRadius.all(Radius.circular(TSizes.sm)), // Optional: Customize the border radius
-            // ),
-            // focusedBorder: OutlineInputBorder(
-            //   borderSide: BorderSide(
-            //     color: Colors.green, // Customize the border color when focused
-            //     width: 2.0, // Customize the border width
-            //   ),
-            //   borderRadius: BorderRadius.all(Radius.circular(TSizes.sm))
-            // ),
-            // border: const OutlineInputBorder(
-            //   borderSide: BorderSide(
-            //     color: Colors.transparent, // Customize the default border color
-            //     width: 1.0, // Customize the default border width
-            //   ),
-            //   borderRadius: BorderRadius.all(Radius.circular(TSizes.sm))
-            // ),
+      // primaryColor: TColors.primaryColor,
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: Theme.of(context).colorScheme.onSurface,
+        selectionColor: Colors.blue.shade200,
+        selectionHandleColor: Colors.blue.shade200,
+      ),
+      textTheme: TextTheme(
+        titleLarge: TextStyle(
+          fontSize: 15, // Customize font size
+          fontWeight: FontWeight.w500, // Customize font weight
+          color: Theme.of(context).colorScheme.onSurface, // Customize font color
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+            // hintStyle: searchFieldStyle ?? theme.inputDecorationTheme.hintStyle,
+            // border: InputBorder.none,
+            isDense: true, // Ensures the padding takes effect
+            contentPadding: const EdgeInsets.symmetric(vertical: Sizes.sm, horizontal: Sizes.md), // Define input field height
+            fillColor: Theme.of(context).colorScheme.surface, // Customize the background color
+            filled: true, // Ensure the fill color is applied
+            hintStyle: TextStyle(
+              fontSize: 15, // Customize hint text font size
+              color: Theme.of(context).colorScheme.onSurfaceVariant, // Customize hint text color
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
+                // borderSide: BorderSide(
+              //   color: Theme.of(context).colorScheme.surface,
+              //   width: 2.0, // Customize the border width
+              // ),
+              borderRadius: BorderRadius.circular(Sizes.inputFieldRadius) // Optional: Customize the border radius
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              // borderSide: BorderSide(
+              //   color: Theme.of(context).colorScheme.surface,
+              //   width: 2.0, // Customize the border width
+              // ),
+              borderRadius: BorderRadius.circular(Sizes.inputFieldRadius),
+            ),
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              // borderSide: BorderSide(
+              //   color: Theme.of(context).colorScheme.surface,
+              //   width: 1.0, // Customize the default border width
+              // ),
+              borderRadius: BorderRadius.circular(Sizes.inputFieldRadius)
+            ),
           ),
     );
   }

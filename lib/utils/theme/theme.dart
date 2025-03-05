@@ -10,6 +10,7 @@ import 'custom_theme/chip_theme.dart';
 import 'custom_theme/elevated_button_theme.dart';
 import 'custom_theme/list_tile_theme.dart';
 import 'custom_theme/outlined_button_theme.dart';
+import 'custom_theme/switch_theme.dart';
 import 'custom_theme/text_field_theme.dart';
 import 'custom_theme/text_theme.dart';
 
@@ -25,6 +26,7 @@ class TAppTheme {
     elevatedButtonTheme: TElevatedButtonTheme.lightElevatedButtonTheme,
     outlinedButtonTheme: TOutlinedButtonTheme.lightOutlinedButtonTheme,
     checkboxTheme: TCheckBoxTheme.lightCheckBoxTheme,
+    switchTheme: TSwitchTheme.lightSwitchTheme,
     colorScheme: ThemeData.light().colorScheme.copyWith(
       surface: AppSettings.lightTileBackground, // Background for cards, dialogs, etc.
       // onSurface: AppSettings.lightTextSofter,
@@ -41,6 +43,7 @@ class TAppTheme {
     elevatedButtonTheme: TElevatedButtonTheme.darkElevatedButtonTheme,
     outlinedButtonTheme: TOutlinedButtonTheme.darkOutlinedButtonTheme,
     checkboxTheme: TCheckBoxTheme.darkCheckBoxTheme,
+    switchTheme: TSwitchTheme.darkSwitchTheme,
     colorScheme: ThemeData.dark().colorScheme.copyWith(
       surface: AppSettings.darkTileBackground, // Background for cards, dialogs, etc.
       // onSurface: AppSettings.darkTextSofter,

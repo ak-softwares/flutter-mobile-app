@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/widgets/loaders/animation_loader.dart';
-import '../../../../common/widgets/shimmers/order_shimmer.dart';
 import '../../../../common/widgets/shimmers/user_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
@@ -15,7 +13,6 @@ import '../../controllers/product/product_review_controller.dart';
 import '../../models/product_model.dart';
 import '../../models/product_review_model.dart';
 import 'create_product_review.dart';
-import 'review_widgets/rating_progress_indicator.dart';
 import 'review_widgets/user_review_card.dart';
 
 class ProductReviewScreen extends StatelessWidget {
@@ -55,75 +52,71 @@ class ProductReviewScreen extends StatelessWidget {
             child: const Text('Add product review')
         ),
       ),
-      body: RefreshIndicator(
-        color: TColors.refreshIndicator,
-        onRefresh: () async => productReviewController.refreshReviews(product.id.toString()),
-        child: ListView(
-          controller: scrollController,
-          padding: TSpacingStyle.defaultPageVertical,
-          physics: const AlwaysScrollableScrollPhysics(),
-          children: [
-            // Section 1
-            Padding(
-              padding: TSpacingStyle.defaultPageHorizontal,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    spacing: Sizes.spaceBtwItems,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      RatingBarIndicator(
-                        rating: product.averageRating ?? 0.0,
-                        itemSize: 17,
-                        unratedColor: Colors.grey[300],
-                        itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: TColors.ratingStar),
-                      ),
-                      Text(product.averageRating!.toStringAsFixed(1), style: TextStyle(fontSize: 17)),
-                    ],
-                  ),
-                  Text('Based on ${product.ratingCount} reviews', style: Theme.of(context).textTheme.labelLarge),
-                ],
-              ),
-            ),
-
-            // Section 2
-            Column(
+      body: ListView(
+        controller: scrollController,
+        padding: TSpacingStyle.defaultPageVertical,
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: [
+          // Section 1
+          Padding(
+            padding: TSpacingStyle.defaultPageHorizontal,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Obx(() {
-                  if (productReviewController.isLoading.value){
-                    return const UserTileShimmer();
-                  } else if(productReviewController.reviews.isEmpty) {
-                    return const TAnimationLoaderWidgets(
-                      text: 'Whoops! No Review yet! Be the First Reviewer',
-                      animation: Images.pencilAnimation,
-                    );
-                  } else{
-
-                    final List<ReviewModel> reviews = productReviewController.reviews;
-
-                    return Column(
-                      children: [
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: productReviewController.isLoadingMore.value ? reviews.length + 1 : reviews.length,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (_, index) {
-                            if (index < reviews.length) {
-                              return TUserReviewCard(review: reviews[index]);
-                            } else {
-                              return const UserTileShimmer();
-                            }
-                          },
-                        ),
-                      ],
-                    );
-                  }
-                }),
+                Row(
+                  spacing: Sizes.spaceBtwItems,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RatingBarIndicator(
+                      rating: product.averageRating ?? 0.0,
+                      itemSize: 17,
+                      unratedColor: Colors.grey[300],
+                      itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: TColors.ratingStar),
+                    ),
+                    Text(product.averageRating!.toStringAsFixed(1), style: TextStyle(fontSize: 17)),
+                  ],
+                ),
+                Text('Based on ${product.ratingCount} reviews', style: Theme.of(context).textTheme.labelLarge),
               ],
             ),
-          ],
-        ),
+          ),
+
+          // Section 2
+          Column(
+            children: [
+              Obx(() {
+                if (productReviewController.isLoading.value){
+                  return const UserTileShimmer();
+                } else if(productReviewController.reviews.isEmpty) {
+                  return const TAnimationLoaderWidgets(
+                    text: 'Whoops! No Review yet! Be the First Reviewer',
+                    animation: Images.pencilAnimation,
+                  );
+                } else{
+
+                  final List<ReviewModel> reviews = productReviewController.reviews;
+
+                  return Column(
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: productReviewController.isLoadingMore.value ? reviews.length + 1 : reviews.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, index) {
+                          if (index < reviews.length) {
+                            return TUserReviewCard(review: reviews[index]);
+                          } else {
+                            return const UserTileShimmer();
+                          }
+                        },
+                      ),
+                    ],
+                  );
+                }
+              }),
+            ],
+          ),
+        ],
       ),
     );
   }

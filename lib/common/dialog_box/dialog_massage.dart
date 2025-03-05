@@ -5,7 +5,7 @@ import '../widgets/loaders/loader.dart';
 class DialogMessage {
 
   //Show dialog box before removing product
-  void showDialog({required String title, String? message, String? toastMassage, required Future<void> Function() function,}) {
+  static void showDialog({required String title, String? message, String? toastMassage, required Future<void> Function() function,}) {
     Get.defaultDialog(
         title: title,
         middleText: message ?? '',

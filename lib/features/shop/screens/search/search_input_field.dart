@@ -21,7 +21,7 @@ class TSearchBar extends StatelessWidget {
           padding: const EdgeInsets.all(Sizes.sm),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(Sizes.productImageRadius),
+            borderRadius: BorderRadius.circular(Sizes.inputFieldRadius),
           ),
           child: Row(
             children: [

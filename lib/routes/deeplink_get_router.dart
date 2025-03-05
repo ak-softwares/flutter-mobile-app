@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../common/navigation_bar/bottom_navigation_bar.dart';
+import '../common/navigation_bar/bottom_navigation_bar1.dart';
 import '../features/personalization/screens/user_menu/user_menu_screen.dart';
 import '../features/shop/controllers/product/product_controller.dart';
 import '../features/shop/screens/all_products/all_products.dart';
@@ -36,7 +37,7 @@ class MyMiddleware extends GetMiddleware {
         });
       });
 
-      return GetPage(name: RoutesPath.home, page: () => BottomNavigation()); // Return Home page
+      return GetPage(name: RoutesPath.home, page: () => BottomNavigation1()); // Return Home page
     }
 
     return super.onPageCalled(page);
@@ -46,7 +47,7 @@ class MyMiddleware extends GetMiddleware {
 
 class AppRoutes {
   static final pages = [
-    GetPage(name: RoutesPath.home, page: () => const BottomNavigation(),),
+    GetPage(name: RoutesPath.home, page: () => const BottomNavigation1(),),
     GetPage(name: RoutesPath.product, page: () => ProductDetailScreen(slug: Get.parameters['slug']),),
     // GetPage(name: RoutesPath.category, page: () => const CategoryScreen(), middlewares: [MyMiddleware()],),
     GetPage(name: RoutesPath.category, page: () => TAllProducts(title: 'Products', categoryId: Get.parameters['slug'], futureMethodTwoString: ProductController.instance.getProductsByCategorySlug)),

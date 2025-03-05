@@ -75,8 +75,8 @@ class ScrollingCategoryName extends StatelessWidget {
                         padding: const EdgeInsets.all(Sizes.spaceBtwItems),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: Colors.black, // Change to your desired border color
-                            width: 1.0, // Change to your desired border width
+                            color: Theme.of(context).colorScheme.outline, // Change to your desired border color
+                            width: 0.5, // Change to your desired border width
                           ),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(imageRadius), // Change to your desired corner radius
@@ -84,7 +84,7 @@ class ScrollingCategoryName extends StatelessWidget {
                         ),
                         child: InkWell(
                           onTap: () => Get.to(CategoryTapBarScreen(categoryId: category.id ?? '')),
-                          child: Text(category.name ?? '')
+                          child: Text(category.name ?? '', style: TextStyle(color: Theme.of(context).colorScheme.onSurface),)
                         )
                       );
                     } else {

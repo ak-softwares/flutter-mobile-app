@@ -20,7 +20,7 @@ class CancelOrderWidget extends StatelessWidget {
 
     return InkWell(
         // onTap: () async => await orderController.cancelOrder(orderId),
-        onTap: () => DialogMessage().showDialog(
+        onTap: () => DialogMessage.showDialog(
           title: 'Cancel Order',
           message: 'Are you sure you want to cancel this order?',
           toastMassage: 'Order cancel Successfully',

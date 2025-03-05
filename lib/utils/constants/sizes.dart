@@ -92,7 +92,7 @@ class Sizes {
   static const double orderImageWidth = 100.0;
 
   // Input Field
-  static const double inputFieldRadius = 5;
+  static const double inputFieldRadius = 12;
   static const double spaceBtwInputFields = 16.0;
 
   // Card sizes

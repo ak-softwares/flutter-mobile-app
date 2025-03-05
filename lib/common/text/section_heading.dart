@@ -33,12 +33,12 @@ class TSectionHeading extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: titleParts[0],
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   if (titleParts.length > 1) // Check if there's more than one part after splitting
                     TextSpan(
                       text: titleParts[1],
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.red, fontWeight: FontWeight.w600),
+                      style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                 ],
               ),
@@ -50,7 +50,9 @@ class TSectionHeading extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(buttonTitle, style: Theme.of(context).textTheme.bodySmall!,),
+                    Text(buttonTitle,
+                      style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                    ),
                     const Icon(Icons.arrow_right, size: 25, color: Colors.blue),
                   ],
                 )

@@ -128,7 +128,7 @@ class OrderController extends GetxController {
         billing:   userController.customer.value.billing,
         shipping:   userController.customer.value.billing, //if shipping address is different then use shipping instead billing
         lineItems:  cartController.cartItems,
-        couponLines: [checkoutController.coupon.value],
+        couponLines: [checkoutController.appliedCoupon.value],
         metaData: [
           OrderMedaDataModel(key: "_wc_order_attribution_source_type", value: "organic"), //referral, organic, Unknown, utm, Web Admin, typein (Direct)
           OrderMedaDataModel(key: "_wc_order_attribution_utm_source", value: "Android App v$appVersion"),

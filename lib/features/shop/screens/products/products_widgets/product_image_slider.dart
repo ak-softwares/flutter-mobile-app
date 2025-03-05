@@ -126,7 +126,9 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                           height: 40,
                           width: 40,
                           decoration: BoxDecoration(
-                            color: Colors.white54,
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? Colors.black54
+                                : Colors.white54,
                             borderRadius: BorderRadius.circular(100),
                           ),
                           child: TFavouriteIcon(product: widget.product),
@@ -136,7 +138,9 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                             height: 40,
                             width: 40,
                             decoration: BoxDecoration(
-                              color: Colors.white54,
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.black54
+                                  : Colors.white54,
                               borderRadius: BorderRadius.circular(100),
                             ),
                             child: IconButton(
@@ -146,7 +150,7 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                                     itemName: widget.product.name ?? '',
                                     itemId: widget.product.id.toString()
                                 ),
-                                icon: const Icon(Icons.share)
+                                icon: Icon(Icons.share,)
                             )
                         ),
                       ],
@@ -161,12 +165,14 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                         height: 50,
                         width: 50,
                         decoration: BoxDecoration(
-                          color: Colors.white54,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.black54
+                              : Colors.white54,
                           borderRadius: BorderRadius.circular(100),
                         ),
                         child: IconButton(
                             onPressed: () => imagesController.showEnlargedImage(image),
-                            icon: const Icon(Iconsax.maximize_2, color: Colors.black,)
+                            icon: const Icon(Iconsax.maximize_2)
                         )
                     )
                 )

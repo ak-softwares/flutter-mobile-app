@@ -65,8 +65,8 @@ class Menu extends StatelessWidget {
         ListTile(
           onTap: () => Get.to(() => const FavouriteScreen()),
           leading: Icon(TIcons.favorite,size: 20),
-          title: Text('Wishlist'),
-          subtitle: Text('All wishlist items'),
+          title: Text('Liked Products'),
+          subtitle: Text('All Liked items'),
           trailing: Row(
             spacing: Sizes.xs,
             mainAxisSize: MainAxisSize.min, // Fix: Prevents Row from taking full width

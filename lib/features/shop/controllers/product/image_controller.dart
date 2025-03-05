@@ -17,18 +17,10 @@ class ImagesController extends GetxController{
     controller = TransformationController();
   }
 
-  @override
-  void dispose() {
-    controller.dispose();
-    // TODO: implement dispose
-    super.dispose();
-  }
-
   // show popup image
   void showEnlargedImage (String image) {
-    Get.to(
-      // fullscreenDialog: true;
-      () => Dialog.fullscreen(
+    Get.dialog(
+        Dialog.fullscreen(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

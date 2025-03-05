@@ -46,15 +46,22 @@ class FavoriteController extends GetxController{
       favorites.add(productId);
       FBAnalytics.logAddToWishlist(product: product);
       TLoaders.customToast(message: 'Product added to the wishlist.');
+      saveWishlistData();
     } else {
-      favorites.remove(productId);
-      favorites.refresh();
+      removeProduct(productID: productId);
       TLoaders.customToast(message: 'Product removed from the wishlist.');
     }
+  }
+
+  void removeProduct({required String productID}) {
+    favorites.remove(productID);
+    products.removeWhere((product) => product.id.toString() == productID);
+    favorites.refresh();
+    products.refresh();
     saveWishlistData();
   }
 
-  Future<void> saveWishlistData() async {
+  void saveWishlistData() {
     localStorage.write(LocalStorage.wishlist, favorites); // save data in Local Storage
     // await UserRepository.instance.updateMetaData(UserFieldName.wishlistItems, favorites); //save data in Cloud Storage
   }

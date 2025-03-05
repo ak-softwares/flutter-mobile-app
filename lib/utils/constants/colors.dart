@@ -20,7 +20,7 @@ class TColors{
   static const Color offerColor = Color(0xFF2BAA3A);
   static const Color linkColor = Colors.blue;
   static const Color linkColor2 = Color(0xFF1A0DAB);
-  static const Color refreshIndicator = AppSettings.primaryColor;
+  static const Color refreshIndicator = Colors.blue;
 
   //Text Colors
   static const Color textPrimary = Color(0xFF2d2d2d);

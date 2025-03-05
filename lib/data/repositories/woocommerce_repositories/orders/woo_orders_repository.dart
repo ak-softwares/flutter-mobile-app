@@ -1,17 +1,31 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../features/shop/models/order_model.dart';
+import '../../../../utils/cache/cache.dart';
 import '../../../../utils/constants/api_constants.dart';
+import '../../../../utils/constants/local_storage_constants.dart';
 
 
 class WooOrdersRepository extends GetxController {
   static WooOrdersRepository get instance => Get.find();
 
+  final Box _cacheBox = Hive.box(CacheConstants.orderBox); // Hive storage
+  final double cacheExpiryTimeInDays = 7;
+
   //Fetch orders by customer's id
   Future<List<OrderModel>> fetchOrdersByCustomerId({required String customerId, required String page}) async {
+    final String cacheKey = 'fetch_order_customer_id_$page';
+
+    // Check cache before making API request
+    if (_cacheBox.containsKey(cacheKey) && CacheHelper.isCacheValid(cacheBox: _cacheBox, cacheKey: cacheKey, expiryTimeInDays: cacheExpiryTimeInDays)) {
+      final cachedData = _cacheBox.get(cacheKey);
+      return (json.decode(cachedData) as List).map((json) => OrderModel.fromJson(json)).toList();
+    }
+
     try {
       final Map<String, String> queryParams = {
         'customer': customerId,
@@ -36,6 +50,9 @@ class WooOrdersRepository extends GetxController {
       if (response.statusCode == 200) {
         final List<dynamic> ordersJson = json.decode(response.body);
         final List<OrderModel> orders = ordersJson.map((json) => OrderModel.fromJson(json)).toList();
+        // Store data in cache with timestamp
+        _cacheBox.put(cacheKey, response.body);
+        _cacheBox.put('${cacheKey}_time', DateTime.now().millisecondsSinceEpoch);
         return orders;
       } else {
         final Map<String, dynamic> errorJson = json.decode(response.body);
@@ -106,6 +123,7 @@ class WooOrdersRepository extends GetxController {
       if (response.statusCode == 201) {
         final Map<String, dynamic> orderJson = json.decode(response.body);
         final OrderModel order = OrderModel.fromJson(orderJson);
+        CacheHelper.clearCacheBox(cacheBoxName: CacheConstants.orderBox);
         return order;
       } else {
         final Map<String, dynamic> errorJson = json.decode(response.body);
@@ -140,6 +158,7 @@ class WooOrdersRepository extends GetxController {
       if (response.statusCode == 200) {
         final Map<String, dynamic> orderJson = json.decode(response.body);
         final OrderModel order = OrderModel.fromJson(orderJson);
+        CacheHelper.clearCacheBox(cacheBoxName: CacheConstants.orderBox);
         return order;
       } else {
         final Map<String, dynamic> errorJson = json.decode(response.body);

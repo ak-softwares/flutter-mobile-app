@@ -14,9 +14,9 @@ class TIcons {
   static IconData category = LineIcons.box;
   static IconData category1 = FontAwesomeIcons.box;
   // static IconData favorite = LineIcons.heart;
-  static IconData favorite = FontAwesomeIcons.star; //heart
+  static IconData favorite = FontAwesomeIcons.heart; //heart
   static IconData user = LineIcons.user;
-  static IconData search = LineIcons.search;
+  static IconData search = Icons.search;
 
   // cart
   static IconData bottomNavigationCart = LineIcons.shoppingBag;

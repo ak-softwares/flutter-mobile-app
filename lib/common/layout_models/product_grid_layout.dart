@@ -14,12 +14,14 @@ class ProductGridLayout extends StatelessWidget {
     super.key,
     required this.controller,
     required this.sourcePage,
+    this.isDismissible = false,
     this.orientation = OrientationType.vertical,
     this.emptyWidget = const TAnimationLoaderWidgets(text: 'Whoops! No products found...', animation: Images.pencilAnimation),
   });
 
   final dynamic controller;
   final String sourcePage;
+  final bool isDismissible;
   final OrientationType orientation;
   final Widget emptyWidget;
 
@@ -42,7 +44,23 @@ class ProductGridLayout extends StatelessWidget {
           mainAxisExtent: orientation == OrientationType.vertical ? Sizes.productCardVerticalHeight : Sizes.productCardHorizontalHeight,
           itemBuilder: (context, index) {
             if (index < products.length) {
-              return ProductCard(product: products[index], orientation: orientation, pageSource: sourcePage);
+              return orientation == OrientationType.horizontal && isDismissible
+                  ? Dismissible(
+                        key: Key(controller.products[index].id.toString()), // Unique key for each item
+                        direction: DismissDirection.endToStart, // Swipe left to remove
+                        onDismissed: (direction) {
+                          controller.removeProduct(productID: products[index].id.toString());
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed")),);
+                        },
+                        background: Container(
+                          color: Colors.red,
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: const Icon(Icons.delete, color: Colors.white),
+                        ),
+                        child: SizedBox(width: double.infinity, child: ProductCard(product: products[index], orientation: orientation, pageSource: sourcePage))
+                    )
+                  : ProductCard(product: products[index], orientation: orientation, pageSource: sourcePage);
             } else {
               return ProductShimmer(
                 itemCount: 1,

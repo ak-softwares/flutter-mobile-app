@@ -1,3 +1,4 @@
+import 'package:aramarket/common/navigation_bar/bottom_navigation_bar1.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'bindings/general_bindings.dart';
 import 'common/navigation_bar/bottom_navigation_bar.dart';
 import 'data/repositories/authentication/authentication_repository.dart';
@@ -20,7 +23,9 @@ import 'routes/routes_name_path.dart';
 import 'services/firebase_analytics/firebase_analytics.dart';
 import 'services/notification/firebase_notification.dart';
 import 'services/notification/local_notification.dart';
+import 'utils/cache/cache.dart';
 import 'utils/theme/theme.dart';
+import 'utils/theme/theme_controller.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -59,6 +64,8 @@ void main() async {
   // Initialize Firebase Notifications
   await FirebaseNotification.initNotification();
 
+  await CacheHelper.initializeHive();
+
   // To handle messages while your application is terminated
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -80,7 +87,7 @@ void main() async {
     statusBarIconBrightness: Brightness.dark,
   ));
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -139,60 +146,63 @@ class MyApp extends StatelessWidget {
     // });
 
     // FBAnalytics.logPageView('main_function_screen');
+    final themeController = Get.put(ThemeController());
     AuthenticationRepository.instance.checkIsUserLogin();
     final bool isUserLogin = AuthenticationRepository.instance.isUserLogin.value;
-    return GetMaterialApp(  //add .router when use go_router
-      debugShowCheckedModeBanner: false,
-      navigatorKey: navigatorKey,
-      navigatorObservers: [FBAnalytics.observer],
-      title: AppSettings.appName,
-      theme: TAppTheme.lightTheme,
-      darkTheme: TAppTheme.darkTheme,
-      initialBinding: GeneralBindings(),
-      home: isUserLogin ? const BottomNavigation() : const MobileLoginScreen(),
-      // initialRoute: '/',
-      // getPages: [
-      //   GetPage(name: '/', page: () => const BottomNavigation()),
-      //   GetPage(name: '/page1', page: () => const CartScreen()),
-      //   GetPage(name: '/page2', page: () => const OrderScreen()),
-      // ],
-      // getPages: AppRoutes.pages,
-      initialRoute: RoutesPath.home, // Always start from home
+    return Obx(() => GetMaterialApp(  //add .router when use go_router
+        debugShowCheckedModeBanner: false,
+        navigatorKey: navigatorKey,
+        navigatorObservers: [FBAnalytics.observer],
+        title: AppSettings.appName,
+        themeMode: themeController.themeMode.value, // GetX-controlled theme
+        theme: TAppTheme.lightTheme,
+        darkTheme: TAppTheme.darkTheme,
+        initialBinding: GeneralBindings(),
+        home: isUserLogin ? const BottomNavigation1() : const MobileLoginScreen(),
+        // initialRoute: '/',
+        // getPages: [
+        //   GetPage(name: '/', page: () => const BottomNavigation()),
+        //   GetPage(name: '/page1', page: () => const CartScreen()),
+        //   GetPage(name: '/page2', page: () => const OrderScreen()),
+        // ],
+        // getPages: AppRoutes.pages,
+        initialRoute: RoutesPath.home, // Always start from home
 
-      // getPages: AppRoutes.pages,
-      // // initialRoute: RoutesPath.home, // Default route
-      // initialRoute: initialDeepLinkHandler() ?? RoutesPath.home,
+        // getPages: AppRoutes.pages,
+        // // initialRoute: RoutesPath.home, // Default route
+        // initialRoute: initialDeepLinkHandler() ?? RoutesPath.home,
 
-      getPages: [
-        ...AppRoutes.pages,
-        AppRoutes.defaultRoute,
-      ],
-      // routingCallback: (routing) {
-      //   // Optional: Log or handle route changes
-      //   if (routing?.current != null) {
-      //     debugPrint("Navigated to: ${routing?.current}");
-      //   }
-      // },
-      //these are the method for Get routes
-      // initialRoute: CustomRoutes.home,
-      // getPages: [
-      //   ...AppRoutes.pages, // Include your defined routes
-      //   AppRoutes.defaultRoute, // Include the default route
-      // ],
+        getPages: [
+          ...AppRoutes.pages,
+          AppRoutes.defaultRoute,
+        ],
+        // routingCallback: (routing) {
+        //   // Optional: Log or handle route changes
+        //   if (routing?.current != null) {
+        //     debugPrint("Navigated to: ${routing?.current}");
+        //   }
+        // },
+        //these are the method for Get routes
+        // initialRoute: CustomRoutes.home,
+        // getPages: [
+        //   ...AppRoutes.pages, // Include your defined routes
+        //   AppRoutes.defaultRoute, // Include the default route
+        // ],
 
-      //these are the method for Get routes for another way
-      // routes: {
-      //   '/': (context)=>BottomNavigation2(),
-      //   CustomRoutes.product: (context)=>ProductDetailScreen(slug: Get.parameters['slug']),
-      //   'details': (context)=>TOrderScreen(),
-      // },
+        //these are the method for Get routes for another way
+        // routes: {
+        //   '/': (context)=>BottomNavigation2(),
+        //   CustomRoutes.product: (context)=>ProductDetailScreen(slug: Get.parameters['slug']),
+        //   'details': (context)=>TOrderScreen(),
+        // },
 
-      // these are the method for go_router
-      // routerDelegate: DeeplinkGoRouter.router.routerDelegate,
-      // backButtonDispatcher: DeeplinkGoRouter.router.backButtonDispatcher,
-      // routeInformationParser: DeeplinkGoRouter.router.routeInformationParser,
-      // routeInformationProvider: DeeplinkGoRouter.router.routeInformationProvider,
+        // these are the method for go_router
+        // routerDelegate: DeeplinkGoRouter.router.routerDelegate,
+        // backButtonDispatcher: DeeplinkGoRouter.router.backButtonDispatcher,
+        // routeInformationParser: DeeplinkGoRouter.router.routeInformationParser,
+        // routeInformationProvider: DeeplinkGoRouter.router.routeInformationProvider,
 
+      ),
     );
   }
 }

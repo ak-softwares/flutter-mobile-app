@@ -207,7 +207,7 @@ class SingleOrderScreen extends StatelessWidget {
                       children: [
                         ListTile(
                             tileColor: Theme.of(context).colorScheme.surface,
-                            onTap: () => DialogMessage().showDialog(
+                            onTap: () => DialogMessage.showDialog(
                               title: 'Cancel Order',
                               message: 'Are you sure you want to cancel this order?',
                               toastMassage: 'Order cancel Successfully',

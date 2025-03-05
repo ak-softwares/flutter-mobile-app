@@ -34,7 +34,7 @@ class UserMenuScreen extends StatelessWidget {
     userController.refreshCustomer();
 
     return  Scaffold(
-        appBar: const TAppBar2(titleText: 'Menu', seeLogoutButton: true),
+        appBar: const TAppBar2(titleText: 'Menu', seeLogoutButton: true, seeSettingButton: true),
         body: RefreshIndicator(
                 color: TColors.refreshIndicator,
                 onRefresh: () async => userController.refreshCustomer(),
@@ -89,7 +89,7 @@ class UserMenuScreen extends StatelessWidget {
                                   padding: 0,
                                   image: Theme.of(context).brightness != Brightness.dark
                                       ? AppSettings.lightAppLogo
-                                      : AppSettings.lightAppLogo,
+                                      : AppSettings.darkAppLogo,
                               ),
                             ),
                             Positioned(

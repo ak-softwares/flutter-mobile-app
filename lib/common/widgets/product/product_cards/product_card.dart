@@ -194,6 +194,7 @@ class ProductCard extends StatelessWidget {
     final salePercentage = product.calculateSalePercentage();
     return Container(
       width: productCardHorizontalWidth,
+      // width: double.infinity,
       padding: const EdgeInsets.all(Sizes.xs),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
@@ -254,7 +255,7 @@ class ProductCard extends StatelessWidget {
                     children: [
                       //Price
                       ProductPrice(
-                          salePrice: product.salePrice!,
+                          salePrice: product.salePrice ?? product.price,
                           regularPrice: product.regularPrice ?? 0.0,
                           orientation: OrientationType.horizontal,
                           size: 17

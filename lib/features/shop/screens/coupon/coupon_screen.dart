@@ -22,9 +22,27 @@ class CouponScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     FBAnalytics.logPageView('coupon_screen');
     final couponController = Get.put(CouponController());
-    final ScrollController scrollController = ScrollController();
 
     couponController.refreshCoupons();
+
+    return Scaffold(
+      appBar: const TAppBar2(titleText: 'Coupons', showBackArrow: true, showSearchIcon: true),
+      body: RefreshIndicator(
+        color: TColors.refreshIndicator,
+        onRefresh: () async => couponController.refreshCoupons(),
+        child: CouponListLayout(),
+      )
+    );
+  }
+}
+
+class CouponListLayout extends StatelessWidget {
+  const CouponListLayout({ super.key });
+
+  @override
+  Widget build(BuildContext context) {
+    final couponController = Get.put(CouponController());
+    final ScrollController scrollController = ScrollController();
 
     scrollController.addListener(() async {
       if (scrollController.position.extentAfter < 0.2 * scrollController.position.maxScrollExtent) {
@@ -43,44 +61,37 @@ class CouponScreen extends StatelessWidget {
       }
     });
 
-    return Scaffold(
-      appBar: const TAppBar2(titleText: 'Coupons', showBackArrow: true),
-      body: RefreshIndicator(
-        color: TColors.refreshIndicator,
-        onRefresh: () async => couponController.refreshCoupons(),
-        child: ListView(
-          controller: scrollController,
-          padding: TSpacingStyle.defaultPageVertical,
-          physics: const AlwaysScrollableScrollPhysics(),
-          children: [
-            Heading(title: 'Coupons', paddingLeft: Sizes.defaultSpace),
-            SizedBox(height: Sizes.spaceBtwItems),
-            Obx(() {
-              if(couponController.isLoading.value){
-                return const CouponShimmer();
-              }else if(couponController.coupons.isEmpty) {
-                return const TAnimationLoaderWidgets(
-                  text: 'Whoops! Order is Empty...',
-                  animation: Images.pencilAnimation,
-                );
-              }else {
-                return GridLayout(
-                  mainAxisExtent: 80,
-                  itemCount: couponController.isLoadingMore.value ? couponController.coupons.length + 1 : couponController.coupons.length,
-                  itemBuilder: (context, index) {
-                    if (index < couponController.coupons.length) {
-                      return SingleCouponItem(coupon: couponController.coupons[index]);
-                    } else {
-                      return const CouponShimmer();
-                    }
-                  },
-                );
-              }
-            }),
+    return ListView(
+      controller: scrollController,
+      padding: TSpacingStyle.defaultPageVertical,
+      physics: const AlwaysScrollableScrollPhysics(),
+      children: [
+        Heading(title: 'Coupons', paddingLeft: Sizes.defaultSpace),
+        SizedBox(height: Sizes.spaceBtwItems),
+        Obx(() {
+          if(couponController.isLoading.value){
+            return const CouponShimmer();
+          }else if(couponController.coupons.isEmpty) {
+            return const TAnimationLoaderWidgets(
+              text: 'Whoops! Order is Empty...',
+              animation: Images.pencilAnimation,
+            );
+          }else {
+            return GridLayout(
+              mainAxisExtent: 80,
+              itemCount: couponController.isLoadingMore.value ? couponController.coupons.length + 1 : couponController.coupons.length,
+              itemBuilder: (context, index) {
+                if (index < couponController.coupons.length) {
+                  return SingleCouponItem(coupon: couponController.coupons[index]);
+                } else {
+                  return const CouponShimmer();
+                }
+              },
+            );
+          }
+        }),
 
-          ],
-        ),
-      )
+      ],
     );
   }
 }

@@ -52,13 +52,13 @@ class RecentlyViewed extends StatelessWidget {
       onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
     );
     return Scaffold(
-        appBar: const TAppBar2(titleText: 'Recently viewed', showCartIcon: true,),
+        appBar: const TAppBar2(titleText: 'Recently viewed', showCartIcon: true, showSearchIcon: true,),
         body: RefreshIndicator(
                 color: TColors.refreshIndicator,
                 onRefresh: () async => recentlyViewedController.refreshRecentProducts(),
                 child: ListView(
                   controller: scrollController,
-                  padding: TSpacingStyle.defaultPagePadding,
+                  padding: TSpacingStyle.defaultPageVertical,
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: [
                     InkWell(
@@ -75,7 +75,12 @@ class RecentlyViewed extends StatelessWidget {
                         ),
                       ),
                     ),
-                    ProductGridLayout(controller: recentlyViewedController, orientation: OrientationType.horizontal, emptyWidget: emptyWidget, sourcePage: 'recently_view',),
+                    ProductGridLayout(
+                      controller: recentlyViewedController,
+                      orientation: OrientationType.horizontal,
+                      emptyWidget: emptyWidget, sourcePage: 'recently_view',
+                      isDismissible: true,
+                    ),
                   ],
                 ),
               )

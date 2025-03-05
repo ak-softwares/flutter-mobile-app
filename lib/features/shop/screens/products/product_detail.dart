@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -12,6 +13,7 @@ import '../../../../common/widgets/custom_shape/image/circular_image.dart';
 import '../../../../common/widgets/loaders/animation_loader.dart';
 import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../common/widgets/shimmers/single_product_shimmer.dart';
+import '../../../../common/widgets/shimmers/user_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../services/share/share.dart';
 import '../../../../utils/constants/colors.dart';
@@ -22,10 +24,14 @@ import '../../../../utils/constants/sizes.dart';
 import '../../../settings/app_settings.dart';
 import '../../controllers/cart_controller/cart_controller.dart';
 import '../../controllers/product/product_controller.dart';
+import '../../controllers/product/product_review_controller.dart';
 import '../../controllers/recently_viewed/recently_viewed_controller.dart';
 import '../../models/product_attribute_model.dart';
 import '../../models/product_model.dart';
+import '../../models/product_review_model.dart';
 import '../all_products/all_products.dart';
+import '../review/create_product_review.dart';
+import '../review/review_widgets/user_review_card.dart';
 import 'scrolling_products.dart';
 import 'scrolling_products_by_item_id.dart';
 import '../review/product_review.dart';
@@ -334,9 +340,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         sharePageLink: '${AppSettings.appName} - ${_product.value.brands?[0].permalink}',
                                         futureMethodTwoString: productController.getProductsByBrandId)
                                     ),
-                                    child: Text(
-                                      _product.value.brands?.map((brand) => brand.name).join(', ') ?? '', // Join brand names with commas
-                                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor),
+                                    child: Row(
+                                      spacing: Sizes.sm,
+                                      children: [
+                                        Text(
+                                          _product.value.brands?.map((brand) => brand.name).join(', ') ?? '', // Join brand names with commas
+                                          style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor),
+                                        ),
+                                        Icon(Icons.verified, color: Colors.blue, size: 18,)
+                                      ],
                                     ),
                                   ),
                                   const SizedBox(height: Sizes.sm),
@@ -571,16 +583,129 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   void _showReviewInBottomSheet({required BuildContext context, required ProductModel product}) {
+    final productReviewController = Get.put(ProductReviewController());
+    productReviewController.refreshReviews(_product.value.id.toString());
+    final ScrollController scrollController = ScrollController();
+    scrollController.addListener(() async {
+      if (scrollController.position.extentAfter < 0.2 * scrollController.position.maxScrollExtent) {
+        if(!productReviewController.isLoadingMore.value){
+          // User has scrolled to 80% of the content's height
+          const int itemsPerPage = 10; // Number of items per page
+          if (productReviewController.reviews.length % itemsPerPage != 0) {
+            // If the length of orders is not a multiple of itemsPerPage, it means all items have been fetched
+            return; // Stop fetching
+          }
+          productReviewController.isLoadingMore(true);
+          productReviewController.currentPage++; // Increment current page
+          await productReviewController.getReviewsByProductId(product.id.toString());
+          productReviewController.isLoadingMore(false);
+        }
+      }
+    });
+
     showModalBottomSheet(
       context: context,
       backgroundColor: Theme.of(context).brightness == Brightness.dark
           ? Colors.grey.shade900  // Dark mode background
           : Colors.white,          // Light mode background
       builder: (context) {
-        return ProductReviewScreen(product: product);
+        return Padding(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom), // Avoid keyboard overlap
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // Prevent full height usage
+                children: [
+                  Expanded(
+                    child: ListView(
+                      padding: EdgeInsets.symmetric(vertical: Sizes.defaultSpace, horizontal: Sizes.xs),
+                      controller: scrollController,
+                      children: [
+                        customList(productReviewController)
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity, // Full-width button
+                    padding: const EdgeInsets.all(Sizes.sm),
+                    // color: Theme.of(context).colorScheme.surface,
+                    child: OutlinedButton(
+                        style: ElevatedButton.styleFrom(
+                          textStyle: TextStyle(
+                            fontSize: 14, // Change font size
+                          ),
+                          minimumSize: Size(300, 40), // Set width & height
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Adjust padding
+                        ),
+                        onPressed: () => Get.to(() => CreateReviewScreen(productId: product.id,)),
+                        child: const Text('Add product review')
+                    ),
+                  ),
+                ],
+              ),
+            );
       },
     );
+  }
 
+  Widget customList(ProductReviewController productReviewController) {
+    final product = _product.value;
+    return Column(
+      children: [
+        // Section 1
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              spacing: Sizes.spaceBtwItems,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RatingBarIndicator(
+                  rating: product.averageRating ?? 0.0,
+                  itemSize: 17,
+                  unratedColor: Colors.grey[300],
+                  itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: TColors.ratingStar),
+                ),
+                Text(product.averageRating!.toStringAsFixed(1), style: TextStyle(fontSize: 17)),
+              ],
+            ),
+            Text('Based on ${product.ratingCount} reviews', style: Theme.of(context).textTheme.labelLarge),
+          ],
+        ),
+
+        // Section 2
+        Column(
+          children: [
+            Obx(() {
+              if (productReviewController.isLoading.value){
+                return const UserTileShimmer();
+              } else if(productReviewController.reviews.isEmpty) {
+                return const TAnimationLoaderWidgets(
+                  text: 'Whoops! No Review yet! Be the First Reviewer',
+                  animation: Images.pencilAnimation,
+                );
+              } else{
+                final List<ReviewModel> reviews = productReviewController.reviews;
+                return Column(
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: productReviewController.isLoadingMore.value ? reviews.length + 1 : reviews.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (_, index) {
+                        if (index < reviews.length) {
+                          return TUserReviewCard(review: reviews[index]);
+                        } else {
+                          return const UserTileShimmer();
+                        }
+                      },
+                    ),
+                  ],
+                );
+              }
+            }),
+          ],
+        ),
+      ],
+    );
   }
 }
 

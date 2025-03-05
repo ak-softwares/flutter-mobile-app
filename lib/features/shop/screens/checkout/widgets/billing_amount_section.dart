@@ -51,7 +51,7 @@ class TBillingAmountSection extends StatelessWidget {
                       size: 20, // Adjust the size as needed
                     ),
                     Text(
-                      ' ${checkoutController.coupon.value.code!.toUpperCase().toString()}',
+                      ' ${checkoutController.appliedCoupon.value.code!.toUpperCase().toString()}',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: TColors.offerColor),
                     ),
                   ],
@@ -65,7 +65,7 @@ class TBillingAmountSection extends StatelessWidget {
                     const SizedBox(width: 5,),
                     InkWell(
                         onTap: () {
-                          checkoutController.coupon.value = CouponModel.empty();
+                          checkoutController.appliedCoupon.value = CouponModel.empty();
                           checkoutController.updateCheckout();
                         },
                         child: const Icon(Icons.close, color: Colors.red, size: 20,)),
@@ -92,7 +92,7 @@ class TBillingAmountSection extends StatelessWidget {
                     const SizedBox(width: 5,),
                     InkWell(
                         onTap: () {
-                          checkoutController.coupon.value = CouponModel.empty();
+                          checkoutController.appliedCoupon.value = CouponModel.empty();
                           checkoutController.updateTotal();
                         },
                         child: const Icon(Icons.close, color: Colors.red, size: 20,)

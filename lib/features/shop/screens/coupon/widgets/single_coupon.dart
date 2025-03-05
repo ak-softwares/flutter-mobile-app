@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../../common/styles/spacing_style.dart';
+import '../../../../../common/widgets/loaders/loader.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
+import '../../../controllers/checkout_controller/checkout_controller.dart';
+import '../../../controllers/coupon/coupon_controller.dart';
 import '../../../models/coupon_model.dart';
 
 class SingleCouponItem extends StatelessWidget {
-  const SingleCouponItem({super.key, required this.coupon});
+  const SingleCouponItem({super.key, required this.coupon, this.applyButton = false});
 
   final CouponModel coupon;
+  final bool applyButton;
 
   @override
   Widget build(BuildContext context) {
+    final couponController = Get.put(CouponController());
+    final checkoutController = Get.put(CheckoutController());
+
     return ListTile(
         minVerticalPadding: Sizes.md,
         tileColor: Theme.of(context).colorScheme.surface,
@@ -28,15 +37,33 @@ class SingleCouponItem extends StatelessWidget {
         subtitle: Text(coupon.description?.isNotEmpty == true ? coupon.description! : 'Discount Offer',
             style: TextStyle(fontSize: 11),
         ),
-        trailing: IconButton(
-          onPressed: () {
-            Clipboard.setData(ClipboardData(text: coupon.code!.toUpperCase()));
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Coupon code ${coupon.code!.toUpperCase()} copied')),
-            );
-          },
-            icon: Icon(Icons.copy, size: 20)
-        )
+        trailing: applyButton
+            ? Obx(() => checkoutController.appliedCoupon.value.code == coupon.code
+                ? TextButton(
+                    onPressed: () {
+                      checkoutController.appliedCoupon.value = CouponModel.empty();
+                      checkoutController.updateCheckout();
+                      Navigator.pop(context); // This closes the bottom sheet
+                      TLoaders.customToast(message: 'Coupon removed successfully');
+                    },
+                    child: Text('Remove', style: TextStyle(color: Colors.red))
+                  )
+                : TextButton(
+                      onPressed: () {
+                        couponController.applyCoupon(coupon.code ?? '');
+                        Navigator.pop(context); // This closes the bottom sheet
+                      },
+                      child: Text('Apply', style: TextStyle(color: TColors.linkColor))
+                  ))
+            : IconButton(
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: coupon.code!.toUpperCase()));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Coupon code ${coupon.code!.toUpperCase()} copied')),
+                  );
+                },
+                  icon: Icon(Icons.copy, size: 20)
+              )
     );
   }
 }

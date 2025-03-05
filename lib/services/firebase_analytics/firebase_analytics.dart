@@ -195,7 +195,7 @@ class FBAnalytics {
     }).toList();
 
     // Ensure required values are present before logging
-    final couponCode = checkoutController.coupon.value.code ?? '';
+    final couponCode = checkoutController.appliedCoupon.value.code ?? '';
     final shippingCost = checkoutController.shipping.value ?? 0.0;
     final grandTotal = checkoutController.total.value ?? 0.0;
 
@@ -227,7 +227,7 @@ class FBAnalytics {
 
     // Ensure required values are present before logging
     final paymentMethod = checkoutController.selectedPaymentMethod.value.title ?? 'NA';
-    final couponCode = checkoutController.coupon.value.code ?? '';
+    final couponCode = checkoutController.appliedCoupon.value.code ?? '';
     final shippingCost = checkoutController.shipping.value ?? 0.0;
     final grandTotal = checkoutController.total.value ?? 0.0;
 
@@ -245,7 +245,7 @@ class FBAnalytics {
   }
 
   static void logAddPaymentInfo({required List<CartItemModel> cartItems}) {
-    final couponCode = checkoutController.coupon.value.code ?? '';
+    final couponCode = checkoutController.appliedCoupon.value.code ?? '';
 
     // Map cart items to AnalyticsEventItem
     final analyticsItems = cartItems.map((cartItem) {

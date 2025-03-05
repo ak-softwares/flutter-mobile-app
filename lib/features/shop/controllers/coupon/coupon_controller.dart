@@ -19,7 +19,13 @@ class CouponController extends GetxController {
 
   final wooCouponRepository = Get.put(WooCouponRepository());
   final checkoutController = Get.put(CheckoutController());
-  final coupon = TextEditingController();
+  final couponTextEditingController = TextEditingController();
+
+  @override
+  void onInit() {
+    super.onInit();
+    couponTextEditingController.text = checkoutController.appliedCoupon.value.code?.toUpperCase() ?? '';
+  }
 
   //Get All Coupon
   Future<void> getAllCoupons() async {
@@ -69,8 +75,10 @@ class CouponController extends GetxController {
       }
       final CouponModel coupon = await getCouponByCode(couponCode);
       validateCoupon(coupon);
-      checkoutController.coupon.value = coupon;
+      checkoutController.appliedCoupon.value = coupon;
       checkoutController.updateCheckout();
+      couponTextEditingController.text = couponCode.toUpperCase();
+      TLoaders.customToast(message: 'Coupon applied successfully');
     } catch(error){
       // Handle error occurred during coupon retrieval
       TLoaders.errorSnackBar(title: 'Error', message: error.toString());

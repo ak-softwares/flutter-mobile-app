@@ -38,16 +38,25 @@ class RecentlyViewedController extends GetxController{
   void addRecentProduct(String productId) {
     if(!recentlyViewed.contains(productId)) {
       recentlyViewed.add(productId);
-      saveRecentData(productId);
+      saveRecentData();
     }
   }
+
+  void removeProduct({required String productID}) {
+    recentlyViewed.remove(productID);
+    products.removeWhere((product) => product.id.toString() == productID);
+    recentlyViewed.refresh();
+    products.refresh();
+    saveRecentData();
+  }
+
   void clearHistory() {
     recentlyViewed.clear();
     products.clear(); // Clear existing orders
     localStorage.write(LocalStorage.recentlyViewed, recentlyViewed); //save data in Local Storage
   }
 
-  Future<void> saveRecentData(String productId) async {
+  Future<void> saveRecentData() async {
     localStorage.write(LocalStorage.recentlyViewed, recentlyViewed); //save data in Local Storage
     // await UserRepository.instance.appendMetaData(UserFieldName.recentItems, productId); //save data in Cloud Storage
   }

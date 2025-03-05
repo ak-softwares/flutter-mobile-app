@@ -12,7 +12,7 @@ class ProductTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: size),
+      style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: size, fontWeight: FontWeight.w600),
       overflow: TextOverflow.ellipsis,
       maxLines: maxLines,
       textAlign: textAlign,

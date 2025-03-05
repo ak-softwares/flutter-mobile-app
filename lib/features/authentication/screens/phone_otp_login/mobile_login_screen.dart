@@ -121,7 +121,7 @@ class MobileLoginScreen extends StatelessWidget {
                       child: Obx(() => ElevatedButton(
                             onPressed: () => otpController.fast2SmsSendOpt(phone: otpController.phoneNumber.value),
                             child: otpController.isLoading.value
-                                ? const SizedBox(height: 25, width: 25, child: CircularProgressIndicator(color: TColors.linkColor,))
+                                ? const SizedBox(height: 25, width: 25, child: CircularProgressIndicator(color: Colors.black,))
                                 : Text('Get OTP')
                         ),
                       ),

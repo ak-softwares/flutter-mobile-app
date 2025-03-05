@@ -8,6 +8,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../data/repositories/authentication/authentication_repository.dart';
 import '../../features/settings/app_settings.dart';
+import '../../features/settings/setting_screen.dart';
 import '../../features/shop/screens/search/search.dart';
 import '../../services/share/share.dart';
 import '../../utils/constants/colors.dart';
@@ -25,6 +26,7 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
     this.showCartIcon = false,
     this.showSearchIcon = false,
     this.seeLogoutButton = false,
+    this.seeSettingButton = false,
     this.sharePageLink = "",
   });
 
@@ -33,6 +35,7 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
   final bool showCartIcon;
   final bool showSearchIcon;
   final bool seeLogoutButton;
+  final bool seeSettingButton;
   final String sharePageLink;
 
   @override
@@ -60,8 +63,7 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
                   )
                 : const SizedBox.shrink(),
             showCartIcon ? const TCartCounterIcon(iconColor: color) : const SizedBox.shrink(),
-            if(seeLogoutButton)
-              ...[
+            if(seeLogoutButton) ...[
                 Obx(() => AuthenticationRepository.instance.isUserLogin.value
                     ? InkWell(
                           onTap: () => AuthenticationRepository.instance.logout(),
@@ -86,8 +88,9 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
                           )
                       )
                 ),
-              ]
-        ],
+              ],
+            seeSettingButton ? IconButton( icon: Icon(Icons.settings), color: color, onPressed: () => Get.to(() => SettingScreen())) : const SizedBox.shrink(),
+      ],
       leading: showBackArrow ? IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Iconsax.arrow_left, color: iconColors)) :  null,
     );
   }

@@ -26,20 +26,19 @@ class TUserReviewCard extends StatelessWidget {
     final userController = Get.put(UserController());
     final productReviewController = Get.put(ProductReviewController());
     final imagesController = Get.put(ImagesController());
+    // final imagesController = Get.find<ImagesController>();
 
     // Using Html widget to parse HTML text
     final String reviewerName = TValidator.isEmail(review.reviewer ?? '') ? TFormatter.maskEmail(review.reviewer ?? '') : review.reviewer ?? '';
     return ListTile(
       contentPadding: EdgeInsets.only(top: Sizes.sm, left: Sizes.sm), // Removes extra padding
-      leading: CircleAvatar(
-        child: TRoundedImage(
-          image: review.reviewerAvatarUrl ?? Images.tProfileImage,
-          height: 30,
-          width: 30,
-          borderRadius: 30,
-          padding: 0,
-          isNetworkImage: true,
-        ),
+      leading: TRoundedImage(
+        image: review.reviewerAvatarUrl ?? Images.tProfileImage,
+        height: 30,
+        width: 30,
+        borderRadius: 100,
+        padding: 0,
+        isNetworkImage: true,
       ),
       title: Row(
         spacing: Sizes.spaceBtwItems,
@@ -62,7 +61,7 @@ class TUserReviewCard extends StatelessWidget {
           SizedBox(height: Sizes.xs),
           ReadMoreText(
             review.review!.replaceAll('<p>', '').replaceAll('</p>', '').replaceAll('<br />', ''),
-            style: TextStyle(fontSize: 14,),
+            style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface),
             trimLines: 4,
             trimMode: TrimMode.Line,
             trimExpandedText: ' show less',

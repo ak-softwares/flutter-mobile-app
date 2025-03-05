@@ -106,7 +106,7 @@ class UserProfileScreen extends StatelessWidget {
                       Center(
                         child: TextButton(
                             child: const Text('Delete Account', style: TextStyle(color: Colors.red),),
-                            onPressed: () => DialogMessage().showDialog(
+                            onPressed: () => DialogMessage.showDialog(
                               title: 'Delete Account',
                               message: 'Are you sure you want to delete your account permanently? This Action is not reversible and all of your data will be removed permanently',
                               toastMassage: 'Your Account Deleted successfully!',

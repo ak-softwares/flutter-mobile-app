@@ -18,7 +18,7 @@ class SingleReviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final imagesController = Get.put(ImagesController());
 
-    final imageSize = 40.0;
+    final imageSize = 35.0;
     // Using Html widget to parse HTML text
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -31,6 +31,7 @@ class SingleReviewCard extends StatelessWidget {
               height: imageSize,
               width: imageSize,
               borderRadius: 50,
+              padding: 0,
               isNetworkImage: true,
             ),
             const SizedBox(width: Sizes.spaceBtwItems,),
