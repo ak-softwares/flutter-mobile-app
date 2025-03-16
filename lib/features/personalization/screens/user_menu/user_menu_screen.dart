@@ -128,30 +128,13 @@ class CustomerProfileCard extends StatelessWidget {
              return InkWell(
                onTap: () => Get.to(() => const UserProfileScreen()),
                child: ListTile(
-                  leading: SizedBox(
-                    width: 40, height: 40,
-                    child:  ClipRRect(
-                      borderRadius: BorderRadius.circular(200),
-                      child: Obx((){
-                        final networkImage = userController.customer.value.avatarUrl;
-                        final image = networkImage?.isNotEmpty == true ? networkImage! : Images.tProfileImage; // Using safe null access
-                        if (userController.imageUploading.value) {
-                          return const ShimmerEffect(width: 50, height: 50);
-                        } else {
-                          if (networkImage?.isNotEmpty == true) { // Checking null safety
-                            return CachedNetworkImage(
-                              // fit: BoxFit.cover,
-                              // color: Colors.grey,
-                              imageUrl: image,
-                              progressIndicatorBuilder: (context, url, downloadProgress) => const ShimmerEffect(width: 55, height: 55),
-                              errorWidget: (context, url, error) => const Icon(Icons.error),
-                            );
-                          } else {
-                            return Image(image: AssetImage(image)); // Using safe null access
-                          }
-                        }
-                    })
-                ),
+                  leading: TRoundedImage(
+                     padding: 0,
+                     height: 40,
+                     width: 40,
+                     borderRadius: 100,
+                     isNetworkImage: userController.customer.value.avatarUrl != null ? true : false,
+                     image: userController.customer.value.avatarUrl ?? Images.tProfileImage
                   ),
                   title: Text(userController.customer.value.name.isEmpty ? "User" : userController.customer.value.name,),
                   subtitle: Text(userController.customer.value.email?.isNotEmpty ?? false ? userController.customer.value.email! : '',),

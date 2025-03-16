@@ -32,6 +32,7 @@ class ListLayout extends StatelessWidget {
             // width: double.infinity,
             child: ListView.separated(
               controller: controller,
+              cacheExtent: 30, // Keeps items in memory
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemCount: itemCount,

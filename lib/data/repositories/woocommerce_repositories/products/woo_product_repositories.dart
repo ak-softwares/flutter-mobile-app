@@ -16,6 +16,10 @@ class WooProductRepository extends GetxController {
   final Box _cacheBox = Hive.box(CacheConstants.productBox); // Hive storage
   final double cacheExpiryTimeInDays = 1;
 
+  // final productsByCategory = await Isolate.run(() {
+  //   final List<dynamic> productsJson = json.decode(response.body);
+  //   return productsJson.map((json) => ProductModel.fromJson(json)).toList();
+  // });
 
   // Fetch All Products
   Future<List<ProductModel>> fetchAllProducts({required String page}) async {
@@ -148,14 +152,13 @@ class WooProductRepository extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        final productsByCategory = await Isolate.run(() {
-          final List<dynamic> productsJson = json.decode(response.body);
-          return productsJson.map((json) => ProductModel.fromJson(json)).toList();
-        });
+        final List<dynamic> productsByUnderJson = json.decode(response.body);
+        final List<ProductModel> productsByUnder = productsByUnderJson.map((json) => ProductModel.fromJson(json)).toList();
         // Store data in cache with timestamp
         _cacheBox.put(cacheKey, response.body);
         _cacheBox.put('${cacheKey}_time', DateTime.now().millisecondsSinceEpoch);
-        return productsByCategory;
+        return productsByUnder;
+
       } else {
         final Map<String, dynamic> errorJson = json.decode(response.body);
         final errorMessage = errorJson['message'];

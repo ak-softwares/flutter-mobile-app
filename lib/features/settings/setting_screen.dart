@@ -56,11 +56,13 @@ class SettingScreen extends StatelessWidget {
             ListTile(
               title: Text('Clear cache'),
               subtitle: Text('Remove all store cache in local'),
-              trailing: TextButton(onPressed: () => DialogMessage.showDialog(
+              trailing: TextButton(onPressed: () => DialogHelper.showDialog(
                   title: 'Clear cache',
                   message: 'Are you sure! to clear all cache',
-                  toastMassage: 'All cache clear successfully',
-                  function: () => CacheHelper.clearAllCacheBox()
+                  toastMessage: 'All cache clear successfully',
+                  actionButtonText: 'Clear',
+                  function: () => CacheHelper.clearAllCacheBox(),
+                  context: context
               ) , child: Text('Clear', style: TextStyle(color: Colors.red),)),
             ),
           ],

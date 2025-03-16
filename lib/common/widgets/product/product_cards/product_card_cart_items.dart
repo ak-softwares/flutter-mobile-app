@@ -84,7 +84,7 @@ class ProductCardForCart extends StatelessWidget {
                                           QuantityAddButtons(
                                             quantity: cartItem.quantity, // Accessing value of RxInt
                                             add: () => cartController.addOneToCart(cartItem), // Incrementing value
-                                            remove: () => cartController.removeOneToCart(cartItem),
+                                            remove: () => cartController.removeOneToCart(cartItem: cartItem, context: context),
                                             size: 27,
                                           ),
                                         ],
@@ -117,7 +117,7 @@ class ProductCardForCart extends StatelessWidget {
                     child: IconButton(
                       color: Colors.grey.shade900,
                       padding: EdgeInsets.zero,
-                      onPressed: () => cartController.removeFromCartDialog(cartItem),
+                      onPressed: () => cartController.removeFromCartDialog(cartItem: cartItem, context: context),
                       icon: const Icon(Icons.close, size: 15),
                     ),
                   ),

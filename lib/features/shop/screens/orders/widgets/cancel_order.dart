@@ -15,18 +15,18 @@ class CancelOrderWidget extends StatelessWidget {
   final String orderId;
   @override
   Widget build(BuildContext context) {
-    final orderController = Get.put(OrderController());
+     final orderController = Get.put(OrderController());
     final cartController = Get.put(CartController());
 
     return InkWell(
-        // onTap: () async => await orderController.cancelOrder(orderId),
-        onTap: () => DialogMessage.showDialog(
+        onTap: () => DialogHelper.showDialog(
           title: 'Cancel Order',
           message: 'Are you sure you want to cancel this order?',
-          toastMassage: 'Order cancel Successfully',
+          toastMessage: 'Order cancel Successfully',
           function: () async {
             await orderController.cancelOrder(orderId);
           },
+          context: context,
         ),
         child: Obx(() => Row(
           mainAxisAlignment: MainAxisAlignment.center,

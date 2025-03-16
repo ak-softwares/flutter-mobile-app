@@ -77,7 +77,7 @@ class TSearchDelegate extends SearchDelegate {
     }
     return SingleChildScrollView(
       child: Container(
-        color: Theme.of(context).colorScheme.surface,
+        // color: Theme.of(context).colorScheme.surface,
         child: Obx(() {
           _updateSuggestionList(query);
           return Column(

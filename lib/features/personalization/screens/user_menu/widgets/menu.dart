@@ -48,9 +48,10 @@ class Menu extends StatelessWidget {
             spacing: Sizes.xs,
             mainAxisSize: MainAxisSize.min, // Fix: Prevents Row from taking full width
             children: [
-              Get.put(CartController()).cartItems.isNotEmpty
-                  ? Icon(Icons.circle, size: 8, color: Colors.blue)
-                  : SizedBox.shrink(),
+              Obx(() => Get.put(CartController()).cartItems.isNotEmpty
+                    ? Icon(Icons.circle, size: 8, color: Colors.blue)
+                    : SizedBox.shrink(),
+              ),
               Icon(Icons.arrow_forward_ios, size: 20,),
             ],
           ),
@@ -71,9 +72,10 @@ class Menu extends StatelessWidget {
             spacing: Sizes.xs,
             mainAxisSize: MainAxisSize.min, // Fix: Prevents Row from taking full width
             children: [
-              Get.put(FavoriteController()).favorites.isNotEmpty
-                  ? Icon(Icons.circle, size: 8, color: Colors.blue)
-                  : SizedBox.shrink(),
+              Obx(() => Get.put(FavoriteController()).favorites.isNotEmpty
+                    ? Icon(Icons.circle, size: 8, color: Colors.blue)
+                    : SizedBox.shrink(),
+              ),
               Icon(Icons.arrow_forward_ios, size: 20,),
             ],
           ),
@@ -108,9 +110,10 @@ class Menu extends StatelessWidget {
             spacing: Sizes.xs,
             mainAxisSize: MainAxisSize.min, // Fix: Prevents Row from taking full width
             children: [
-              Get.put(RecentlyViewedController()).recentlyViewed.isNotEmpty
-                ? Icon(Icons.circle, size: 8, color: Colors.blue)
-                : SizedBox.shrink(),
+              Obx(() => Get.put(RecentlyViewedController()).recentlyViewed.isNotEmpty
+                  ? Icon(Icons.circle, size: 8, color: Colors.blue)
+                  : SizedBox.shrink(),
+              ),
               Icon(Icons.arrow_forward_ios, size: 20,),
             ],
           ),

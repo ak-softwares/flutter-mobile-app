@@ -46,7 +46,7 @@ class ProductController extends GetxController {
   }
 
   // Get Products under ₹199
-  Future<List<ProductModel>> getProductsUnderPrice( String price, String page) async {
+  Future<List<ProductModel>> getProductsUnderPrice(String price, String page) async {
     try{
       //fetch products
       // final products = await compute(() => wooProductRepository.fetchProductsUnderPrice(page: page, price: price));

@@ -1,3 +1,5 @@
+import 'package:aramarket/common/dialog_box/dialog_massage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -104,17 +106,17 @@ class CartController extends GetxController {
   }
 
   // Show dialog box before removing product
-  void removeFromCartDialog(CartItemModel item) {
-    Get.defaultDialog(
+  void removeFromCartDialog({required CartItemModel cartItem, required BuildContext context} ) {
+    DialogHelper.showDialog(
         title: 'Remove Product',
-        middleText: 'Are you sure you want to remove this product?',
-        onConfirm: () {
+        message: 'Are you sure you want to remove this product?',
+        toastMessage: 'Product removed form the cart.',
+        context: context,
+        actionButtonText: 'Remove',
+        function: () async {
           //remove the item form cart
-          removeFromCart(item: item);
-          TLoaders.customToast(message: 'Product removed form the cart.');
-          Get.back();
-        },
-        onCancel: () => () => Get.back()
+          removeFromCart(item: cartItem);
+        }
     );
   }
 
@@ -132,15 +134,15 @@ class CartController extends GetxController {
   }
 
   // Remove single item to cart
-  void removeOneToCart(CartItemModel item) {
-    int index = cartItems.indexWhere((cartItem) => cartItem.productId == item.productId);
+  void removeOneToCart({required CartItemModel cartItem, required BuildContext context}) {
+    int index = cartItems.indexWhere((cartItem) => cartItem.productId == cartItem.productId);
     if(index >= 0) {
       if (cartItems[index].quantity > 1) {
         cartItems[index].quantity -= 1;
         cartItems[index].subtotal = (cartItems[index].quantity * cartItems[index].price!).toStringAsFixed(0);
       } else {
         // Show dialog before completely removing
-        cartItems[index].quantity == 1 ? removeFromCartDialog(item) : cartItems.removeAt(index);
+        cartItems[index].quantity == 1 ? removeFromCartDialog(cartItem: cartItem, context: context) : cartItems.removeAt(index);
       }
     }
     updateCart();
