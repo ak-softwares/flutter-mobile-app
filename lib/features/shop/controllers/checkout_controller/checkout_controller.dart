@@ -5,6 +5,7 @@ import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../common/widgets/success_screen/success_screen.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
+import '../../../../utils/constants/enums.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
@@ -16,7 +17,7 @@ import '../../../settings/controllers/settings_controller.dart';
 import '../../models/coupon_model.dart';
 import '../../models/order_model.dart';
 import '../../models/payment_model.dart';
-import '../../screens/orders/order.dart';
+import '../../screens/orders/orders.dart';
 import '../cart_controller/cart_controller.dart';
 import '../coupon/coupon_controller.dart';
 import '../order/order_controller.dart';
@@ -96,21 +97,21 @@ class CheckoutController extends GetxController {
   }
 
   Future<void> initiateCheckout() async {
-    String transactionId = '';
+    OrderModel createdOrder = OrderModel();
     // Log the beginning of the checkout process
     // FBAnalytics.logBeginCheckout(cartItems: cartController.cartItems);
     try {
-      //start loader
+      // Start loader
       TFullScreenLoader.openLoadingDialog('Processing your order', Images.docerAnimation);
 
-      //check internet connectivity
+      // Check internet connectivity
       final isConnected = await networkManager.isConnected();
       if (!isConnected) {
         TFullScreenLoader.stopLoading();
         return;
       }
 
-      // Validate Address Phone and Email
+      // Validate Address, Phone, and Email
       List<String> validationErrors = userController.customer.value.billing!.validateFields();
       if (validationErrors.isNotEmpty) {
         TFullScreenLoader.stopLoading();
@@ -118,12 +119,13 @@ class CheckoutController extends GetxController {
         return;
       }
 
-      //validate coupon
+      // Validate coupon
       Get.put(CouponController()).validateCoupon(appliedCoupon.value);
 
-      // Check COD is disabled or not
+      // Check if COD is disabled or not
       checkIsCODDisabled();
-      if(isCODDisabled.value) {
+      if (isCODDisabled.value) {
+        TFullScreenLoader.stopLoading();
         TLoaders.errorSnackBar(title: 'Error', message: "COD is Unavailable for this ${codDisabledReason.value}");
       }
 
@@ -133,54 +135,41 @@ class CheckoutController extends GetxController {
         TFullScreenLoader.stopLoading();
         TLoaders.errorSnackBar(title: 'Error', message: 'Please select payment Method');
         return;
-      } else if(paymentMethod.id == TTexts.razorpay) {
-        // Start the payment process
-        String paymentId = await Get.put(PaymentController()).startPayment(amount: total.value.toInt(), productName: 'Products');
-        if (paymentId.isNotEmpty) {
-          transactionId = paymentId;
-          TLoaders.successSnackBar(title: 'Payment Successful:', message: 'Payment ID: $paymentId');
-        } else {
-          TFullScreenLoader.stopLoading();
-          TLoaders.errorSnackBar(title: 'Error', message: "Payment failed!");
-          return;
-        }
-      } else if(paymentMethod.id == TTexts.paytm) {
-        // Handle Paytm payment method
-      } else {
-        // Handle other payment methods like - 'cod'
       }
 
-      //Create Order
-      final OrderModel createdOrder = await Get.put(OrderController()).saveOrderByCustomerId(transactionId: transactionId);
+      // Create Order
+      // final OrderModel createdOrder = await Get.put(OrderController()).saveOrderByCustomerId();
+      createdOrder = await Get.put(OrderController()).saveOrderByCustomerId();
 
       FBAnalytics.logCheckout(cartItems: cartController.cartItems);
-      //update the cart status
+      // Update the cart status
       cartController.clearCart();
       appliedCoupon.value = CouponModel.empty();
       updateCheckout();
-      //Show success screen
-      Get.offAll(() => TSuccessScreen(
-          image: Images.orderCompletedAnimation,
-          title: 'Payment Success! #${createdOrder.id}',
-          subTitle: 'Your order status is ${createdOrder.status}',
-          // In the onPressed callback of TSuccessScreen
-          onPressed: () async {
-            // Close current screen
-            Get.close(1);
-            // Navigate to TOrderScreen
-            Get.to(() => const OrderScreen())?.then((value) {
-              // After returning from TOrderScreen, navigate to home screen
-              NavigationHelper.navigateToBottomNavigation();
-              // Get.offAll(() => const BottomNavigation2());
-            });
-          }
+      TFullScreenLoader.stopLoading();
+      // Show success screen
+      // Get.close(1);
+      Get.off(() => TSuccessScreen(
+        order: createdOrder,
       ));
+      // Get.offAll(() => TSuccessScreen(
+      //   order: createdOrder,
+      //   image: Images.orderCompletedAnimation,
+      //   title: 'Payment Success! #${createdOrder.id}',
+      //   subTitle: 'Your order status is ${createdOrder.status?.prettyName}',
+      //   // In the onPressed callback of TSuccessScreen
+      //   onPressed: () async {
+      //     Get.close(1);           // Close current screen
+      //     Get.to(() => const OrderScreen())?.then((value) { // Navigate to TOrderScreen
+      //       NavigationHelper.navigateToBottomNavigation(); // After returning from TOrderScreen, navigate to home screen
+      //     });
+      //   },
+      // ));
 
-    } catch(error) {
+    } catch (error) {
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(title: 'Error', message: error.toString());
     }
-
   }
 
   void updateSelectedPaymentOption(PaymentModel paymentMethod) {

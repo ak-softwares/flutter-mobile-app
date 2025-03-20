@@ -59,7 +59,7 @@ class DiscoverScreen extends StatelessWidget {
         ),
       ),
       body: RefreshIndicator(
-        color: TColors.refreshIndicator,
+        color: AppColors.refreshIndicator,
         onRefresh: () async => discoverScreenController.refreshDiscoverProducts(),
         child: Obx(() {
           if (discoverScreenController.isLoading.value) {

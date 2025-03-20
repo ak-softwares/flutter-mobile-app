@@ -49,7 +49,7 @@ class SearchProductScreen extends StatelessWidget {
     });
 
     return RefreshIndicator(
-      color: TColors.refreshIndicator,
+      color: AppColors.refreshIndicator,
       onRefresh: () async => searchController.refreshSearch(searchQuery),
       child: ListView(
         controller: scrollController,

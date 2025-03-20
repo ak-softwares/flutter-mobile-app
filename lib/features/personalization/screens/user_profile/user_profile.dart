@@ -83,7 +83,7 @@ class UserProfileScreen extends StatelessWidget {
               const SizedBox(height: Sizes.spaceBtwItems),
               Obx(() {
                 if(controller.isLoading.value){
-                  return const Center(child: CircularProgressIndicator(color: TColors.linkColor),);
+                  return const Center(child: CircularProgressIndicator(color: AppColors.linkColor),);
                 } else {
                   return Column(
                     children: [

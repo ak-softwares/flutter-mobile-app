@@ -1,22 +1,21 @@
+import 'package:aramarket/features/settings/app_settings.dart';
+import 'package:aramarket/utils/formatters/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 
-import '../../../../../common/styles/shadows.dart';
 import '../../../../../common/styles/spacing_style.dart';
-import '../../../../../common/widgets/custom_shape/containers/rounded_container.dart';
+import '../../../../../common/web_view/my_web_view.dart';
+import '../../../../../utils/constants/api_constants.dart';
 import '../../../../../utils/constants/colors.dart';
-import '../../../../../utils/constants/db_constants.dart';
+import '../../../../../utils/constants/enums.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/helpers/order_helper.dart';
+import '../../../controllers/order/order_controller.dart';
 import '../../../models/order_model.dart';
 import '../single_order_screen.dart';
-import 'cancel_order.dart';
 import 'order_image_gallery.dart';
-import 'repeat_order.dart';
-import 'track_now.dart';
 
 class SingleOrderTile extends StatelessWidget {
   const SingleOrderTile({super.key, required this.order});
@@ -29,6 +28,7 @@ class SingleOrderTile extends StatelessWidget {
     final double orderImageWidth = Sizes.orderImageWidth;
     final double orderTileHeight = Sizes.orderTileHeight;
     final double orderTileRadius = Sizes.orderTileRadius;
+    final orderController = Get.find<OrderController>();
 
     return InkWell(
       onTap: () => Get.to(() => SingleOrderScreen(order: order)),
@@ -42,48 +42,101 @@ class SingleOrderTile extends StatelessWidget {
             color: Theme.of(context).colorScheme.outline, // Border color
           )
         ),
-        child: Stack(
+        child: Column(
           children: [
             Column(
               spacing: Sizes.xs,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                OrderImageGallery(order: order, galleryImageHeight: 60),
-                Container(
-                  height: 1,
-                  color: TColors.borderSecondary,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Order Number'),
+                    Row(
+                      spacing: Sizes.sm,
+                      children: [
+                        Text(' #${order.id}'),
+                        InkWell(
+                          onTap: () {
+                            Clipboard.setData(ClipboardData(text: order.id.toString()));
+                            // You might want to show a snackbar or toast to indicate successful copy
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Order Id copied')),
+                            );
+                          },
+                          child: const Icon(Icons.copy, size: 17,),
+                        )
+                      ],
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: 30,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Order Total'),
+                    Row(
+                      children: [
+                        Text('${AppSettings.appCurrencySymbol}${order.total}'),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Order Date'),
+                    Row(
+                      children: [
+                        Text(TFormatter.formatStringDate(order.dateCreated ?? '')),
+                      ],
+                    ),
+                  ],
+                ),
+                TOrderHelper.checkOrderStatusForPayment(order.status ?? OrderStatus.unknown)
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(' #${order.id}', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500)),
-                          IconButton(
-                            icon: const Icon(Icons.copy, size: 17,),
-                            onPressed: () {
-                              Clipboard.setData(ClipboardData(text: order.id.toString()));
-                              // You might want to show a snackbar or toast to indicate successful copy
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Order Id copied')),
-                              );
-                            },
+                          Text('Payment Pending'),
+                          SizedBox(
+                            height: 30,
+                            child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(horizontal: Sizes.md), // Removes default padding
+                              ),
+                              onPressed: () => orderController.makePayment(order: order),
+                              child: Row(
+                                spacing: Sizes.sm,
+                                children: [
+                                  Text('Pay Now', style: TextStyle(fontSize: 13),),
+                                  Icon(Icons.payment, size: 14, color: Theme.of(context).colorScheme.onSurface,)
+                                ],
+                              ),
+                            ),
                           )
                         ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Order Status'),
+                          Row(
+                            spacing: Sizes.sm,
+                            children: [
+                              Text(order.status?.prettyName ?? ''),
+                              if(TOrderHelper.checkOrderStatusForInTransit(order.status ?? OrderStatus.unknown))
+                                InkWell(
+                                onTap: () => Get.to(() => MyWebView(title: 'Track Order #${order.id}', url: APIConstant.wooTrackingUrl + order.id.toString())),
+                                child: const Icon(Icons.open_in_new, size: 17, color: AppColors.linkColor,),
+                              )
+                            ],
+                          ),
+                        ],
                       ),
-                      TOrderHelper.checkOrderStatusForReturn(order.status ?? '')
-                          ? CancelOrderWidget(orderId: order.id.toString())
-                          : TOrderHelper.checkOrderStatusForInTransit(order.status ?? '')
-                            ? TrackOrderWidget(orderId: order.id.toString())
-                            : RepeatOrderWidget(cartItems: order.lineItems ?? []),
-                    ],
-                  ),
-                ),
+                SizedBox(height: Sizes.xs),
+                OrderImageGallery(order: order, galleryImageHeight: 40),
               ],
             ),
-            Positioned(top: 0, right: 0, child: TOrderHelper.mapOrderStatus(order.status ?? '')),
+            // Positioned(top: 0, right: 0, child: TOrderHelper.mapOrderStatus(order.status ?? OrderStatus.unknown)),
           ],
         ),
       ),

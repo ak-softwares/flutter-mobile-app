@@ -236,10 +236,12 @@ class OrderStatusName {
   static const String processing = 'processing';
   static const String readyToShip = 'readytoship';
   static const String pendingPickup = 'pending-pickup';
+  static const String pendingPayment = 'pending';
   static const String inTransit = 'intransit';
   static const String completed = 'completed';
   static const String returnInTransit = 'returnintransit';
   static const String returnPending = 'returnpending';
+  static const String unknown = 'unknown';
 }
 
 class OrderStatusPritiName {
@@ -247,10 +249,33 @@ class OrderStatusPritiName {
   static const String processing = 'Processing';
   static const String readyToShip = 'Ready To Ship';
   static const String pendingPickup = 'Pending Pickup';
+  static const String pendingPayment = 'Pending Payment';
   static const String inTransit = 'In-Transit';
   static const String completed = 'Delivered';
   static const String returnInTransit = 'Return In-Transit';
-  static const String returnPending = 'Return Pending';
+  static const String returnPending = 'returnpending';
+  static const String unknown = 'unknown';
+}
+
+class PaymentMethodName {
+  static const String cod = 'cod';
+  static const String prepaid = 'prepaid';
+  static const String paytm = 'paytm';
+  static const String razorpay = 'razorpay';
+}
+
+class PaymentMethodTitle {
+  static const String cod = 'COD (Cash on Delivery)';
+  static const String prepaid = 'Prepaid';
+  static const String paytm = 'Paytm Wallet';
+  static const String razorpay = 'Razorpay Payment Gateway';
+}
+
+class PaymentMethodDescription {
+  static const String cod = 'COD (Cash on Delivery)';
+  static const String prepaid = 'Prepaid';
+  static const String paytm = 'Paytm Wallet';
+  static const String razorpay = 'UPI/QR/Card/NetBanking';
 }
 
 class AddressFieldName {

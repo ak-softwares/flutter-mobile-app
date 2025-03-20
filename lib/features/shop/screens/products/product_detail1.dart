@@ -117,7 +117,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
       appBar: TAppBar2(titleText: widget.product?.name ?? 'Product Details', showCartIcon: true),
       bottomNavigationBar: Obx(() => TBottomAddToCart(product: _product.value, quantity: quantityInCart.value, pageSource: 'product_detail1',)),
       body: RefreshIndicator(
-        color: TColors.refreshIndicator,
+        color: AppColors.refreshIndicator,
         onRefresh: () async => _refreshProduct(),
         child: ListView(
           padding: TSpacingStyle.defaultPagePadding,
@@ -156,7 +156,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                       child: Row(
                         children: [
                           Text(_product.value.categories?[0].name ?? '',
-                              style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor)
+                              style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor)
                           ),
                           SizedBox(width: Sizes.sm,),
 
@@ -170,7 +170,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                             child: Icon(
                               TIcons.share,
                               size: Sizes.md,
-                              color: TColors.linkColor,
+                              color: AppColors.linkColor,
                             ),
                           )
                         ],
@@ -214,9 +214,9 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text('Free Delivery', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.linkColor)),
+                              Text('Free Delivery', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.linkColor)),
                               const SizedBox(width: Sizes.spaceBtwItems),
-                              Icon(TIcons.truck, color: TColors.linkColor, size: 15),
+                              Icon(TIcons.truck, color: AppColors.linkColor, size: 15),
                               const SizedBox(width: 5),
                             ],
                           )
@@ -228,9 +228,9 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text('Free delivery over ₹999', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.linkColor)),
+                                Text('Free delivery over ₹999', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.linkColor)),
                                 const SizedBox(width: Sizes.spaceBtwItems),
-                                Icon(TIcons.truck, color: TColors.linkColor, size: 15),
+                                Icon(TIcons.truck, color: AppColors.linkColor, size: 15),
                                 const SizedBox(width: 5),
                               ],
                             )
@@ -326,6 +326,6 @@ class TOfferWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(label,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: TColors.offerColor, fontWeight: FontWeight.w600));
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.offerColor, fontWeight: FontWeight.w600));
   }
 }

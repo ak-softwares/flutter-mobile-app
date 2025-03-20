@@ -41,7 +41,7 @@ class CreateReviewScreen extends StatelessWidget {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            border: Border.all(color: TColors.ratingStar), // Border color
+                            border: Border.all(color: AppColors.ratingStar), // Border color
                             // borderRadius: BorderRadius.circular(50), // Border radius to make it circular
                           ),
                           margin: const EdgeInsets.all(5), // Padding to add space between border and icon
@@ -50,7 +50,7 @@ class CreateReviewScreen extends StatelessWidget {
                             index < productReviewController.rating.value
                                 ? Icons.star
                                 : Icons.star_border,
-                            color: TColors.ratingStar,
+                            color: AppColors.ratingStar,
                             size: 35,
                           ),
                         ),

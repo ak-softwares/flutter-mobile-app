@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/constants/db_constants.dart';
+import '../../../utils/constants/enums.dart';
 import '../../../utils/formatters/formatters.dart';
 import '../../personalization/models/address_model.dart';
 import '../../settings/app_settings.dart';
@@ -11,7 +12,7 @@ import 'coupon_model.dart';
 
 class OrderModel {
   final int? id;
-  final String? status;
+  final OrderStatus? status;
   final String? currency;
   final bool? pricesIncludeTax;
   final String? dateCreated;
@@ -92,7 +93,7 @@ class OrderModel {
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
       id: json[OrderFieldName.id],
-      status: json[OrderFieldName.status],
+      status: OrderStatusExtension.fromString(json[OrderFieldName.status]),
       currency: json[OrderFieldName.currency] ?? '',
       pricesIncludeTax: json[OrderFieldName.pricesIncludeTax] ?? false,
       dateCreated: json[OrderFieldName.dateCreated] ?? '',
@@ -125,7 +126,7 @@ class OrderModel {
 
   Map<String, dynamic> toJson(){
     return {
-      OrderFieldName.status:        status ?? '',
+      OrderFieldName.status:        status?.name ?? '',
       OrderFieldName.discountTotal: discountTotal ?? '',
       OrderFieldName.discountTax:   discountTax ?? '',
       OrderFieldName.shippingTotal: shippingTotal ?? '',
@@ -151,11 +152,9 @@ class OrderModel {
   Map<String, dynamic> toJsonForWoo() {
     final Map<String, dynamic> json = {
       OrderFieldName.customerId: customerId ?? 0,
-      OrderFieldName.status: status ?? '',
+      OrderFieldName.status: status?.name ?? '',
       OrderFieldName.paymentMethod: paymentMethod ?? '',
       OrderFieldName.paymentMethodTitle: paymentMethodTitle ?? '',
-      OrderFieldName.transactionId: transactionId ?? '',
-      OrderFieldName.setPaid: setPaid ?? false,
       OrderFieldName.billing: billing?.toJsonForWoo(),
       OrderFieldName.shipping: shipping?.toJsonForWoo(),
       OrderFieldName.lineItems: lineItems?.map((item) => item.toJsonForWoo()).toList(),

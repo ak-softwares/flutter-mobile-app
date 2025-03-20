@@ -88,7 +88,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             tabMargin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             haptic: true, // haptic feedback
             tabBorderRadius: 5,
-            tabActiveBorder: Border.all(color: TColors.primaryColor, width: 1), // tab button border
+            tabActiveBorder: Border.all(color: AppColors.primaryColor, width: 1), // tab button border
             curve: Curves.easeOutExpo, // tab animation curves
             duration: const Duration(milliseconds: 100), // tab animation duration
             gap: 8, // the tab button gap between icon and text
@@ -114,9 +114,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 text: 'Cart',
                 leading: Obx(() => Badge(
                   backgroundColor: Colors.transparent,
-                  textColor: TColors.secondaryColor,
+                  textColor: AppColors.secondaryColor,
                   textStyle: Theme.of(context).textTheme.labelSmall!.apply(
-                      color: TColors.secondaryColor,
+                      color: AppColors.secondaryColor,
                       fontSizeFactor: 0.9,
                       fontWeightDelta: 2
                   ),
@@ -131,7 +131,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                         //   // spreadRadius: 5, // Adjust as needed
                         //   offset: Offset(0, 0), // Adjust as needed
                         // )],
-                          color: TColors.primaryColor,
+                          color: AppColors.primaryColor,
                           borderRadius: BorderRadius.circular(100)
                       ),
                       child: Obx(() => Center(child: Text(cartController.noOfCartItems.value.toString())))

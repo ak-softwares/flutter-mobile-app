@@ -47,12 +47,12 @@ class TBillingAmountSection extends StatelessWidget {
                     ),
                     Icon(
                       Icons.discount, // Using discount icon
-                      color: TColors.offerColor, // Green color for the icon
+                      color: AppColors.offerColor, // Green color for the icon
                       size: 20, // Adjust the size as needed
                     ),
                     Text(
                       ' ${checkoutController.appliedCoupon.value.code!.toUpperCase().toString()}',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: TColors.offerColor),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.offerColor),
                     ),
                   ],
                 ),
@@ -60,7 +60,7 @@ class TBillingAmountSection extends StatelessWidget {
                   children: [
                     Text(
                       '- ${AppSettings.appCurrencySymbol}${checkoutController.discount.value.toStringAsFixed(0)}',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: TColors.offerColor)
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.offerColor)
                     ),
                     const SizedBox(width: 5,),
                     InkWell(

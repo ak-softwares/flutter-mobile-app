@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../common/navigation_bar/bottom_navigation_bar.dart';
 import '../common/navigation_bar/bottom_navigation_bar1.dart';
 import '../common/web_view/my_web_view.dart';
-import '../features/shop/screens/orders/order.dart';
+import '../features/shop/screens/orders/orders.dart';
 import '../features/shop/screens/products/product_detail.dart';
 import '../utils/constants/api_constants.dart';
 import 'routes_name_path.dart';

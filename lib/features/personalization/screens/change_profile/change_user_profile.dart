@@ -30,7 +30,7 @@ class ChangeUserProfile extends StatelessWidget {
     return Scaffold(
       appBar: const TAppBar2(titleText: "Update Profile", showBackArrow: true),
       body: RefreshIndicator(
-        color: TColors.refreshIndicator,
+        color: AppColors.refreshIndicator,
         onRefresh: () async => userController.refreshCustomer(),
         child: SingleChildScrollView(
           child: Padding(

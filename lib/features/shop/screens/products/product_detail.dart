@@ -32,6 +32,7 @@ import '../../models/product_review_model.dart';
 import '../all_products/all_products.dart';
 import '../review/create_product_review.dart';
 import '../review/review_widgets/user_review_card.dart';
+import 'products_widgets/brand.dart';
 import 'scrolling_products.dart';
 import 'scrolling_products_by_item_id.dart';
 import '../review/product_review.dart';
@@ -258,7 +259,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       appBar: TAppBar2(titleText: widget.product?.name ?? 'Product Details', showSearchIcon: true, showCartIcon: true),
       bottomNavigationBar: Obx(() => TBottomAddToCart(product: _product.value, quantity: _quantityInCart.value, variationId: _getSelectedVariation().id, pageSource: widget.pageSource)),
       body: RefreshIndicator(
-        color: TColors.refreshIndicator,
+        color: AppColors.refreshIndicator,
         onRefresh: () async => _refreshProduct(),
         child: ListView(
           padding: TSpacingStyle.defaultPageVertical,
@@ -308,7 +309,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             child: Row(
                               children: [
                                 Text(_product.value.categories?[0].name ?? '',
-                                    style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor)
+                                    style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor)
                                 ),
                                 SizedBox(width: Sizes.sm,),
                                 GestureDetector(
@@ -321,7 +322,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   child: Icon(
                                     TIcons.share,
                                     size: Sizes.md,
-                                    color: TColors.linkColor,
+                                    color: AppColors.linkColor,
                                   ),
                                 )
                               ],
@@ -330,31 +331,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         const SizedBox(height: Sizes.sm),
 
                         // Brands
-                        _product.value.brands != null && _product.value.brands!.isNotEmpty
-                            ? Column(
-                                children: [
-                                  InkWell(
-                                    onTap: () => Get.to(() => TAllProducts(
-                                        title: _product.value.brands?[0].name ?? '',
-                                        categoryId: _product.value.brands?[0].id.toString() ?? '',
-                                        sharePageLink: '${AppSettings.appName} - ${_product.value.brands?[0].permalink}',
-                                        futureMethodTwoString: productController.getProductsByBrandId)
-                                    ),
-                                    child: Row(
-                                      spacing: Sizes.sm,
-                                      children: [
-                                        Text(
-                                          _product.value.brands?.map((brand) => brand.name).join(', ') ?? '', // Join brand names with commas
-                                          style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor),
-                                        ),
-                                        Icon(Icons.verified, color: Colors.blue, size: 18,)
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: Sizes.sm),
-                                ],
-                              )
-                            : SizedBox.shrink(),
+                        ProductBrand(brands: _product.value.brands ?? []),
 
                         // Price
                         Row(
@@ -381,9 +358,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text('Free Delivery', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.linkColor, fontSize: 10)),
+                                    Text('Free Delivery', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.linkColor, fontSize: 10)),
                                     const SizedBox(width: Sizes.spaceBtwItems),
-                                    Icon(TIcons.truck, color: TColors.linkColor, size: 10),
+                                    Icon(TIcons.truck, color: AppColors.linkColor, size: 10),
                                     const SizedBox(width: 5),
                                   ],
                                 )
@@ -395,9 +372,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text('Free delivery over ₹999', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.linkColor, fontSize: 10)),
+                                      Text('Free delivery over ₹999', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.linkColor, fontSize: 10)),
                                       const SizedBox(width: Sizes.spaceBtwItems),
-                                      Icon(TIcons.truck, color: TColors.linkColor, size: 10),
+                                      Icon(TIcons.truck, color: AppColors.linkColor, size: 10),
                                       const SizedBox(width: 5),
                                     ],
                                   )
@@ -461,14 +438,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                       color: _hasKeyValue(attribute?.name ?? '', option ?? '') ? Colors.blue.withOpacity(0.2) : Colors.transparent, // Optional background color
                                                     ),
                                                     child: attribute?.name?.toLowerCase() == 'color' &&
-                                                        TColors.getColorFromString(option?.toLowerCase() ?? '') != Colors.transparent
+                                                        AppColors.getColorFromString(option?.toLowerCase() ?? '') != Colors.transparent
                                                         ? Padding(
                                                           padding: EdgeInsets.all(Sizes.sm),
                                                           child: TRoundedContainer(
                                                               height: 20,
                                                               width: 20,
                                                               radius: 100,
-                                                              backgroundColor: TColors.getColorFromString(option?.toLowerCase() ?? ''),
+                                                              backgroundColor: AppColors.getColorFromString(option?.toLowerCase() ?? ''),
                                                             ),
                                                         )
                                                         : Row(
@@ -568,7 +545,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           // leading: const Icon(Icons.reviews_outlined, size: 20),
                           title: Text('Reviews (Based on ${_product.value.ratingCount})'),
                           // subtitle: Text('Based on ${_product.value.ratingCount}'),
-                          trailing: Icon(Icons.reviews_outlined, size: 20, color: TColors.linkColor,),
+                          trailing: Icon(Icons.reviews_outlined, size: 20, color: AppColors.linkColor,),
                         ),
                       ],
                     ),
@@ -662,7 +639,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   rating: product.averageRating ?? 0.0,
                   itemSize: 17,
                   unratedColor: Colors.grey[300],
-                  itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: TColors.ratingStar),
+                  itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: AppColors.ratingStar),
                 ),
                 Text(product.averageRating!.toStringAsFixed(1), style: TextStyle(fontSize: 17)),
               ],
@@ -720,6 +697,6 @@ class TOfferWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(label,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: TColors.offerColor, fontWeight: FontWeight.w600));
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.offerColor, fontWeight: FontWeight.w600));
   }
 }

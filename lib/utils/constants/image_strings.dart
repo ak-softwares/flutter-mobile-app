@@ -21,8 +21,7 @@ class Images {
   static const String onBoardingImage2 = "assets/images/on_boarding_image/icons8-sale.gif";
   static const String onBoardingImage3 = "assets/images/on_boarding_image/icons8-truck.gif";
 
-  //Default Images Strings
-  static const String defaultCategoryIcon  = "assets/images/product_category_icon.png";
+  // Default Images Strings
   static const String tProfileImage  = "assets/images/default_images/default_profile_pic.png";
 
   //payment gateway images

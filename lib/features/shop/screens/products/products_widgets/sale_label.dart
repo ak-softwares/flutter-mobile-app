@@ -14,7 +14,7 @@ class TSaleLabel extends StatelessWidget {
         ? Container(
             padding: EdgeInsets.symmetric(horizontal: Sizes.sm, vertical: Sizes.sm / 2),
             decoration: BoxDecoration(
-                color: TColors.primaryColor.withOpacity(0.8),
+                color: AppColors.primaryColor.withOpacity(0.8),
                 borderRadius: BorderRadius.circular(0)
             ),
             child: Text("$discount%",  style: TextStyle(fontSize: size, color: Colors.black, fontWeight: FontWeight.w500)),

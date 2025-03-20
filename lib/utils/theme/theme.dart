@@ -21,6 +21,7 @@ class TAppTheme {
   static ThemeData lightTheme = FlexThemeData.light(
     scheme: FlexScheme.blueM3,
   ).copyWith(
+    appBarTheme: AppAppBarTheme.lightAppBarTheme,
     listTileTheme: TListTileTheme.lightListTileTheme,
     bottomSheetTheme: TBottomSheetTheme.lightBottomSheetTheme,
     elevatedButtonTheme: TElevatedButtonTheme.lightElevatedButtonTheme,
@@ -38,6 +39,7 @@ class TAppTheme {
   static ThemeData darkTheme = FlexThemeData.dark(
     scheme: FlexScheme.blueM3,
   ).copyWith(
+    appBarTheme: AppAppBarTheme.darkAppBarTheme,
     listTileTheme: TListTileTheme.darkListTileTheme,
     bottomSheetTheme: TBottomSheetTheme.darkBottomSheetTheme,
     elevatedButtonTheme: TElevatedButtonTheme.darkElevatedButtonTheme,
@@ -56,11 +58,11 @@ class TAppTheme {
     useMaterial3: true,
     fontFamily: 'Poppins',
     brightness: Brightness.light,
-    primaryColor: TColors.primaryColor,
+    primaryColor: AppColors.primaryColor,
     textTheme: TTextTheme.lightTextTheme,
     chipTheme: TChipTheme.lightChipTheme,
     scaffoldBackgroundColor: Colors.white,
-    appBarTheme: TAppBarTheme.lightAppBarTheme,
+    appBarTheme: AppAppBarTheme.lightAppBarTheme,
     checkboxTheme: TCheckBoxTheme.lightCheckBoxTheme,
     bottomSheetTheme: TBottomSheetTheme.lightBottomSheetTheme,
     elevatedButtonTheme: TElevatedButtonTheme.lightElevatedButtonTheme,
@@ -75,7 +77,7 @@ class TAppTheme {
       textTheme: TTextTheme.darkTextTheme,
       chipTheme: TChipTheme.darkChipTheme,
       scaffoldBackgroundColor: Colors.black,
-      appBarTheme: TAppBarTheme.darkAppBarTheme,
+      appBarTheme: AppAppBarTheme.darkAppBarTheme,
       checkboxTheme: TCheckBoxTheme.darkCheckBoxTheme,
       bottomSheetTheme: TBottomSheetTheme.darkBottomSheetTheme,
       elevatedButtonTheme: TElevatedButtonTheme.darkElevatedButtonTheme,

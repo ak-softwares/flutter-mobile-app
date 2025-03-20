@@ -149,7 +149,7 @@ class UpdateAddressScreen extends StatelessWidget {
                       Text('To Edit Phone and Email', style: Theme.of(context).textTheme.labelLarge),
                       TextButton(
                           onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangeUserProfile()));},
-                          child: Text('Click here', style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor)))
+                          child: Text('Click here', style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor)))
                     ]
                 ),
                 const SizedBox(height: Sizes.spaceBtwItems),

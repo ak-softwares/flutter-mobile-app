@@ -57,7 +57,7 @@ class ProductReviewScreen1 extends StatelessWidget {
         ),
       ),
       body: RefreshIndicator(
-        color: TColors.refreshIndicator,
+        color: AppColors.refreshIndicator,
         onRefresh: () async => productReviewController.refreshReviews(product.id.toString()),
         child: ListView(
           controller: scrollController,
@@ -79,7 +79,7 @@ class ProductReviewScreen1 extends StatelessWidget {
                       rating: product.averageRating ?? 0.0,
                       itemSize: 40,
                       unratedColor: Colors.grey[300],
-                      itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: TColors.ratingStar),
+                      itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: AppColors.ratingStar),
                     ),
                   ),
                   const SizedBox(height: Sizes.sm),
@@ -129,7 +129,7 @@ class ProductReviewScreen1 extends StatelessWidget {
                               TRatingProgressIndicator(text: 'Below Average', value: belowAveragePercentage,color: Colors.orangeAccent),
                               TRatingProgressIndicator(text: 'Poor', value: poorPercentage,color: Colors.redAccent),
                               const SizedBox(height: Sizes.lg),
-                              const Divider(color: TColors.borderSecondary,),
+                              const Divider(color: AppColors.borderDark,),
                               const SizedBox(height: Sizes.sm),
                             ],
                           ),

@@ -6,7 +6,7 @@ import '../../../../../utils/device/device_utility.dart';
 
 class TRatingProgressIndicator extends StatelessWidget {
   const TRatingProgressIndicator({
-    super.key, required this.text, required this.value, this.color = TColors.ratingBar,
+    super.key, required this.text, required this.value, this.color = Colors.blue
   });
   final String text;
   final double value;

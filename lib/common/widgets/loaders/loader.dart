@@ -37,7 +37,7 @@ class TLoaders  extends GetxController {
                   onTap != null
                       ? InkWell(
                     onTap: onTap,
-                    child: Text(urlTitle, style: const TextStyle(color: TColors.linkColor, fontSize: 14, fontWeight: FontWeight.w500),),
+                    child: Text(urlTitle, style: const TextStyle(color: AppColors.linkColor, fontSize: 14, fontWeight: FontWeight.w500),),
                   )
                       : SizedBox.shrink()
                 ],

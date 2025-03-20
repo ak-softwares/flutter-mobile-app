@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../common/web_view/my_web_view.dart';
 import '../features/shop/controllers/product/product_controller.dart';
 import '../features/shop/screens/all_products/all_products.dart';
-import '../features/shop/screens/orders/order.dart';
+import '../features/shop/screens/orders/orders.dart';
 import '../features/shop/screens/products/product_detail.dart';
 import '../utils/constants/api_constants.dart';
 

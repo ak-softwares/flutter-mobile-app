@@ -198,7 +198,7 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                       final imageSelected = _selectedProductImage.value == images[index];
                       return TRoundedImage(
                         width: galleryImageHeight,
-                        border: Border.all(color: imageSelected ? TColors.primaryColor : Colors.transparent),
+                        border: Border.all(color: imageSelected ? AppColors.primaryColor : Colors.transparent),
                         borderRadius: Sizes.sm,
                         backgroundColor: Colors.white,
                         padding: Sizes.sm / 2,

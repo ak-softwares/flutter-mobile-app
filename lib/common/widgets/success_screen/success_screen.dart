@@ -1,22 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../features/shop/controllers/order/order_controller.dart';
+import '../../../features/shop/models/order_model.dart';
+import '../../../features/shop/screens/orders/orders.dart';
+import '../../../utils/constants/enums.dart';
 import '../../../utils/constants/icons.dart';
+import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/constants/text_strings.dart';
 import '../../../utils/helpers/navigation_helper.dart';
 import '../../styles/spacing_style.dart';
+import '../loaders/full_screen_loader.dart';
+import '../loaders/loader.dart';
 
-class TSuccessScreen extends StatelessWidget {
+class TSuccessScreen extends StatefulWidget {
   const TSuccessScreen({
     super.key,
-    required this.image,
-    required this.title,
-    required this.subTitle,
-    required this.onPressed
+    required this.order
   });
-  final String image, title, subTitle;
-  final VoidCallback onPressed;
+  final OrderModel order;
+
+  @override
+  State<TSuccessScreen> createState() => _TSuccessScreenState();
+}
+
+class _TSuccessScreenState extends State<TSuccessScreen> {
+  final orderController = Get.put(OrderController());
+
+  @override
+  void initState() {
+    super.initState();
+    // Delay execution until the frame is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _processPayment();
+    });  }
+
+  Future<void> _processPayment() async {
+    if(widget.order.paymentMethod == PaymentMethods.razorpay.name &&
+        widget.order.status == OrderStatus.pendingPayment){
+      await orderController.makePayment(order: widget.order);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,21 +54,30 @@ class TSuccessScreen extends StatelessWidget {
           child: Column(
             children: [
               //Image
-              Lottie.asset(image, width: MediaQuery.of(context).size.width * 0.6),
+              Lottie.asset(Images.orderCompletedAnimation, width: MediaQuery.of(context).size.width * 0.6),
               const SizedBox(height: 60),
 
               //Title and SubTitle
-              Text(title, style: Theme.of(context).textTheme.headlineMedium, textAlign: TextAlign.center),
+              Text(widget.order.status == OrderStatus.pendingPayment
+                  ? 'Order in Pending! #${widget.order.id}'
+                  : 'Order Placed! #${widget.order.id}',
+                  style: TextStyle(fontSize: 25)
+              ),
               const SizedBox(height: Sizes.spaceBtwItems),
-
-              Text(subTitle, style: Theme.of(context).textTheme.labelMedium, textAlign: TextAlign.center),
+              Text('Thank you for your purchase. Order status is ${widget.order.status?.prettyName}', style: Theme.of(context).textTheme.labelMedium, textAlign: TextAlign.center),
               const SizedBox(height: Sizes.spaceBtwSection),
 
               //Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: onPressed,
+                  onPressed: () async {
+                    Get.off(() => const OrderScreen())?.then((value) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        NavigationHelper.navigateToBottomNavigation();
+                      });
+                    });
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -66,6 +102,28 @@ class TSuccessScreen extends StatelessWidget {
                     ],
                   )
                 ),
+              ),
+
+              if(widget.order.paymentMethod == PaymentMethods.razorpay.name &&
+                  widget.order.status == OrderStatus.pendingPayment)
+               Column(
+                children: [
+                  const SizedBox(height: Sizes.spaceBtwInputFields),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                        onPressed: () async =>  await orderController.makePayment(order: widget.order),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.money, color: Theme.of(context).colorScheme.onSurface, size: 20),
+                            const SizedBox(width: Sizes.spaceBtwInputFields),
+                            const Text('Make Payment'),
+                          ],
+                        )
+                    ),
+                  ),
+                ],
               )
             ],
           ),

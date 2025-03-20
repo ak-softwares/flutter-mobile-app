@@ -28,7 +28,7 @@ class SocialLoginController extends GetxController{
     try {
       // Start Loading
       TFullScreenLoader.openLoadingDialog('Logging you in...', Images.docerAnimation);
-      final isConnected = await NetworkManager.instance.isConnected();
+      final isConnected = await Get.put(NetworkManager()).isConnected();
       if (!isConnected) {
         TFullScreenLoader.stopLoading();
         return;

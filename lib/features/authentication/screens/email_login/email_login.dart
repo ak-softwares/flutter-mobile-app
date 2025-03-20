@@ -93,7 +93,7 @@ class EmailLoginScreen extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(builder: (context) => ForgetPasswordScreen(email: controller.email.text.trim(),))
                                       );},
-                                    child: Text(TTexts.forgotPassword, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor))
+                                    child: Text(TTexts.forgotPassword, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor))
                                 )
                               ]
                           ),
@@ -146,7 +146,7 @@ class EmailLoginScreen extends StatelessWidget {
                       Text('Not a member?', style: Theme.of(context).textTheme.labelLarge),
                       TextButton(
                           onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));},
-                          child: Text(TTexts.createAccount, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor)))
+                          child: Text(TTexts.createAccount, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor)))
                     ]
                 )
               ],

@@ -1,4 +1,5 @@
 import 'package:aramarket/features/shop/screens/products/product_detail.dart';
+import 'package:aramarket/utils/constants/enums.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,207 +39,291 @@ class SingleOrderScreen extends StatelessWidget {
     final cartController = Get.put(CartController());
     final orderController = Get.put(OrderController());
 
+    orderController.setOrder(order);
+
     return Scaffold(
       appBar: TAppBar2(titleText: "Order #${order.id}", showBackArrow: true, showSearchIcon: true, showCartIcon: true,),
-      body: SingleChildScrollView(
-        padding: TSpacingStyle.defaultPageVertical,
-        child: Column(
-          spacing: Sizes.spaceBtwSection,
-          children: [
-            // Order Items
-            Column(
-              spacing: Sizes.spaceBtwItems,
-              children: [
-                Heading(title: 'Order Items', paddingLeft: Sizes.defaultSpace),
-                GridLayout(
-                  crossAxisCount: 1,
-                  mainAxisExtent: 90,
-                  itemCount: order.lineItems!.length,
-                  itemBuilder: (_, index) => Stack(
-                      children:[
-                        ProductCardForCart(cartItem: order.lineItems![index]),
-                      ]
-                  ),
-                ),
-              ],
-            ),
-
-            // Order Detail Section
-            Padding(
-              padding: TSpacingStyle.defaultPageHorizontal,
-              child: Column(
+      body: RefreshIndicator(
+        color: AppColors.refreshIndicator,
+        onRefresh: () async => orderController.getOrderById(orderId: order.id.toString()),
+        child: Obx(() {
+          final currentOrder = orderController.currentOrder.value;
+          return ListView(
+                padding: TSpacingStyle.defaultPageVertical,
+                physics: const AlwaysScrollableScrollPhysics(),
                 children: [
-                  Heading(title: 'Order Details', paddingLeft: Sizes.md,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Column(
+                    spacing: Sizes.spaceBtwSection,
                     children: [
-                      Text('Order'),
-                      Text('#${order.id}'),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Total'),
-                      Text(AppSettings.appCurrencySymbol + order.total!),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Status'),
-                      Text(order.status ?? ''),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Date'),
-                      Text(order.formattedOrderDate),
+                      // Order Items
+                      Column(
+                        spacing: Sizes.spaceBtwItems,
+                        children: [
+                          Heading(
+                              title: 'Order Items',
+                              paddingLeft: Sizes.defaultSpace),
+                          GridLayout(
+                            crossAxisCount: 1,
+                            mainAxisExtent: 90,
+                            itemCount: currentOrder.lineItems!.length,
+                            itemBuilder: (_, index) => Stack(children: [
+                              ProductCardForCart(
+                                  cartItem: currentOrder.lineItems![index]),
+                            ]),
+                          ),
+                        ],
+                      ),
+
+                      // Order Detail Section
+                      Padding(
+                        padding: TSpacingStyle.defaultPageHorizontal,
+                        child: Column(
+                          children: [
+                            Heading(
+                              title: 'Order Details',
+                              paddingLeft: Sizes.md,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Order'),
+                                Text('#${currentOrder.id}'),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Total'),
+                                Text(AppSettings.appCurrencySymbol +
+                                    currentOrder.total!),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Status'),
+                                Text(currentOrder.status?.prettyName ?? ''),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Date'),
+                                Text(currentOrder.formattedOrderDate),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Billing Section
+                      Column(
+                        children: [
+                          Heading(title: 'Billing & address'),
+                          SizedBox(
+                            height: Sizes.sm,
+                          ),
+                          TSingleAddress(
+                            address: currentOrder.billing ?? AddressModel.empty(),
+                            onTap: () {},
+                            hideEdit: true,
+                          ),
+                          SizedBox(height: Sizes.sm),
+                          Padding(
+                            padding: TSpacingStyle.defaultPageHorizontal,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Subtotal'),
+                                    Text(
+                                        '${AppSettings.appCurrencySymbol}${currentOrder.calculateTotalSum()}'),
+                                  ],
+                                ),
+                                if (currentOrder.discountTotal != '0' &&
+                                    currentOrder.discountTotal!.isNotEmpty)
+                                  Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('Discount'),
+                                          Text(
+                                              '- ${AppSettings.appCurrencySymbol}${currentOrder.discountTotal!}'),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                if (currentOrder.shippingTotal != '0' &&
+                                    currentOrder.shippingTotal!.isNotEmpty)
+                                  Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('Shipping'),
+                                          Text(AppSettings.appCurrencySymbol +
+                                              currentOrder.shippingTotal!),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Total',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500)),
+                                    Text(
+                                        AppSettings.appCurrencySymbol +
+                                            currentOrder.total!,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500)),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Payment Method  ',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium),
+                                    // Text(order.paymentMethodTitle ?? '', style: Theme.of(context).textTheme.bodyMedium),
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                            currentOrder.paymentMethodTitle ?? '',
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      // Track order section
+                      Column(
+                        children: [
+                          // Pay Now
+                          if (TOrderHelper.checkOrderStatusForPayment(
+                              currentOrder.status ?? OrderStatus.unknown))
+                            Column(
+                              children: [
+                                ListTile(
+                                  tileColor:
+                                      Theme.of(context).colorScheme.surface,
+                                  onTap: () =>
+                                      orderController.makePayment(order: currentOrder),
+                                  title: Text('Pending Payment'),
+                                  trailing: OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: Sizes
+                                                .md), // Removes default padding
+                                      ),
+                                      onPressed: () => orderController
+                                          .makePayment(order: currentOrder),
+                                      child: Text('Pay Now')),
+                                ),
+                                Container(
+                                  height: 1,
+                                  color: Theme.of(context).colorScheme.outline,
+                                ),
+                              ],
+                            ),
+
+                          // Buy it again
+                          ListTile(
+                            tileColor: Theme.of(context).colorScheme.surface,
+                            onTap: () => cartController
+                                .repeatOrder(currentOrder.lineItems ?? []),
+                            title: Text('Buy it again'),
+                            trailing: Obx(() => cartController.isLoading.value
+                                ? SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.linkColor,
+                                    ))
+                                : Icon(Icons.arrow_forward_ios, size: 20)),
+                          ),
+                          Container(
+                            height: 1,
+                            color: Theme.of(context).colorScheme.outline,
+                          ),
+
+                          // Track Package
+                          ListTile(
+                            tileColor: Theme.of(context).colorScheme.surface,
+                            onTap: () => Get.to(() => MyWebView(
+                                title: 'Track Order #${currentOrder.id}',
+                                url: APIConstant.wooTrackingUrl +
+                                    currentOrder.id.toString())),
+                            title: Text('Track Package'),
+                            trailing: Icon(Icons.open_in_new,
+                                size: 20, color: Colors.blue),
+                          ),
+                          Container(
+                            height: 1,
+                            color: Theme.of(context).colorScheme.outline,
+                          ),
+
+                          // Write product review
+                          ListTile(
+                              tileColor: Theme.of(context).colorScheme.surface,
+                              onTap: () => Get.to(() => ProductDetailScreen(
+                                  productId: currentOrder.lineItems?[0].productId
+                                      .toString())),
+                              title: Text('Write a product review'),
+                              trailing:
+                                  Icon(Icons.arrow_forward_ios, size: 20)),
+                          Container(
+                            height: 1,
+                            color: Theme.of(context).colorScheme.outline,
+                          ),
+
+                          // Cancel Order
+                          if (TOrderHelper.checkOrderStatusForReturn(currentOrder.status ?? OrderStatus.unknown))
+                            ListTile(
+                              tileColor:
+                              Theme.of(context).colorScheme.surface,
+                              onTap: () => DialogHelper.showDialog(
+                                title: 'Cancel Order',
+                                message:
+                                'Are you sure you want to cancel this currentOrder?',
+                                toastMessage: 'Order cancel Successfully',
+                                actionButtonText: 'Cancel',
+                                function: () async {
+                                  await orderController
+                                      .cancelOrder(currentOrder.id.toString());
+                                },
+                                context: context,
+                              ),
+                              title: Text('Cancel Order'),
+                              trailing: Icon(Icons.cancel_outlined,
+                                  size: 20, color: Colors.red),
+                            ),
+                        ],
+                      )
                     ],
                   ),
                 ],
-              ),
-            ),
-
-            // Billing Section
-            Column(
-              children: [
-                Heading(title: 'Billing & address'),
-                SizedBox(height: Sizes.sm,),
-                TSingleAddress(address: order.billing ?? AddressModel.empty(), onTap: () {}, hideEdit: true,),
-                SizedBox(height: Sizes.sm),
-                Padding(
-                  padding: TSpacingStyle.defaultPageHorizontal,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Subtotal'),
-                          Text('${AppSettings.appCurrencySymbol}${order.calculateTotalSum()}'),
-                        ],
-                      ),
-                      if(order.discountTotal != '0' && order.discountTotal!.isNotEmpty)
-                        Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Discount'),
-                                Text('- ${AppSettings.appCurrencySymbol}${order.discountTotal!}'),
-                              ],
-                            ),
-                          ],
-                        ),
-                      if(order.shippingTotal != '0' && order.shippingTotal!.isNotEmpty)
-                        Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Shipping'),
-                                Text(AppSettings.appCurrencySymbol + order.shippingTotal!),
-                              ],
-                            ),
-                          ],
-                        ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Total', style: TextStyle(fontWeight: FontWeight.w500)),
-                          Text(AppSettings.appCurrencySymbol + order.total!, style: TextStyle(fontWeight: FontWeight.w500)),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Payment Method  ', style: Theme.of(context).textTheme.bodyMedium),
-                          // Text(order.paymentMethodTitle ?? '', style: Theme.of(context).textTheme.bodyMedium),
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Text(order.paymentMethodTitle ?? '', maxLines: 2, overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context).textTheme.bodyMedium),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            // Track order section
-            Column(
-              children: [
-                // Buy it again
-                ListTile(
-                  tileColor: Theme.of(context).colorScheme.surface,
-                  onTap: () => cartController.repeatOrder(order.lineItems ?? []),
-                  title: Text('Buy it again'),
-                  trailing: Obx(() =>
-                  cartController.isLoading.value
-                      ? SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: TColors.linkColor,))
-                      : Icon(Icons.arrow_forward_ios, size: 20)
-                  ),
-                ),
-
-                Container(
-                  height: 1,
-                  color: Theme.of(context).colorScheme.outline,
-                ),
-                // Track Package
-                ListTile(
-                  tileColor: Theme.of(context).colorScheme.surface,
-                  onTap: () => Get.to(() => MyWebView(title: 'Track Order #${order.id}', url: APIConstant.wooTrackingUrl + order.id.toString())),
-                  title: Text('Track Package'),
-                  trailing: Icon(Icons.open_in_new, size: 20, color: Colors.blue),
-                ),
-                Container(
-                  height: 1,
-                  color: Theme.of(context).colorScheme.outline,
-                ),
-
-                // Cancel Order
-                TOrderHelper.checkOrderStatusForReturn(order.status ?? '')
-                    ? Column(
-                      children: [
-                        ListTile(
-                            tileColor: Theme.of(context).colorScheme.surface,
-                            onTap: () => DialogHelper.showDialog(
-                              title: 'Cancel Order',
-                              message: 'Are you sure you want to cancel this order?',
-                              toastMessage: 'Order cancel Successfully',
-                              actionButtonText: 'Cancel',
-                              function: () async {
-                                await orderController.cancelOrder(order.id.toString());
-                              },
-                              context: context,
-                            ),
-                            title: Text('Cancel Order'),
-                            trailing: Icon(Icons.cancel_outlined, size: 20, color: Colors.red),
-                          ),
-                        Container(
-                          height: 1,
-                          color: Theme.of(context).colorScheme.outline,
-                        ),
-                      ],
-                    )
-                    : const SizedBox.shrink(),
-
-                // Write product review
-                ListTile(
-                    tileColor: Theme.of(context).colorScheme.surface,
-                    onTap: () => Get.to(() => ProductDetailScreen(productId: order.lineItems?[0].productId.toString())),
-                    title: Text('Write a product review'),
-                    trailing: Icon(Icons.arrow_forward_ios, size: 20)
-                ),
-              ],
-            )
-          ],
-        )
+              );
+        }),
       )
     );
   }

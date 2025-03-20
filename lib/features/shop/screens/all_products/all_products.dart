@@ -65,7 +65,7 @@ class TAllProducts extends StatelessWidget {
     return Scaffold(
         appBar: TAppBar2(titleText: title, showBackArrow: true, showCartIcon: true, sharePageLink: sharePageLink ?? "",),
         body: RefreshIndicator(
-          color: TColors.refreshIndicator,
+          color: AppColors.refreshIndicator,
           onRefresh: () async {
             if(futureMethod != null) {
               allProductController.refreshAllProducts(futureMethod!);

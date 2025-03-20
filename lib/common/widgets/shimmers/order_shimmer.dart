@@ -1,4 +1,5 @@
 import '../../../utils/constants/colors.dart';
+import '../../../utils/constants/enums.dart';
 import '../../../utils/helpers/order_helper.dart';
 import '../../layout_models/product_grid_layout.dart';
 import '../../styles/shadows.dart';
@@ -43,7 +44,7 @@ class OrderShimmer extends StatelessWidget {
                   ShimmerEffect(width: 60, height: 60),
                   Container(
                     height: 1,
-                    color: TColors.borderSecondary,
+                    color: AppColors.borderDark,
                   ),
                   SizedBox(
                     height: 30,
@@ -61,7 +62,7 @@ class OrderShimmer extends StatelessWidget {
                   ),
                 ],
               ),
-              Positioned(top: 0, right: 0, child: TOrderHelper.mapOrderStatus('Loading...' ?? '')),
+              Positioned(top: 0, right: 0, child: TOrderHelper.mapOrderStatus(OrderStatus.unknown)),
             ],
           ),
         );

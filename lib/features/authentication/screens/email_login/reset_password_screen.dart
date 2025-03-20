@@ -66,7 +66,7 @@ class ResetPasswordScreen extends StatelessWidget {
                               ForgetPasswordController.instance.sendPasswordResetEmail(email);
                             },
                             child: Text(TTexts.resendEmail,
-                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: TColors.linkColor))
+                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColors.linkColor))
                         ),
                       ],
                     );

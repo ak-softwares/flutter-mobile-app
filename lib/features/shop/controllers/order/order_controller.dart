@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import '../../../../common/widgets/loaders/full_screen_loader.dart';
 import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../data/repositories/firebase/orders/order_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/orders/woo_orders_repository.dart';
+import '../../../../utils/constants/db_constants.dart';
+import '../../../../utils/constants/enums.dart';
 import '../../../personalization/controllers/address_controller.dart';
 import '../../../personalization/controllers/user_controller.dart';
 import '../../../settings/app_settings.dart';
@@ -18,6 +22,7 @@ class OrderController extends GetxController {
   RxInt currentPage = 1.obs;
   RxBool isLoading = false.obs;
   RxBool isLoadingMore = false.obs;
+  final Rx<OrderModel> currentOrder = OrderModel().obs;
   final RxList<OrderModel> orders = <OrderModel>[].obs;
 
   final cartController = Get.put(CartController());
@@ -27,6 +32,10 @@ class OrderController extends GetxController {
   final orderRepository = Get.put(OrderRepository());
   final userController = Get.put(UserController());
   final paymentController = Get.put(PaymentController());
+
+  void setOrder(OrderModel order) {
+    currentOrder.value = order;
+  }
 
   //Fetch orders
   Future<void> fetchOrders() async {
@@ -98,6 +107,23 @@ class OrderController extends GetxController {
     }
   }
 
+  //Get user order by customer id
+  Future<void> getOrderById({required String orderId}) async {
+    try {
+      final newOrders = await wooOrdersRepository.fetchOrderById(orderId: orderId);
+      // Find the index of the order with the matching orderId in the orders list
+      final int index = orders.indexWhere((order) => order.id == newOrders.id);
+
+      if (index != -1) {
+        // If the order is found, replace it with the updated order
+        orders[index] = newOrders;
+      }
+      currentOrder.value = newOrders;
+    } catch (e) {
+      TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+    }
+  }
+
   // Function to refresh orders
   Future<void> refreshOrders() async {
     try {
@@ -114,7 +140,7 @@ class OrderController extends GetxController {
   }
 
   // Add methods for order processing
-  Future<OrderModel> saveOrderByCustomerId({String transactionId = ''}) async {
+  Future<OrderModel> saveOrderByCustomerId() async {
     try {
       //Add Details
       final appVersion = await AppSettings.getAppVersion();
@@ -122,9 +148,8 @@ class OrderController extends GetxController {
         customerId: userController.customer.value.id,
         paymentMethod: checkoutController.selectedPaymentMethod.value.id,
         paymentMethodTitle: checkoutController.selectedPaymentMethod.value.title,
-        transactionId: transactionId,
-        setPaid: true,
-        status: "processing",
+        status: checkoutController.selectedPaymentMethod.value.id != PaymentMethods.cod.name
+              ? OrderStatus.pendingPayment : OrderStatus.processing,
         billing:   userController.customer.value.billing,
         shipping:   userController.customer.value.billing, //if shipping address is different then use shipping instead billing
         lineItems:  cartController.cartItems,
@@ -151,7 +176,7 @@ class OrderController extends GetxController {
   Future<void> cancelOrder(String orderId) async {
     try {
       CartController.instance.isCancelLoading(true);
-      final updatedOrder  = await wooOrdersRepository.updateStatusByOrderId(orderId, 'cancelled');
+      final updatedOrder  = await wooOrdersRepository.updateStatusByOrderId(orderId, OrderStatus.cancelled.name);
       // Find the index of the order with the matching orderId in the orders list
       final int index = orders.indexWhere((order) => order.id == updatedOrder.id);
 
@@ -166,6 +191,47 @@ class OrderController extends GetxController {
       TLoaders.errorSnackBar(title: 'Error', message: error.toString());
     } finally {
       CartController.instance.isCancelLoading(false);
+    }
+  }
+
+  Future<void> updateOrderById({required String orderId, required Map<String, dynamic> data}) async {
+    try {
+      final updatedOrder  = await wooOrdersRepository.updateOrderById(orderId: orderId, data: data);
+      // Find the index of the order with the matching orderId in the orders list
+      final int index = orders.indexWhere((order) => order.id == updatedOrder.id);
+
+      if (index != -1) {
+        // If the order is found, replace it with the updated order
+        orders[index] = updatedOrder;
+      } else {
+        // If the order is not found, add the updated order to the list
+        orders.add(updatedOrder);
+      }
+    } catch (error) {
+      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+    }
+  }
+
+  Future<void> makePayment({required OrderModel order}) async {
+    try {
+      TFullScreenLoader.onlyCircularProgressDialog('Processing your payment...');
+      String paymentId = await paymentController.startPayment(order: order);
+      if (paymentId.isNotEmpty) {
+        // Capture payment
+        await paymentController.capturePayment(amount: int.tryParse(order.total ?? '0') ?? 0, paymentID: paymentId);
+        Map<String, dynamic> data = {
+          OrderFieldName.status: OrderStatus.processing.name,
+          OrderFieldName.transactionId: paymentId,
+          OrderFieldName.setPaid: true,
+        };
+        await updateOrderById(orderId: order.id.toString(), data: data);
+        TFullScreenLoader.stopLoading();
+        TLoaders.successSnackBar(title: 'Payment Successful:', message: 'Payment ID: $paymentId');
+      }
+      TFullScreenLoader.stopLoading();
+    } catch(e) {
+      TFullScreenLoader.stopLoading();
+      TLoaders.errorSnackBar(title: 'Payment Failed', message: e.toString());
     }
   }
 }

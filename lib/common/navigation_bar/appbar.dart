@@ -12,13 +12,15 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   Widget build(BuildContext context) {
-    final Color backgroundColor = TColors.primaryColor;
-    final Color iconColors = TColors.secondaryColor;
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final Color color = Theme.of(context).colorScheme.onSurface;
+    final Color iconColors = Theme.of(context).colorScheme.onSurface;
+    final Color backgroundColor = isDark ? Colors.transparent : AppColors.primaryColor;
 
     return AppBar(
       centerTitle: true,
       backgroundColor: backgroundColor,
-      title: const Image(image: AssetImage(AppSettings.lightAppLogo), height: 34),
+      title: Image(image: AssetImage(isDark ? AppSettings.darkAppLogo : AppSettings.lightAppLogo), height: 34),
       actions: [
         IconButton(
           icon: const Icon(Icons.search),
@@ -51,6 +53,7 @@ class TAppBar1 extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   Widget build(BuildContext context) {
+    final Color iconColors = Theme.of(context).colorScheme.onSurfaceVariant;
 
     return AppBar(
       centerTitle: false,
@@ -60,7 +63,7 @@ class TAppBar1 extends StatelessWidget implements PreferredSizeWidget{
       actions: [
         IconButton(
           icon: const Icon(Icons.search),
-          color: TColors.secondaryColor,
+          color: iconColors,
           onPressed: () {
             showSearch(
                 context: context,
@@ -68,7 +71,7 @@ class TAppBar1 extends StatelessWidget implements PreferredSizeWidget{
             );
           },
         ),
-        const TCartCounterIcon(iconColor: TColors.secondaryColor),
+        TCartCounterIcon(iconColor: iconColors),
       ],
       // leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
     );

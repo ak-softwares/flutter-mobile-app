@@ -10,9 +10,11 @@ import 'package:http/http.dart' as http;
 import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/db_constants.dart';
+import '../../../../utils/constants/enums.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../personalization/controllers/user_controller.dart';
 import '../../../settings/app_settings.dart';
+import '../../models/order_model.dart';
 import '../../models/payment_model.dart';
 import 'checkout_controller.dart';
 
@@ -24,29 +26,17 @@ class PaymentController extends GetxController {
 
   static List<Map<String, String>> paymentJson = [
     {
-      PaymentFieldName.id           : 'razorpay',
-      PaymentFieldName.title        : 'Razorpay Payment Gateway',
-      PaymentFieldName.description  : 'UPI/QR/Card/NetBanking',
+      PaymentFieldName.id           : PaymentMethods.razorpay.name,
+      PaymentFieldName.title        : PaymentMethods.razorpay.title,
+      PaymentFieldName.description  : PaymentMethods.razorpay.description,
       PaymentFieldName.image        : Images.razorpay,
-      PaymentFieldName.key          : APIConstant.razorpayKey,
-      PaymentFieldName.secret       : APIConstant.razorpaySecret,
     },
     {
-      PaymentFieldName.id           : 'cod',
-      PaymentFieldName.title        : 'COD (Cash on Delivery)',
-      PaymentFieldName.description  : 'COD (Cash on Delivery)',
+      PaymentFieldName.id           : PaymentMethods.cod.name,
+      PaymentFieldName.title        : PaymentMethods.cod.name,
+      PaymentFieldName.description  : PaymentMethods.cod.description,
       PaymentFieldName.image        : Images.cod,
-      PaymentFieldName.key          : '',
-      PaymentFieldName.secret       : '',
     },
-    // {
-    //   PaymentFieldName.id           : 'paytm',
-    //   PaymentFieldName.title        : 'Paytm Payment Gateway',
-    //   PaymentFieldName.description  : 'The best payment gateway provider in India for e-payment through credit card, debit card & netbanking.',
-    //   PaymentFieldName.image        : TImages.paytm,
-    //   PaymentFieldName.key          : '',
-    //   PaymentFieldName.secret       : '',
-    // },
   ];
 
   List<PaymentModel> getAllPaymentMethod = PaymentModel.parsePaymentModels(paymentJson);
@@ -58,11 +48,10 @@ class PaymentController extends GetxController {
     _registerEventListeners();
   }
 
+
   void _registerEventListeners() {
     // Listen for payment success event
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, (PaymentSuccessResponse response) {
-      // Notify user about successful payment
-      capturePayment(amount: checkoutController.total.value.toInt(), paymentID: response.paymentId ?? '');
       _completer?.complete(response.paymentId);
     });
 
@@ -82,17 +71,25 @@ class PaymentController extends GetxController {
 
   Completer<String>? _completer;
 
-  Future<String> startPayment({required int amount, required String productName}) async {
+  Future<String> startPayment({required OrderModel order}) async {
+
+    final int orderId = order.id ?? 0;
+    final int orderTotal = int.tryParse(order.total ?? '0') ?? 0;
+    final String productName = '';
+
     // Prepare payment options
     var options = {
-      'key': checkoutController.selectedPaymentMethod.value.key,
-      'amount': amount * 100, // * 100 Amount in smallest currency unit
+      'key': APIConstant.razorpayKey,
+      'amount': orderTotal * 100, // * 100 Amount in smallest currency unit
       'name': AppSettings.appName,
-      // 'order_id': 13456,
-      'description': productName,
+      'description': 'orderId_#$orderId', // productName
       'prefill': {
         'contact': userController.customer.value.phone,
         'email': userController.customer.value.email,
+      },
+      // Notes (Custom key-value pairs for internal use)
+      'notes': {
+        'order_id': '#$orderId', // (String) Custom order ID for merchant reference
       },
     };
 
@@ -134,11 +131,7 @@ class PaymentController extends GetxController {
         }),
       );
 
-      if (response.statusCode == 200) {
-        if (kDebugMode) {
-          print('Payment captured successfully: ${response.body}');
-        }
-      } else {
+      if (response.statusCode != 200) {
         final Map<String, dynamic> errorJson = json.decode(response.body);
         final errorMessage = errorJson['error']['description'];
         throw errorMessage ?? 'Failed to capture payment';

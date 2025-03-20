@@ -2,68 +2,58 @@ import 'package:flutter/material.dart';
 
 import '../../features/settings/app_settings.dart';
 
-class TColors{
-  TColors._();
+class AppColors{
+  AppColors._();
 
   // App Basic Colors
   static const Color primaryColor = AppSettings.primaryColor;
-  // static const Color secondaryColor = Color(0xFF092143);
-  static const Color secondaryColor = Color(0xFF2d2d2d); //Zomato
-  static const Color accent = Color(0xFFB0C7FF);
-  static const Color primaryBackground = Color(0xFFFFFFFF); //Zomato
-  static const Color secondaryBackground = Color(0xFFf4f4f2); //Zomato
-
-  static const Color newColor = Color(0xFF2E6D7F);
-  static const Color whatsAppColor = Color(0xFF25D366);
+  static const Color secondaryColor = Color(0xFF2d2d2d);
 
   // Link color
   static const Color offerColor = Color(0xFF2BAA3A);
   static const Color linkColor = Colors.blue;
-  static const Color linkColor2 = Color(0xFF1A0DAB);
   static const Color refreshIndicator = Colors.blue;
 
-  //Text Colors
-  static const Color textPrimary = Color(0xFF2d2d2d);
-  static const Color textGray = Color(0xFFc1c8d9);
-  static const Color textWhite = Colors.white;
+  // Text Colors
+  static const Color textColor = Color(0xFF2d2d2d);
+  static const Color headlineColor = Color(0xFF2d2d2d);
 
-  //Background Colors
-  static const Color light = Color(0xFFF6F6F6);
-  static const Color dark = Color(0xFF272727);
-
-  //Background Container Colors
+  // Background Container Colors
   static const Color lightContainer = Color(0xFFF6F6F6);
   static const Color darkContainer = Colors.white;
 
-  //Background Colors
-  static const Color buttonPrimary = AppSettings.primaryColor;
-  static const Color buttonSecondary = AppSettings.secondaryColor;
+  // Button Colors
+  static const Color buttonTextColor = AppSettings.secondaryColor;
   static const Color buttonDisabled = Color(0xFFC4C4C4);
   static const Color buttonBorder = AppSettings.primaryColor;
+  static const Color buttonBackgroundColor = AppSettings.primaryColor;
 
-  //Border Colors
-  static const Color borderPrimary = Color(0xFFD9D9D9);
-  static const Color borderSecondary = Color(0xFFE6E6E6);
+  // Surface
+  static const Color surface = Color(0xFFF6F6F6);
+  static const Color onSurface = Color(0xFF272727);
+  static const Color onSurfaceVariant = Color(0xFF0B1014);
 
-  //Error and Validation Colors
+  // Border Colors
+  static const Color borderLight = Color(0xFFD9D9D9);
+  static const Color borderDark = Color(0xFFE6E6E6);
+
+  // Background Colors
+  static const Color backgroundLight = Color(0xFFF6F6F6);
+  static const Color backgroundDark = Color(0xFF0B1014);
+
+  // Star Rating
+  static const Color ratingStar = Colors.orange;
+
+  // Whatsapp color
+  static const Color whatsAppColor = Color(0xFF25D366);
+
+  // Error and Validation Colors
   static const Color error = Color(0xFFD32F2F);
   static const Color success = Color(0xFF388E3C);
   static const Color warning = Color(0xFFF57C00);
   static const Color info = Color(0xFF1976D2);
 
-  // Neutral Shades
-  static const Color black = Color(0xFF232323);
-  static const Color darkerGrey = Color(0xFF4F4F4F);
-  static const Color darkGrey = Color(0xFF939393);
-  static const Color softGrey = Color(0xFFE0E0E0);
-  static const Color lightGrey = Color(0xFFF9F9F9);
-  static const Color white = Color(0xFFFFFFFF);
-  static const Color red = Color(0xFFcb202d);
-
-  static const Color ratingStar = Colors.orange;
-  static const Color ratingBar  = Colors.blue;
-
-  //Gradient Colors
+  // Gradient Colors
   static const Gradient linerGradient = LinearGradient(
     begin: Alignment(0, 0),
     end: Alignment(0.707, -0.707),

@@ -59,11 +59,11 @@ class EnterOTPScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Text('Edit',
-                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: TColors.linkColor),
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColors.linkColor),
                               textAlign: TextAlign.center
                           ),
                           const SizedBox(width: Sizes.xs),
-                          Icon(TIcons.edit, color: TColors.linkColor,size: 15,)
+                          Icon(TIcons.edit, color: AppColors.linkColor,size: 15,)
                         ],
                       ),
                     ),
@@ -133,7 +133,7 @@ class EnterOTPScreen extends StatelessWidget {
                                   // otpController.phoneAuthentication(otpController.selectedCountry1.value, otpController.phone.text.trim());
                                 },
                                 child: Text('Resend OTP',
-                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: TColors.linkColor))
+                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColors.linkColor))
                               ),
                             ],
                           );

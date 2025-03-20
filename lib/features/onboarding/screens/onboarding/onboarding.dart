@@ -110,7 +110,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               },
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
-                backgroundColor: TColors.buttonPrimary,
+                backgroundColor: AppColors.buttonBackgroundColor,
                 side: BorderSide.none,
               ),
               child: Icon(LineAwesomeIcons.arrow_right_solid),

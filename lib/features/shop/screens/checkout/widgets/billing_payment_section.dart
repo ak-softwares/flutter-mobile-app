@@ -52,7 +52,7 @@ class TBillingPaymentSection extends StatelessWidget {
                       children: [
                         // Text(checkoutController.isCODDisabled.value.toString() ?? 'No blocked pincodes'),
                         Radio(
-                          activeColor: TColors.info,
+                          activeColor: AppColors.info,
                           value: paymentMethod.id,
                           groupValue: checkoutController.selectedPaymentMethod.value.id,
                           onChanged: isCOD && checkoutController.isCODDisabled.value

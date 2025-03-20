@@ -59,7 +59,7 @@ class FavouriteScreen extends StatelessWidget {
     return Scaffold(
           appBar: const TAppBar2(titleText: 'Liked products', showCartIcon: true, showSearchIcon: true),
           body: RefreshIndicator(
-              color: TColors.refreshIndicator,
+              color: AppColors.refreshIndicator,
               onRefresh: () async => favoriteController.refreshFavorites(),
               child: ListView(
                 controller: scrollController,

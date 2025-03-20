@@ -51,7 +51,7 @@ class SingleCategoryTile extends StatelessWidget {
                 width: categoryImageWidth,
                 borderRadius: categoryTileRadius,
                 padding: 5,
-                image: image.isNotEmpty ? image : Images.defaultCategoryIcon,
+                image: image.isNotEmpty ? image : Images.defaultWooPlaceholder,
                 isNetworkImage: true,
                 // onTap: () => Get.toNamed(banner.targetScreen),
               ),

@@ -72,17 +72,17 @@ class HomeBanner extends StatelessWidget {
                 for(int i = 0; i < bannerController.banners.length; i++)
                   bannerController.carousalCurrentIndex.value == i
                       ? const TRoundedContainer(
-                    width: 20,
-                    height: 4,
-                    margin: EdgeInsets.only(right: 6),
-                    backgroundColor: TColors.primaryColor,
-                  )
+                          width: 20,
+                          height: 4,
+                          margin: EdgeInsets.only(right: 6),
+                          backgroundColor: AppColors.primaryColor,
+                        )
                       : const TRoundedContainer(
-                    width: 10,
-                    height: 4,
-                    margin: EdgeInsets.only(right: 6),
-                    backgroundColor: TColors.secondaryColor,
-                  )
+                          width: 10,
+                          height: 4,
+                          margin: EdgeInsets.only(right: 6),
+                          backgroundColor: AppColors.secondaryColor,
+                        )
               ],
             )
             ),

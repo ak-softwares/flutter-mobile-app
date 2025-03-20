@@ -20,8 +20,10 @@ class TAppBar3 extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   Widget build(BuildContext context) {
-    const Color color = TColors.secondaryColor;
-    const Color backgroundColor = Colors.transparent;
+    final Color color = Theme.of(context).colorScheme.onSurface;
+    final Color iconColors = Theme.of(context).colorScheme.onSurfaceVariant;
+    final Color backgroundColor = AppColors.primaryColor;
+
     return AppBar(
       centerTitle: false,
       backgroundColor: backgroundColor,
@@ -29,10 +31,10 @@ class TAppBar3 extends StatelessWidget implements PreferredSizeWidget{
       actions: showCartIcon!
           ? [
             IconButton( icon: const Icon(Icons.search), color: color, onPressed: () => showSearch(context: context, delegate: TSearchDelegate())),
-            const TCartCounterIcon(iconColor: color,),
+            TCartCounterIcon(iconColor: color,),
             ]
           : null,
-      leading: showBackArrow! ? IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Iconsax.arrow_left, color: color)) :  null,
+      leading: showBackArrow! ? IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Iconsax.arrow_left, color: color)) :  null,
     );
   }
   @override

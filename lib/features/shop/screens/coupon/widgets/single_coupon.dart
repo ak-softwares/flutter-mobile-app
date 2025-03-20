@@ -32,7 +32,7 @@ class SingleCouponItem extends StatelessWidget {
               SnackBar(content: Text('Coupon code ${coupon.code!.toUpperCase()} copied')),
             );
         },
-        leading: Icon(Icons.local_offer_outlined, size: 20, color: TColors.offerColor),
+        leading: Icon(Icons.local_offer_outlined, size: 20, color: AppColors.offerColor),
         title: Text(coupon.code!.toUpperCase()),
         subtitle: Text(coupon.description?.isNotEmpty == true ? coupon.description! : 'Discount Offer',
             style: TextStyle(fontSize: 11),
@@ -53,7 +53,7 @@ class SingleCouponItem extends StatelessWidget {
                         couponController.applyCoupon(coupon.code ?? '');
                         Navigator.pop(context); // This closes the bottom sheet
                       },
-                      child: Text('Apply', style: TextStyle(color: TColors.linkColor))
+                      child: Text('Apply', style: TextStyle(color: AppColors.linkColor))
                   ))
             : IconButton(
                 onPressed: () {

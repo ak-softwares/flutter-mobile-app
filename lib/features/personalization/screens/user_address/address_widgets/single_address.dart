@@ -40,8 +40,8 @@ class TSingleAddress extends StatelessWidget {
                           child: Row(
                             spacing: Sizes.sm,
                             children: [
-                              Icon(Icons.edit, size: 20, color: TColors.linkColor),
-                              Text('Edit', style: TextStyle(color: TColors.linkColor),)
+                              Icon(Icons.edit, size: 20, color: AppColors.linkColor),
+                              Text('Edit', style: TextStyle(color: AppColors.linkColor),)
                             ],
                           )
                       )

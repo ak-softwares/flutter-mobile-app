@@ -5,14 +5,14 @@ flutter_native_splash:
   image: assets/logos/aramarket_dark_light.png
 
   # Dark theme
-  color_dark: "#25282D"
+  color_dark: "#0B1014"
   image_dark: assets/logos/aramarket_dark_splash.png
 
   android_12:
     color: "#FFC61A"
     image: assets/logos/aramarket_dark_light.png
 
-    color_dark: "#25282D"
+    color_dark: "#0B1014"
     image_dark: assets/logos/aramarket_dark_splash.png
 
   web: false

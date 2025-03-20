@@ -46,7 +46,7 @@ class CategoryScreen extends StatelessWidget {
     return Scaffold(
       appBar: TAppBar2(titleText: 'Categories', showCartIcon: true, sharePageLink: APIConstant.allCategoryUrl,),
       body: RefreshIndicator(
-        color: TColors.refreshIndicator,
+        color: AppColors.refreshIndicator,
         onRefresh: () async => categoryController.refreshCategories(),
         child: ListView(
           controller: scrollController,

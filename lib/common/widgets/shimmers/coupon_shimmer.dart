@@ -20,7 +20,7 @@ class CouponShimmer extends StatelessWidget {
       child: ListTile(
           minVerticalPadding: Sizes.md,
           tileColor: Theme.of(context).colorScheme.surface,
-          leading: Icon(Icons.local_offer_outlined, size: 20, color: TColors.offerColor),
+          leading: Icon(Icons.local_offer_outlined, size: 20, color: AppColors.offerColor),
           title: ShimmerEffect(width: 100, height: 25),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 9),

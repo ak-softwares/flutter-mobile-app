@@ -29,7 +29,7 @@ class TFavouriteIcon extends StatelessWidget {
             iconSize: iconSize,
             // splashRadius: 50,
             icon: controller.isFavorite(productId) ? const Icon(Iconsax.heart5) : const Icon(Iconsax.heart),
-            color: controller.isFavorite(productId) ? TColors.error : null,
+            color: controller.isFavorite(productId) ? AppColors.error : null,
                 ),
         ),
     );

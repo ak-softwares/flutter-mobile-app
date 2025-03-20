@@ -10,7 +10,7 @@ import '../features/shop/screens/all_products/all_products.dart';
 import '../features/shop/screens/cart/cart.dart';
 import '../features/shop/screens/checkout/checkout.dart';
 import '../features/shop/screens/favourite/favourite.dart';
-import '../features/shop/screens/orders/order.dart';
+import '../features/shop/screens/orders/orders.dart';
 import '../features/shop/screens/products/product_detail.dart';
 import '../features/shop/screens/store/store.dart';
 import '../utils/constants/api_constants.dart';

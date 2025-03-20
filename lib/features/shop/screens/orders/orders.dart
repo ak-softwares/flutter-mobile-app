@@ -55,7 +55,7 @@ class OrderScreen extends StatelessWidget {
       body: !authenticationRepository.isUserLogin.value
         ? const CheckLoginScreen()
         : RefreshIndicator(
-          color: TColors.refreshIndicator,
+          color: AppColors.refreshIndicator,
           onRefresh: () async {
             await orderController.refreshOrders();
           },
@@ -64,8 +64,6 @@ class OrderScreen extends StatelessWidget {
               padding: TSpacingStyle.defaultPagePadding,
               physics: const AlwaysScrollableScrollPhysics(),
               children: [
-                Heading(title: 'Orders'),
-                SizedBox(height: Sizes.spaceBtwItems),
                 Obx(() {
                   if(orderController.isLoading.value){
                     return const OrderShimmer(itemCount: 4);

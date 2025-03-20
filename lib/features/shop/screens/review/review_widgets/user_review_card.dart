@@ -56,7 +56,7 @@ class TUserReviewCard extends StatelessWidget {
             rating: review.rating!.toDouble(),
             itemSize: 14,
             unratedColor: Colors.grey[300],
-            itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: TColors.ratingStar),
+            itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: AppColors.ratingStar),
           ),
           SizedBox(height: Sizes.xs),
           ReadMoreText(
@@ -105,7 +105,7 @@ class TUserReviewCard extends StatelessWidget {
                 child: Text('Delete'),
               ),
             ],
-            icon: const Icon(Icons.more_vert, color: TColors.linkColor),
+            icon: const Icon(Icons.more_vert, color: AppColors.linkColor),
           )
               : PopupMenuButton<String>(
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[

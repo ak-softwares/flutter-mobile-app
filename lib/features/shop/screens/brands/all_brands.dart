@@ -46,7 +46,7 @@ class AllBrandScreen extends StatelessWidget {
     return Scaffold(
       appBar: TAppBar2(titleText: 'All Brands', showCartIcon: true, showSearchIcon: true,),
       body: RefreshIndicator(
-        color: TColors.refreshIndicator,
+        color: AppColors.refreshIndicator,
         onRefresh: () async => brandController.refreshBrands(),
         child: ListView(
           controller: scrollController,

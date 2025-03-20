@@ -41,7 +41,7 @@ class SignupController extends GetxController{
     try {
       //Start Loading
       TFullScreenLoader.openLoadingDialog('We are creating account..', Images.docerAnimation);
-      final isConnected = await NetworkManager.instance.isConnected();
+      final isConnected = await Get.put(NetworkManager()).isConnected();
       if (!isConnected) {
         TFullScreenLoader.stopLoading();
         return;

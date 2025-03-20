@@ -50,7 +50,7 @@ class SingleBrandTile extends StatelessWidget {
                 width: brandImageWidth,
                 borderRadius: brandTileRadius,
                 padding: 5,
-                image: image.isNotEmpty ? image : Images.defaultCategoryIcon,
+                image: image.isNotEmpty ? image : Images.defaultWooPlaceholder,
                 isNetworkImage: true,
               ),
             ),

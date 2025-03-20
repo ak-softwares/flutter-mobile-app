@@ -17,6 +17,36 @@ class WooOrdersRepository extends GetxController {
   final double cacheExpiryTimeInDays = 7;
 
   //Fetch orders by customer's id
+  Future<OrderModel> fetchOrderById({required String orderId}) async {
+
+    try {
+      final Uri uri = Uri.https(
+        APIConstant.wooBaseUrl,
+        APIConstant.wooOrdersApiPath + orderId,
+      );
+
+      final response = await http.get(
+        uri,
+        headers: {
+          'Authorization': APIConstant.authorization,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> orderJson = json.decode(response.body);
+        final OrderModel order = OrderModel.fromJson(orderJson);
+        return order;
+      } else {
+        final Map<String, dynamic> errorJson = json.decode(response.body);
+        final errorMessage = errorJson['message'];
+        throw errorMessage ?? 'Failed to fetch Order #$orderId';
+      }
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  //Fetch orders by customer's id
   Future<List<OrderModel>> fetchOrdersByCustomerId({required String customerId, required String page}) async {
     final String cacheKey = 'fetch_order_customer_id_$page';
 
@@ -169,4 +199,37 @@ class WooOrdersRepository extends GetxController {
       rethrow;
     }
   }
+
+  //Cancel order
+  Future<OrderModel> updateOrderById({required String orderId, required Map<String, dynamic> data}) async {
+    try {
+      final Uri uri = Uri.https(
+        APIConstant.wooBaseUrl,
+        APIConstant.wooOrdersApiPath + orderId,
+      );
+      final http.Response response = await http.put(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': APIConstant.authorization,
+        },
+        body: jsonEncode(data),
+      );
+
+      // Check if the request was successful
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> orderJson = json.decode(response.body);
+        final OrderModel order = OrderModel.fromJson(orderJson);
+        CacheHelper.clearCacheBox(cacheBoxName: CacheConstants.orderBox);
+        return order;
+      } else {
+        final Map<String, dynamic> errorJson = json.decode(response.body);
+        final errorMessage = errorJson['message'];
+        throw errorMessage ?? 'Failed to update order';
+      }
+    } catch (error) {
+      rethrow;
+    }
+  }
+
 }

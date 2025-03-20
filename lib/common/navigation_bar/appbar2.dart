@@ -39,12 +39,10 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
   Widget build(BuildContext context) {
     final Color color = Theme.of(context).colorScheme.onSurface;
     final Color iconColors = Theme.of(context).colorScheme.onSurfaceVariant;
-    final Color backgroundColor = Colors.transparent;
+
     return AppBar(
-      centerTitle: false,
-      backgroundColor: backgroundColor,
       iconTheme: IconThemeData(color: iconColors), // Change back arrow color
-      title: Text(titleText, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: color)),
+      title: Text(titleText, style: TextStyle(color: color)),
       actions: [
             showSearchIcon ? IconButton( icon: Icon(TIcons.search), color: color, onPressed: () => showSearch(context: context, delegate: TSearchDelegate())) : const SizedBox.shrink(),
             sharePageLink.isNotEmpty
@@ -68,7 +66,7 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
                             children: [
                               Text('Logout', style: TextStyle(color: color),),
                               const SizedBox(width: Sizes.sm),
-                              Icon(TIcons.logout, color: iconColors, size: 20),
+                              Icon(TIcons.logout, color: iconColors, size: 20,),
                               const SizedBox(width: Sizes.sm),
                             ],
                           )
@@ -77,9 +75,9 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
                           onTap: () => NavigationHelper.navigateToLoginScreen(),
                           child: Row(
                             children: [
-                              Icon(Iconsax.user, color: iconColors, size: 17),
+                              Icon(Iconsax.user, color: iconColors),
                               const SizedBox(width: Sizes.sm),
-                              Text('Login', style: TextStyle(color: color, fontWeight: FontWeight.w500, fontSize: 15),),
+                              Text('Login', style: TextStyle(color: color, fontSize: 15),),
                               const SizedBox(width: Sizes.md),
                             ],
                           )

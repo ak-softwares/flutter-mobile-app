@@ -36,7 +36,7 @@ class UserMenuScreen extends StatelessWidget {
     return  Scaffold(
         appBar: const TAppBar2(titleText: 'Menu', seeLogoutButton: true, seeSettingButton: true),
         body: RefreshIndicator(
-                color: TColors.refreshIndicator,
+                color: AppColors.refreshIndicator,
                 onRefresh: () async => userController.refreshCustomer(),
                 child: SingleChildScrollView(
                   padding: TSpacingStyle.defaultPageVertical,

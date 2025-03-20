@@ -65,7 +65,7 @@ class MobileLoginScreen extends StatelessWidget {
                         ),
                       ),
                       validator: (value) => TValidator.validatePhoneNumber(value.toString()),
-                      cursorColor: TColors.primaryColor,
+                      cursorColor: AppColors.primaryColor,
                       languageCode: "en",
                       initialCountryCode: 'IN',
                       onChanged: (phone) {
@@ -175,7 +175,7 @@ class MobileLoginScreen extends StatelessWidget {
                           Text('Not a member?', style: Theme.of(context).textTheme.labelLarge),
                           TextButton(
                               onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));},
-                              child: Text(TTexts.createAccount, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.linkColor )))
+                              child: Text(TTexts.createAccount, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor )))
                         ]
                     )
                   ],

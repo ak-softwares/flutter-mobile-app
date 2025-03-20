@@ -99,7 +99,7 @@ class OTPController extends GetxController {
     try {
       //Start Loading
       TFullScreenLoader.openLoadingDialog('Logging you in...', Images.docerAnimation);
-      final isConnected = await NetworkManager.instance.isConnected();
+      final isConnected = await Get.put(NetworkManager()).isConnected();
       if (!isConnected) {
         TFullScreenLoader.stopLoading();
         return;
@@ -146,7 +146,7 @@ class OTPController extends GetxController {
   Future<void> phoneAuthentication(String countryCode, String phone) async {
     try {
       //check internet connectivity
-      final isConnected = await NetworkManager.instance.isConnected();
+      final isConnected = await Get.put(NetworkManager()).isConnected();
       if (!isConnected) {
         TLoaders.errorSnackBar(title: 'No Internet', message: 'Please check your internet connection.');
         return;

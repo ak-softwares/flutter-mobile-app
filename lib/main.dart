@@ -15,7 +15,7 @@ import 'data/repositories/authentication/authentication_repository.dart';
 import 'features/authentication/screens/phone_otp_login/mobile_login_screen.dart';
 import 'features/settings/app_settings.dart';
 import 'features/shop/screens/cart/cart.dart';
-import 'features/shop/screens/orders/order.dart';
+import 'features/shop/screens/orders/orders.dart';
 import 'firebase_options.dart';
 import 'routes/deeplink_get_router.dart';
 import 'routes/internal_routes.dart';

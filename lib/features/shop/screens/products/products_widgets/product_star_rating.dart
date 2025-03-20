@@ -16,26 +16,21 @@ class ProductStarRating extends StatelessWidget {
   final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
+
     return InkWell(
       onTap: onTap,
       child: Row(
-          // mainAxisAlignment: MainAxisAlignment.start, // Set MainAxisAlignment to start
           children: [
-            //rating
-            // const Text('  ', style:TextStyle(fontSize: 9),),
             RatingBarIndicator(
               rating: averageRating,
               itemSize: size*1.3,
               unratedColor: Colors.grey[300],
-              itemBuilder: (_, __) => const Icon(Iconsax.star1, color: TColors.ratingStar),
+              itemBuilder: (_, __) => const Icon(Iconsax.star1, color: AppColors.ratingStar),
             ),
             Text(
               ' ${averageRating.toStringAsFixed(1)}($ratingCount)',
-              style: Theme.of(context).textTheme.labelMedium!
-                  .copyWith(fontSize: size)),
+              style: TextStyle(fontSize: size, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.w500)),
             const SizedBox(width: Sizes.spaceBtwItems / 2),
-            //Brand
-            // TBrandWithVerifiedIcon(brandName: "Ultium"),
           ],
         ),
     );

@@ -10,11 +10,11 @@ class TShadowStyle {
     offset: const Offset(0, 2)
   );
 
-  static const horizontalProductShadow = BoxShadow(
-    color: TColors.borderSecondary,
+  static var horizontalProductShadow = BoxShadow(
+    color: AppColors.borderDark,
     blurRadius: 5, // Adjust as needed
     spreadRadius: 2, // Adjust as needed
-    offset: Offset(0, 0), // Adjust as needed
+    offset: const Offset(0, 0), // Adjust as needed
   );
 
   static final allProductShadow = BoxShadow(

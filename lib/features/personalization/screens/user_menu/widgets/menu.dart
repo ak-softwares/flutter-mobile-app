@@ -18,7 +18,7 @@ import '../../../../shop/screens/cart/cart.dart';
 import '../../../../shop/screens/category/all_category_screen.dart';
 import '../../../../shop/screens/coupon/coupon_screen.dart';
 import '../../../../shop/screens/favourite/favourite.dart';
-import '../../../../shop/screens/orders/order.dart';
+import '../../../../shop/screens/orders/orders.dart';
 import '../../../../shop/screens/recently_viewed/recently_viewed.dart';
 import '../../../../shop/screens/store/my_store.dart';
 import '../../../../shop/screens/store/store.dart';

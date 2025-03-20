@@ -43,7 +43,7 @@ class TCouponCode extends StatelessWidget {
                   ? SizedBox(
                       width: 20,
                       height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: TColors.linkColor),
+                      child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.linkColor),
                     )
                   : Text('Apply', style: TextStyle(color: Colors.blue, fontSize: 15, fontWeight: FontWeight.w500))
               ),
@@ -55,7 +55,7 @@ class TCouponCode extends StatelessWidget {
           child: TextButton(
               onPressed: () => showCouponsInBottomSheet(context: context),
               // onPressed: () => Get.to(() => const CouponScreen()),
-              child: Text('View All Coupons', style: TextStyle(fontSize: 14, color: TColors.linkColor)),
+              child: Text('View All Coupons', style: TextStyle(fontSize: 14, color: AppColors.linkColor)),
           ),
         )
       ],

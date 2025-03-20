@@ -2,8 +2,15 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
+import '../../../../features/settings/app_settings.dart';
+import '../../../../features/shop/controllers/product/product_controller.dart';
 import '../../../../features/shop/models/product_model.dart';
+import '../../../../features/shop/screens/all_products/all_products.dart';
+import '../../../../features/shop/screens/products/products_widgets/brand.dart';
+import '../../../../features/shop/screens/products/products_widgets/in_stock_label.dart';
 import '../../../../features/shop/screens/products/scrolling_products.dart';
 import '../../../../features/shop/screens/products/product_detail.dart';
 import '../../../../features/shop/screens/products/products_widgets/product_price.dart';
@@ -109,21 +116,8 @@ class ProductCard extends StatelessWidget {
                           ? const SizedBox.shrink()
                           : Container(
                                 padding: const EdgeInsets.symmetric(vertical: 2, horizontal: Sizes.sm),
-                                // color: Colors.grey.withOpacity(0.6),
-                                color: Colors.transparent,
-                                child: const Text('Out of Stock',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      shadows: [
-                                        Shadow(
-                                          offset: Offset(0, 0),
-                                          blurRadius: 5,
-                                          color: Color.fromARGB(255, 255, 255, 255), // White color shadow
-                                        ),
-                                      ],
-                                  ),),
+                                color: Theme.of(context).colorScheme.surface,
+                                child: InStock(isProductAvailable: product.isProductAvailable()),
                             ),
                   )
                 ],
@@ -140,6 +134,8 @@ class ProductCard extends StatelessWidget {
                         ratingCount: product.ratingCount ?? 0,
                         size: 12,
                       ),
+                      // Brand
+                      ProductBrand(brands: product.brands ?? [], size: 12),
                     ],
                   )
               ),
@@ -167,7 +163,7 @@ class ProductCard extends StatelessWidget {
                   width: 45,
                   height: 35,
                   decoration: const BoxDecoration(
-                      color: TColors.primaryColor,
+                      color: AppColors.primaryColor,
                       borderRadius: BorderRadius.only(
                         // topLeft: Radius.circular(TSizes.cardRadiusMd),
                         bottomRight: Radius.circular(productImageRadius),
@@ -192,6 +188,8 @@ class ProductCard extends StatelessWidget {
     const double productCardHorizontalWidth = Sizes.productCardHorizontalWidth;
     const double productImageRadius = Sizes.productImageRadius;
     final salePercentage = product.calculateSalePercentage();
+    final productController = Get.put(ProductController(), permanent: true);
+
     return Container(
       width: productCardHorizontalWidth,
       // width: double.infinity,
@@ -227,6 +225,19 @@ class ProductCard extends StatelessWidget {
                   top: -5,
                   right: -5,
                   child: TFavouriteIcon(product: product, iconSize: 20)
+              ),
+
+              // Out of stock
+              Positioned(
+                bottom: 5,
+                right: 0,
+                child: product.isProductAvailable()
+                    ? const SizedBox.shrink()
+                    : Container(
+                  padding: const EdgeInsets.symmetric(vertical: 2, horizontal: Sizes.sm),
+                  color: Theme.of(context).colorScheme.surface,
+                  child: InStock(isProductAvailable: product.isProductAvailable()),
+                ),
               )
             ],
           ),
@@ -235,38 +246,37 @@ class ProductCard extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: Sizes.sm),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
+              child: Stack(
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Title
-                      ProductTitle(title: product.name ?? '', size: 14, maxLines: 2,),
+                      ProductTitle(title: product.name ?? '', size: 13, maxLines: 2,),
                       // Star rating
                       ProductStarRating(averageRating: product.averageRating ?? 0.0, ratingCount: product.ratingCount ?? 0, size: 12,),
-                    ],
-                  ),
-                  // Price and Add to cart
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      //Price
+                      // Brand
+                      ProductBrand(brands: product.brands ?? [], size: 12),
+                      // Price
                       ProductPrice(
                           salePrice: product.salePrice ?? product.price,
                           regularPrice: product.regularPrice ?? 0.0,
                           orientation: OrientationType.horizontal,
                           size: 17
                       ),
+                    ],
+                  ),
 
+                  // Price and Add to cart
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
                       // Add to cart
-                      Container(
+                      child: Container(
                         width: 45,
                         height: 33,
                         decoration: const BoxDecoration(
-                            color: TColors.primaryColor,
+                            color: AppColors.primaryColor,
                             borderRadius: BorderRadius.only(
                               // topLeft: Radius.circular(TSizes.cardRadiusMd),
                               bottomRight: Radius.circular(productImageRadius),
@@ -278,7 +288,6 @@ class ProductCard extends StatelessWidget {
                             child: Center(child: CartIcon(product: product, sourcePage: pageSource,))
                         ),
                       )
-                    ],
                   )
                 ],
               ),

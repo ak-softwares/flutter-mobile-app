@@ -58,11 +58,11 @@ class Sizes {
   static const double defaultSpaceBWTCard = 10;
 
   static const double productImageSizeVertical = 120.0;
-  static const double productCardVerticalHeight = 240;
+  static const double productCardVerticalHeight = 251;
   static const double productCardVerticalWidth = 180.0;
 
   static const double productImageSizeHorizontal = 90.0;
-  static const double productCardHorizontalHeight = 100.0;
+  static const double productCardHorizontalHeight = 115.0;
   static const double productCardHorizontalWidth = 300.0;
 
   // Product cart
@@ -85,7 +85,7 @@ class Sizes {
   static const double brandImageWidth = 100.0;
 
   // Order Tile
-  static const double orderTileHeight = 125;
+  static const double orderTileHeight = 180;
   static const double orderTileWidth = 100.0;
   static const double orderTileRadius = 10.0;
   static const double orderImageHeight = 50.0;

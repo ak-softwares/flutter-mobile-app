@@ -59,7 +59,7 @@ class MyHomePage extends StatelessWidget {
       floatingActionButton: const SendWhatsappScreen(),
       drawer: const MyDrawer(),
       body: RefreshIndicator(
-        color: TColors.refreshIndicator,
+        color: AppColors.refreshIndicator,
         onRefresh: () async {
           bannerController.refreshBanners();
           categoryController.refreshCategories();

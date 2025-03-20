@@ -54,7 +54,7 @@ class RecentlyViewed extends StatelessWidget {
     return Scaffold(
         appBar: const TAppBar2(titleText: 'Recently viewed', showCartIcon: true, showSearchIcon: true,),
         body: RefreshIndicator(
-                color: TColors.refreshIndicator,
+                color: AppColors.refreshIndicator,
                 onRefresh: () async => recentlyViewedController.refreshRecentProducts(),
                 child: ListView(
                   controller: scrollController,
