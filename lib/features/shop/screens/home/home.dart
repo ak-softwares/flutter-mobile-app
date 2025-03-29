@@ -14,8 +14,10 @@ import '../../controllers/brand_controller/brand_controller.dart';
 import '../../controllers/category_controller/category_controller.dart';
 import '../../controllers/home/home_controller.dart';
 import '../../controllers/product/product_controller.dart';
+import '../../controllers/recently_viewed/recently_viewed_controller.dart';
 import '../brands/scrolling_brand.dart';
 import '../category/scrolling_categories_image.dart';
+import '../products/product_detail.dart';
 import '../products/products_carousal_by_categories.dart';
 import '../products/scrolling_products_by_item_id.dart';
 import '../products/scrolling_products.dart';
@@ -57,7 +59,7 @@ class MyHomePage extends StatelessWidget {
       appBar: const TAppBar(),
       // bottomNavigationBar: const UpdateMobileNo(),
       floatingActionButton: const SendWhatsappScreen(),
-      drawer: const MyDrawer(),
+      // drawer: const MyDrawer(),
       body: RefreshIndicator(
         color: AppColors.refreshIndicator,
         onRefresh: () async {
@@ -70,19 +72,21 @@ class MyHomePage extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
             // const CircularProgressIndicator(), // Display a loading indicator until categories are fetched
-            const TSearchBar(searchText: TTexts.search, padding: true),
+            // const TSearchBar(searchText: TTexts.search, padding: true),
             const HomeBanner(),
             const ScrollingBrandsImage(),
             const ScrollingCategoriesImage(),
-            const Divider(),
+            SizedBox(height: Sizes.md),
             const YouTuberBanner(title: 'YouTuber\'s who like our products'),
-            const Divider(),
-
+            SizedBox(height: Sizes.md),
 
             Column(
               spacing: Sizes.sm,
               children: [
-                ScrollingProducts(title: 'Recently viewed', futureMethod: productController.getRecentProducts, orientation: OrientationType.horizontal),
+                Obx(() => Get.put(RecentlyViewedController()).recentlyViewed.isNotEmpty
+                    ? ScrollingProducts(title: 'Recently viewed', futureMethod: productController.getRecentProducts, orientation: OrientationType.horizontal)
+                    : SizedBox.shrink(),
+                ),
                 ScrollingProducts(title: 'Top Selling',  futureMethod: productController.getAllProducts),
                 ScrollingProducts(title: 'Popular Products',  futureMethod: productController.getFeaturedProducts),
                 ProductsScrollingByItemID(itemName: 'Soldering Irons', itemID: '61', futureMethod: productController.getProductsByCategoryId,),

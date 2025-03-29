@@ -40,7 +40,7 @@ class CustomerModel {
     this.isCODBlocked,
   });
 
-  static CustomerModel empty() => CustomerModel();
+  static CustomerModel empty() => CustomerModel(id: 0);
   String get name => '${firstName ?? ''} ${lastName ?? ''}';
   String get phone => billing?.phone ?? '';
 

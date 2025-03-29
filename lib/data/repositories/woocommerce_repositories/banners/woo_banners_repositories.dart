@@ -31,7 +31,7 @@ class WooBannersRepositories extends GetxController {
 
     try {
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooBanners,
       );
 

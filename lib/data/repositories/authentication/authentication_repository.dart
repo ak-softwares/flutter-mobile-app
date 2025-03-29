@@ -35,13 +35,7 @@ class AuthenticationRepository extends GetxController {
   @override
   void onReady() {
     FlutterNativeSplash.remove();
-    screenRedirect();
-  }
-
-  // Function to show relevant screen
-  void screenRedirect() {
     checkIsUserLogin();
-    isUserLogin.value ? null : NavigationHelper.navigateToLoginScreen();
   }
 
   // this function run after successfully login

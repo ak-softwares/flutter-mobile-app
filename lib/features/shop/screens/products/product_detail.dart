@@ -43,8 +43,8 @@ import 'products_widgets/product_image_slider.dart';
 import 'products_widgets/product_price.dart';
 import 'products_widgets/sale_label.dart';
 
-class ProductDetailScreen extends StatefulWidget {
-  ProductDetailScreen({
+class ProductScreen extends StatefulWidget {
+  ProductScreen({
     Key? key,
     this.product,
     this.slug,
@@ -58,10 +58,10 @@ class ProductDetailScreen extends StatefulWidget {
   final String pageSource;
 
   @override
-  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+  State<ProductScreen> createState() => _ProductScreenState();
 }
 
-class _ProductDetailScreenState extends State<ProductDetailScreen> {
+class _ProductScreenState extends State<ProductScreen> {
   final RxBool _isLoading = false.obs;
   final RxBool _isLoadingVariation = false.obs;
   final RxInt _quantityInCart = 1.obs;
@@ -270,8 +270,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 return const SingleProductShimmer();
               }
               if(_product.value.id == 0) {
-                return const TAnimationLoaderWidgets(
-                  text: 'Whoops! No Product Found...',
+                String errorText;
+                if (widget.slug != null) {
+                  errorText = 'Whoops! No Product Found with this slug: ${widget.slug}';
+                } else if (widget.productId != null) {
+                  errorText = 'Whoops! No Product Found with this ID: ${widget.productId}';
+                } else {
+                  errorText = 'Whoops! No Product Found...';
+                }
+                return TAnimationLoaderWidgets(
+                  text: errorText,
                   animation: Images.pencilAnimation,
                 );
               }

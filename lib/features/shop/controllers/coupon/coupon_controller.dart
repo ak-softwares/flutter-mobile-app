@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/widgets/loaders/full_screen_loader.dart';
 import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../data/repositories/woocommerce_repositories/coupons/woo_coupon_repository.dart';
 import '../../models/coupon_model.dart';
@@ -78,7 +79,11 @@ class CouponController extends GetxController {
       checkoutController.appliedCoupon.value = coupon;
       checkoutController.updateCheckout();
       couponTextEditingController.text = couponCode.toUpperCase();
+
       TLoaders.customToast(message: 'Coupon applied successfully');
+      // Show the GIF
+      TFullScreenLoader.showCouponGif();
+
     } catch(error){
       // Handle error occurred during coupon retrieval
       TLoaders.errorSnackBar(title: 'Error', message: error.toString());

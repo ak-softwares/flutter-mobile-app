@@ -56,4 +56,39 @@ class TFullScreenLoader {
   static stopLoading() {
     Navigator.of(Get.overlayContext!).pop(); // close the dialog using the navigator
   }
+
+  static OverlayEntry? _overlayEntry;
+
+  static void showCouponGif() {
+    // If already showing, prevent adding another overlay
+    if (_overlayEntry != null) return;
+
+    _overlayEntry = OverlayEntry(
+      builder: (context) => Positioned.fill(
+        child: IgnorePointer(
+          ignoring: true, // Allows user interaction with background
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            alignment: Alignment.center,
+            color: Colors.transparent,
+            child: Image.asset("assets/images/animations/download.gif"),
+          ),
+        ),
+      ),
+    );
+
+    // Add to the overlay
+    Overlay.of(Get.overlayContext!).insert(_overlayEntry!);
+
+    // Hide after 1.5 seconds
+    Future.delayed(Duration(milliseconds: 1000), () {
+      hideCouponGif();
+    });
+  }
+
+  static void hideCouponGif() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
 }

@@ -43,7 +43,7 @@ class FirebaseNotification {
     // print('Initial message received: ${message.notification?.body}');
     // print('Initial message received: ${message.data['product']}');
     if(message.data['url'] != null) {
-      InternalAppRoutes.internalRouteHandle(url: message.data['url']);
+      InternalAppRoutes.handleInternalRoute(url: message.data['url']);
     }
   }
 

@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:iconsax/iconsax.dart';
 
 import '../../features/personalization/screens/user_menu/user_menu_screen.dart';
 import '../../features/shop/controllers/cart_controller/cart_controller.dart';
@@ -11,14 +10,17 @@ import '../../features/shop/screens/cart/cart.dart';
 import '../../features/shop/screens/category/all_category_screen.dart';
 import '../../features/shop/screens/home/home.dart';
 import '../../features/shop/screens/search/discover_screen.dart';
-import '../../services/firebase_analytics/firebase_analytics.dart';
-import '../../utils/constants/colors.dart';
+import '../../routes/external_routes.dart';
+import '../../routes/internal_routes.dart';
+import '../../routes/routes.dart';
 import '../../utils/constants/icons.dart';
 import '../widgets/loaders/loader.dart';
 
 
 class BottomNavigation1 extends StatefulWidget {
-  const BottomNavigation1({super.key});
+  const BottomNavigation1({super.key, this.route});
+
+  final String? route;
 
   @override
   State<BottomNavigation1> createState() => _BottomNavigation1State();
@@ -36,6 +38,21 @@ class _BottomNavigation1State extends State<BottomNavigation1> {
     const CategoryScreen(),
     const UserMenuScreen(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Execute after the first frame is rendered
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.route != null) {
+        final route = AppRouter.handleRoute(route: widget.route ?? '/');
+        if(route != null) Navigator.push(context, route);
+      }
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     // FBAnalytics.logPageView('bottom_navigation_bar1_screen');

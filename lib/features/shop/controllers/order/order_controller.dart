@@ -33,8 +33,12 @@ class OrderController extends GetxController {
   final userController = Get.put(UserController());
   final paymentController = Get.put(PaymentController());
 
-  void setOrder(OrderModel order) {
-    currentOrder.value = order;
+  Future<void> fetchOrder({required OrderModel? order, required String? orderId}) async {
+    if(order != null) {
+      currentOrder.value = order;
+    } else if(orderId != null){
+      await getOrderById(orderId: orderId);
+    }
   }
 
   //Fetch orders
@@ -107,9 +111,10 @@ class OrderController extends GetxController {
     }
   }
 
-  //Get user order by customer id
+  // Get user order by id
   Future<void> getOrderById({required String orderId}) async {
     try {
+      isLoading(true);
       final newOrders = await wooOrdersRepository.fetchOrderById(orderId: orderId);
       // Find the index of the order with the matching orderId in the orders list
       final int index = orders.indexWhere((order) => order.id == newOrders.id);
@@ -121,6 +126,8 @@ class OrderController extends GetxController {
       currentOrder.value = newOrders;
     } catch (e) {
       TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+    } finally {
+      isLoading(false);
     }
   }
 

@@ -35,7 +35,7 @@ class WooCouponRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooCouponsApiPath,
         queryParams,
       );
@@ -76,7 +76,7 @@ class WooCouponRepository extends GetxController {
 
     try {
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooCouponsApiPath+couponID,
       );
 
@@ -127,7 +127,7 @@ class WooCouponRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooCouponsApiPath,
         queryParams,
       );

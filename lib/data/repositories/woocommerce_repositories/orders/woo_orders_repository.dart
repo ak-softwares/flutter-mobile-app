@@ -14,14 +14,14 @@ class WooOrdersRepository extends GetxController {
   static WooOrdersRepository get instance => Get.find();
 
   final Box _cacheBox = Hive.box(CacheConstants.orderBox); // Hive storage
-  final double cacheExpiryTimeInDays = 7;
+  final double cacheExpiryTimeInDays = 0.1;
 
   //Fetch orders by customer's id
   Future<OrderModel> fetchOrderById({required String orderId}) async {
 
     try {
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooOrdersApiPath + orderId,
       );
 
@@ -65,7 +65,7 @@ class WooOrdersRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooOrdersApiPath,
         queryParams,
       );
@@ -106,7 +106,7 @@ class WooOrdersRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooOrdersApiPath,
         queryParams,
       );
@@ -137,7 +137,7 @@ class WooOrdersRepository extends GetxController {
     try {
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooOrdersApiPath,
       );
       final http.Response response = await http.post(
@@ -172,7 +172,7 @@ class WooOrdersRepository extends GetxController {
         'status': status,
       };
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooOrdersApiPath + orderId,
       );
       final http.Response response = await http.put(
@@ -204,7 +204,7 @@ class WooOrdersRepository extends GetxController {
   Future<OrderModel> updateOrderById({required String orderId, required Map<String, dynamic> data}) async {
     try {
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooOrdersApiPath + orderId,
       );
       final http.Response response = await http.put(

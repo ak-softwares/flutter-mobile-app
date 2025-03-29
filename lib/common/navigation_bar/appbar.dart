@@ -18,8 +18,8 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget{
     final Color backgroundColor = isDark ? Colors.transparent : AppColors.primaryColor;
 
     return AppBar(
-      centerTitle: true,
-      backgroundColor: backgroundColor,
+      // centerTitle: true,
+      // backgroundColor: backgroundColor,
       title: Image(image: AssetImage(isDark ? AppSettings.darkAppLogo : AppSettings.lightAppLogo), height: 34),
       actions: [
         IconButton(
@@ -34,12 +34,12 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget{
         ),
         TCartCounterIcon(iconColor: iconColors),
       ],
-      leading: IconButton(
-          onPressed: () {
-            Scaffold.of(context).openDrawer(); // Opens the drawer manually
-          },
-          icon: Icon(Icons.menu, color: iconColors,)
-      ),
+      // leading: IconButton(
+      //     onPressed: () {
+      //       Scaffold.of(context).openDrawer(); // Opens the drawer manually
+      //     },
+      //     icon: Icon(Icons.menu, color: iconColors,)
+      // ),
     );
   }
 

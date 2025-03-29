@@ -21,7 +21,7 @@ class CartIcon extends StatelessWidget {
         : IconButton(
             onPressed: () => cartController.toggleCartProduct(product: product, sourcePage: sourcePage),
             iconSize: iconSize,
-            color: AppColors.secondaryColor,
+            color: Theme.of(context).colorScheme.onSurface,
             icon: Obx(() {
                 final productQuantityInCart = cartController.isInCart(product.id);
                 return Icon(productQuantityInCart ? TIcons.cartFull : TIcons.cartEmpty, size: 20,);

@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../utils/constants/colors.dart';
+import '../../utils/helpers/url_launcher_helper.dart';
 import '../navigation_bar/appbar2.dart';
 
 class MyWebViewController extends GetxController {
@@ -21,7 +23,7 @@ class MyWebViewController extends GetxController {
 }
 
 class MyWebView extends StatelessWidget {
-  const MyWebView({Key? key, this.title = '', required this.url}) : super(key: key);
+  const MyWebView({super.key, this.title = '', required this.url});
 
   final String title;
   final String url;
@@ -70,7 +72,13 @@ class MyWebView extends StatelessWidget {
         // return;
       },
       child: Scaffold(
-        appBar: TAppBar2(titleText: title),
+        appBar: TAppBar2(
+            titleText: title,
+            widget: IconButton(
+                onPressed: () async => UrlLauncherHelper.openUrlInChrome(url),
+                icon: Icon(Icons.open_in_browser, color: AppColors.linkColor,)
+            )
+        ),
         body: RefreshIndicator(
           color: AppColors.primaryColor,
           onRefresh: () async {

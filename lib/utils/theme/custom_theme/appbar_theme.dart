@@ -9,8 +9,8 @@ class AppAppBarTheme{
     centerTitle: false,
     backgroundColor: Colors.transparent,
     surfaceTintColor: Colors.transparent,
-    iconTheme: IconThemeData(size: 20),
-    actionsIconTheme: IconThemeData(size: 20),
+    iconTheme: IconThemeData(size: 22),
+    actionsIconTheme: IconThemeData(size: 22),
     titleTextStyle: TextStyle(
         fontSize: 18.0,
         fontWeight: FontWeight.w600,

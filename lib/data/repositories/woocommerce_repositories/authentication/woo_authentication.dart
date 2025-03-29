@@ -12,7 +12,7 @@ class WooAuthenticationRepository extends GetxController {
   Future<CustomerModel> singUpWithEmailAndPass(Map<String, dynamic> newCustomerData) async {
     try {
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooCustomersApiPath,
       );
 
@@ -48,7 +48,7 @@ class WooAuthenticationRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooAuthenticatePath,
       );
 
@@ -91,7 +91,7 @@ class WooAuthenticationRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooResetPassword,
       );
 
@@ -132,7 +132,7 @@ class WooAuthenticationRepository extends GetxController {
         'force': 'true',
       };
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooCustomersApiPath+customerId,
         queryParams,
       );

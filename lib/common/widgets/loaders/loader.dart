@@ -16,31 +16,34 @@ class TLoaders  extends GetxController {
             elevation: 0,
             duration: const Duration(milliseconds: 1500),
             backgroundColor: Colors.transparent,
-            content: Container(
-              padding: const EdgeInsets.all(12.0),
-              margin: const EdgeInsets.symmetric(horizontal: 25),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.grey.shade400.withOpacity(0.9),
-              ),
-              child: Row(
-                children: [
-                  Flexible(
-                    child: Center(
-                      child: Text(message,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(color: Colors.black, fontSize: 13, fontWeight: FontWeight.w400),
+            content: IgnorePointer(
+              ignoring: true, // Allows interactions with widgets behind the toast
+              child: Container(
+                padding: const EdgeInsets.all(12.0),
+                margin: const EdgeInsets.symmetric(horizontal: 25),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.grey.shade400.withOpacity(0.9),
+                ),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: Center(
+                        child: Text(message,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(color: Colors.black, fontSize: 13, fontWeight: FontWeight.w400),
+                        ),
                       ),
                     ),
-                  ),
-                  onTap != null
-                      ? InkWell(
-                    onTap: onTap,
-                    child: Text(urlTitle, style: const TextStyle(color: AppColors.linkColor, fontSize: 14, fontWeight: FontWeight.w500),),
-                  )
-                      : SizedBox.shrink()
-                ],
+                    onTap != null
+                        ? InkWell(
+                      onTap: onTap,
+                      child: Text(urlTitle, style: const TextStyle(color: AppColors.linkColor, fontSize: 14, fontWeight: FontWeight.w500),),
+                    )
+                        : SizedBox.shrink()
+                  ],
+                ),
               ),
             )
         )

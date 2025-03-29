@@ -139,7 +139,7 @@ class DiscoverScreen extends StatelessWidget {
               isNetworkImage: true,
               borderRadius: 0,
               image: product.mainImage ?? '',
-              onTap: () => Get.to(() => ProductDetailScreen(product: product)),
+              onTap: () => Get.to(() => ProductScreen(product: product)),
             ),
     );
   }

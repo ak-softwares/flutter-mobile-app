@@ -24,7 +24,7 @@ class DiscoverScreenController extends GetxController{
 
   Future<void> getDiscoverProducts() async {
     try {
-        final newProducts = await productController.getAllProducts(currentPage.toString());
+        final newProducts = await productController.getRandomProducts(currentPage.toString());
         discoverProducts.addAll(newProducts);
     } catch (e) {
       throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());

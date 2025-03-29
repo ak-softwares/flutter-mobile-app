@@ -36,7 +36,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductDetailScreen(product: product, pageSource: pageSource,))),
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductScreen(product: product, pageSource: pageSource,))),
       child: orientation == OrientationType.vertical
         ? productCardVertical(context: context)
         : productCardHorizontal(context: context)
@@ -53,8 +53,12 @@ class ProductCard extends StatelessWidget {
       width: productCardVerticalWidth,
       padding: const EdgeInsets.all(Sizes.xs),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        // color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(productImageRadius),
+        border: Border.all(
+          width: Sizes.defaultBorderWidth,
+          color: Theme.of(context).colorScheme.outline, // Border color
+        )
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -162,8 +166,9 @@ class ProductCard extends StatelessWidget {
               Container(
                   width: 45,
                   height: 35,
-                  decoration: const BoxDecoration(
-                      color: AppColors.primaryColor,
+                  decoration: BoxDecoration(
+                      // color: Theme.of(context).colorScheme.onSurface,
+                      // color: AppColors.primaryColor,
                       borderRadius: BorderRadius.only(
                         // topLeft: Radius.circular(TSizes.cardRadiusMd),
                         bottomRight: Radius.circular(productImageRadius),
@@ -172,7 +177,7 @@ class ProductCard extends StatelessWidget {
                   child: SizedBox(
                       width: Sizes.iconLg * 1.2,
                       height: Sizes.iconLg * 1.2,
-                      child: Center(child: CartIcon(product: product, sourcePage: pageSource))
+                      child: Center(child: CartIcon(product: product, sourcePage: pageSource,))
                   ),
               )
             ],
@@ -195,8 +200,12 @@ class ProductCard extends StatelessWidget {
       // width: double.infinity,
       padding: const EdgeInsets.all(Sizes.xs),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        // color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(productImageRadius),
+        border: Border.all(
+          width: Sizes.defaultBorderWidth,
+          color: Theme.of(context).colorScheme.outline, // Border color
+        )
       ),
       child: Row(
         children: [
@@ -276,7 +285,7 @@ class ProductCard extends StatelessWidget {
                         width: 45,
                         height: 33,
                         decoration: const BoxDecoration(
-                            color: AppColors.primaryColor,
+                            // color: AppColors.primaryColor,
                             borderRadius: BorderRadius.only(
                               // topLeft: Radius.circular(TSizes.cardRadiusMd),
                               bottomRight: Radius.circular(productImageRadius),

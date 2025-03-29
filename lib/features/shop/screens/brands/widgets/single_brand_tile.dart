@@ -41,7 +41,7 @@ class SingleBrandTile extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(brandTileRadius),
                 border: Border.all(
-                  width: 1,
+                  width: Sizes.defaultBorderWidth,
                   color: Theme.of(context).colorScheme.outline, // Border color
                 )
               ),

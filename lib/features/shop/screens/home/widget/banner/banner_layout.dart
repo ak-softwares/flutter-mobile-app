@@ -61,7 +61,7 @@ class HomeBanner extends StatelessWidget {
               padding: 0,
               image: banner.imageUrl ?? '',
               isNetworkImage: true,
-              onTap: () => InternalAppRoutes.internalRouteHandle(url: banner.targetPageUrl ?? ''),
+              onTap: () => InternalAppRoutes.handleInternalRoute(url: banner.targetPageUrl ?? ''),
             )
             ).toList(),
           ),

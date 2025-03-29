@@ -8,22 +8,14 @@ import '../features/personalization/screens/user_menu/user_menu_screen.dart';
 import '../features/shop/controllers/product/product_controller.dart';
 import '../features/shop/screens/all_products/all_products.dart';
 import '../features/shop/screens/cart/cart.dart';
+import '../features/shop/screens/category/all_category_screen.dart';
 import '../features/shop/screens/checkout/checkout.dart';
 import '../features/shop/screens/favourite/favourite.dart';
+import '../features/shop/screens/home/home.dart';
 import '../features/shop/screens/orders/orders.dart';
 import '../features/shop/screens/products/product_detail.dart';
 import '../features/shop/screens/store/store.dart';
 import '../utils/constants/api_constants.dart';
-import '/routes/routes_name_path.dart';
-
-
-class MyMiddleware1 extends GetMiddleware {
-  @override
-  GetPage? onPageCalled(GetPage? page) {
-    // print('------------------${page?.name}');
-    return super.onPageCalled(page);
-  }
-}
 
 class MyMiddleware extends GetMiddleware {
   @override
@@ -45,11 +37,11 @@ class MyMiddleware extends GetMiddleware {
 }
 
 
-class AppRoutes {
+class AppGetRoutes {
   static final pages = [
     GetPage(name: RoutesPath.home, page: () => const BottomNavigation1(),),
-    GetPage(name: RoutesPath.product, page: () => ProductDetailScreen(slug: Get.parameters['slug']),),
-    // GetPage(name: RoutesPath.category, page: () => const CategoryScreen(), middlewares: [MyMiddleware()],),
+    GetPage(name: RoutesPath.product, page: () => ProductScreen(slug: Get.parameters['slug']),),
+    GetPage(name: RoutesPath.category, page: () => const CategoryScreen(), middlewares: [MyMiddleware()],),
     GetPage(name: RoutesPath.category, page: () => TAllProducts(title: 'Products', categoryId: Get.parameters['slug'], futureMethodTwoString: ProductController.instance.getProductsByCategorySlug)),
     GetPage(name: RoutesPath.tracking, page: () => const OrderScreen(),),
     GetPage(name: RoutesPath.settingsScreen, page: () => const UserMenuScreen()),
@@ -58,10 +50,6 @@ class AppRoutes {
     GetPage(name: RoutesPath.checkout, page: () => const CheckoutScreen(), transition: Transition.rightToLeft),
     GetPage(name: RoutesPath.store, page: () => const StoreScreen()),
     GetPage(name: RoutesPath.orders, page: () => const OrderScreen(),),
-
-    // mixin ProductRouteMixin {
-  // String get slug => Get.parameters['slug']!;
-  // }
 
   ];
 
@@ -76,7 +64,7 @@ class AppRoutes {
     if (isValidUrl(routeName)) {
       // Extract the slug from the URL and navigate to the product detail screen
       String slug = extractSlugFromUrl(routeName);
-      Get.to(() => ProductDetailScreen(slug: slug));
+      Get.to(() => ProductScreen(slug: slug));
       // Get.toNamed('${CustomRoutes.product}/$slug');
     } else {
       launchUrlString(routeName);
@@ -96,7 +84,7 @@ class AppRoutes {
   }
 
   static bool isValidUrl(String url) {
-    final domain = APIConstant.wooBaseUrl;
+    final domain = APIConstant.wooBaseDomain;
     RegExp regExp = RegExp(
       r"^https?:\/\/" + domain + r"\/.*$",
       caseSensitive: false,
@@ -104,4 +92,36 @@ class AppRoutes {
     return regExp.hasMatch(url);
   }
 
+}
+
+class RoutesPath {
+  static const home = '/';
+  static const product = '/product/:slug';
+  static const category = '/product-category/:slug';
+  static const orders = '/my-account/orders';
+  static const tracking = '/tracking';
+  static const settingsScreen = '/my-account';
+  static const store = '/store';
+  static const favouritesScreen = '/wishlist';
+  static const cart = '/cart';
+  static const checkout = '/checkout';
+
+  static const subCategories = '/sub-categories';
+  static const search = '/search';
+  static const productReview = '/product-review';
+  static const brand = '/brand';
+  static const allProducts = '/all-products';
+  static const userProfile = '/user-profile';
+  static const userAddress = '/user-address';
+  static const signup = '/signup';
+  static const signupSuccess = '/signup-success';
+  static const verifyEmail = '/verify-email';
+  static const signIn = '/sign-in';
+  static const resetPassword = '/reset-password';
+  static const forgetPassword = '/forget-password';
+  static const onBoarding = '/on-boarding';
+}
+
+class RoutesName {
+  static const home = 'home';
 }

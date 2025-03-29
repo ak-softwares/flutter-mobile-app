@@ -1,7 +1,9 @@
+import 'package:aramarket/features/shop/models/brand_model.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/widgets/loaders/loader.dart';
 import '../../../../data/repositories/firebase/products/product_repository.dart';
+import '../../../../data/repositories/woocommerce_repositories/brands/woo_brands_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/category/woo_category_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/products/woo_product_repositories.dart';
 import '../../models/category_model.dart';
@@ -18,6 +20,7 @@ class ProductController extends GetxController {
   final productRepository = Get.put(ProductRepository());
   final wooProductRepository = Get.put(WooProductRepository());
   final wooCategoryRepository = Get.put(WooCategoryRepository());
+  final wooBrandsRepository = Get.put(WooBrandsRepository());
   final recentlyViewedController = Get.put(RecentlyViewedController());
 
 
@@ -26,6 +29,18 @@ class ProductController extends GetxController {
     try{
       //fetch products
       final products = await wooProductRepository.fetchAllProducts(page: page);
+      return products;
+    } catch (e){
+      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      return [];
+    }
+  }
+
+  // Get All products
+  Future<List<ProductModel>> getRandomProducts(String page) async {
+    try{
+      //fetch products
+      final products = await wooProductRepository.fetchRandomProducts(page: page);
       return products;
     } catch (e){
       TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
@@ -99,6 +114,18 @@ class ProductController extends GetxController {
     }
   }
 
+  // Get products by category slug
+  Future<List<ProductModel>> getProductsByBrandSlug(String slug, String page) async {
+    try{
+      //fetch products
+      final BrandModel brand = await wooBrandsRepository.fetchBrandBySlug(slug);
+      final products = await wooProductRepository.fetchProductsByBrandID(brandID: brand.id.toString(), page: page);
+      return products;
+    } catch (e){
+      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      return [];
+    }
+  }
   // Get products by category slug
   Future<List<ProductModel>> getProductsByCategorySlug(String slug, String page) async {
     try{

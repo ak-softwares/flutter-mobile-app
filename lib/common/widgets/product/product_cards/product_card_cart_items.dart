@@ -26,7 +26,7 @@ class ProductCardForCart extends StatelessWidget {
     final cartController = CartController.instance;
 
     return InkWell(
-      onTap: () => Get.to(() => ProductDetailScreen(productId: cartItem.productId.toString(), pageSource: 'ProductCardForCart',)),
+      onTap: () => Get.to(() => ProductScreen(productId: cartItem.productId.toString(), pageSource: 'ProductCardForCart',)),
       child: Stack(
         children: [
           Container(

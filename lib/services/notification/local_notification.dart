@@ -54,7 +54,7 @@ class LocalNotificationServices {
       if(details.didNotificationLaunchApp){
         var response = details.notificationResponse;
         if(response != null){
-          InternalAppRoutes.internalRouteHandle(url: response.payload.toString());
+          InternalAppRoutes.handleInternalRoute(url: response.payload.toString());
         }
       }
     }

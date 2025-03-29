@@ -57,7 +57,7 @@ class TCouponCode extends StatelessWidget {
               // onPressed: () => Get.to(() => const CouponScreen()),
               child: Text('View All Coupons', style: TextStyle(fontSize: 14, color: AppColors.linkColor)),
           ),
-        )
+        ),
       ],
     );
   }

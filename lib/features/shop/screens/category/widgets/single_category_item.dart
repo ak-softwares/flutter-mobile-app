@@ -42,7 +42,7 @@ class SingleCategoryTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(categoryTileRadius),
                 // boxShadow: const [TShadowStyle.horizontalProductShadow],
                 border: Border.all(
-                  width: 1,
+                  width: Sizes.defaultBorderWidth,
                   color: Theme.of(context).colorScheme.outline, // Border color
                 )
               ),

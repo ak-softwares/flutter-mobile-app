@@ -25,7 +25,7 @@ class AppColors{
   // Button Colors
   static const Color buttonTextColor = AppSettings.secondaryColor;
   static const Color buttonDisabled = Color(0xFFC4C4C4);
-  static const Color buttonBorder = AppSettings.primaryColor;
+  static const Color buttonBorder = Colors.grey;
   static const Color buttonBackgroundColor = AppSettings.primaryColor;
 
   // Surface

@@ -35,7 +35,7 @@ class WooReviewRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooProductsReviewImage,
         queryParams,
       );
@@ -67,7 +67,7 @@ class WooReviewRepository extends GetxController {
   Future<ReviewModel> submitReview(Map<String, dynamic> reviewData) async {
     try {
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooProductsReview,
       );
       final response = await http.post(
@@ -101,7 +101,7 @@ class WooReviewRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooProductsReview + reviewId.toString(),
         queryParams,
       );
@@ -129,7 +129,7 @@ class WooReviewRepository extends GetxController {
   Future<bool> updateSelectedReview(int reviewId, Map<String, dynamic> reviewData) async {
     try {
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooProductsReview + reviewId.toString(),
       );
       final response = await http.put(

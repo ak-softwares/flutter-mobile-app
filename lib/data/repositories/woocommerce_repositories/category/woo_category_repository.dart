@@ -33,7 +33,7 @@ class WooCategoryRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooCategoriesApiPath,
         queryParams,
       );
@@ -78,7 +78,7 @@ class WooCategoryRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooCategoriesApiPath,
         queryParams,
       );

@@ -33,7 +33,7 @@ class PaymentController extends GetxController {
     },
     {
       PaymentFieldName.id           : PaymentMethods.cod.name,
-      PaymentFieldName.title        : PaymentMethods.cod.name,
+      PaymentFieldName.title        : PaymentMethods.cod.title,
       PaymentFieldName.description  : PaymentMethods.cod.description,
       PaymentFieldName.image        : Images.cod,
     },

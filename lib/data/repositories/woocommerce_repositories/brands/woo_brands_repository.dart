@@ -9,8 +9,8 @@ import '../../../../utils/cache/cache.dart';
 import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/local_storage_constants.dart';
 
-class WooProductBrandsRepository extends GetxController {
-  static WooProductBrandsRepository get instance => Get.find();
+class WooBrandsRepository extends GetxController {
+  static WooBrandsRepository get instance => Get.find();
 
   final Box _cacheBox = Hive.box(CacheConstants.brandBox); // Hive storage
   final double productCacheExpiryTimeInDays = 7;
@@ -34,8 +34,8 @@ class WooProductBrandsRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
-        APIConstant.wooProductBrandsApiPath,
+        APIConstant.wooBaseDomain,
+        APIConstant.wooBrandsApiPath,
         queryParams,
       );
 
@@ -66,4 +66,54 @@ class WooProductBrandsRepository extends GetxController {
       }
     }
   }
+
+  // Fetch brand by slug
+  Future<BrandModel> fetchBrandBySlug(String slug) async {
+    final String cacheKey = 'fetch_brand_$slug';
+
+    // Check cache before making API request
+    if (_cacheBox.containsKey(cacheKey) &&
+        CacheHelper.isCacheValid(cacheBox: _cacheBox, cacheKey: cacheKey, expiryTimeInDays: productCacheExpiryTimeInDays)) {
+      final cachedData = _cacheBox.get(cacheKey);
+      return BrandModel.fromJson(json.decode(cachedData));
+    }
+
+    try {
+      final Map<String, String> queryParams = {
+        'slug': slug,
+      };
+
+      final Uri uri = Uri.https(
+        APIConstant.wooBaseDomain,
+        APIConstant.wooBrandsApiPath,  // Update this path based on your API setup
+        queryParams,
+      );
+
+      final response = await http.get(
+        uri,
+        headers: {
+          'Authorization': APIConstant.authorization,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> brandsJson = json.decode(response.body);
+        if (brandsJson.isNotEmpty) {
+          final BrandModel brand = BrandModel.fromJson(brandsJson.first);
+          // Store data in cache
+          _cacheBox.put(cacheKey, json.encode(brandsJson.first));
+          _cacheBox.put('${cacheKey}_time', DateTime.now().millisecondsSinceEpoch);
+          return brand;
+        } else {
+          throw 'No Brand found! Please try again';
+        }
+      } else {
+        final Map<String, dynamic> errorJson = json.decode(response.body);
+        throw errorJson['message'] ?? 'Failed to fetch Brand';
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

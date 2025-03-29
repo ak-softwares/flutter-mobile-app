@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:isolate';
+import 'dart:math';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
@@ -33,13 +34,14 @@ class WooProductRepository extends GetxController {
 
     try {
       final Map<String, String> queryParams = {
-        'orderby': 'popularity',
+        // 'orderby': 'popularity',
         'per_page': '10',
         'page': page,
+        // 'stock_status': 'instock',
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooProductsApiPath,
         queryParams,
       );
@@ -90,7 +92,7 @@ class WooProductRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooProductsApiPath,
         queryParams,
       );
@@ -119,6 +121,48 @@ class WooProductRepository extends GetxController {
     }
   }
 
+  Future<List<ProductModel>> fetchRandomProducts({required String page}) async {
+    final int randomOffset = Random().nextInt(1000); // Random offset up to 100
+
+    try {
+      final Map<String, String> queryParams = {
+        'offset': randomOffset.toString(), // Random starting point
+        'per_page': '20',
+        'page': page,
+        'stock_status': 'instock',
+      };
+
+      final Uri uri = Uri.https(
+        APIConstant.wooBaseDomain,
+        APIConstant.wooProductsApiPath,
+        queryParams,
+      );
+
+      final response = await http.get(
+        uri,
+        headers: {
+          'Authorization': APIConstant.authorization,
+        },
+      ).timeout(const Duration(seconds: 30));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> productsJson = json.decode(response.body);
+        final List<ProductModel> productsByCategory = productsJson.map((json) => ProductModel.fromJson(json)).toList();
+        return productsByCategory;
+      } else {
+        final Map<String, dynamic> errorJson = json.decode(response.body);
+        final errorMessage = errorJson['message'];
+        throw errorMessage ?? 'Failed to fetch Products';
+      }
+    } catch (error) {
+      if (error is TimeoutException) {
+        throw 'Connection timed out. Please check your internet connection and try again.';
+      } else {
+        rethrow;
+      }
+    }
+  }
+
   // Fetch Products Under Price
   Future<List<ProductModel>> fetchProductsUnderPrice({required String page, required String price}) async {
     final String cacheKey = 'fetch_products_under_price_${price}_$page';
@@ -139,7 +183,7 @@ class WooProductRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooProductsApiPath,
         queryParams,
       );
@@ -188,7 +232,7 @@ class WooProductRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooProductsApiPath,
         queryParams,
       );
@@ -236,7 +280,7 @@ class WooProductRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooProductsApiPath,
         queryParams,
       );
@@ -288,7 +332,7 @@ class WooProductRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooProductsApiPath,
         queryParams,
       );
@@ -333,7 +377,7 @@ class WooProductRepository extends GetxController {
 
     try {
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         '${APIConstant.wooProductsApiPath}$parentID/variations/',
       );
 
@@ -378,7 +422,7 @@ class WooProductRepository extends GetxController {
 
     try {
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooProductsApiPath + productId,
       );
 
@@ -413,7 +457,12 @@ class WooProductRepository extends GetxController {
     // Check cache before making API request
     if (_cacheBox.containsKey(cacheKey) && CacheHelper.isCacheValid(cacheBox: _cacheBox, cacheKey: cacheKey, expiryTimeInDays: cacheExpiryTimeInDays)) {
       final cachedData = _cacheBox.get(cacheKey);
-      return ProductModel.fromJson(json.decode(cachedData));
+      if (cachedData != null) {
+        final List<dynamic> cachedJson = json.decode(cachedData);
+        if (cachedJson.isNotEmpty) {
+          return ProductModel.fromJson(cachedJson.first);
+        }
+      }
     }
 
     try {
@@ -422,7 +471,7 @@ class WooProductRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooProductsApiPath,
         queryParams,
       );
@@ -476,7 +525,7 @@ class WooProductRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooProductsApiPath,
         queryParams,
       );
@@ -522,7 +571,7 @@ class WooProductRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-          APIConstant.wooBaseUrl,
+          APIConstant.wooBaseDomain,
           APIConstant.wooFBT,
           queryParams,
       );

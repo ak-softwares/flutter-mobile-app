@@ -29,7 +29,7 @@ class WooCustomersRepository extends GetxController {
 
     try {
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooCustomersApiPath+customerId,
       );
       final response = await http.get(
@@ -64,7 +64,7 @@ class WooCustomersRepository extends GetxController {
         'role':'all',
       };
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooCustomersApiPath,
         queryParams,
       );
@@ -101,7 +101,7 @@ class WooCustomersRepository extends GetxController {
         'phone': phone,
       };
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooCustomersPhonePath,
         queryParams,
       );
@@ -135,7 +135,7 @@ class WooCustomersRepository extends GetxController {
   Future<CustomerModel> updateCustomerById({required String userID, required  Map<String, dynamic> data}) async {
     try {
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooCustomersApiPath + userID,
       );
 
@@ -174,7 +174,7 @@ class WooCustomersRepository extends GetxController {
       };
 
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooCustomersApiPath + customerId,
         queryParams
       );

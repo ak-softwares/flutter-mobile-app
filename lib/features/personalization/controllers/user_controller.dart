@@ -26,7 +26,7 @@ class UserController extends GetxController {
   static UserController get instance => Get.find();
 
   RxBool isLoading = false.obs;
-  final localStorage = GetStorage();
+  final GetStorage localStorage = GetStorage();
   Rx<CustomerModel> customer = CustomerModel.empty().obs;
 
   final RxString appVersion = ''.obs;
@@ -45,6 +45,7 @@ class UserController extends GetxController {
   void onInit() {
     super.onInit();
     _loadAppVersion();
+    customer.value = CustomerModel(id: fetchLocalAuthToken());
   }
 
   Future<void> _loadAppVersion() async {
@@ -55,13 +56,12 @@ class UserController extends GetxController {
     }
   }
 
-  //Fetch user record
+  // Fetch user record
   Future<void> fetchCustomerData() async {
     try {
-      dynamic localAuthUserId = localStorage.read(LocalStorage.authUserID);
-      String userId = (localAuthUserId != null) ? localAuthUserId.toString() : '';
-      if(userId.isNotEmpty) {
-        final customerData = await wooCustomersRepository.fetchCustomerById(userId);
+      final localAuthUserToken = fetchLocalAuthToken();
+      if (localAuthUserToken > 0) { // Check if token is valid
+        final customerData = await wooCustomersRepository.fetchCustomerById(localAuthUserToken.toString());
         customer(customerData);
       } else{
         throw 'customer not found';
@@ -70,6 +70,16 @@ class UserController extends GetxController {
       rethrow;
     }
   }
+
+  int fetchLocalAuthToken() {
+    final localAuthUserToken = localStorage.read(LocalStorage.authUserID);
+
+    if (localAuthUserToken != null && localAuthUserToken.toString().isNotEmpty) {
+      return int.tryParse(localAuthUserToken.toString()) ?? 0;
+    }
+    return 0;
+  }
+
 
   //Refresh Customer data
   Future<void> refreshCustomer() async {

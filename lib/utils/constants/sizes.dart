@@ -1,4 +1,6 @@
 
+import 'dart:ui';
+
 class Sizes {
   Sizes._();
 
@@ -16,6 +18,7 @@ class Sizes {
   static const double defaultSpace = 12.0;
   static const double defaultSpaceLg = 30.0;
   static const double defaultBtwTiles = 10.0;
+  static const double defaultBorderWidth = 0.2;
 
   // Default spacing between sections
   static const double spaceBtwItems = 8;
@@ -35,7 +38,9 @@ class Sizes {
   // Button Sizes
   static const double buttonHeight = 18.0;
   static const double buttonWidth = 120.0;
+  static const double buttonPadding = 16.0;
   static const double buttonTextSize = 16.0;
+  static const FontWeight buttonTextWeight = FontWeight.w500;
   static const double buttonRadius = 12.0;
   static const double buttonElevation = 4.0;
 

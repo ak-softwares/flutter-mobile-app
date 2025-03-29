@@ -77,52 +77,14 @@ class MobileLoginScreen extends StatelessWidget {
                         // otpController.selectedCountry1.value = country.dialCode.toString();
                       },
                     ),
-                    // TextField(
-                    //   keyboardType: TextInputType.phone,
-                    //   autofillHints: const [
-                    //     AutofillHints.telephoneNumber,
-                    //   ],
-                    //   controller: otpController.phone,
-                    //   // validator: (value) => TValidator.validatePhoneNumber(value),
-                    //   // cursorColor: TColors.primaryColor,
-                    //   decoration: InputDecoration(
-                    //       hintText: 'Enter Phone Number',
-                    //       enabledBorder: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(10),
-                    //         borderSide: const BorderSide(color: Colors.black12),
-                    //       ),
-                    //       focusedBorder: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(10),
-                    //         borderSide: const BorderSide(color: Colors.black12),
-                    //       ),
-                    //       prefixIcon: Padding(
-                    //         padding: const EdgeInsets.symmetric(vertical: 13, horizontal: TSizes.md),
-                    //         child: Obx(() => InkWell(
-                    //           onTap: () {
-                    //             showCountryPicker(
-                    //                 context: context,
-                    //                 countryListTheme: const CountryListThemeData(bottomSheetHeight: 600),
-                    //                 onSelect: (value) => otpController.selectedCountry.value = value
-                    //             );
-                    //           },
-                    //           child: Text('${otpController.selectedCountry.value.flagEmoji}  +${otpController.selectedCountry.value.phoneCode}',
-                    //               style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16)),
-                    //         )),
-                    //       )
-                    //   ),
-                    //
-                    // ),
-
-                    // Button Otp send
                     const SizedBox(height: Sizes.spaceBtwInputFields),
                     SizedBox(
-                      height: 60,
                       width: double.infinity,
                       child: Obx(() => ElevatedButton(
                             onPressed: () => otpController.fast2SmsSendOpt(phone: otpController.phoneNumber.value),
                             child: otpController.isLoading.value
-                                ? const SizedBox(height: 25, width: 25, child: CircularProgressIndicator(color: Colors.black,))
-                                : Text('Get OTP')
+                                ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.black, strokeWidth: 2,))
+                                : Text('Get OTP', style: TextStyle(fontWeight: FontWeight.w500),)
                         ),
                       ),
                     ),
@@ -153,16 +115,12 @@ class MobileLoginScreen extends StatelessWidget {
                     const SizedBox(height: Sizes.spaceBtwInputFields),
                     const TSocialButtons(),
 
-                    //Continue with email and password
+                    // Continue with email and password
                     const SizedBox(height: Sizes.spaceBtwInputFields),
                     SizedBox(
                       width: double.infinity,
                       child: OutlinedButton(
                           onPressed: () => Get.to(() => const EmailLoginScreen()),
-                          style: OutlinedButton.styleFrom(
-                            alignment: Alignment.center,
-                            side: const BorderSide(color: Colors.grey),
-                          ),
                           child: const Text('Login with Email and Password')
                       ),
                     ),

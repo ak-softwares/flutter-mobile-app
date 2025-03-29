@@ -29,7 +29,7 @@ class WooSettingsRepositories extends GetxController {
 
     try {
       final Uri uri = Uri.https(
-        APIConstant.wooBaseUrl,
+        APIConstant.wooBaseDomain,
         APIConstant.wooSettings,
       );
 

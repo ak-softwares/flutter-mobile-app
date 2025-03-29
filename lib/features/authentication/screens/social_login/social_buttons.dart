@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/widgets/custom_shape/image/circular_image.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../controllers/social_login_controller/social_login_controller.dart';
@@ -57,17 +58,13 @@ class TSocialButtons extends StatelessWidget {
               //Google Button
               OutlinedButton(
                   onPressed: () => socialLoginController.signInWithGoogle(),
-                  style: OutlinedButton.styleFrom(
-                      alignment: Alignment.center,
-                      side: const BorderSide(color: Colors.grey),
-                  ),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image(
-                          height: Sizes.iconMd,
-                          width: Sizes.iconMd,
-                          image: AssetImage(Images.google)
+                      TRoundedImage(
+                          height: Sizes.iconSm,
+                          width: Sizes.iconSm,
+                          image: Images.google
                       ),
                       SizedBox(width: Sizes.spaceBtwInputFields),
                       Text('Login with Google')
