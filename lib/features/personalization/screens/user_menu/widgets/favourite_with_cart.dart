@@ -28,7 +28,7 @@ class FavouriteWithCart extends StatelessWidget {
           title: Text('Cart', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),
           subtitle: Text('All cart items', style: Theme.of(context).textTheme.bodySmall),
           trailing: Row(
-            spacing: Sizes.xs,
+            spacing: AppSizes.xs,
             mainAxisSize: MainAxisSize.min, // Fix: Prevents Row from taking full width
             children: [
               CartController.instance.cartItems.isNotEmpty
@@ -44,7 +44,7 @@ class FavouriteWithCart extends StatelessWidget {
           title: Text('Wishlist', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),
           subtitle: Text('All wishlist items', style: Theme.of(context).textTheme.bodySmall),
           trailing: Row(
-            spacing: Sizes.xs,
+            spacing: AppSizes.xs,
             mainAxisSize: MainAxisSize.min, // Fix: Prevents Row from taking full width
             children: [
               FavoriteController.instance.products.isNotEmpty

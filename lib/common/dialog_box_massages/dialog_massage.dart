@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../widgets/loaders/loader.dart';
+import 'massages.dart';
 
 class DialogHelper {
 
@@ -32,7 +32,7 @@ class DialogHelper {
               if (message != null)
                 Text(
                   message,
-                  style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                  style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface),
                   textAlign: TextAlign.center,
                 ),
               const SizedBox(height: 20),
@@ -41,7 +41,7 @@ class DialogHelper {
                 onTap: () async {
                   Get.back();
                   await function();
-                  TLoaders.customToast(message: toastMessage ?? 'Success');
+                  AppMassages.showToastMessage(message: toastMessage ?? 'Success');
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -62,7 +62,7 @@ class DialogHelper {
                   alignment: Alignment.center,
                   child: Text(
                     "Cancel",
-                    style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
                   ),
                 ),
               ),

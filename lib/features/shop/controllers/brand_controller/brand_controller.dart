@@ -2,7 +2,7 @@ import 'dart:isolate';
 
 import 'package:get/get.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../data/repositories/woocommerce_repositories/brands/woo_brands_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/category/woo_category_repository.dart';
 import '../../models/brand_model.dart';
@@ -32,7 +32,7 @@ class BrandController extends GetxController {
       final newBrands = await wooProductBrandsRepository.fetchAllBrands(page: currentPage.toString());
       productBrands.addAll(newBrands);
     } catch (e) {
-      throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+      throw AppMassages.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -43,7 +43,7 @@ class BrandController extends GetxController {
       productBrands.clear(); // Clear existing orders
       await getAllBrands();
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     } finally {
       isLoading(false);
     }

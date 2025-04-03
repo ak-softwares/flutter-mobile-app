@@ -3,7 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
-import '../../../../common/widgets/loaders/animation_loader.dart';
+import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../common/widgets/shimmers/order_shimmer.dart';
 import '../../../../common/widgets/shimmers/user_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -50,7 +50,7 @@ class ProductReviewScreen1 extends StatelessWidget {
     return Scaffold(
       appBar: const TAppBar2(titleText: 'Reviews & Ratings', showBackArrow: true, showCartIcon: true,),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(Sizes.md),
+        padding: const EdgeInsets.all(AppSizes.md),
         child: OutlinedButton(
             onPressed: () => Get.to(() => CreateReviewScreen(productId: product.id,)),
             child: const Text('Add product review')
@@ -69,11 +69,11 @@ class ProductReviewScreen1 extends StatelessWidget {
               padding: TSpacingStyle.defaultPageHorizontal,
               child: Column(
                 children: [
-                  const SizedBox(height: Sizes.lg),
+                  const SizedBox(height: AppSizes.lg),
                   Center(child: Text('Overall Rating', style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.grey))),
-                  const SizedBox(height: Sizes.md),
+                  const SizedBox(height: AppSizes.md),
                   Center(child: Text(product.averageRating!.toStringAsFixed(1), style: Theme.of(context).textTheme.displayMedium)),
-                  const SizedBox(height: Sizes.sm),
+                  const SizedBox(height: AppSizes.sm),
                   Center(
                     child: RatingBarIndicator(
                       rating: product.averageRating ?? 0.0,
@@ -82,9 +82,9 @@ class ProductReviewScreen1 extends StatelessWidget {
                       itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: AppColors.ratingStar),
                     ),
                   ),
-                  const SizedBox(height: Sizes.sm),
+                  const SizedBox(height: AppSizes.sm),
                   Center(child: Text('Based on ${product.ratingCount} reviews', style: Theme.of(context).textTheme.labelLarge)),
-                  const SizedBox(height: Sizes.lg),
+                  const SizedBox(height: AppSizes.lg),
                 ],
               ),
             ),
@@ -128,9 +128,9 @@ class ProductReviewScreen1 extends StatelessWidget {
                               TRatingProgressIndicator(text: 'Average', value: averagePercentage,color: Colors.yellow),
                               TRatingProgressIndicator(text: 'Below Average', value: belowAveragePercentage,color: Colors.orangeAccent),
                               TRatingProgressIndicator(text: 'Poor', value: poorPercentage,color: Colors.redAccent),
-                              const SizedBox(height: Sizes.lg),
+                              const SizedBox(height: AppSizes.lg),
                               const Divider(color: AppColors.borderDark,),
-                              const SizedBox(height: Sizes.sm),
+                              const SizedBox(height: AppSizes.sm),
                             ],
                           ),
                         ),

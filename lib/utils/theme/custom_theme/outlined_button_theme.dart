@@ -12,9 +12,9 @@ class TOutlinedButtonTheme {
       foregroundColor: AppColors.buttonTextColor,
       side: const BorderSide(color: AppColors.buttonBorder),
       alignment: Alignment.center,
-      textStyle: const TextStyle(fontSize: Sizes.buttonTextSize, fontWeight: Sizes.buttonTextWeight),
-      padding: const EdgeInsets.symmetric(vertical: Sizes.buttonPadding),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Sizes.buttonRadius)),
+      textStyle: const TextStyle(fontSize: AppSizes.buttonTextSize, fontWeight: AppSizes.buttonTextWeight),
+      padding: const EdgeInsets.symmetric(vertical: AppSizes.buttonPadding),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.buttonRadius)),
     )
   );
 
@@ -23,9 +23,9 @@ class TOutlinedButtonTheme {
         elevation: 0,
         foregroundColor: Colors.white,
         side: const BorderSide(color: AppColors.buttonBorder),
-        textStyle: const TextStyle(fontSize: Sizes.buttonTextSize, fontWeight: Sizes.buttonTextWeight),
-        padding: const EdgeInsets.symmetric(vertical: Sizes.buttonPadding),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Sizes.buttonRadius)),
+        textStyle: const TextStyle(fontSize: AppSizes.buttonTextSize, fontWeight: AppSizes.buttonTextWeight),
+        padding: const EdgeInsets.symmetric(vertical: AppSizes.buttonPadding),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.buttonRadius)),
       )
   );
 }

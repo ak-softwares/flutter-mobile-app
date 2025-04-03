@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../../utils/constants/api_constants.dart';
 import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/styles/spacing_style.dart';
@@ -55,7 +55,7 @@ class _TabviewProductsState extends State<TabviewProducts> {
       final List<ProductModel> newProducts = await widget.futureMethod(widget.itemID ?? '', currentPage.toString());
       products.addAll(newProducts);
     } catch (e) {
-      throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+      throw AppMassages.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -66,7 +66,7 @@ class _TabviewProductsState extends State<TabviewProducts> {
       products.clear(); // Clear existing orders
       await _getAllProducts();
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     } finally {
       isLoading(false);
     }
@@ -113,17 +113,17 @@ class _TabviewProductsState extends State<TabviewProducts> {
                   Text('Share',
                       style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor)
                   ),
-                  SizedBox(width: Sizes.sm),
+                  SizedBox(width: AppSizes.sm),
                   Icon(
                     TIcons.share,
-                    size: Sizes.md,
+                    size: AppSizes.md,
                     color: AppColors.linkColor,
                   ),
                 ],
               ),
             ),
           ),
-          SizedBox(height: Sizes.sm),
+          SizedBox(height: AppSizes.sm),
           ProductGridLayout(controller: this, sourcePage: 'Tab_${widget.itemName}'),
         ],
       ),

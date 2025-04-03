@@ -19,7 +19,7 @@ class TTermsAndConditionsCheckBox extends StatelessWidget {
               onChanged: (value) => controller.privacyPolicyChecked.value = !controller.privacyPolicyChecked.value,
           )),
         ),
-        const SizedBox(width: Sizes.spaceBtwItems),
+        const SizedBox(width: AppSizes.spaceBtwItems),
         Text.rich(
           TextSpan(
             children: [

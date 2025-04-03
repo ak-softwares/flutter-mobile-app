@@ -45,7 +45,7 @@ class Menu extends StatelessWidget {
           title: Text('Cart'),
           subtitle: Text('All cart items'),
           trailing: Row(
-            spacing: Sizes.xs,
+            spacing: AppSizes.xs,
             mainAxisSize: MainAxisSize.min, // Fix: Prevents Row from taking full width
             children: [
               Obx(() => Get.put(CartController()).cartItems.isNotEmpty
@@ -69,7 +69,7 @@ class Menu extends StatelessWidget {
           title: Text('Liked Products'),
           subtitle: Text('All Liked items'),
           trailing: Row(
-            spacing: Sizes.xs,
+            spacing: AppSizes.xs,
             mainAxisSize: MainAxisSize.min, // Fix: Prevents Row from taking full width
             children: [
               Obx(() => Get.put(FavoriteController()).favorites.isNotEmpty
@@ -107,7 +107,7 @@ class Menu extends StatelessWidget {
           title: Text('Recently Viewed'),
           subtitle: Text('All your recently viewed products.'),
           trailing: Row(
-            spacing: Sizes.xs,
+            spacing: AppSizes.xs,
             mainAxisSize: MainAxisSize.min, // Fix: Prevents Row from taking full width
             children: [
               Obx(() => Get.put(RecentlyViewedController()).recentlyViewed.isNotEmpty

@@ -18,7 +18,7 @@ class CouponShimmer extends StatelessWidget {
     return SizedBox(
       height: 80,
       child: ListTile(
-          minVerticalPadding: Sizes.md,
+          minVerticalPadding: AppSizes.md,
           tileColor: Theme.of(context).colorScheme.surface,
           leading: Icon(Icons.local_offer_outlined, size: 20, color: AppColors.offerColor),
           title: ShimmerEffect(width: 100, height: 25),

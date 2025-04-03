@@ -1,6 +1,8 @@
 import 'package:aramarket/features/settings/app_settings.dart';
 import 'package:flutter/material.dart';
 
+import '../../constants/colors.dart';
+
 class TListTileTheme {
   TListTileTheme._(); // Private constructor to prevent instantiation
 
@@ -8,12 +10,13 @@ class TListTileTheme {
     titleTextStyle: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w500,
-      color: AppSettings.lightText,
+      color: AppColors.onSurfaceLight,
     ),
     subtitleTextStyle: TextStyle(
       fontSize: 12,
-      color: AppSettings.lightTextSofter,
+      color: AppColors.onSurfaceVariantLight,
     ),
+    iconColor: AppColors.iconLight, // Icon color for light theme
   );
 
 
@@ -21,9 +24,12 @@ class TListTileTheme {
     titleTextStyle: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w500,
+      color: AppColors.onSurfaceDark,
     ),
     subtitleTextStyle: TextStyle(
       fontSize: 12,
+      color: AppColors.onSurfaceVariantDark,
     ),
+    iconColor: AppColors.iconDark, // Icon color for light theme
   );
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../common/dialog_box/dialog_massage.dart';
+import '../../../../common/dialog_box_massages/dialog_massage.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/shimmers/shimmer_effect.dart';
@@ -27,11 +27,11 @@ class UserProfileScreen extends StatelessWidget {
       appBar: const TAppBar2(titleText: 'Profile Setting', showBackArrow: true),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(Sizes.defaultSpace),
+          padding: const EdgeInsets.all(AppSizes.defaultSpace),
           ///- user image
           child: Column(
             children: [
-              const SizedBox(height: Sizes.spaceBtwSection),
+              const SizedBox(height: AppSizes.spaceBtwSection),
               Stack(
                 children: [
                   SizedBox(
@@ -76,11 +76,11 @@ class UserProfileScreen extends StatelessWidget {
                   )
                 ],
               ),
-              const SizedBox(height: Sizes.spaceBtwSection),
+              const SizedBox(height: AppSizes.spaceBtwSection),
               const Divider(),
-              const SizedBox(height: Sizes.spaceBtwItems),
+              const SizedBox(height: AppSizes.spaceBtwItems),
               const TSectionHeading(title: 'Profile Information', seeActionButton: false),
-              const SizedBox(height: Sizes.spaceBtwItems),
+              const SizedBox(height: AppSizes.spaceBtwItems),
               Obx(() {
                 if(controller.isLoading.value){
                   return const Center(child: CircularProgressIndicator(color: AppColors.linkColor),);
@@ -142,7 +142,7 @@ class TProfileMenu extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.all(Sizes.spaceBtwItems),
+        padding: const EdgeInsets.all(AppSizes.spaceBtwItems),
         child: Row(
           children: [
             Expanded(flex: 2, child: Text(title, style: Theme.of(context).textTheme.bodySmall, overflow: TextOverflow.ellipsis)),

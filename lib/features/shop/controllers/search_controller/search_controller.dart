@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../data/repositories/woocommerce_repositories/products/woo_product_repositories.dart';
 import '../../models/product_model.dart';
 
@@ -24,7 +24,7 @@ class SearchQueryController extends GetxController {
         products.addAll(newFavorites);
       }
     } catch (e) {
-      throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+      throw AppMassages.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -35,7 +35,7 @@ class SearchQueryController extends GetxController {
       products.clear(); // Clear existing orders
       await getProductsBySearchQuery(query);
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     } finally {
       isLoading(false);
     }

@@ -2,7 +2,7 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../data/repositories/user/user_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/products/woo_product_repositories.dart';
 import '../../../../utils/constants/db_constants.dart';
@@ -27,7 +27,7 @@ class DiscoverScreenController extends GetxController{
         final newProducts = await productController.getRandomProducts(currentPage.toString());
         discoverProducts.addAll(newProducts);
     } catch (e) {
-      throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+      throw AppMassages.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -38,7 +38,7 @@ class DiscoverScreenController extends GetxController{
       discoverProducts.clear(); // Clear existing orders
       await getDiscoverProducts();
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Errors', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Errors', message: error.toString());
     } finally {
       isLoading(false);
     }

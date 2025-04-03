@@ -1,8 +1,8 @@
 
 import 'dart:ui';
 
-class Sizes {
-  Sizes._();
+class AppSizes {
+  AppSizes._();
 
 
   //Padding and margin sizes
@@ -14,7 +14,7 @@ class Sizes {
   static const double xx = 32.0;
 
   // Default space of every screen
-  static const double defaultRadius = 5;
+  static const double defaultRadius = 12; // previous 4
   static const double defaultSpace = 12.0;
   static const double defaultSpaceLg = 30.0;
   static const double defaultBtwTiles = 10.0;
@@ -47,8 +47,6 @@ class Sizes {
   // AppBar Height
   static const double appBarHeight = 56.0;
 
-  // Image sizes
-  static const double imageThumbSize = 80.0;
 
   // Border Radius
   static const double borderRadiusSm = 4.0;
@@ -59,42 +57,47 @@ class Sizes {
   static const double dividerHeight = 1.0;
 
   // Product Item Dimensions
-  static const double productImageRadius = 3;
+  static const double defaultProductRadius = defaultRadius;
   static const double defaultSpaceBWTCard = 10;
 
+  // Brand Tile
+  static const double brandTileHeight = 90;
+  static const double brandTileWidth = 100.0;
+  static const double brandTileRadius = defaultRadius;
+  static const double brandImageHeight = 50.0;
+  static const double brandImageWidth = 100.0;
+
+  // Category Tile
+  static const double categoryTileHeight = 140;
+  static const double categoryTileWidth = 85.0;
+  static const double categoryTileRadius = defaultRadius;
+  static const double categoryImageHeight = 85.0;
+  static const double categoryImageWidth = 85.0;
+
+  // Order Tile
+  static const double orderTileHeight = 180;
+  static const double orderTileWidth = 100.0;
+  static const double orderTileRadius = defaultRadius;
+  static const double orderImageHeight = 50.0;
+  static const double orderImageWidth = 100.0;
+
+  // Vertical
   static const double productImageSizeVertical = 120.0;
   static const double productCardVerticalHeight = 251;
   static const double productCardVerticalWidth = 180.0;
+  static const double productCardVerticalRadius = defaultRadius;
 
+  // Horizontal
   static const double productImageSizeHorizontal = 90.0;
-  static const double productCardHorizontalHeight = 115.0;
+  static const double productCardHorizontalHeight = 107.0;
   static const double productCardHorizontalWidth = 300.0;
+  static const double productCardHorizontalRadius = defaultRadius;
 
   // Product cart
   static const double cartCardImageSize = 90.0;
   static const double cartCardHorizontalHeight = 105.0;
   static const double cartCardHorizontalWidth = 300.0;
-
-  // Category Tile
-  static const double categoryTileHeight = 140;
-  static const double categoryTileWidth = 85.0;
-  static const double categoryTileRadius = 5.0;
-  static const double categoryImageHeight = 85.0;
-  static const double categoryImageWidth = 85.0;
-
-  // Brand Tile
-  static const double brandTileHeight = 90;
-  static const double brandTileWidth = 100.0;
-  static const double brandTileRadius = 5.0;
-  static const double brandImageHeight = 50.0;
-  static const double brandImageWidth = 100.0;
-
-  // Order Tile
-  static const double orderTileHeight = 180;
-  static const double orderTileWidth = 100.0;
-  static const double orderTileRadius = 10.0;
-  static const double orderImageHeight = 50.0;
-  static const double orderImageWidth = 100.0;
+  static const double cartCardHorizontalRadius = defaultRadius;
 
   // Input Field
   static const double inputFieldRadius = 12;
@@ -105,7 +108,7 @@ class Sizes {
   static const double cardRadiusMd = 12.0;
   static const double cardRadiusSm = 10.0;
   static const double cardRadiusXs = 6.0;
-  static const double cardElevaion = 2.0;
+  static const double cardElevation = 2.0;
 
   // Image carouser height
   static const double imageCarouselHeight = 200.0;

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/authentication/woo_authentication.dart';
@@ -11,7 +11,7 @@ import '../../../../data/repositories/woocommerce_repositories/customers/woo_cus
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/local_storage_constants.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
-import '../../../../common/widgets/loaders/full_screen_loader.dart';
+import '../../../../common/dialog_box_massages/full_screen_loader.dart';
 import '../../../personalization/models/user_model.dart';
 
 class LoginController extends GetxController {
@@ -78,7 +78,7 @@ class LoginController extends GetxController {
     } catch (error) {
       //remove Loader
       TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: error.toString());
     }
   }
 
@@ -114,7 +114,7 @@ class LoginController extends GetxController {
       //remove Loader
       TFullScreenLoader.stopLoading();
       // UserController.instance.fetchUserRecord();
-      TLoaders.customToast(message: 'Login successfully!');
+      AppMassages.showToastMessage(message: 'Login successfully!');
 
       // redirect
       // AuthenticationRepository.instance.screenRedirect();
@@ -125,7 +125,7 @@ class LoginController extends GetxController {
       //remove Loader
       TFullScreenLoader.stopLoading();
       //show some Generic error to the user
-      TLoaders.errorSnackBar(title: 'Oh Snap!', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Oh Snap!', message: error.toString());
     }
   }
 }

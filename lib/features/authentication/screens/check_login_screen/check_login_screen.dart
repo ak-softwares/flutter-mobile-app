@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../common/widgets/loaders/animation_loader.dart';
+import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
 

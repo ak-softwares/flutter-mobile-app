@@ -18,8 +18,8 @@ class OrderShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double orderTileRadius = Sizes.orderTileRadius;
-    final double orderTileHeight = Sizes.orderTileHeight;
+    final double orderTileRadius = AppSizes.orderTileRadius;
+    final double orderTileHeight = AppSizes.orderTileHeight;
 
     return GridLayout(
         mainAxisExtent: orderTileHeight,
@@ -38,7 +38,7 @@ class OrderShimmer extends StatelessWidget {
           child: Stack(
             children: [
               Column(
-                spacing: Sizes.xs,
+                spacing: AppSizes.xs,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ShimmerEffect(width: 60, height: 60),

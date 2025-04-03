@@ -11,9 +11,9 @@ class TElevatedButtonTheme {
       backgroundColor: AppColors.buttonBackgroundColor,
       disabledForegroundColor: Colors.grey,
       disabledBackgroundColor: Colors.grey,
-      padding: const EdgeInsets.symmetric(vertical: Sizes.buttonPadding),
-      textStyle: const TextStyle(fontSize: Sizes.buttonTextSize, fontWeight: Sizes.buttonTextWeight),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Sizes.buttonRadius)),
+      padding: const EdgeInsets.symmetric(vertical: AppSizes.buttonPadding),
+      textStyle: const TextStyle(fontSize: AppSizes.buttonTextSize, fontWeight: AppSizes.buttonTextWeight),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.buttonRadius)),
     )
   );
   static final darkElevatedButtonTheme = ElevatedButtonThemeData(
@@ -23,9 +23,9 @@ class TElevatedButtonTheme {
         backgroundColor: AppColors.buttonBackgroundColor,
         disabledForegroundColor: Colors.grey,
         disabledBackgroundColor: Colors.grey,
-        padding: const EdgeInsets.symmetric(vertical: Sizes.buttonPadding),
-        textStyle: const TextStyle(fontSize: Sizes.buttonTextSize, fontWeight: Sizes.buttonTextWeight),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Sizes.buttonRadius)),
+        padding: const EdgeInsets.symmetric(vertical: AppSizes.buttonPadding),
+        textStyle: const TextStyle(fontSize: AppSizes.buttonTextSize, fontWeight: AppSizes.buttonTextWeight),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.buttonRadius)),
       )
   );
 }

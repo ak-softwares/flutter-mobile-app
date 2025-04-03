@@ -1,9 +1,9 @@
-import 'package:aramarket/common/dialog_box/dialog_massage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/dialog_massage.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../data/repositories/user/user_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/products/woo_product_repositories.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -24,7 +24,7 @@ class CartController extends GetxController {
   RxInt noOfCartItems = 0.obs;
   RxDouble totalCartPrice = 0.0.obs;
   RxInt productQuantityInCart = 1.obs;
-  RxList<CartItemModel> cartItems = <CartItemModel>[].obs;
+  RxList<CartModel> cartItems = <CartModel>[].obs;
 
   List<String> productIdsForCloud = [];
   final localStorage = GetStorage();
@@ -71,13 +71,9 @@ class CartController extends GetxController {
       FBAnalytics.logAddToCart(cartItem: selectedCartItem);
       //update cart and show success message
       updateCart();
-      TLoaders.customToast(
-          urlTitle: 'View cart',
-          onTap: () => Get.to(CartScreen()),
-          message: 'Product added ${selectedCartItem.quantity} product to Cart.'
-      );
+      AppMassages.showToastMessage(message: 'Product added ${selectedCartItem.quantity} product to Cart.');
     } catch(e) {
-      TLoaders.warningSnackBar(title: 'Oh Snap!', message: e.toString());
+      AppMassages.warningSnackBar(title: 'Oh Snap!', message: e.toString());
       rethrow;
     }
   }
@@ -90,12 +86,12 @@ class CartController extends GetxController {
       // Convert the productModel to a cartItemModel with the give quantity
       final convertedCartItem = convertProductToCart(product: product, quantity: 1);
       removeFromCart(item: convertedCartItem);
-      TLoaders.customToast(message: 'Product removed from the Cart.');
+      AppMassages.showToastMessage(message: 'Product removed from the Cart.');
     }
   }
 
   // Remove item to cart without dialog
-  void removeFromCart({required CartItemModel item}) {
+  void removeFromCart({required CartModel item}) {
     // Log the add to cart event
     FBAnalytics.logRemoveFromCart(cartItem: item);
     int index = cartItems.indexWhere((cartItem) => cartItem.productId == item.productId);
@@ -106,7 +102,7 @@ class CartController extends GetxController {
   }
 
   // Show dialog box before removing product
-  void removeFromCartDialog({required CartItemModel cartItem, required BuildContext context} ) {
+  void removeFromCartDialog({required CartModel cartItem, required BuildContext context} ) {
     DialogHelper.showDialog(
         title: 'Remove Product',
         message: 'Are you sure you want to remove this product?',
@@ -121,7 +117,7 @@ class CartController extends GetxController {
   }
 
   // Add single item to cart
-  void addOneToCart(CartItemModel item) {
+  void addOneToCart(CartModel item) {
     int index = cartItems.indexWhere((cartItem) => cartItem.productId == item.productId);
     if(index >= 0){
       //This quantity is already added or updated/remove from the design
@@ -134,7 +130,7 @@ class CartController extends GetxController {
   }
 
   // Remove single item to cart
-  void removeOneToCart({required CartItemModel cartItem, required BuildContext context}) {
+  void removeOneToCart({required CartModel cartItem, required BuildContext context}) {
     int index = cartItems.indexWhere((cartItem) => cartItem.productId == cartItem.productId);
     if(index >= 0) {
       if (cartItems[index].quantity > 1) {
@@ -206,11 +202,11 @@ class CartController extends GetxController {
   Future<void> loadCartItems() async {
     final List<dynamic>? cartItemStrings = localStorage.read(LocalStorage.cartItems);
     if (cartItemStrings != null) {
-      List<CartItemModel> cartItemModels = [];
+      List<CartModel> cartItemModels = [];
 
       for (final itemString in cartItemStrings) {
         final Map<String, dynamic> itemJson = itemString as Map<String, dynamic>;
-        cartItemModels.add(CartItemModel.fromJsonLocalStorage(itemJson));
+        cartItemModels.add(CartModel.fromJsonLocalStorage(itemJson));
       }
 
       cartItems.assignAll(cartItemModels);
@@ -219,8 +215,8 @@ class CartController extends GetxController {
   }
 
   // This function converts a productModel to a cartItemModel
-  CartItemModel convertProductToCart({required ProductModel product, required int quantity, int variationId = 0, String pageSource = 'cpc'}) {
-    return CartItemModel(
+  CartModel convertProductToCart({required ProductModel product, required int quantity, int variationId = 0, String pageSource = 'cpc'}) {
+    return CartModel(
       id: 1,
       name: product.name,
       productId: product.id,
@@ -240,7 +236,7 @@ class CartController extends GetxController {
   }
 
   // Repeat order
-  Future<void> repeatOrder(List<CartItemModel> selectedCartItems) async {
+  Future<void> repeatOrder(List<CartModel> selectedCartItems) async {
     try{
       isLoading.value = true; // Show loader
       List<String> productIds = selectedCartItems.map((item) => item.productId.toString()).toList();
@@ -249,7 +245,7 @@ class CartController extends GetxController {
       for (var product in products) {
         // Find the corresponding CartItemModel
         var cartItem = selectedCartItems.firstWhere((item) => item.productId == product.id,
-          orElse: () => CartItemModel(productId: product.id, quantity: 1),
+          orElse: () => CartModel(productId: product.id, quantity: 1),
         );
         // Add to cart
         isLoading.value = false; // Show loader

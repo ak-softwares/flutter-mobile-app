@@ -5,7 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
-import '../../../../common/widgets/loaders/animation_loader.dart';
+import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../common/widgets/product/product_cards/product_card.dart';
 import '../../../../common/widgets/shimmers/product_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -89,7 +89,7 @@ class TAllProducts extends StatelessWidget {
                     .map((option) => DropdownMenuItem(value: option, child: Text(option)))
                     .toList(),
               ),
-              const SizedBox(height: Sizes.defaultSpace),
+              const SizedBox(height: AppSizes.defaultSpace),
               ProductGridLayout(controller: allProductController, emptyWidget: emptyWidget, sourcePage: 'APS_$title'),
             ],
           ),

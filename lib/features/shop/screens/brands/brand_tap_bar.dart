@@ -35,11 +35,10 @@ class BrandTapBarScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: false,
-          backgroundColor: Theme.of(context).colorScheme.surface,
           title: Text('Shop by Brands', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
           actions: [
-            IconButton( icon: Icon(TIcons.search), color: Theme.of(context).colorScheme.onSurface, onPressed: () => showSearch(context: context, delegate: TSearchDelegate())),
-            TCartCounterIcon(iconColor: Theme.of(context).colorScheme.onSurface),
+            IconButton( icon: Icon(TIcons.search), onPressed: () => showSearch(context: context, delegate: TSearchDelegate())),
+            TCartCounterIcon(),
           ],
           toolbarHeight: 80,
           bottom: TabBar(
@@ -48,7 +47,7 @@ class BrandTapBarScreen extends StatelessWidget {
             isScrollable: true,
             tabs: brands.map((brand) {
               return Padding(
-                padding: const EdgeInsets.only(top: Sizes.defaultBtwTiles, bottom: Sizes.defaultBtwTiles),
+                padding: const EdgeInsets.only(top: AppSizes.defaultBtwTiles, bottom: AppSizes.defaultBtwTiles),
                 child: SingleBrandTile(image: brand.image ?? ''),
               );
             }).toList(),

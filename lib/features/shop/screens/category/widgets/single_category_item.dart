@@ -21,11 +21,11 @@ class SingleCategoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double categoryImageHeight = Sizes.categoryImageHeight;
-    final double categoryImageWidth  = Sizes.categoryImageWidth;
-    final double categoryTileRadius  = Sizes.categoryTileRadius;
-    final double categoryTileHeight  = Sizes.categoryTileHeight;
-    final double categoryTileWidth  = Sizes.categoryTileWidth;
+    final double categoryImageHeight = AppSizes.categoryImageHeight;
+    final double categoryImageWidth  = AppSizes.categoryImageWidth;
+    final double categoryTileRadius  = AppSizes.categoryTileRadius;
+    final double categoryTileHeight  = AppSizes.categoryTileHeight;
+    final double categoryTileWidth  = AppSizes.categoryTileWidth;
     return InkWell(
       onTap: onTap,
       child: SizedBox(
@@ -42,11 +42,11 @@ class SingleCategoryTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(categoryTileRadius),
                 // boxShadow: const [TShadowStyle.horizontalProductShadow],
                 border: Border.all(
-                  width: Sizes.defaultBorderWidth,
+                  width: AppSizes.defaultBorderWidth,
                   color: Theme.of(context).colorScheme.outline, // Border color
                 )
               ),
-              child: TRoundedImage(
+              child: RoundedImage(
                 height: categoryImageHeight,
                 width: categoryImageWidth,
                 borderRadius: categoryTileRadius,
@@ -61,7 +61,7 @@ class SingleCategoryTile extends StatelessWidget {
             title.isNotEmpty
                 ? Column(
                     children: [
-                      const SizedBox(height: Sizes.spaceBtwItems),
+                      const SizedBox(height: AppSizes.spaceBtwItems),
                       SizedBox(
                         width: categoryTileWidth,
                         child: Text(

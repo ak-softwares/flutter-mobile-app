@@ -16,7 +16,7 @@ class TRatingProgressIndicator extends StatelessWidget {
     return Row(
       children: [
         Expanded(flex: 3, child: Text(text, style: Theme.of(context).textTheme.labelMedium,)),
-        const SizedBox(height: Sizes.md),
+        const SizedBox(height: AppSizes.md),
         Expanded(flex: 7,
             child: SizedBox(
               width: TDeviceUtils.getScreenWidth(context) * 0.8,

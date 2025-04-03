@@ -37,18 +37,13 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   Widget build(BuildContext context) {
-    final Color color = Theme.of(context).colorScheme.onSurface;
-    final Color iconColors = Theme.of(context).colorScheme.onSurfaceVariant;
-
     return AppBar(
-      iconTheme: IconThemeData(color: iconColors), // Change back arrow color
-      title: Text(titleText, style: TextStyle(color: color)),
+      title: Text(titleText),
       actions: [
-            showSearchIcon ? IconButton( icon: Icon(TIcons.search), color: color, onPressed: () => showSearch(context: context, delegate: TSearchDelegate())) : const SizedBox.shrink(),
+            showSearchIcon ? IconButton( icon: Icon(TIcons.search), onPressed: () => showSearch(context: context, delegate: TSearchDelegate())) : const SizedBox.shrink(),
             sharePageLink.isNotEmpty
                 ? IconButton(
                     icon: Icon(TIcons.share),
-                    color: iconColors,
                     onPressed: () => AppShare.shareUrl(
                         url: sharePageLink,
                         contentType: 'Category',
@@ -57,17 +52,18 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
                     ),
                   )
                 : const SizedBox.shrink(),
-            showCartIcon ? TCartCounterIcon(iconColor: color) : const SizedBox.shrink(),
+            if(showCartIcon)
+              TCartCounterIcon(),
             if(seeLogoutButton) ...[
                 Obx(() => AuthenticationRepository.instance.isUserLogin.value
                     ? InkWell(
                           onTap: () => AuthenticationRepository.instance.logout(),
                           child: Row(
                             children: [
-                              Text('Logout', style: TextStyle(color: color),),
-                              const SizedBox(width: Sizes.sm),
-                              Icon(TIcons.logout, color: iconColors, size: 20,),
-                              const SizedBox(width: Sizes.sm),
+                              Text('Logout'),
+                              const SizedBox(width: AppSizes.sm),
+                              Icon(TIcons.logout, size: 20,),
+                              const SizedBox(width: AppSizes.sm),
                             ],
                           )
                       )
@@ -75,21 +71,21 @@ class TAppBar2 extends StatelessWidget implements PreferredSizeWidget{
                           onTap: () => NavigationHelper.navigateToLoginScreen(),
                           child: Row(
                             children: [
-                              Icon(Iconsax.user, color: iconColors),
-                              const SizedBox(width: Sizes.sm),
-                              Text('Login', style: TextStyle(color: color, fontSize: 15),),
-                              const SizedBox(width: Sizes.md),
+                              Icon(Iconsax.user),
+                              const SizedBox(width: AppSizes.sm),
+                              Text('Login', style: TextStyle(fontSize: 15),),
+                              const SizedBox(width: AppSizes.md),
                             ],
                           )
                       )
                 ),
               ],
-            seeSettingButton ? IconButton( icon: Icon(Icons.settings), color: color, onPressed: () => Get.to(() => SettingScreen())) : const SizedBox.shrink(),
+            seeSettingButton ? IconButton( icon: Icon(Icons.settings), onPressed: () => Get.to(() => SettingScreen())) : const SizedBox.shrink(),
             widget != null
                 ? widget!
                 : SizedBox.shrink()
       ],
-      leading: showBackArrow ? IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Iconsax.arrow_left, color: iconColors)) :  null,
+      leading: showBackArrow ? IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Iconsax.arrow_left)) :  null,
     );
   }
   @override

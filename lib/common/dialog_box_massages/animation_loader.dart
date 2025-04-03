@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../utils/constants/sizes.dart';
+import '../../utils/constants/sizes.dart';
 
 /// a widgets for displaying on animated loading indicator with optional text and action button
 class TAnimationLoaderWidgets extends StatelessWidget {
@@ -37,13 +37,13 @@ class TAnimationLoaderWidgets extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Lottie.asset(animation, width: MediaQuery.of(context).size.width * 0.8), //display lottie animation
-            const SizedBox(height: Sizes.lg),
+            const SizedBox(height: AppSizes.lg),
             Text(
               text,
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: Sizes.defaultSpace,),
+            const SizedBox(height: AppSizes.defaultSpace,),
             showAction
                 ? SizedBox(
                     width: 250,

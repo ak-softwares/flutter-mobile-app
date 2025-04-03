@@ -14,7 +14,7 @@ class WooReviewRepository extends GetxController {
   static WooReviewRepository get instance => Get.find();
 
   final Box _cacheBox = Hive.box(CacheConstants.productReviewBox); // Hive storage
-  final double cacheExpiryTimeInDays = 1;
+  final double cacheExpiryTimeInDays = APIConstant.productCacheTime;
 
   //Fetch reviews By product id
   Future<List<ReviewModel>> fetchReviewsByProductId({required String productId, required String page}) async {

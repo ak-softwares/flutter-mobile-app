@@ -15,7 +15,7 @@ class WooCustomersRepository extends GetxController {
   static WooCustomersRepository get instance => Get.find();
 
   final Box _cacheBox = Hive.box(CacheConstants.customerBox); // Hive storage
-  final double cacheExpiryTimeInDays = 1;
+  final double cacheExpiryTimeInDays = APIConstant.customerCacheTime;
 
   //Fetch customer by id it gives single user
   Future<CustomerModel> fetchCustomerById(String customerId) async {

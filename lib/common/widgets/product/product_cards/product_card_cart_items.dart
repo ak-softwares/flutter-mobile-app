@@ -16,13 +16,16 @@ import '../quantity_add_buttons/quantity_add_buttons.dart';
 class ProductCardForCart extends StatelessWidget {
   const ProductCardForCart({super.key, required this.cartItem, this.showBottomBar = false});
 
-  final CartItemModel cartItem;
+  final CartModel cartItem;
   final bool showBottomBar;
   @override
   Widget build(BuildContext context) {
 
-    const double imageHeight = 80;
-    const double cardRadius = Sizes.productImageRadius;
+    const double cartCardImageSize = AppSizes.cartCardImageSize;
+    const double cartCardHorizontalHeight = AppSizes.cartCardHorizontalHeight;
+    const double cartCardHorizontalWidth = AppSizes.cartCardHorizontalWidth;
+    const double cartCardHorizontalRadius = AppSizes.cartCardHorizontalRadius;
+
     final cartController = CartController.instance;
 
     return InkWell(
@@ -30,99 +33,101 @@ class ProductCardForCart extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            padding: EdgeInsets.only(left: Sizes.defaultSpace),
+            padding: EdgeInsets.all(AppSizes.xs),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(Sizes.productImageRadius),
+              // color: Theme.of(context).colorScheme.surface,
+              borderRadius: BorderRadius.circular(cartCardHorizontalRadius),
+              border: Border.all(
+                width: AppSizes.defaultBorderWidth,
+                color: Theme.of(context).colorScheme.outline, // Border color
+              )
             ),
-            child: Column(
+            child: Row(
+              spacing: AppSizes.xs,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  children: [
-                    //Main Image
-                    TRoundedImage(
-                        image: cartItem.image ?? '',
-                        height: imageHeight,
-                        width: imageHeight,
-                        borderRadius: cardRadius,
-                        isNetworkImage: true,
-                        padding: 0
-                    ),
 
-                    //Title, Rating and price
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(Sizes.sm,),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                //Title
-                                ProductTitle(title: cartItem.name ?? ''),
-                                const SizedBox(height: Sizes.spaceBtwItems),
-
-                                //Star rating
-                                // ProductStarRating(averageRating: product.averageRating ?? 0.0, ratingCount: product.ratingCount ?? 0),
-
-                                //Price
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                        '${cartItem.quantity}x${AppSettings.appCurrencySymbol}${cartItem.price!.toStringAsFixed(0)}',
-                                        style: Theme.of(context).textTheme.bodyMedium
-                                    ),
-                                    // Text('Subtotal ', style: Theme.of(context).textTheme.labelLarge),
-                                    Text(AppSettings.appCurrencySymbol + cartItem.subtotal!, style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600)),
-                                    if (showBottomBar)
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          QuantityAddButtons(
-                                            quantity: cartItem.quantity, // Accessing value of RxInt
-                                            add: () => cartController.addOneToCart(cartItem), // Incrementing value
-                                            remove: () => cartController.removeOneToCart(cartItem: cartItem, context: context),
-                                            size: 27,
-                                          ),
-                                        ],
-                                      )
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
+                // Main Image
+                RoundedImage(
+                    image: cartItem.image ?? '',
+                    height: cartCardImageSize,
+                    width: cartCardImageSize,
+                    borderRadius: cartCardHorizontalRadius,
+                    isNetworkImage: true,
+                    padding: 0
                 ),
+
+                // Title, Rating and price
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(AppSizes.xs),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //Title
+                            ProductTitle(title: cartItem.name ?? ''),
+                            const SizedBox(height: AppSizes.spaceBtwItems),
+                  
+                            // Star rating
+                            // ProductStarRating(averageRating: product.averageRating ?? 0.0, ratingCount: product.ratingCount ?? 0),
+                  
+                            // Price
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                    '${cartItem.quantity}x${AppSettings.appCurrencySymbol}${cartItem.price!.toStringAsFixed(0)}',
+                                    style: Theme.of(context).textTheme.bodyMedium
+                                ),
+                                Text(AppSettings.appCurrencySymbol + cartItem.subtotal!, style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600)),
+                                if (showBottomBar)
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      QuantityAddButtons(
+                                        quantity: cartItem.quantity, // Accessing value of RxInt
+                                        add: () => cartController.addOneToCart(cartItem), // Incrementing value
+                                        remove: () => cartController.removeOneToCart(cartItem: cartItem, context: context),
+                                        size: 27,
+                                      ),
+                                    ],
+                                  )
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )
               ],
             ),
           ),
-          showBottomBar
-              ? Positioned(
-                  top: 3,
-                  left: 3,
-                  child: TRoundedContainer(
-                    width: 25,
-                    height: 25,
-                    radius: 25,
-                    padding: const EdgeInsets.all(0),
-                    backgroundColor: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.grey.withOpacity(0.7)  // Dark grey for night mode
-                        : Colors.grey.shade300, // Light grey for day mode,
-                    child: IconButton(
-                      color: Colors.grey.shade900,
-                      padding: EdgeInsets.zero,
-                      onPressed: () => cartController.removeFromCartDialog(cartItem: cartItem, context: context),
-                      icon: const Icon(Icons.close, size: 15),
-                    ),
-                  ),
-                )
-              : const SizedBox.shrink()
+          if(showBottomBar)
+            Positioned(
+              top: 3,
+              left: 3,
+              child: RoundedContainer(
+                width: 25,
+                height: 25,
+                radius: 25,
+                padding: const EdgeInsets.all(0),
+                backgroundColor: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey.withOpacity(0.7)  // Dark grey for night mode
+                    : Colors.grey.shade300, // Light grey for day mode,
+                child: IconButton(
+                  color: Colors.grey.shade900,
+                  padding: EdgeInsets.zero,
+                  onPressed: () => cartController.removeFromCartDialog(cartItem: cartItem, context: context),
+                  icon: const Icon(Icons.close, size: 15),
+                ),
+              ),
+            )
         ],
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import '../../../../common/widgets/loaders/full_screen_loader.dart';
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/full_screen_loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../data/repositories/firebase/orders/order_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/orders/woo_orders_repository.dart';
@@ -76,7 +76,7 @@ class OrderController extends GetxController {
 
       orders.addAll(uniqueOrders);
     } catch (e) {
-    TLoaders.warningSnackBar(title: 'Error', message: e.toString());
+    AppMassages.warningSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -92,7 +92,7 @@ class OrderController extends GetxController {
       final newOrders = await wooOrdersRepository.fetchOrdersByCustomerId(customerId: customerId.toString(), page: currentPage.toString());
       orders.addAll(newOrders);
     } catch (e) {
-      TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -107,7 +107,7 @@ class OrderController extends GetxController {
       final newOrders = await wooOrdersRepository.fetchOrdersByCustomerEmail(customerEmail: customerEmail, page: currentPage.toString());
       orders.addAll(newOrders);
     } catch (e) {
-      TLoaders.warningSnackBar(title: 'Error', message: e.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -125,7 +125,7 @@ class OrderController extends GetxController {
       }
       currentOrder.value = newOrders;
     } catch (e) {
-      TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: e.toString());
     } finally {
       isLoading(false);
     }
@@ -140,17 +140,25 @@ class OrderController extends GetxController {
       await getOrdersByCustomerId();
       // await fetchOrders();
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     } finally {
       isLoading(false);
     }
   }
 
   // Add methods for order processing
-  Future<OrderModel> saveOrderByCustomerId() async {
+  Future<OrderModel> saveOrderByCustomerId({OrderAttributionModel? orderAttribution}) async {
     try {
-      //Add Details
-      final appVersion = await AppSettings.getAppVersion();
+      // Convert OrderAttributionModel to metadata list
+      List<OrderMedaDataModel> orderMetaData = [];
+      if (orderAttribution != null) {
+        orderMetaData = orderAttribution.toJson().entries.map(
+              (entry) => OrderMedaDataModel(key: entry.key, value: entry.value),
+        ).toList();
+      }
+      // Add another custom meta value
+      // orderMetaData.add(OrderMedaDataModel(key: "user_agent", value: "Android 13"));
+
       final order = OrderModel(
         customerId: userController.customer.value.id,
         paymentMethod: checkoutController.selectedPaymentMethod.value.id,
@@ -161,13 +169,7 @@ class OrderController extends GetxController {
         shipping:   userController.customer.value.billing, //if shipping address is different then use shipping instead billing
         lineItems:  cartController.cartItems,
         couponLines: [checkoutController.appliedCoupon.value],
-        metaData: [
-          OrderMedaDataModel(key: "_wc_order_attribution_source_type", value: "organic"), //referral, organic, Unknown, utm, Web Admin, typein (Direct)
-          OrderMedaDataModel(key: "_wc_order_attribution_utm_source", value: "Android App v$appVersion"),
-          // OrderMedaDataModel(key: "_wc_order_attribution_referrer", value: "https://www.google.com/"), //this only use for referral
-          OrderMedaDataModel(key: "_wc_order_attribution_utm_medium", value: cartController.cartItems.map((item) => item.pageSource ?? 'NA').join(', ')),
-          // OrderMedaDataModel(key: "_wc_order_attribution_utm_medium", value: "organic"),
-        ],
+        metaData: orderMetaData,
       );
 
       //save the order to Woocommerce
@@ -195,7 +197,7 @@ class OrderController extends GetxController {
         orders.add(updatedOrder);
       }
     } catch (error) {
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: error.toString());
     } finally {
       CartController.instance.isCancelLoading(false);
     }
@@ -215,17 +217,19 @@ class OrderController extends GetxController {
         orders.add(updatedOrder);
       }
     } catch (error) {
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: error.toString());
     }
   }
 
   Future<void> makePayment({required OrderModel order}) async {
+    bool isPaymentCaptured = false;
+    String paymentId = '';
     try {
-      TFullScreenLoader.onlyCircularProgressDialog('Processing your payment...');
-      String paymentId = await paymentController.startPayment(order: order);
+      TFullScreenLoader.onlyCircularProgressDialog('Please wait while we process your payment...');
+      paymentId = await paymentController.startPayment(order: order);
       if (paymentId.isNotEmpty) {
         // Capture payment
-        await paymentController.capturePayment(amount: int.tryParse(order.total ?? '0') ?? 0, paymentID: paymentId);
+        isPaymentCaptured = await paymentController.capturePayment(amount: int.tryParse(order.total ?? '0') ?? 0, paymentID: paymentId);
         Map<String, dynamic> data = {
           OrderFieldName.status: OrderStatus.processing.name,
           OrderFieldName.transactionId: paymentId,
@@ -233,12 +237,16 @@ class OrderController extends GetxController {
         };
         await updateOrderById(orderId: order.id.toString(), data: data);
         TFullScreenLoader.stopLoading();
-        TLoaders.successSnackBar(title: 'Payment Successful:', message: 'Payment ID: $paymentId');
+        AppMassages.successSnackBar(title: 'Payment Successful:', message: 'Payment ID: $paymentId');
       }
       TFullScreenLoader.stopLoading();
     } catch(e) {
       TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Payment Failed', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Payment Failed', message: e.toString());
+    } finally {
+      if(!isPaymentCaptured){
+        await paymentController.capturePayment(amount: int.tryParse(order.total ?? '0') ?? 0, paymentID: paymentId);
+      }
     }
   }
 }

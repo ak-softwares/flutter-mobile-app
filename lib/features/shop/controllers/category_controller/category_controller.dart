@@ -2,7 +2,7 @@ import 'dart:isolate';
 
 import 'package:get/get.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../data/repositories/woocommerce_repositories/category/woo_category_repository.dart';
 import '../../models/category_model.dart';
 
@@ -30,7 +30,7 @@ class CategoryController extends GetxController {
       final newCategories = await wooCategoryRepository.fetchAllCategory(currentPage.toString());
       categories.addAll(newCategories);
     } catch (e) {
-      throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+      throw AppMassages.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -41,7 +41,7 @@ class CategoryController extends GetxController {
       categories.clear(); // Clear existing orders
       await getAllCategory();
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     } finally {
       isLoading(false);
     }

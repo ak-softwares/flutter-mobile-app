@@ -3,17 +3,13 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../../common/layout_models/product_grid_layout.dart';
-import '../../../../../common/styles/spacing_style.dart';
 import '../../../../../common/text/section_heading.dart';
-import '../../../../../common/widgets/loaders/animation_loader.dart';
-import '../../../../../common/widgets/loaders/loader.dart';
+import '../../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../../common/widgets/shimmers/coupon_shimmer.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/image_strings.dart';
 import '../../../../../utils/constants/sizes.dart';
-import '../../../controllers/checkout_controller/checkout_controller.dart';
 import '../../../controllers/coupon/coupon_controller.dart';
-import '../../coupon/coupon_screen.dart';
 import '../../coupon/widgets/single_coupon.dart';
 class TCouponCode extends StatelessWidget {
   const TCouponCode({super.key});
@@ -21,7 +17,6 @@ class TCouponCode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final couponController = Get.put(CouponController());
-    final checkoutController = Get.put(CheckoutController());
 
     return Column(
       children: [
@@ -33,8 +28,27 @@ class TCouponCode extends StatelessWidget {
             hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant), // Ensure hint is visible
             isDense: true, // Prevent excessive padding
             contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12), // Prevent squeezing
-
+            filled: true,
+            fillColor: Theme.of(context).colorScheme.surface,
             prefixIcon: Icon(Iconsax.discount_shape, size: 20),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppSizes.defaultRadius), // Set border radius
+              borderSide: BorderSide(color: Colors.transparent), // Transparent border
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppSizes.defaultRadius),
+              borderSide: BorderSide(
+                  color:Theme.of(context).colorScheme.outlineVariant,
+                  width: AppSizes.defaultBorderWidth
+              ), // Light grey border when not focused
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppSizes.defaultRadius),
+              borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  width: AppSizes.defaultBorderWidth), // Blue border when focused
+            ),
+
             suffixIcon: TextButton(
               onPressed: () {
                 couponController.applyCoupon(couponController.couponTextEditingController.text.trim());
@@ -55,7 +69,7 @@ class TCouponCode extends StatelessWidget {
           child: TextButton(
               onPressed: () => showCouponsInBottomSheet(context: context),
               // onPressed: () => Get.to(() => const CouponScreen()),
-              child: Text('View All Coupons', style: TextStyle(fontSize: 14, color: AppColors.linkColor)),
+              child: Text('All Coupons', style: TextStyle(fontSize: 14, color: AppColors.linkColor)),
           ),
         ),
       ],
@@ -84,7 +98,7 @@ class TCouponCode extends StatelessWidget {
       // padding: TSpacingStyle.defaultPageVertical,
       children: [
         Heading(title: 'Coupons'),
-        SizedBox(height: Sizes.spaceBtwItems),
+        SizedBox(height: AppSizes.spaceBtwItems),
         Obx(() {
           if (couponController.isLoading.value) {
             return const CouponShimmer();

@@ -19,11 +19,10 @@ class FBAnalytics {
   static final authenticationRepository = Get.put(AuthenticationRepository());
 
   static Future<void> setDefaultEventParameters() async {
-    final appVersion = await AppSettings.getAppVersion();
     Map<String, dynamic> defaultParameters = {
       'timestamp': DateTime.now().toIso8601String(), // ISO format for better compatibility
       'platform': 'mobile', // Default to 'mobile'; adjust based on your platform
-      'app_version': appVersion ?? 'NA', // Replace with the actual app version
+      'app_version': AuthenticationRepository.instance.appVersion.value
     };
 
     // Check if the user is logged in, and add user-specific details
@@ -115,7 +114,7 @@ class FBAnalytics {
     );
   }
 
-  static void logAddToCart({required CartItemModel cartItem}) {
+  static void logAddToCart({required CartModel cartItem}) {
     _analytics.logAddToCart(
       items: [
         AnalyticsEventItem(
@@ -131,7 +130,7 @@ class FBAnalytics {
     );
   }
 
-  static void logRemoveFromCart({required CartItemModel cartItem}) {
+  static void logRemoveFromCart({required CartModel cartItem}) {
     // print('logAddToCart: itemId - $itemId, itemName - $itemName, price - $price, quantity - $quantity,');
     _analytics.logRemoveFromCart(
       items: [
@@ -148,7 +147,7 @@ class FBAnalytics {
     );
   }
 
-  static void logViewCart({required List<CartItemModel> cartItems}) {
+  static void logViewCart({required List<CartModel> cartItems}) {
     if (cartItems.isEmpty) {
       return;
     }
@@ -177,7 +176,7 @@ class FBAnalytics {
     );
   }
 
-  static void logBeginCheckout({required List<CartItemModel> cartItems}) {
+  static void logBeginCheckout({required List<CartModel> cartItems}) {
     // Ensure cartItems is not empty to avoid unnecessary logging
     if (cartItems.isEmpty) {
       return;
@@ -208,7 +207,7 @@ class FBAnalytics {
     );
   }
 
-  static void logCheckout({required List<CartItemModel> cartItems}) {
+  static void logCheckout({required List<CartModel> cartItems}) {
     // Ensure cartItems is not empty to avoid unnecessary logging
     if (cartItems.isEmpty) {
       return;
@@ -244,7 +243,7 @@ class FBAnalytics {
     );
   }
 
-  static void logAddPaymentInfo({required List<CartItemModel> cartItems}) {
+  static void logAddPaymentInfo({required List<CartModel> cartItems}) {
     final couponCode = checkoutController.appliedCoupon.value.code ?? '';
 
     // Map cart items to AnalyticsEventItem

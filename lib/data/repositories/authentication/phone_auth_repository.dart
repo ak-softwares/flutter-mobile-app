@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../../common/widgets/loaders/loader.dart';
+import '../../../common/dialog_box_massages/massages.dart';
 import '../../../features/authentication/screens/phone_otp_login/mobile_login_screen.dart';
 import '../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../utils/exceptions/format_exceptions.dart';
@@ -31,10 +31,10 @@ class PhoneAuthRepository extends GetxController {
         },
         verificationFailed: (e) {
           if (e.code == 'invalid-phone-number') {
-            TLoaders.errorSnackBar(title: 'Oh Snap!', message: 'The provided phone number is not valid');
+            AppMassages.errorSnackBar(title: 'Oh Snap!', message: 'The provided phone number is not valid');
             // throw 'The provided phone number is not valid';
           } else {
-            TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.message ?? '');
+            AppMassages.errorSnackBar(title: 'Oh Snap!', message: e.message ?? '');
             // throw 'Error - ${e.message}';
           }
           Get.off(() => const MobileLoginScreen());

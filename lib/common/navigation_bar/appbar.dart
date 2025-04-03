@@ -24,7 +24,6 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget{
       actions: [
         IconButton(
           icon: const Icon(Icons.search),
-          color: iconColors,
           onPressed: () {
             showSearch(
                 context: context,
@@ -32,7 +31,7 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget{
             );
           },
         ),
-        TCartCounterIcon(iconColor: iconColors),
+        TCartCounterIcon(),
       ],
       // leading: IconButton(
       //     onPressed: () {
@@ -71,7 +70,7 @@ class TAppBar1 extends StatelessWidget implements PreferredSizeWidget{
             );
           },
         ),
-        TCartCounterIcon(iconColor: iconColors),
+        TCartCounterIcon(),
       ],
       // leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
     );

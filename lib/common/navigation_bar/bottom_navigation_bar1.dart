@@ -14,7 +14,7 @@ import '../../routes/external_routes.dart';
 import '../../routes/internal_routes.dart';
 import '../../routes/routes.dart';
 import '../../utils/constants/icons.dart';
-import '../widgets/loaders/loader.dart';
+import '../dialog_box_massages/massages.dart';
 
 
 class BottomNavigation1 extends StatefulWidget {
@@ -73,7 +73,7 @@ class _BottomNavigation1State extends State<BottomNavigation1> {
             SystemNavigator.pop();
           } else {
             // If not, show a toast message and update _lastBackPressedTime
-            TLoaders.customToast(message: "Press Back Again To Exit");
+            AppMassages.showToastMessage(message: "Press Back Again To Exit");
             _lastBackPressedTime = DateTime.now();
           }
         }

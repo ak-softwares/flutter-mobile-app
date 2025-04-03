@@ -1,3 +1,4 @@
+import 'package:aramarket/features/shop/screens/cart/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,13 +19,18 @@ class CartIcon extends StatelessWidget {
     final cartController = CartController.instance;
     return product.type == ProductFieldName.typeVariable
         ? Icon(TIcons.cartVariation, size: 20,)
-        : IconButton(
-            onPressed: () => cartController.toggleCartProduct(product: product, sourcePage: sourcePage),
-            iconSize: iconSize,
-            color: Theme.of(context).colorScheme.onSurface,
-            icon: Obx(() {
+        : InkWell(
+            onLongPress: () => Get.to(() => CartScreen()),
+            onTap: () => cartController.toggleCartProduct(product: product, sourcePage: sourcePage),
+            child: Obx(() {
                 final productQuantityInCart = cartController.isInCart(product.id);
-                return Icon(productQuantityInCart ? TIcons.cartFull : TIcons.cartEmpty, size: 20,);
+                return Icon(
+                  productQuantityInCart
+                      ? TIcons.cartFull
+                      : TIcons.cartEmpty,
+                  size: iconSize,
+                  color: Theme.of(context).colorScheme.onSurface,
+                );
               }
             ),
         );

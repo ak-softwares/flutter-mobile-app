@@ -18,7 +18,7 @@ class QuantityAddButtons extends StatelessWidget {
     final Color color = Colors.black;
     final Color background = Colors.black;
     return Container(
-      padding: EdgeInsets.all(Sizes.xs),
+      padding: EdgeInsets.all(AppSizes.xs),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(

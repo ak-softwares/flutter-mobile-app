@@ -4,14 +4,14 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../common/text/section_heading.dart';
-import '../../../common/widgets/loaders/loader.dart';
+import '../../../common/dialog_box_massages/massages.dart';
 import '../../../common/widgets/network_manager/network_manager.dart';
 import '../../../data/repositories/woocommerce_repositories/customers/woo_customer_repository.dart';
 import '../../../utils/constants/db_constants.dart';
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/local_storage_constants.dart';
 import '../../../utils/constants/sizes.dart';
-import '../../../common/widgets/loaders/full_screen_loader.dart';
+import '../../../common/dialog_box_massages/full_screen_loader.dart';
 import '../models/user_model.dart';
 import '../screens/user_profile/user_profile.dart';
 import '/features/personalization/controllers/user_controller.dart';
@@ -75,14 +75,14 @@ class ChangeProfileController extends GetxController {
       //remove Loader
       TFullScreenLoader.stopLoading();
       // UserController.instance.fetchUserRecord();
-      TLoaders.customToast(message: 'Details updated successfully!');
+      AppMassages.showToastMessage(message: 'Details updated successfully!');
       // move to next screen
       Get.close(1);
       Get.off(() => const UserProfileScreen());
     } catch (error) {
       //remove Loader
       TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: error.toString());
     }
   }
 
@@ -103,12 +103,12 @@ class ChangeProfileController extends GetxController {
       final CustomerModel customer = await wooCustomersRepository.updateCustomerById(userID: userId, data: updateField);
       userController.customer(customer);
       // UserController.instance.fetchUserRecord();
-      TLoaders.customToast(message: 'Phone updated successfully!');
+      AppMassages.showToastMessage(message: 'Phone updated successfully!');
       isPhoneUpdating.value = false;
       isPhoneVerified.value = true;
     } catch (error) {
       isPhoneUpdating.value = false;
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: error.toString());
     }
   }
 
@@ -164,13 +164,13 @@ class ChangeProfileController extends GetxController {
 
       //remove Loader
       TFullScreenLoader.stopLoading();
-      TLoaders.successSnackBar(title: 'Congratulation', message: 'Your details updated successfully!');
+      AppMassages.successSnackBar(title: 'Congratulation', message: 'Your details updated successfully!');
       Get.back();
     } catch (error) {
       //remove Loader
       TFullScreenLoader.stopLoading();
       //show some Generic error to the user
-      TLoaders.errorSnackBar(title: 'Error - Change Profile', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Error - Change Profile', message: error.toString());
     }
   }
 
@@ -179,7 +179,7 @@ class ChangeProfileController extends GetxController {
     return showModalBottomSheet(
         context: context,
         builder: (_) => Container(
-          padding: const EdgeInsets.all(Sizes.lg),
+          padding: const EdgeInsets.all(AppSizes.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -191,7 +191,7 @@ class ChangeProfileController extends GetxController {
               const Expanded(
                 child: Text('hi'),
               ),
-              const SizedBox(height: Sizes.defaultSpace * 2),
+              const SizedBox(height: AppSizes.defaultSpace * 2),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(

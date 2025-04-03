@@ -65,8 +65,9 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
     _selectedProductImage.value = widget.product.mainImage ?? '';
     const double mainImageHeight = 340;
     const double galleryImageHeight = 80;
+    const double galleryImageRadius = AppSizes.defaultRadius;
     return Column(
-      spacing: Sizes.spaceBtwItems,
+      spacing: AppSizes.spaceBtwItems,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
@@ -100,7 +101,7 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                           child: InteractiveViewer(
                             maxScale: 3,
                             minScale: 1,
-                            child: TRoundedImage(
+                            child: RoundedImage(
                               image: imageUrl,
                               height: mainImageHeight,
                               width: mainImageHeight,
@@ -133,7 +134,7 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                           ),
                           child: TFavouriteIcon(product: widget.product),
                         ),
-                        const SizedBox(height: Sizes.sm),
+                        const SizedBox(height: AppSizes.sm),
                         Container(
                             height: 40,
                             width: 40,
@@ -193,15 +194,15 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     physics: const AlwaysScrollableScrollPhysics(),
-                    separatorBuilder: (_,__) => const SizedBox(width: Sizes.spaceBtwItems),
+                    separatorBuilder: (_,__) => const SizedBox(width: AppSizes.spaceBtwItems),
                     itemBuilder: (_, index) => Obx(() {
                       final imageSelected = _selectedProductImage.value == images[index];
-                      return TRoundedImage(
+                      return RoundedImage(
                         width: galleryImageHeight,
                         border: Border.all(color: imageSelected ? AppColors.primaryColor : Colors.transparent),
-                        borderRadius: Sizes.sm,
+                        borderRadius: galleryImageRadius,
                         backgroundColor: Colors.white,
-                        padding: Sizes.sm / 2,
+                        padding: AppSizes.sm / 2,
                         isNetworkImage: true,
                         onTap: () => _carouselController.animateToPage(index),
                         // onTap: () => _selectedProductImage.value = images[index],

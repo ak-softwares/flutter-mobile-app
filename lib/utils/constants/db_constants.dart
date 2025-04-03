@@ -231,6 +231,14 @@ class OrderMetaDataName {
   static const String metaData = 'meta_data';
 }
 
+class OrderMetaKeyName {
+  static const String source      = '_wc_order_attribution_utm_source'; // google, facebook, androidApp
+  static const String sourceType  = '_wc_order_attribution_source_type'; // organic, referral, utm, Web Admin, typein (Direct)
+  static const String medium      = '_wc_order_attribution_utm_medium';  // organic, referral, utm, Web Admin, typein (Direct)
+  static const String campaign    = '_wc_order_attribution_utm_campaign'; // campaign name
+  static const String referrer    = '_wc_order_attribution_referrer';   // here we should use a link of referred
+}
+
 class OrderStatusName {
   static const String cancelled = 'cancelled';
   static const String processing = 'processing';

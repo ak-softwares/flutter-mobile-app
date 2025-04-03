@@ -37,7 +37,7 @@ class OrderModel {
   final String? datePaid;
   final String? number;
   final List<OrderMedaDataModel>? metaData;
-  final List<CartItemModel>? lineItems;
+  final List<CartModel>? lineItems;
   // final List<CartItemModel>? shippingLines;
   final List<CouponModel>? couponLines;
   final String? paymentUrl;
@@ -117,7 +117,7 @@ class OrderModel {
       dateCompleted: json[OrderFieldName.dateCompleted] ?? '',
       datePaid: json[OrderFieldName.datePaid] ?? '',
       number: json[OrderFieldName.number] ?? '',
-      lineItems: List<CartItemModel>.from(json[OrderFieldName.lineItems].map((item) => CartItemModel.fromJson(item))),
+      lineItems: List<CartModel>.from(json[OrderFieldName.lineItems].map((item) => CartModel.fromJson(item))),
       paymentUrl: json[OrderFieldName.paymentUrl] ?? '',
       currencySymbol: json[OrderFieldName.currencySymbol] ?? '',
     );
@@ -212,7 +212,7 @@ class OrderModel {
       dateCompleted:  data[OrderFieldName.dateCompleted] ?? '',
       datePaid:       data[OrderFieldName.datePaid] ?? '',
       number:         data[OrderFieldName.number] ?? '',
-      lineItems:      (data[OrderFieldName.lineItems] as List<dynamic>).map((itemData) => CartItemModel.fromJson(itemData as Map<String, dynamic>)).toList(),
+      lineItems:      (data[OrderFieldName.lineItems] as List<dynamic>).map((itemData) => CartModel.fromJson(itemData as Map<String, dynamic>)).toList(),
       paymentUrl:     data[OrderFieldName.paymentUrl] ?? '',
       currencySymbol: data[OrderFieldName.currencySymbol] ?? '',
     );
@@ -237,5 +237,43 @@ class OrderMedaDataModel{
       OrderMetaDataName.key: key ?? '',
       OrderMetaDataName.value: value ?? '',
     };
+  }
+}
+
+class OrderAttributionModel {
+  String? source;
+  String? sourceType; // e.g., referral, organic, unknown, utm, Web Admin, typein (Direct)
+  String? medium; // e.g., cart page source
+  String? campaign; // e.g., google_cpc
+  String? referrer; // e.g., referral URL
+
+  OrderAttributionModel({
+    this.source,
+    this.sourceType,
+    this.medium,
+    this.campaign,
+    this.referrer,
+  });
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+
+    if (source != null) data[OrderMetaKeyName.source] = source;
+    if (sourceType != null) data[OrderMetaKeyName.sourceType] = sourceType;
+    if (medium != null) data[OrderMetaKeyName.medium] = medium;
+    if (campaign != null) data[OrderMetaKeyName.campaign] = campaign;
+    if (referrer != null) data[OrderMetaKeyName.referrer] = referrer;
+
+    return data;
+  }
+
+  factory OrderAttributionModel.fromJson(Map<String, dynamic> json) {
+    return OrderAttributionModel(
+      source: json[OrderMetaKeyName.source],
+      sourceType: json[OrderMetaKeyName.sourceType],
+      medium: json[OrderMetaKeyName.medium],
+      campaign: json[OrderMetaKeyName.campaign],
+      referrer: json[OrderMetaKeyName.referrer],
+    );
   }
 }

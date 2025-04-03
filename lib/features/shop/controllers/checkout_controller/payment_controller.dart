@@ -7,7 +7,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import 'package:http/http.dart' as http;
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/enums.dart';
@@ -64,7 +64,7 @@ class PaymentController extends GetxController {
     // Listen for payment cancel event
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, (ExternalWalletResponse response) {
       // Notify user about payment cancellation
-      TLoaders.warningSnackBar(title: 'External Wallet Razorpay:', message: 'Wallet Name: ${response.walletName}');
+      AppMassages.warningSnackBar(title: 'External Wallet Razorpay:', message: 'Wallet Name: ${response.walletName}');
       _completer?.completeError("Payment cancelled by user.");
     });
   }
@@ -75,7 +75,6 @@ class PaymentController extends GetxController {
 
     final int orderId = order.id ?? 0;
     final int orderTotal = int.tryParse(order.total ?? '0') ?? 0;
-    final String productName = '';
 
     // Prepare payment options
     var options = {
@@ -115,7 +114,7 @@ class PaymentController extends GetxController {
     super.onClose();
   }
 
-  Future<void> capturePayment({required int amount, required String paymentID}) async {
+  Future<bool> capturePayment({required int amount, required String paymentID}) async {
     try {
       final Uri uri = Uri.https('api.razorpay.com', '/v1/payments/$paymentID/capture');
 
@@ -136,6 +135,7 @@ class PaymentController extends GetxController {
         final errorMessage = errorJson['error']['description'];
         throw errorMessage ?? 'Failed to capture payment';
       }
+      return true;
     } catch (error) {
       rethrow;
     }

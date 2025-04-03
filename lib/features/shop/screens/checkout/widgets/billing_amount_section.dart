@@ -18,7 +18,7 @@ class TBillingAmountSection extends StatelessWidget {
     final checkoutController = Get.put(CheckoutController());
 
     return Obx(() => Column(
-        spacing:  Sizes.spaceBtwItems / 2,
+        spacing:  AppSizes.spaceBtwItems / 2,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

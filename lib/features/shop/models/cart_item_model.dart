@@ -1,6 +1,6 @@
 import '../../../utils/constants/db_constants.dart';
 
-class CartItemModel {
+class CartModel {
   int? id;
   String? name;
   int productId;
@@ -19,7 +19,7 @@ class CartItemModel {
   String? pageSource;
 
   //constructor
-  CartItemModel({
+  CartModel({
     this.id,
     this.name,
     required this.productId,
@@ -39,7 +39,7 @@ class CartItemModel {
   });
 
   // Empty cart
-  static CartItemModel empty() => CartItemModel(id: 0, name: '', productId: 0, quantity: 0, price: 0);
+  static CartModel empty() => CartModel(id: 0, name: '', productId: 0, quantity: 0, price: 0);
 
   // Convert a cartItem to a Json map
   Map<String, dynamic> toJson() {
@@ -73,8 +73,8 @@ class CartItemModel {
   }
 
   // Create a cartItem from a json map
-  factory CartItemModel.fromJson(Map<String, dynamic> json) {
-    return CartItemModel(
+  factory CartModel.fromJson(Map<String, dynamic> json) {
+    return CartModel(
       id: json[CartFieldName.id] ?? 0,
       name: json[CartFieldName.name] ?? '',
       productId: json[CartFieldName.productId] ?? 0, // Changed to product_id
@@ -97,8 +97,8 @@ class CartItemModel {
   }
 
   // create a cartItem from a json map
-  factory CartItemModel.fromJsonLocalStorage(Map<String, dynamic> json) {
-    return CartItemModel(
+  factory CartModel.fromJsonLocalStorage(Map<String, dynamic> json) {
+    return CartModel(
       id: json[CartFieldName.id] ?? 0,
       name: json[CartFieldName.name] ?? '',
       productId: json[CartFieldName.productId] ?? 0, // Changed to product_id

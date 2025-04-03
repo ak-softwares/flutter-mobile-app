@@ -50,7 +50,7 @@ class UpdateMobileNo extends StatelessWidget {
                   phone == ''
                       ? Text('Please update your phone number.', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold))
                       : Text('Please provide a valid phone number', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold)),
-                  const SizedBox(height: Sizes.sm),
+                  const SizedBox(height: AppSizes.sm),
                   Row(
                     children: [
                       Expanded(

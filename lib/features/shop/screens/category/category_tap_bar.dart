@@ -37,7 +37,7 @@ class CategoryTapBarScreen extends StatelessWidget {
               title: Text('Products by categories', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
               actions: [
                 IconButton( icon: Icon(TIcons.search), color: Theme.of(context).colorScheme.onSurface, onPressed: () => showSearch(context: context, delegate: TSearchDelegate())),
-                TCartCounterIcon(iconColor: Theme.of(context).colorScheme.onSurface),
+                TCartCounterIcon(),
               ],
               bottom: TabBar(
                 // unselectedLabelColor: Colors.black87,

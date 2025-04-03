@@ -22,11 +22,11 @@ class SingleBrandTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double brandImageHeight = Sizes.brandImageHeight;
-    final double brandImageWidth = Sizes.brandImageWidth;
-    final double brandTileHeight = Sizes.brandTileHeight;
-    final double brandTileWidth = Sizes.brandTileWidth;
-    final double brandTileRadius = Sizes.brandTileRadius;
+    final double brandImageHeight = AppSizes.brandImageHeight;
+    final double brandImageWidth = AppSizes.brandImageWidth;
+    final double brandTileHeight = AppSizes.brandTileHeight;
+    final double brandTileWidth = AppSizes.brandTileWidth;
+    final double brandTileRadius = AppSizes.brandTileRadius;
     return InkWell(
       onTap: onTap,
       child: SizedBox(
@@ -41,11 +41,11 @@ class SingleBrandTile extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(brandTileRadius),
                 border: Border.all(
-                  width: Sizes.defaultBorderWidth,
+                  width: AppSizes.defaultBorderWidth,
                   color: Theme.of(context).colorScheme.outline, // Border color
                 )
               ),
-              child: TRoundedImage(
+              child: RoundedImage(
                 height: brandImageHeight,
                 width: brandImageWidth,
                 borderRadius: brandTileRadius,
@@ -59,7 +59,7 @@ class SingleBrandTile extends StatelessWidget {
             title.isNotEmpty
                 ? Column(
                   children: [
-                    const SizedBox(height: Sizes.spaceBtwItems),
+                    const SizedBox(height: AppSizes.spaceBtwItems),
                     SizedBox(
                         width: brandTileWidth,
                         child: Text(

@@ -31,7 +31,7 @@ class SignUpScreen extends StatelessWidget {
             children: [
               //SignUp , Title, Subtitle
               Text("Let's Create Your Account", style: Theme.of(context).textTheme.headlineMedium),
-              const SizedBox(height: Sizes.spaceBtwSection),
+              const SizedBox(height: AppSizes.spaceBtwSection),
               //Form Field
               Form(
                   key: controller.signupFormKey,
@@ -47,7 +47,7 @@ class SignUpScreen extends StatelessWidget {
                                   decoration: const InputDecoration(prefixIcon: Icon(Iconsax.user), labelText: TTexts.firstName),
                                 )
                             ),
-                            const SizedBox(width: Sizes.spaceBtwInputFields),
+                            const SizedBox(width: AppSizes.spaceBtwInputFields),
                             //Pincode
                             Expanded(
                                 child: TextFormField(
@@ -57,7 +57,7 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: Sizes.spaceBtwInputFields),
+                        const SizedBox(height: AppSizes.spaceBtwInputFields),
                         //Email
                         TextFormField(
                             controller: controller.email,
@@ -68,7 +68,7 @@ class SignUpScreen extends StatelessWidget {
                             )
                         ),
                         //Password
-                        const SizedBox(height: Sizes.spaceBtwInputFields),
+                        const SizedBox(height: AppSizes.spaceBtwInputFields),
                         Obx(
                             () => TextFormField(
                               controller: controller.password,
@@ -84,7 +84,7 @@ class SignUpScreen extends StatelessWidget {
                               )
                         )),
                         //phone
-                        const SizedBox(height: Sizes.spaceBtwInputFields),
+                        const SizedBox(height: AppSizes.spaceBtwInputFields),
                         TextFormField(
                             controller: controller.phone,
                             validator: (value) => TValidator.validatePhoneNumber(value),
@@ -95,11 +95,11 @@ class SignUpScreen extends StatelessWidget {
                         ),
 
                         //terms and conditions
-                        const SizedBox(height: Sizes.spaceBtwSection),
+                        const SizedBox(height: AppSizes.spaceBtwSection),
                         const TTermsAndConditionsCheckBox(),
 
                         // signup button
-                        const SizedBox(height: Sizes.spaceBtwInputFields),
+                        const SizedBox(height: AppSizes.spaceBtwInputFields),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(

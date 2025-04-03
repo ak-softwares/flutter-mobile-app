@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../utils/constants/colors.dart';
+import '../../utils/constants/colors.dart';
 import 'animation_loader.dart';
 
 class TFullScreenLoader {

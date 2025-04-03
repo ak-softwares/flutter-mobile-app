@@ -14,7 +14,7 @@ class WooBannersRepositories extends GetxController {
   static WooBannersRepositories get instance => Get.find();
 
   final Box _cacheBox = Hive.box(CacheConstants.bannersBox); // Hive storage
-  final double productCacheExpiryTimeInDays = 7;
+  final double cacheExpiryTimeInDays = APIConstant.appSettingCacheTime;
 
   // Fetch Banners with caching
   Future<List<BannerModel>> fetchBanners() async {
@@ -22,7 +22,7 @@ class WooBannersRepositories extends GetxController {
 
     // Check cache before making API request
     if (_cacheBox.containsKey(cacheKey) &&
-        CacheHelper.isCacheValid(cacheBox: _cacheBox, cacheKey: cacheKey, expiryTimeInDays: productCacheExpiryTimeInDays)) {
+        CacheHelper.isCacheValid(cacheBox: _cacheBox, cacheKey: cacheKey, expiryTimeInDays: cacheExpiryTimeInDays)) {
       final cachedData = _cacheBox.get(cacheKey);
       final Map<String, dynamic> cachedJson = json.decode(cachedData); // Decode as Map
       final List<dynamic> bannersJson = cachedJson['banners'] ?? []; // Extract banners

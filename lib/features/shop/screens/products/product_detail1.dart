@@ -7,8 +7,8 @@ import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
-import '../../../../common/widgets/loaders/animation_loader.dart';
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/animation_loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../common/widgets/product/quantity_add_buttons/quantity_add_buttons.dart';
 import '../../../../common/widgets/shimmers/single_product_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -98,7 +98,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
       _product.value = ProductModel.empty();
       await _fetchProduct(productId: productId.toString());
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     }
   }
 
@@ -142,7 +142,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
 
                   //product images
                   TProductImageSlider(product: _product.value),
-                  const SizedBox(height: Sizes.sm),
+                  const SizedBox(height: AppSizes.sm),
                   const Divider(),
 
                   //Breadcrumb
@@ -158,7 +158,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                           Text(_product.value.categories?[0].name ?? '',
                               style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor)
                           ),
-                          SizedBox(width: Sizes.sm,),
+                          SizedBox(width: AppSizes.sm,),
 
                           GestureDetector(
                             onTap: () => AppShare.shareUrl(
@@ -169,7 +169,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                             ),
                             child: Icon(
                               TIcons.share,
-                              size: Sizes.md,
+                              size: AppSizes.md,
                               color: AppColors.linkColor,
                             ),
                           )
@@ -178,11 +178,11 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                   ),
 
                   //Product detail page Title description
-                  const SizedBox(height: Sizes.sm),
+                  const SizedBox(height: AppSizes.sm),
                   Text(_product.value.name ?? '', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),),
 
                   //Star Rating
-                  const SizedBox(height: Sizes.sm),
+                  const SizedBox(height: AppSizes.sm),
                   ProductStarRating(
                       averageRating: _product.value.averageRating ?? 0.0,
                       ratingCount: _product.value.ratingCount ?? 0,
@@ -191,14 +191,13 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                   ),
 
                   //Price
-                  const SizedBox(height: Sizes.sm),
+                  const SizedBox(height: AppSizes.sm),
                   Row(
                     children: [
                       TOfferWidget(label: '${_product.value.calculateSalePercentage()}% off'),
-                      const SizedBox(width: Sizes.spaceBtwItems),
+                      const SizedBox(width: AppSizes.spaceBtwItems),
                       ProductPrice(salePrice: _product.value.salePrice,
                           regularPrice: _product.value.regularPrice ?? 0.0,
-                          orientation: OrientationType.horizontal
                       ),
                       // const SizedBox(width: TSizes.spaceBtwItems),
                       // TSaleLabel(discount: salePercentage),
@@ -207,29 +206,29 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
 
                   //Free Delivery
                   _product.value.getPrice() >= 999
-                      ? TRoundedContainer(
-                          radius: Sizes.productImageRadius,
+                      ? RoundedContainer(
+                          radius: AppSizes.defaultProductRadius,
                           backgroundColor: Colors.blue.shade50,
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text('Free Delivery', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.linkColor)),
-                              const SizedBox(width: Sizes.spaceBtwItems),
+                              const SizedBox(width: AppSizes.spaceBtwItems),
                               Icon(TIcons.truck, color: AppColors.linkColor, size: 15),
                               const SizedBox(width: 5),
                             ],
                           )
                         )
-                      : TRoundedContainer(
-                            radius: Sizes.productImageRadius,
+                      : RoundedContainer(
+                            radius: AppSizes.defaultProductRadius,
                             backgroundColor: Colors.blue.shade50,
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text('Free delivery over ₹999', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.linkColor)),
-                                const SizedBox(width: Sizes.spaceBtwItems),
+                                const SizedBox(width: AppSizes.spaceBtwItems),
                                 Icon(TIcons.truck, color: AppColors.linkColor, size: 15),
                                 const SizedBox(width: 5),
                               ],
@@ -237,7 +236,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                         ),
 
                   //Stock Status
-                  const SizedBox(height: Sizes.spaceBtwItems),
+                  const SizedBox(height: AppSizes.spaceBtwItems),
                   InStock(isProductAvailable: _product.value.isProductAvailable()),
 
                   // const SizedBox(height: TSizes.sm),
@@ -255,20 +254,20 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                         );
                   }),
 
-                  const SizedBox(height: Sizes.sm),
+                  const SizedBox(height: AppSizes.sm),
                   ProductsScrollingByItemID(
                       itemName: 'Frequently Bought together',
                       itemID: _product.value.id.toString(),
                       futureMethod: productController.getFBTProducts
                   ),
 
-                  const SizedBox(height: Sizes.spaceBtwSection),
+                  const SizedBox(height: AppSizes.spaceBtwSection),
                   _product.value.description != ''
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const TSectionHeading(title: 'Description'),
-                            const SizedBox(height: Sizes.sm),
+                            const SizedBox(height: AppSizes.sm),
                             // Text(product.description ?? ''),
                             Html(data: _product.value.description)
                           ],
@@ -281,7 +280,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                       itemID: _product.value.categories?[0].id ?? '',
                       futureMethod: productController.getProductsByCategoryId
                   ),
-                  const SizedBox(height: Sizes.sm),
+                  const SizedBox(height: AppSizes.sm),
 
                   //Shown products by related products, up sale,cross sale
                   ProductsScrollingByItemID(
@@ -289,11 +288,11 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                       itemID: _product.value.getAllRelatedProductsIdsAsString(),
                       futureMethod: productController.getProductsByIds
                   ),
-                  const SizedBox(height: Sizes.sm),
+                  const SizedBox(height: AppSizes.sm),
                   const Divider(),
 
                   //Review
-                  const SizedBox(height: Sizes.spaceBtwItems),
+                  const SizedBox(height: AppSizes.spaceBtwItems),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

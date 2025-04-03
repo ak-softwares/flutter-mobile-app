@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../models/product_model.dart';
 
 class AllProductController extends GetxController {
@@ -18,7 +18,7 @@ class AllProductController extends GetxController {
       final List<ProductModel> newProducts = await futureMethod(currentPage.toString());
       products.addAll(newProducts);
     } catch (e) {
-      throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+      throw AppMassages.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -29,7 +29,7 @@ class AllProductController extends GetxController {
       products.clear(); // Clear existing orders
       await getAllProducts(futureMethod);
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     } finally {
       isLoading(false);
     }
@@ -40,7 +40,7 @@ class AllProductController extends GetxController {
       final List<ProductModel> newProducts = await futureMethod(categoryId, currentPage.toString());
       products.addAll(newProducts);
     } catch (e) {
-      throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+      throw AppMassages.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -51,7 +51,7 @@ class AllProductController extends GetxController {
       products.clear(); // Clear existing orders
       await getAllProductsTwoSting(futureMethod, categoryId);
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     } finally {
       isLoading(false);
     }

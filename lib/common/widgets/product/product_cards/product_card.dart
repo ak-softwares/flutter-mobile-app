@@ -44,19 +44,20 @@ class ProductCard extends StatelessWidget {
   }
 
   Container productCardVertical({required BuildContext context}) {
-    const double productImageSizeVertical = Sizes.productImageSizeVertical;
-    const double productCardVerticalHeight = Sizes.productCardVerticalHeight;
-    const double productCardVerticalWidth = Sizes.productCardVerticalWidth;
-    const double productImageRadius = Sizes.productImageRadius;
+    const double productImageSizeVertical = AppSizes.productImageSizeVertical;
+    const double productCardVerticalHeight = AppSizes.productCardVerticalHeight;
+    const double productCardVerticalWidth = AppSizes.productCardVerticalWidth;
+    const double productCardVerticalRadius = AppSizes.productCardVerticalRadius;
     final salePercentage = product.calculateSalePercentage();
+
     return Container(
       width: productCardVerticalWidth,
-      padding: const EdgeInsets.all(Sizes.xs),
+      padding: const EdgeInsets.all(AppSizes.xs),
       decoration: BoxDecoration(
         // color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(productImageRadius),
+        borderRadius: BorderRadius.circular(productCardVerticalRadius),
         border: Border.all(
-          width: Sizes.defaultBorderWidth,
+          width: AppSizes.defaultBorderWidth,
           color: Theme.of(context).colorScheme.outline, // Border color
         )
       ),
@@ -84,11 +85,11 @@ class ProductCard extends StatelessWidget {
                     items: product.imageUrlList.map((imageUrl) {
                       return Builder(
                         builder: (BuildContext context) {
-                          return TRoundedImage(
+                          return RoundedImage(
                             image: imageUrl,
                             height: productImageSizeVertical,
                             width: productImageSizeVertical,
-                            borderRadius: productImageRadius,
+                            borderRadius: productCardVerticalRadius,
                             isNetworkImage: true,
                             padding: 3,
                             backgroundColor: Colors.white,
@@ -99,11 +100,11 @@ class ProductCard extends StatelessWidget {
                   ),
 
                   //sale tag
-                  Positioned(
-                    top: 10,
-                    left: 3,
-                    child: TSaleLabel(discount: salePercentage),
-                  ),
+                  // Positioned(
+                  //   top: 10,
+                  //   left: 3,
+                  //   child: TSaleLabel(discount: salePercentage),
+                  // ),
 
                   // favourite icons
                   Positioned(
@@ -119,7 +120,7 @@ class ProductCard extends StatelessWidget {
                       child: product.isProductAvailable()
                           ? const SizedBox.shrink()
                           : Container(
-                                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: Sizes.sm),
+                                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: AppSizes.sm),
                                 color: Theme.of(context).colorScheme.surface,
                                 child: InStock(isProductAvailable: product.isProductAvailable()),
                             ),
@@ -127,12 +128,12 @@ class ProductCard extends StatelessWidget {
                 ],
               ),
               // Title and Star rating
-              const SizedBox(height: Sizes.xs),
+              const SizedBox(height: AppSizes.xs),
               Padding(
-                  padding: const EdgeInsets.only(left: Sizes.sm),
+                  padding: EdgeInsets.symmetric(horizontal: AppSizes.sm),
                   child: Column(
                     children: [
-                      ProductTitle(title: product.name ?? ''),
+                      ProductTitle(title: product.name ?? '',),
                       ProductStarRating(
                         averageRating: product.averageRating ?? 0.0,
                         ratingCount: product.ratingCount ?? 0,
@@ -147,40 +148,26 @@ class ProductCard extends StatelessWidget {
           ),
 
           // Price and Add to cart
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              // Price
-              Container(
-                padding: const EdgeInsets.only(left: Sizes.sm, bottom: 5),
-                child: ProductPrice(
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSizes.sm),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                // Price
+                ProductPrice(
                   salePrice: product.salePrice,
                   regularPrice: product.regularPrice ?? 0.0,
-                  orientation: OrientationType.horizontal,
                   size: 16,
                 ),
-              ),
 
-              // Add to cart
-              Container(
-                  width: 45,
-                  height: 35,
-                  decoration: BoxDecoration(
-                      // color: Theme.of(context).colorScheme.onSurface,
-                      // color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.only(
-                        // topLeft: Radius.circular(TSizes.cardRadiusMd),
-                        bottomRight: Radius.circular(productImageRadius),
-                      )
-                  ),
-                  child: SizedBox(
-                      width: Sizes.iconLg * 1.2,
-                      height: Sizes.iconLg * 1.2,
-                      child: Center(child: CartIcon(product: product, sourcePage: pageSource,))
-                  ),
-              )
-            ],
+                // Add to cart
+                Padding(
+                  padding: const EdgeInsets.only(bottom: AppSizes.xs),
+                  child: CartIcon(product: product, iconSize: 20, sourcePage: pageSource,),
+                )
+              ],
+            ),
           )
         ],
       ),
@@ -188,22 +175,22 @@ class ProductCard extends StatelessWidget {
   }
 
   Container productCardHorizontal({required BuildContext context}) {
-    const double productImageSizeHorizontal = Sizes.productImageSizeHorizontal;
-    const double productCardHorizontalHeight = Sizes.productCardHorizontalHeight;
-    const double productCardHorizontalWidth = Sizes.productCardHorizontalWidth;
-    const double productImageRadius = Sizes.productImageRadius;
+    const double productImageSizeHorizontal = AppSizes.productImageSizeHorizontal;
+    const double productCardHorizontalHeight = AppSizes.productCardHorizontalHeight;
+    const double productCardHorizontalWidth = AppSizes.productCardHorizontalWidth;
+    const double productCardHorizontalRadius = AppSizes.productCardHorizontalRadius;
     final salePercentage = product.calculateSalePercentage();
     final productController = Get.put(ProductController(), permanent: true);
 
     return Container(
       width: productCardHorizontalWidth,
       // width: double.infinity,
-      padding: const EdgeInsets.all(Sizes.xs),
+      padding: const EdgeInsets.all(AppSizes.xs),
       decoration: BoxDecoration(
         // color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(productImageRadius),
+        borderRadius: BorderRadius.circular(productCardHorizontalRadius),
         border: Border.all(
-          width: Sizes.defaultBorderWidth,
+          width: AppSizes.defaultBorderWidth,
           color: Theme.of(context).colorScheme.outline, // Border color
         )
       ),
@@ -213,11 +200,11 @@ class ProductCard extends StatelessWidget {
           Stack(
             children: [
               // Thumbnail Image
-              TRoundedImage(
+              RoundedImage(
                   image: product.mainImage ?? '',
                   height: productImageSizeHorizontal,
                   width: productImageSizeHorizontal,
-                  borderRadius: productImageRadius,
+                  borderRadius: productCardHorizontalRadius,
                   isNetworkImage: true,
                   padding: 0
               ),
@@ -243,7 +230,7 @@ class ProductCard extends StatelessWidget {
                 child: product.isProductAvailable()
                     ? const SizedBox.shrink()
                     : Container(
-                  padding: const EdgeInsets.symmetric(vertical: 2, horizontal: Sizes.sm),
+                  padding: const EdgeInsets.symmetric(vertical: 2, horizontal: AppSizes.sm),
                   color: Theme.of(context).colorScheme.surface,
                   child: InStock(isProductAvailable: product.isProductAvailable()),
                 ),
@@ -254,52 +241,37 @@ class ProductCard extends StatelessWidget {
           // Title, Rating and price
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: Sizes.sm),
-              child: Stack(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              padding: EdgeInsets.symmetric(horizontal: AppSizes.sm),
+              child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Title
-                      ProductTitle(title: product.name ?? '', size: 13, maxLines: 2,),
-                      // Star rating
-                      ProductStarRating(averageRating: product.averageRating ?? 0.0, ratingCount: product.ratingCount ?? 0, size: 12,),
-                      // Brand
-                      ProductBrand(brands: product.brands ?? [], size: 12),
-                      // Price
-                      ProductPrice(
-                          salePrice: product.salePrice ?? product.price,
-                          regularPrice: product.regularPrice ?? 0.0,
-                          orientation: OrientationType.horizontal,
-                          size: 17
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ProductTitle(title: product.name ?? '',),
+                          // Star rating
+                          ProductStarRating(averageRating: product.averageRating ?? 0.0, ratingCount: product.ratingCount ?? 0, size: 12,),
+                          // Brand
+                          ProductBrand(brands: product.brands ?? [], size: 12),
+                        ],
                       ),
+                      // Price
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ProductPrice(
+                              salePrice: product.salePrice ?? product.price,
+                              regularPrice: product.regularPrice ?? 0.0,
+                              orientationType: OrientationType.horizontal,
+                              size: 16
+                          ),
+                          // Add to cart
+                          CartIcon(product: product, iconSize: 20, sourcePage: pageSource,),
+                        ],
+                      )
                     ],
                   ),
-
-                  // Price and Add to cart
-                  Positioned(
-                      bottom: 0,
-                      right: 0,
-                      // Add to cart
-                      child: Container(
-                        width: 45,
-                        height: 33,
-                        decoration: const BoxDecoration(
-                            // color: AppColors.primaryColor,
-                            borderRadius: BorderRadius.only(
-                              // topLeft: Radius.circular(TSizes.cardRadiusMd),
-                              bottomRight: Radius.circular(productImageRadius),
-                            )
-                        ),
-                        child: SizedBox(
-                            width: Sizes.iconLg,
-                            height: Sizes.iconLg,
-                            child: Center(child: CartIcon(product: product, sourcePage: pageSource,))
-                        ),
-                      )
-                  )
-                ],
-              ),
             ),
           )
         ],

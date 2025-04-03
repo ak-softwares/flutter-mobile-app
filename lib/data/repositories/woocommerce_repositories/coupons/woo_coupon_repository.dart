@@ -14,7 +14,7 @@ class WooCouponRepository extends GetxController {
   static WooCouponRepository get instance => Get.find();
 
   final Box _cacheBox = Hive.box(CacheConstants.couponBox); // Hive storage
-  final double cacheExpiryTimeInDays = 7;
+  final double cacheExpiryTimeInDays = APIConstant.couponCacheTime;
 
   //Fetch all coupons
   Future<List<CouponModel>> fetchAllCoupons(String page) async {

@@ -27,7 +27,7 @@ class ImagesController extends GetxController{
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: Sizes.defaultSpace * 2, horizontal: Sizes.defaultSpace),
+              padding: const EdgeInsets.symmetric(vertical: AppSizes.defaultSpace * 2, horizontal: AppSizes.defaultSpace),
               child: GestureDetector(
                 onDoubleTapDown: (details) => tapDownDetails = details,
                 onDoubleTap: () {
@@ -57,7 +57,7 @@ class ImagesController extends GetxController{
                 ),
               ),
             ),
-            const SizedBox(height: Sizes.spaceBtwSection),
+            const SizedBox(height: AppSizes.spaceBtwSection),
             Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(

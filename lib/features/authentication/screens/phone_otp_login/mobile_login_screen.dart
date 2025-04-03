@@ -46,11 +46,11 @@ class MobileLoginScreen extends StatelessWidget {
                     Column(
                       children: [
                         Text('Your Phone!', style: Theme.of(context).textTheme.headlineMedium),
-                        const SizedBox(height: Sizes.sm),
+                        const SizedBox(height: AppSizes.sm),
                         Text(TTexts.loginSubTitle, style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center)
                       ],
                     ),
-                    const SizedBox(height: Sizes.spaceBtwSection),
+                    const SizedBox(height: AppSizes.spaceBtwSection),
 
                     //Form Field
                     // PhoneFieldHint/TextField,
@@ -61,7 +61,7 @@ class MobileLoginScreen extends StatelessWidget {
                         labelText: 'Phone Number',
                         border: OutlineInputBorder(
                           borderSide: BorderSide(),
-                          borderRadius: BorderRadius.all(Radius.circular(Sizes.buttonRadius)), // Adjust radius as needed
+                          borderRadius: BorderRadius.all(Radius.circular(AppSizes.buttonRadius)), // Adjust radius as needed
                         ),
                       ),
                       validator: (value) => TValidator.validatePhoneNumber(value.toString()),
@@ -77,7 +77,7 @@ class MobileLoginScreen extends StatelessWidget {
                         // otpController.selectedCountry1.value = country.dialCode.toString();
                       },
                     ),
-                    const SizedBox(height: Sizes.spaceBtwInputFields),
+                    const SizedBox(height: AppSizes.spaceBtwInputFields),
                     SizedBox(
                       width: double.infinity,
                       child: Obx(() => ElevatedButton(
@@ -90,7 +90,7 @@ class MobileLoginScreen extends StatelessWidget {
                     ),
 
                     //Not a Member?  Divider
-                    const SizedBox(height: Sizes.spaceBtwSection),
+                    const SizedBox(height: AppSizes.spaceBtwSection),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Row(
@@ -112,11 +112,11 @@ class MobileLoginScreen extends StatelessWidget {
                     ),
 
                     //Social login
-                    const SizedBox(height: Sizes.spaceBtwInputFields),
+                    const SizedBox(height: AppSizes.spaceBtwInputFields),
                     const TSocialButtons(),
 
                     // Continue with email and password
-                    const SizedBox(height: Sizes.spaceBtwInputFields),
+                    const SizedBox(height: AppSizes.spaceBtwInputFields),
                     SizedBox(
                       width: double.infinity,
                       child: OutlinedButton(
@@ -126,7 +126,7 @@ class MobileLoginScreen extends StatelessWidget {
                     ),
 
                     // Not a Member? register
-                    const SizedBox(height: Sizes.spaceBtwItems),
+                    const SizedBox(height: AppSizes.spaceBtwItems),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

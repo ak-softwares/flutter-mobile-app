@@ -40,7 +40,7 @@ class CheckoutScreen extends StatelessWidget {
       bottomNavigationBar: Obx((){
         if (authenticationRepository.isUserLogin.value && cartController.cartItems.isNotEmpty){
           return Padding(
-              padding: const EdgeInsets.all(Sizes.defaultSpace),
+              padding: const EdgeInsets.all(AppSizes.defaultSpace),
               child: ElevatedButton(
                   onPressed: () => checkoutController.initiateCheckout(),
                   // onPressed: () {},
@@ -55,48 +55,44 @@ class CheckoutScreen extends StatelessWidget {
       body: !authenticationRepository.isUserLogin.value
           ? const CheckLoginScreen(text: 'Please Login! before Checkout!')
           : SingleChildScrollView(
+            padding: TSpacingStyle.defaultPageHorizontal,
             child: Column(
               children: [
                 // Cart Items
                 Obx(() => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: TSpacingStyle.defaultPageHorizontal,
-                      child: const TSectionHeading(title: 'Cart Items'),
-                    ),
+                    const Heading(title: 'Cart Items'),
                     GridLayout(
                         crossAxisCount: 1,
-                        mainAxisExtent: 90,
+                        mainAxisExtent: 95,
                         itemCount: cartController.cartItems.length,
                         itemBuilder: (_, index) => ProductCardForCart(cartItem: cartController.cartItems[index]),
                       ),
                   ],
                 )),
-                const SizedBox(height: Sizes.spaceBtwSection,),
+                const SizedBox(height: AppSizes.spaceBtwSection,),
 
                 // Billing Sections
-                Container(
-                  padding: TSpacingStyle.defaultPagePadding,
-                  child: Column(
-                    children: [
-                      // coupon TextField
-                      const TCouponCode(),
-                      const SizedBox(height: Sizes.spaceBtwSection,),
+                Column(
+                  children: [
+                    // coupon TextField
+                    const TCouponCode(),
+                    const SizedBox(height: AppSizes.spaceBtwSection,),
 
-                      // pricing
-                      Divider(),
-                      TBillingAmountSection(),
+                    // pricing
+                    Divider(thickness: AppSizes.defaultBorderWidth, color: Theme.of(context).colorScheme.outline),
+                    TBillingAmountSection(),
 
-                      // payment method
-                      Divider(),
-                      TBillingPaymentSection(),
+                    // payment method
+                    Divider(thickness: AppSizes.defaultBorderWidth, color: Theme.of(context).colorScheme.outline),
+                    TBillingPaymentSection(),
 
-                      // address
-                      Divider(),
-                      TBillingAddressSection(),
-                      SizedBox(height: Sizes.spaceBtwItems),
-                    ],
-                  ),
+                    // address
+                    Divider(thickness: AppSizes.defaultBorderWidth, color: Theme.of(context).colorScheme.outline),
+                    TBillingAddressSection(),
+                    SizedBox(height: AppSizes.spaceBtwItems),
+                  ],
                 ),///
               ],
             ),

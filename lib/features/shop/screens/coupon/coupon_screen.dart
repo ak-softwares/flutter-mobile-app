@@ -5,7 +5,7 @@ import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
-import '../../../../common/widgets/loaders/animation_loader.dart';
+import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../common/widgets/shimmers/coupon_shimmer.dart';
 import '../../../../common/widgets/shimmers/order_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -66,8 +66,8 @@ class CouponListLayout extends StatelessWidget {
       padding: TSpacingStyle.defaultPageVertical,
       physics: const AlwaysScrollableScrollPhysics(),
       children: [
-        Heading(title: 'Coupons', paddingLeft: Sizes.defaultSpace),
-        SizedBox(height: Sizes.spaceBtwItems),
+        Heading(title: 'Coupons', paddingLeft: AppSizes.defaultSpace),
+        SizedBox(height: AppSizes.spaceBtwItems),
         Obx(() {
           if(couponController.isLoading.value){
             return const CouponShimmer();

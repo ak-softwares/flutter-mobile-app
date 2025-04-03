@@ -22,15 +22,19 @@ class ProductStarRating extends StatelessWidget {
       child: Row(
           children: [
             RatingBarIndicator(
+              itemPadding: EdgeInsets.all(0),
               rating: averageRating,
-              itemSize: size*1.3,
+              itemSize: size * 1.3,
               unratedColor: Colors.grey[300],
               itemBuilder: (_, __) => const Icon(Iconsax.star1, color: AppColors.ratingStar),
             ),
-            Text(
-              ' ${averageRating.toStringAsFixed(1)}($ratingCount)',
-              style: TextStyle(fontSize: size, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.w500)),
-            const SizedBox(width: Sizes.spaceBtwItems / 2),
+            if(ratingCount > 0)
+              Expanded(
+                child: Text(
+                  ' $ratingCount reviews', overflow: TextOverflow.ellipsis, maxLines: 1,
+                  style: TextStyle(fontSize: size, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)
+                ),
+              ),
           ],
         ),
     );

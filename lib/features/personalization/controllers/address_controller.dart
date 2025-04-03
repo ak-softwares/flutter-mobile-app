@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../common/text/section_heading.dart';
-import '../../../common/widgets/loaders/loader.dart';
+import '../../../common/dialog_box_massages/massages.dart';
 import '../../../common/widgets/network_manager/network_manager.dart';
 import '../../../data/repositories/firebase/address/address_repository.dart';
 import '../../../data/repositories/woocommerce_repositories/customers/woo_customer_repository.dart';
@@ -12,7 +12,7 @@ import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/data/state_iso_code_map.dart';
 import '../../../utils/helpers/cloud_helper_function.dart';
-import '../../../common/widgets/loaders/full_screen_loader.dart';
+import '../../../common/dialog_box_massages/full_screen_loader.dart';
 import '../../shop/controllers/checkout_controller/checkout_controller.dart';
 import '../models/address_model.dart';
 import '../models/user_model.dart';
@@ -96,12 +96,12 @@ class AddressController extends GetxController{
       }
       //remove Loader
       TFullScreenLoader.stopLoading();
-      TLoaders.customToast(message: 'Address updated successfully!');
+      AppMassages.showToastMessage(message: 'Address updated successfully!');
       Navigator.of(Get.context!).pop();
     } catch (error) {
       //remove Loader
       TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: error.toString());
     }
   }
 
@@ -123,7 +123,7 @@ class AddressController extends GetxController{
       selectedAddress.value = addresses.firstWhere((element) => element.selectedAddress ?? false, orElse: () => AddressModel.empty());
       return addresses;
     } catch (e) {
-      TLoaders.errorSnackBar(title: 'Address not found', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Address not found', message: e.toString());
       return[];
     }
   }
@@ -135,7 +135,7 @@ class AddressController extends GetxController{
       selectedAddress.value = address;
       return address;
     } catch (e) {
-      TLoaders.errorSnackBar(title: 'Address not found', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Address not found', message: e.toString());
       return AddressModel.empty();
     }
   }
@@ -146,7 +146,7 @@ class AddressController extends GetxController{
       final address = await addressRepository.fetchSingleAddress(selectedAddressId);
       return address;
     } catch (e) {
-      TLoaders.errorSnackBar(title: 'Address not found', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Address not found', message: e.toString());
       return AddressModel.empty();
     }
   }
@@ -164,7 +164,7 @@ class AddressController extends GetxController{
       //set the 'Selected' field to true for the newly selected address
       await addressRepository.updateSelectedField(selectedAddress.value.id ?? '', true);
     } catch (e) {
-      TLoaders.errorSnackBar(title: 'Error in Selection', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Selection', message: e.toString());
     }
   }
 
@@ -209,7 +209,7 @@ class AddressController extends GetxController{
       TFullScreenLoader.stopLoading();
 
       //Show Success message
-      TLoaders.successSnackBar(title: 'Congratulation', message: 'Your address has been saved successfully.');
+      AppMassages.successSnackBar(title: 'Congratulation', message: 'Your address has been saved successfully.');
 
       //Refresh Addresses data
       refreshData.toggle();
@@ -222,7 +222,7 @@ class AddressController extends GetxController{
     } catch(e) {
       //remove loader
       TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Address not found', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Address not found', message: e.toString());
     }
   }
 
@@ -244,7 +244,7 @@ class AddressController extends GetxController{
     return showModalBottomSheet(
       context: context,
       builder: (_) => Container(
-        padding: const EdgeInsets.all(Sizes.lg),
+        padding: const EdgeInsets.all(AppSizes.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -264,7 +264,7 @@ class AddressController extends GetxController{
                   return ListView.separated(
                       shrinkWrap: true,
                       itemCount: addresses.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: Sizes.spaceBtwItems),
+                      separatorBuilder: (_, __) => const SizedBox(height: AppSizes.spaceBtwItems),
                       itemBuilder: (_, index) => TSingleAddress(
                           address: addresses[index],
                           onTap: () => selectAddress(addresses[index])
@@ -273,7 +273,7 @@ class AddressController extends GetxController{
                 }
               ),
             ),
-            const SizedBox(height: Sizes.defaultSpace * 2),
+            const SizedBox(height: AppSizes.defaultSpace * 2),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(

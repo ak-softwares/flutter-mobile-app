@@ -5,14 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../data/repositories/authentication/phone_auth_repository.dart';
 import '../../../../data/repositories/authentication/fast2sms.dart';
 import '../../../../data/repositories/woocommerce_repositories/customers/woo_customer_repository.dart';
 import '../../../../utils/constants/image_strings.dart';
-import '../../../../common/widgets/loaders/full_screen_loader.dart';
+import '../../../../common/dialog_box_massages/full_screen_loader.dart';
 import '../../../../utils/validators/validation.dart';
 import '../../../personalization/models/user_model.dart';
 import '../../screens/create_account/signup.dart';
@@ -65,13 +65,13 @@ class OTPController extends GetxController {
       //check internet connectivity
       final isConnected = await Get.put(NetworkManager()).isConnected();
       if (!isConnected) {
-        TLoaders.errorSnackBar(title: 'No Internet', message: 'Please check your internet connection.');
+        AppMassages.errorSnackBar(title: 'No Internet', message: 'Please check your internet connection.');
         return;
       }
 
       String? formattedPhone = TValidator.getFormattedTenDigitNumber(phone);
       if (formattedPhone == null) {
-        TLoaders.errorSnackBar(title: 'Error', message: 'No 10-digit number found');
+        AppMassages.errorSnackBar(title: 'Error', message: 'No 10-digit number found');
         return;
       }
 
@@ -88,7 +88,7 @@ class OTPController extends GetxController {
 
     } catch (error) {
       //show some Generic error to the user
-      TLoaders.errorSnackBar(title: 'Oh Snap!', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Oh Snap!', message: error.toString());
     } finally {
       isLoading(false);
     }
@@ -108,7 +108,7 @@ class OTPController extends GetxController {
       //verify otp
       if (saveGenerateOTP != otp) {
         TFullScreenLoader.stopLoading();
-        TLoaders.errorSnackBar(title: 'Error', message: 'Invalid OTP');
+        AppMassages.errorSnackBar(title: 'Error', message: 'Invalid OTP');
         return;
       }
 
@@ -116,7 +116,7 @@ class OTPController extends GetxController {
       String? formattedPhone = TValidator.getFormattedTenDigitNumber(googlePhone);
       if (formattedPhone == null) {
         TFullScreenLoader.stopLoading();
-        TLoaders.errorSnackBar(title: 'Error', message: 'No 10-digit number found');
+        AppMassages.errorSnackBar(title: 'Error', message: 'No 10-digit number found');
         return;
       }
 
@@ -135,7 +135,7 @@ class OTPController extends GetxController {
         Get.put(SignupController()).phone.text = TValidator.getFormattedTenDigitNumber(googlePhone) ?? ''; // Now 'googleEmail' is accessible here
         Get.to(() => SignUpScreen());
       } else {
-        TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+        AppMassages.errorSnackBar(title: 'Error', message: error.toString());
       }
     }
   }
@@ -148,12 +148,12 @@ class OTPController extends GetxController {
       //check internet connectivity
       final isConnected = await Get.put(NetworkManager()).isConnected();
       if (!isConnected) {
-        TLoaders.errorSnackBar(title: 'No Internet', message: 'Please check your internet connection.');
+        AppMassages.errorSnackBar(title: 'No Internet', message: 'Please check your internet connection.');
         return;
       }
       String? formattedPhone = TValidator.getFormattedTenDigitNumber(phone);
       if (formattedPhone == null) {
-        TLoaders.errorSnackBar(title: 'Error', message: 'No 10-digit number found');
+        AppMassages.errorSnackBar(title: 'Error', message: 'No 10-digit number found');
         return;
       }
 
@@ -162,7 +162,7 @@ class OTPController extends GetxController {
 
     } catch (error) {
       //show some Generic error to the user
-      TLoaders.errorSnackBar(title: 'Oh Snap!', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Oh Snap!', message: error.toString());
     }
   }
 
@@ -182,7 +182,7 @@ class OTPController extends GetxController {
       googlePhone = userCredentials.user?.phoneNumber ?? '';
       String? formattedPhone = TValidator.getFormattedTenDigitNumber(googlePhone);
       if (formattedPhone == null) {
-        TLoaders.errorSnackBar(title: 'Error', message: 'No 10-digit number found');
+        AppMassages.errorSnackBar(title: 'Error', message: 'No 10-digit number found');
         return;
       }
 
@@ -200,7 +200,7 @@ class OTPController extends GetxController {
         Get.put(SignupController()).phone.text = googlePhone; // Now 'googleEmail' is accessible here
         Get.to(() => SignUpScreen());
       } else {
-        TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+        AppMassages.errorSnackBar(title: 'Error', message: error.toString());
       }
     }
   }

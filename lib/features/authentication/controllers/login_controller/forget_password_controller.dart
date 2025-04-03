@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../data/repositories/woocommerce_repositories/authentication/woo_authentication.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/image_strings.dart';
-import '../../../../common/widgets/loaders/full_screen_loader.dart';
+import '../../../../common/dialog_box_massages/full_screen_loader.dart';
 import '../../screens/email_login/reset_password_screen.dart';
 
 class ForgetPasswordController extends GetxController{
@@ -44,12 +44,12 @@ class ForgetPasswordController extends GetxController{
 
       //remove Loader
       TFullScreenLoader.stopLoading();
-      TLoaders.customToast(message: 'Reset password email send');
+      AppMassages.showToastMessage(message: 'Reset password email send');
       Get.to(() => ResetPasswordScreen(email: email));
     } catch (error) {
       //remove Loader
       TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: error.toString());
     }
   }
 }

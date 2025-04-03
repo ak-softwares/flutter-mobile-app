@@ -10,11 +10,9 @@ import '../../../../utils/constants/icons.dart';
 
 class TCartCounterIcon extends StatelessWidget {
   const TCartCounterIcon({
-    super.key, this.iconColor = Colors.black, this.counterColorInvert = false,
+    super.key,
   });
 
-  final Color? iconColor;
-  final bool counterColorInvert;
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(CartController());
@@ -24,7 +22,6 @@ class TCartCounterIcon extends StatelessWidget {
         IconButton(
             onPressed: () => Get.to(() => const CartScreen()),
             icon: Icon(TIcons.bottomNavigationCart, size: 25,),
-            color: iconColor
         ),
         Positioned(
           top: 5,
@@ -39,7 +36,7 @@ class TCartCounterIcon extends StatelessWidget {
                   // spreadRadius: 5, // Adjust as needed
                   offset: Offset(0, 0), // Adjust as needed
                 )],
-                color: counterColorInvert ? AppColors.secondaryColor : AppColors.primaryColor,
+                color: AppColors.primaryColor,
                 borderRadius: BorderRadius.circular(100)
               ),
               child: Center(
@@ -47,7 +44,7 @@ class TCartCounterIcon extends StatelessWidget {
                   () => Text(
                       controller.noOfCartItems.value.toString(),
                       style: Theme.of(context).textTheme.labelSmall!.apply(
-                          color: counterColorInvert ? Colors.white : AppColors.secondaryColor,
+                          color:AppColors.secondaryColor,
                           fontSizeFactor: 0.9,
                           fontWeightDelta: 2
                       )

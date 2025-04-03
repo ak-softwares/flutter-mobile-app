@@ -1,19 +1,16 @@
 import 'package:aramarket/features/personalization/controllers/user_controller.dart';
 import 'package:aramarket/features/shop/screens/products/product_detail.dart';
 import 'package:aramarket/utils/constants/enums.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../../common/dialog_box/dialog_massage.dart';
+import '../../../../common/dialog_box_massages/dialog_massage.dart';
 import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/web_view/my_web_view.dart';
-import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
 import '../../../../common/widgets/product/product_cards/product_card_cart_items.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -81,36 +78,35 @@ class _SingleOrderScreenState extends State<SingleOrderScreen> {
               physics: const AlwaysScrollableScrollPhysics(),
               children: [
                 Column(
-                  spacing: Sizes.spaceBtwSection,
+                  spacing: AppSizes.spaceBtwSection,
                   children: [
                     // Order Items
-                    Column(
-                      spacing: Sizes.spaceBtwItems,
-                      children: [
-                        Heading(
-                            title: 'Order Items',
-                            paddingLeft: Sizes.defaultSpace),
-                        GridLayout(
-                          crossAxisCount: 1,
-                          mainAxisExtent: 90,
-                          itemCount: currentOrder.lineItems!.length,
-                          itemBuilder: (_, index) => Stack(children: [
-                            ProductCardForCart(
-                                cartItem: currentOrder.lineItems![index]),
-                          ]),
-                        ),
-                      ],
+                    Padding(
+                      padding: TSpacingStyle.defaultPageHorizontal,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: AppSizes.spaceBtwItems,
+                        children: [
+                          Heading(title: 'Order Items'),
+                          GridLayout(
+                            crossAxisCount: 1,
+                            mainAxisExtent: 95,
+                            itemCount: currentOrder.lineItems!.length,
+                            itemBuilder: (_, index) => Stack(children: [
+                              ProductCardForCart(cartItem: currentOrder.lineItems![index]),
+                            ]),
+                          ),
+                        ],
+                      ),
                     ),
 
                     // Order Detail Section
                     Padding(
                       padding: TSpacingStyle.defaultPageHorizontal,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Heading(
-                            title: 'Order Details',
-                            paddingLeft: Sizes.md,
-                          ),
+                          Heading(title: 'Order Details'),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -145,21 +141,22 @@ class _SingleOrderScreenState extends State<SingleOrderScreen> {
                     ),
 
                     // Billing Section
-                    Column(
-                      children: [
-                        Heading(title: 'Billing & address'),
-                        SizedBox(
-                          height: Sizes.sm,
-                        ),
-                        TSingleAddress(
-                          address: currentOrder.billing ?? AddressModel.empty(),
-                          onTap: () {},
-                          hideEdit: true,
-                        ),
-                        SizedBox(height: Sizes.sm),
-                        Padding(
-                          padding: TSpacingStyle.defaultPageHorizontal,
-                          child: Column(
+                    Padding(
+                      padding: TSpacingStyle.defaultPageHorizontal,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Heading(title: 'Billing & address'),
+                          SizedBox(
+                            height: AppSizes.sm,
+                          ),
+                          TSingleAddress(
+                            address: currentOrder.billing ?? AddressModel.empty(),
+                            onTap: () {},
+                            hideEdit: true,
+                          ),
+                          SizedBox(height: AppSizes.sm),
+                          Column(
                             children: [
                               Row(
                                 mainAxisAlignment:
@@ -239,8 +236,8 @@ class _SingleOrderScreenState extends State<SingleOrderScreen> {
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
 
                     // Track order section
@@ -260,7 +257,7 @@ class _SingleOrderScreenState extends State<SingleOrderScreen> {
                                 trailing: OutlinedButton(
                                     style: OutlinedButton.styleFrom(
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: Sizes
+                                          horizontal: AppSizes
                                               .md), // Removes default padding
                                     ),
                                     onPressed: () => orderController

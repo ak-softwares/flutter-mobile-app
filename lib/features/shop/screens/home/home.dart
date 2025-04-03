@@ -72,16 +72,16 @@ class MyHomePage extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
             // const CircularProgressIndicator(), // Display a loading indicator until categories are fetched
-            // const TSearchBar(searchText: TTexts.search, padding: true),
+            const TSearchBar(searchText: TTexts.search),
             const HomeBanner(),
             const ScrollingBrandsImage(),
             const ScrollingCategoriesImage(),
-            SizedBox(height: Sizes.md),
+            SizedBox(height: AppSizes.md),
             const YouTuberBanner(title: 'YouTuber\'s who like our products'),
-            SizedBox(height: Sizes.md),
+            SizedBox(height: AppSizes.md),
 
             Column(
-              spacing: Sizes.sm,
+              spacing: AppSizes.sm,
               children: [
                 Obx(() => Get.put(RecentlyViewedController()).recentlyViewed.isNotEmpty
                     ? ScrollingProducts(title: 'Recently viewed', futureMethod: productController.getRecentProducts, orientation: OrientationType.horizontal)

@@ -23,11 +23,11 @@ class HomeBanner extends StatelessWidget {
       // loader
       if (bannerController.isLoading.value) {
         return Column(
-          spacing: Sizes.spaceBtwItems,
+          spacing: AppSizes.spaceBtwItems,
           children: [
             const ShimmerEffect(height: bannerHeight + 2, width: bannerWidth, radius: 0),
             Row(
-              spacing: Sizes.spaceBtwItems,
+              spacing: AppSizes.spaceBtwItems,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const ShimmerEffect(height: 5, width: 10, radius: 10),
@@ -44,7 +44,7 @@ class HomeBanner extends StatelessWidget {
         return const SizedBox.shrink();
       }
       return Column(
-        spacing: Sizes.spaceBtwItems,
+        spacing: AppSizes.spaceBtwItems,
         children: [
           CarouselSlider(
             options: CarouselOptions(
@@ -53,7 +53,7 @@ class HomeBanner extends StatelessWidget {
                 viewportFraction: 1,
                 onPageChanged: (index, _) => bannerController.updatePageIndicator(index)
             ),
-            items: bannerController.banners.map((banner) => TRoundedImage(
+            items: bannerController.banners.map((banner) => RoundedImage(
               fit: BoxFit.fill,
               height: bannerHeight,
               width: bannerWidth,
@@ -71,13 +71,13 @@ class HomeBanner extends StatelessWidget {
               children: [
                 for(int i = 0; i < bannerController.banners.length; i++)
                   bannerController.carousalCurrentIndex.value == i
-                      ? const TRoundedContainer(
+                      ? const RoundedContainer(
                           width: 20,
                           height: 4,
                           margin: EdgeInsets.only(right: 6),
                           backgroundColor: AppColors.primaryColor,
                         )
-                      : const TRoundedContainer(
+                      : const RoundedContainer(
                           width: 10,
                           height: 4,
                           margin: EdgeInsets.only(right: 6),

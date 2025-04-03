@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
-import '../../../common/widgets/loaders/loader.dart';
+import '../../../common/dialog_box_massages/massages.dart';
 import '../../../features/onboarding/controllers/is_first_run/is_first_run.dart';
 import '../../../features/personalization/controllers/change_profile_controller.dart';
 import '../../../features/personalization/controllers/user_controller.dart';
@@ -27,6 +29,8 @@ class AuthenticationRepository extends GetxController {
   final localStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
   RxBool isUserLogin = false.obs;
+  RxString appVersion = '1.0'.obs; // Initialize with default value
+  late PackageInfo _packageInfo;
 
   ///get Authenticated user data
   User? get authUser => _auth.currentUser;
@@ -34,8 +38,23 @@ class AuthenticationRepository extends GetxController {
   /// called from main.dart on app launch
   @override
   void onReady() {
+    super.onReady();
     FlutterNativeSplash.remove();
+    _initializeAppVersion();
     checkIsUserLogin();
+  }
+
+  Future<void> _initializeAppVersion() async {
+    try {
+      _packageInfo = await PackageInfo.fromPlatform();
+      appVersion.value = _packageInfo.version;
+    } catch (e) {
+      appVersion.value = '1.0'; // Fallback
+    }
+  }
+
+  String getVersionSync() {
+    return appVersion.value;
   }
 
   // this function run after successfully login
@@ -54,7 +73,7 @@ class AuthenticationRepository extends GetxController {
     if(fCMToken != customer.fCMToken) {
       await Get.put(ChangeProfileController()).wooUpdateUserMeta(userId: customer.id.toString(), key: CustomerMetaDataName.fCMToken, value: fCMToken);
     }
-    TLoaders.customToast(message: 'Login successfully!'); //show massage for successful login
+    AppMassages.showToastMessage(message: 'Login successfully!'); //show massage for successful login
     NavigationHelper.navigateToBottomNavigation(); //navigate to other screen
   }
 

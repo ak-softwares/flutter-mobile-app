@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../common/widgets/success_screen/success_screen.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
@@ -9,7 +9,7 @@ import '../../../../utils/constants/enums.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
-import '../../../../common/widgets/loaders/full_screen_loader.dart';
+import '../../../../common/dialog_box_massages/full_screen_loader.dart';
 import '../../../personalization/controllers/address_controller.dart';
 import '../../../personalization/controllers/user_controller.dart';
 import '../../../settings/app_settings.dart';
@@ -38,6 +38,13 @@ class CheckoutController extends GetxController {
 
   Rx<CouponModel> appliedCoupon = CouponModel().obs;
   Rx<PaymentModel> selectedPaymentMethod = PaymentModel.empty().obs;
+  OrderAttributionModel orderAttribution = OrderAttributionModel(
+    source: "Android App v${AuthenticationRepository.instance.appVersion.value}",
+    sourceType: "organic", //referral, organic, Unknown, utm, Web Admin, typein (Direct)
+    // medium: cartController.cartItems.map((item) => item.pageSource ?? 'NA').join(', '),
+    // campaign: "google_cpc",
+    // referrer: "https://aramarket.in/product/iron/?src=google_cpc"
+  );
 
   final networkManager = Get.put(NetworkManager());
   final cartController = Get.put(CartController());
@@ -97,7 +104,6 @@ class CheckoutController extends GetxController {
   }
 
   Future<void> initiateCheckout() async {
-    OrderModel createdOrder = OrderModel();
     // Log the beginning of the checkout process
     // FBAnalytics.logBeginCheckout(cartItems: cartController.cartItems);
     try {
@@ -115,7 +121,7 @@ class CheckoutController extends GetxController {
       List<String> validationErrors = userController.customer.value.billing!.validateFields();
       if (validationErrors.isNotEmpty) {
         TFullScreenLoader.stopLoading();
-        TLoaders.errorSnackBar(title: 'Error', message: '"${validationErrors.join(', ')}", Update in Address');
+        AppMassages.errorSnackBar(title: 'Error', message: '"${validationErrors.join(', ')}", Update in Address');
         return;
       }
 
@@ -126,25 +132,32 @@ class CheckoutController extends GetxController {
       checkIsCODDisabled();
       if (isCODDisabled.value) {
         TFullScreenLoader.stopLoading();
-        TLoaders.errorSnackBar(title: 'Error', message: "COD is Unavailable for this ${codDisabledReason.value}");
+        AppMassages.errorSnackBar(title: 'Error', message: "COD is Unavailable for this ${codDisabledReason.value}");
       }
 
       // Check Payment Method
       final PaymentModel paymentMethod = selectedPaymentMethod.value;
       if (paymentMethod.id.isEmpty) {
         TFullScreenLoader.stopLoading();
-        TLoaders.errorSnackBar(title: 'Error', message: 'Please select payment Method');
+        AppMassages.errorSnackBar(title: 'Error', message: 'Please select payment Method');
         return;
       }
 
+      if ((orderAttribution.medium?.isEmpty ?? true) || (orderAttribution.sourceType?.isEmpty ?? true)) {
+        orderAttribution = OrderAttributionModel(
+          source: "Android App v${AuthenticationRepository.instance.appVersion.value}",
+          sourceType: "organic", //referral, organic, Unknown, utm, Web Admin, typein (Direct)
+          medium: cartController.cartItems.map((item) => item.pageSource ?? 'NA').join(', '),
+        );
+      } else {
+        orderAttribution.source = "Android App v${AuthenticationRepository.instance.appVersion.value}";
+      }
       // Create Order
-      // final OrderModel createdOrder = await Get.put(OrderController()).saveOrderByCustomerId();
-      createdOrder = await Get.put(OrderController()).saveOrderByCustomerId();
+      final OrderModel createdOrder = await Get.put(OrderController()).saveOrderByCustomerId(orderAttribution: orderAttribution);
 
       FBAnalytics.logCheckout(cartItems: cartController.cartItems);
       // Update the cart status
-      cartController.clearCart();
-      appliedCoupon.value = CouponModel.empty();
+      clearCheckout();
       updateCheckout();
       TFullScreenLoader.stopLoading();
       // Show success screen
@@ -152,24 +165,20 @@ class CheckoutController extends GetxController {
       Get.off(() => TSuccessScreen(
         order: createdOrder,
       ));
-      // Get.offAll(() => TSuccessScreen(
-      //   order: createdOrder,
-      //   image: Images.orderCompletedAnimation,
-      //   title: 'Payment Success! #${createdOrder.id}',
-      //   subTitle: 'Your order status is ${createdOrder.status?.prettyName}',
-      //   // In the onPressed callback of TSuccessScreen
-      //   onPressed: () async {
-      //     Get.close(1);           // Close current screen
-      //     Get.to(() => const OrderScreen())?.then((value) { // Navigate to TOrderScreen
-      //       NavigationHelper.navigateToBottomNavigation(); // After returning from TOrderScreen, navigate to home screen
-      //     });
-      //   },
-      // ));
 
     } catch (error) {
       TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: error.toString());
     }
+  }
+
+  void clearCheckout() {
+    cartController.clearCart();
+    appliedCoupon.value = CouponModel.empty();
+    orderAttribution = OrderAttributionModel(
+      source: "Android App v${AuthenticationRepository.instance.appVersion.value}",
+      sourceType: "organic",
+    );
   }
 
   void updateSelectedPaymentOption(PaymentModel paymentMethod) {

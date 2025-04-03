@@ -5,7 +5,8 @@ import '../../features/shop/screens/products/scrolling_products.dart';
 import '../../utils/constants/image_strings.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/navigation_helper.dart';
-import '../widgets/loaders/animation_loader.dart';
+import '../dialog_box_massages/animation_loader.dart';
+import '../dialog_box_massages/massages.dart';
 import '../widgets/product/product_cards/product_card.dart';
 import '../widgets/shimmers/product_shimmer.dart';
 
@@ -41,7 +42,7 @@ class ProductGridLayout extends StatelessWidget {
         return GridLayout(
           itemCount: controller.isLoadingMore.value ? products.length + 2 : products.length,
           crossAxisCount: orientation == OrientationType.vertical ? 2 : 1,
-          mainAxisExtent: orientation == OrientationType.vertical ? Sizes.productCardVerticalHeight : Sizes.productCardHorizontalHeight,
+          mainAxisExtent: orientation == OrientationType.vertical ? AppSizes.productCardVerticalHeight : AppSizes.productCardHorizontalHeight,
           itemBuilder: (context, index) {
             if (index < products.length) {
               return orientation == OrientationType.horizontal && isDismissible
@@ -50,12 +51,19 @@ class ProductGridLayout extends StatelessWidget {
                         direction: DismissDirection.endToStart, // Swipe left to remove
                         onDismissed: (direction) {
                           controller.removeProduct(productID: products[index].id.toString());
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item removed")),);
+                          AppMassages.showSnackBar(context: context, massage: 'Item removed');
                         },
                         background: Container(
-                          color: Colors.red,
                           alignment: Alignment.centerRight,
                           padding: const EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(AppSizes.defaultProductRadius),
+                              // border: Border.all(
+                              //   width: Sizes.defaultBorderWidth,
+                              //   color: Theme.of(context).colorScheme.outline, // Border color
+                              // )
+                          ),
                           child: const Icon(Icons.delete, color: Colors.white),
                         ),
                         child: SizedBox(width: double.infinity, child: ProductCard(product: products[index], orientation: orientation, pageSource: sourcePage))
@@ -80,8 +88,8 @@ class GridLayout extends StatelessWidget {
     super.key,
     required this.itemCount,
     this.crossAxisCount = 1,
-    this.crossAxisSpacing = Sizes.defaultSpaceBWTCard,
-    this.mainAxisSpacing = Sizes.defaultSpaceBWTCard,
+    this.crossAxisSpacing = AppSizes.defaultSpaceBWTCard,
+    this.mainAxisSpacing = AppSizes.defaultSpaceBWTCard,
     required this.mainAxisExtent,
     required this.itemBuilder,
   });

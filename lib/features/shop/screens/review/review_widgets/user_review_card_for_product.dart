@@ -26,7 +26,7 @@ class SingleReviewCard extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TRoundedImage(
+            RoundedImage(
               image: review.reviewerAvatarUrl ?? Images.tProfileImage,
               height: imageSize,
               width: imageSize,
@@ -34,7 +34,7 @@ class SingleReviewCard extends StatelessWidget {
               padding: 0,
               isNetworkImage: true,
             ),
-            const SizedBox(width: Sizes.spaceBtwItems,),
+            const SizedBox(width: AppSizes.spaceBtwItems,),
             SizedBox(
               width: 210,
               child: Column(
@@ -47,7 +47,7 @@ class SingleReviewCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodySmall
                   ),
-                  const SizedBox(height: Sizes.xs),
+                  const SizedBox(height: AppSizes.xs),
                   Flexible(
                     child: RatingBarIndicator(
                       rating: review.rating!.toDouble(),
@@ -64,7 +64,7 @@ class SingleReviewCard extends StatelessWidget {
         review.image != ''
             ? GestureDetector(
               onTap: () => imagesController.showEnlargedImage(review.image ?? ""),
-              child: TRoundedImage(
+              child: RoundedImage(
                 image: review.image ?? "",
                 height: 60,
                 width: 50,

@@ -49,7 +49,7 @@ class UserMenuScreen extends StatelessWidget {
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
                              // User profile
-                             Heading(title: 'Your profile', paddingLeft: Sizes.defaultSpace),
+                             Heading(title: 'Your profile', paddingLeft: AppSizes.defaultSpace),
                              CustomerProfileCard(userController: userController),
                            ],
                          );
@@ -59,22 +59,22 @@ class UserMenuScreen extends StatelessWidget {
                       }),
 
                       // Menu
-                      Heading(title: 'Menu', paddingLeft: Sizes.defaultSpace),
+                      Heading(title: 'Menu', paddingLeft: AppSizes.defaultSpace),
                       const Menu(),
 
                       // Contact
-                      Heading(title: 'Support', paddingLeft: Sizes.defaultSpace),
+                      Heading(title: 'Support', paddingLeft: AppSizes.defaultSpace),
                       const SupportWidget(),
 
                       // Policy
-                      Heading(title: 'Support', paddingLeft: Sizes.defaultSpace),
+                      Heading(title: 'Policy', paddingLeft: AppSizes.defaultSpace),
                       const PolicyWidget(),
-                      const SizedBox(height: Sizes.spaceBtwInputFields),
+                      const SizedBox(height: AppSizes.spaceBtwInputFields),
 
                       // Follow us
-                      Heading(title: 'Follow us', paddingLeft: Sizes.defaultSpace),
+                      Heading(title: 'Follow us', paddingLeft: AppSizes.defaultSpace),
                       const FollowUs(),
-                      const SizedBox(height: Sizes.spaceBtwInputFields),
+                      const SizedBox(height: AppSizes.spaceBtwInputFields),
 
                       // Version
                       Center(
@@ -82,8 +82,8 @@ class UserMenuScreen extends StatelessWidget {
                           alignment: Alignment.topCenter, // Align text closer to the image
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(bottom: Sizes.xs),
-                              child: TRoundedImage(
+                              padding: const EdgeInsets.only(bottom: AppSizes.xs),
+                              child: RoundedImage(
                                   backgroundColor: Colors.transparent,
                                   width: 120,
                                   padding: 0,
@@ -94,12 +94,12 @@ class UserMenuScreen extends StatelessWidget {
                             ),
                             Positioned(
                                 bottom: 0, // Adjust this to bring text closer
-                                child: Obx(() => Text('v${userController.appVersion.value}', style: TextStyle(fontSize: 12),))
+                                child: Obx(() => Text('v${AuthenticationRepository.instance.appVersion.value}', style: TextStyle(fontSize: 12),))
                             )
                           ],
                         ),
                       ),
-                      const SizedBox(height: Sizes.md),
+                      const SizedBox(height: AppSizes.md),
                     ],
                   ),
                 ),
@@ -128,7 +128,7 @@ class CustomerProfileCard extends StatelessWidget {
              return InkWell(
                onTap: () => Get.to(() => const UserProfileScreen()),
                child: ListTile(
-                  leading: TRoundedImage(
+                  leading: RoundedImage(
                      padding: 0,
                      height: 40,
                      width: 40,

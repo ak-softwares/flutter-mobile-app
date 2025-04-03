@@ -24,10 +24,10 @@ class SingleOrderTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double orderImageHeight = Sizes.orderImageHeight;
-    final double orderImageWidth = Sizes.orderImageWidth;
-    final double orderTileHeight = Sizes.orderTileHeight;
-    final double orderTileRadius = Sizes.orderTileRadius;
+    final double orderImageHeight = AppSizes.orderImageHeight;
+    final double orderImageWidth = AppSizes.orderImageWidth;
+    final double orderTileHeight = AppSizes.orderTileHeight;
+    final double orderTileRadius = AppSizes.orderTileRadius;
     final orderController = Get.find<OrderController>();
 
     return InkWell(
@@ -35,17 +35,17 @@ class SingleOrderTile extends StatelessWidget {
       child: Container(
         padding: TSpacingStyle.defaultPagePadding,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
+          // color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(orderTileRadius),
           border: Border.all(
-            width: 1,
+            width: AppSizes.defaultBorderWidth,
             color: Theme.of(context).colorScheme.outline, // Border color
           )
         ),
         child: Column(
           children: [
             Column(
-              spacing: Sizes.xs,
+              spacing: AppSizes.xs,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
@@ -53,7 +53,7 @@ class SingleOrderTile extends StatelessWidget {
                   children: [
                     Text('Order Number'),
                     Row(
-                      spacing: Sizes.sm,
+                      spacing: AppSizes.sm,
                       children: [
                         Text(' #${order.id}'),
                         InkWell(
@@ -101,11 +101,11 @@ class SingleOrderTile extends StatelessWidget {
                             height: 30,
                             child: OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(horizontal: Sizes.md), // Removes default padding
+                                padding: EdgeInsets.symmetric(horizontal: AppSizes.md), // Removes default padding
                               ),
                               onPressed: () => orderController.makePayment(order: order),
                               child: Row(
-                                spacing: Sizes.sm,
+                                spacing: AppSizes.sm,
                                 children: [
                                   Text('Pay Now', style: TextStyle(fontSize: 13),),
                                   Icon(Icons.payment, size: 14, color: Theme.of(context).colorScheme.onSurface,)
@@ -120,7 +120,7 @@ class SingleOrderTile extends StatelessWidget {
                         children: [
                           Text('Order Status'),
                           Row(
-                            spacing: Sizes.sm,
+                            spacing: AppSizes.sm,
                             children: [
                               Text(order.status?.prettyName ?? ''),
                               if(TOrderHelper.checkOrderStatusForInTransit(order.status ?? OrderStatus.unknown))
@@ -132,7 +132,7 @@ class SingleOrderTile extends StatelessWidget {
                           ),
                         ],
                       ),
-                SizedBox(height: Sizes.xs),
+                SizedBox(height: AppSizes.xs),
                 OrderImageGallery(order: order, galleryImageHeight: 40),
               ],
             ),

@@ -43,7 +43,7 @@ class ChangeUserProfile extends StatelessWidget {
                     key: changeProfileController.changeProfileFormKey,
                     child: Column(
                         children: [
-                          const SizedBox(height: Sizes.spaceBtwSection),
+                          const SizedBox(height: AppSizes.spaceBtwSection),
                           //Name
                           Row(
                             children: [
@@ -54,7 +54,7 @@ class ChangeUserProfile extends StatelessWidget {
                                     decoration: const InputDecoration(prefixIcon: Icon(Iconsax.user), labelText: 'First Name*'),
                                   )
                               ),
-                              const SizedBox(width: Sizes.spaceBtwInputFields),
+                              const SizedBox(width: AppSizes.spaceBtwInputFields),
                               //Pincode
                               Expanded(
                                   child: TextFormField(
@@ -64,7 +64,7 @@ class ChangeUserProfile extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: Sizes.spaceBtwInputFields),
+                          const SizedBox(height: AppSizes.spaceBtwInputFields),
                           //email
                           TextFormField(
                               controller: changeProfileController.email,
@@ -74,7 +74,7 @@ class ChangeUserProfile extends StatelessWidget {
                                 labelText: TTexts.tEmail,
                               )
                           ),
-                          const SizedBox(height: Sizes.spaceBtwInputFields),
+                          const SizedBox(height: AppSizes.spaceBtwInputFields),
                           // phone
                           TextFormField(
                               controller: changeProfileController.phone,
@@ -84,7 +84,7 @@ class ChangeUserProfile extends StatelessWidget {
                                 labelText: TTexts.tPhone,
                               )
                           ),
-                          const SizedBox(height: Sizes.spaceBtwSection),
+                          const SizedBox(height: AppSizes.spaceBtwSection),
                           // save button
                           SizedBox(
                             width: double.infinity,

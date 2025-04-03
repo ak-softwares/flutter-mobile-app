@@ -15,7 +15,7 @@ class WooProductRepository extends GetxController {
   static WooProductRepository get instance => Get.find();
 
   final Box _cacheBox = Hive.box(CacheConstants.productBox); // Hive storage
-  final double cacheExpiryTimeInDays = 1;
+  final double cacheExpiryTimeInDays = APIConstant.productCacheTime;
 
   // final productsByCategory = await Isolate.run(() {
   //   final List<dynamic> productsJson = json.decode(response.body);
@@ -34,7 +34,7 @@ class WooProductRepository extends GetxController {
 
     try {
       final Map<String, String> queryParams = {
-        // 'orderby': 'popularity',
+        'orderby': 'popularity',
         'per_page': '10',
         'page': page,
         // 'stock_status': 'instock',
@@ -86,6 +86,7 @@ class WooProductRepository extends GetxController {
 
     try {
       final Map<String, String> queryParams = {
+        'orderby': 'popularity',
         'featured': 'true',
         'per_page': '10',
         'page': page,

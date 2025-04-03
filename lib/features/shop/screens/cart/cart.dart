@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
-import '../../../../common/widgets/loaders/animation_loader.dart';
+import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../common/widgets/product/product_cards/product_card_cart_items.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -29,13 +30,21 @@ class CartScreen extends StatelessWidget {
     final checkoutController = Get.put(CheckoutController());
     FBAnalytics.logPageView('cart_screen');
     FBAnalytics.logViewCart(cartItems: cartController.cartItems);
+    // make empty cart animation
+    final emptyWidget = TAnimationLoaderWidgets(
+      text: 'Whoops! Cart is Empty...',
+      animation: Images.addToCartAnimation,
+      showAction: true,
+      actionText: 'Let\'s add some',
+      onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
+    );
 
     return Scaffold(
         appBar: const TAppBar2(titleText: "Cart", showSearchIcon: true),
         bottomNavigationBar: Obx(() =>
             cartController.cartItems.isNotEmpty
             ? Padding(
-              padding: const EdgeInsets.all(Sizes.defaultSpace),
+              padding: const EdgeInsets.all(AppSizes.defaultSpace),
               child: ElevatedButton(
                   onPressed: () {
                     checkoutController.updateCheckout();
@@ -47,25 +56,16 @@ class CartScreen extends StatelessWidget {
             : const SizedBox.shrink()
         ),
         body: Obx(() {
-          // make empty cart animation
-          final emptyWidget = TAnimationLoaderWidgets(
-            text: 'Whoops! Cart is Empty...',
-            animation: Images.addToCartAnimation,
-            showAction: true,
-            actionText: 'Let\'s add some',
-            onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
-          );
-
           // check empty cart
           if(cartController.cartItems.isEmpty) {
             return emptyWidget;
           } else {
             return ListView(
-              padding: TSpacingStyle.defaultPageVertical,
+              padding: TSpacingStyle.defaultPagePadding,
               children: [
                 GridLayout(
                   crossAxisCount: 1,
-                  mainAxisExtent: Sizes.cartCardHorizontalHeight,
+                  mainAxisExtent: AppSizes.cartCardHorizontalHeight,
                   itemCount: cartController.cartItems.length,
                     itemBuilder: (context, index) {
                       return Dismissible(
@@ -73,14 +73,19 @@ class CartScreen extends StatelessWidget {
                         direction: DismissDirection.endToStart, // Swipe left to remove
                         onDismissed: (direction) {
                           cartController.removeFromCart(item: cartController.cartItems[index]);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Item removed")),
-                          );
+                          AppMassages.showSnackBar(context: context, massage: 'Item removed');
                         },
                         background: Container(
-                          color: Colors.red,
                           alignment: Alignment.centerRight,
                           padding: const EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(AppSizes.defaultProductRadius),
+                            // border: Border.all(
+                            //   width: Sizes.defaultBorderWidth,
+                            //   color: Theme.of(context).colorScheme.outline, // Border color
+                            // )
+                          ),
                           child: const Icon(Icons.delete, color: Colors.white),
                         ),
                         child: ProductCardForCart(cartItem: cartController.cartItems[index], showBottomBar: true),

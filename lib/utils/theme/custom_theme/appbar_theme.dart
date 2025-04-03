@@ -12,8 +12,9 @@ class AppAppBarTheme{
     iconTheme: IconThemeData(size: 22),
     actionsIconTheme: IconThemeData(size: 22),
     titleTextStyle: TextStyle(
-        fontSize: 18.0,
-        fontWeight: FontWeight.w600,
+      fontSize: 18.0,
+      fontWeight: FontWeight.w600,
+      color: AppColors.appBarTextLight
     ),
   );
 
@@ -23,6 +24,10 @@ class AppAppBarTheme{
     surfaceTintColor: Colors.transparent,
     iconTheme: IconThemeData(size: 22),
     actionsIconTheme: IconThemeData(size: 22),
-    titleTextStyle: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
+    titleTextStyle: TextStyle(
+      fontSize: 18.0,
+      fontWeight: FontWeight.w600,
+      color: AppColors.appBarTextDark
+    ),
   );
 }

@@ -17,7 +17,7 @@ class OrderImageGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<CartItemModel> cartItems = order.lineItems ?? [];
+    final List<CartModel> cartItems = order.lineItems ?? [];
     return SizedBox(
       height: galleryImageHeight,
       child: Stack(
@@ -27,12 +27,12 @@ class OrderImageGallery extends StatelessWidget {
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               physics: const AlwaysScrollableScrollPhysics(),
-              separatorBuilder: (_, __) => const SizedBox(width: Sizes.spaceBtwItems),
-              itemBuilder: (_, index) => TRoundedImage(
+              separatorBuilder: (_, __) => const SizedBox(width: AppSizes.spaceBtwItems),
+              itemBuilder: (_, index) => RoundedImage(
                   width: galleryImageHeight,
-                  borderRadius: Sizes.sm,
+                  borderRadius: AppSizes.sm,
                   backgroundColor: Colors.white,
-                  padding: Sizes.sm / 2,
+                  padding: AppSizes.sm / 2,
                   isNetworkImage: true,
                   // onTap: () => Get.to(() => ProductDetailScreen(productId: cartItems[index].productId.toString())),
                   image: cartItems[index].image ?? '',

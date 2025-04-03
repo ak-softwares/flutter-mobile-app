@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../../common/styles/spacing_style.dart';
-import '../../../../../common/widgets/loaders/loader.dart';
+import '../../../../../common/dialog_box_massages/massages.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
@@ -24,13 +24,11 @@ class SingleCouponItem extends StatelessWidget {
     final checkoutController = Get.put(CheckoutController());
 
     return ListTile(
-        minVerticalPadding: Sizes.md,
+        minVerticalPadding: AppSizes.md,
         tileColor: Theme.of(context).colorScheme.surface,
         onLongPress: () {
             Clipboard.setData(ClipboardData(text: coupon.code!.toUpperCase()));
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Coupon code ${coupon.code!.toUpperCase()} copied')),
-            );
+            AppMassages.showSnackBar(context: context, massage: 'Coupon code ${coupon.code!.toUpperCase()} copied');
         },
         leading: Icon(Icons.local_offer_outlined, size: 20, color: AppColors.offerColor),
         title: Text(coupon.code!.toUpperCase()),
@@ -44,7 +42,7 @@ class SingleCouponItem extends StatelessWidget {
                       checkoutController.appliedCoupon.value = CouponModel.empty();
                       checkoutController.updateCheckout();
                       Navigator.pop(context); // This closes the bottom sheet
-                      TLoaders.customToast(message: 'Coupon removed successfully');
+                      AppMassages.showToastMessage(message: 'Coupon removed successfully');
                     },
                     child: Text('Remove', style: TextStyle(color: Colors.red))
                   )
@@ -58,9 +56,7 @@ class SingleCouponItem extends StatelessWidget {
             : IconButton(
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: coupon.code!.toUpperCase()));
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Coupon code ${coupon.code!.toUpperCase()} copied')),
-                  );
+                  AppMassages.showSnackBar(context: context, massage: 'Coupon code ${coupon.code!.toUpperCase()} copied');
                 },
                   icon: Icon(Icons.copy, size: 20)
               )

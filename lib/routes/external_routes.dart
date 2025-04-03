@@ -7,17 +7,13 @@ import 'routes.dart';
 class ExternalAppRoutes {
 
   static Route<dynamic>? handleDeepLink({required RouteSettings settings}) {
-    final route = AppRouter.normalizeRoute(settings.name ?? '/');
-    if (_isDeepLink(settings.name ?? '')) {
+    final route = AppRouter.normalizeRoute(settings.name ?? '/'); // this gives /product/product-name/?scr=google
+    // if app closed then go to home first then go to target screen
+    if (AppRouter.checkIsDomainContain(settings.name ?? '')) {
       return GetPageRoute(page: () => BottomNavigation1(route: route));
     }
+    // if app open then directly go to target screen
     return AppRouter.handleRoute(route: route);
-  }
-
-  // Helper functions
-  static bool _isDeepLink(String route) {
-    const baseUrls = ['https://aramarket.in', 'http://aramarket.in', 'aramarket.in'];
-    return baseUrls.any((baseUrl) => route.contains(baseUrl));
   }
 
 }

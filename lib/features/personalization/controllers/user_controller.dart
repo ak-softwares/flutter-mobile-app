@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../common/widgets/loaders/loader.dart';
+import '../../../common/dialog_box_massages/massages.dart';
 import '../../../common/widgets/network_manager/network_manager.dart';
 import '../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../data/repositories/user/user_repository.dart';
@@ -16,7 +16,7 @@ import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/local_storage_constants.dart';
 import '../../../utils/helpers/navigation_helper.dart';
 import '../../../utils/permissions/permissions.dart';
-import '../../../common/widgets/loaders/full_screen_loader.dart';
+import '../../../common/dialog_box_massages/full_screen_loader.dart';
 import '../../authentication/screens/email_login/email_login.dart';
 import '../../authentication/screens/email_login/re_auth_user_login.dart';
 import '../../settings/app_settings.dart';
@@ -28,8 +28,6 @@ class UserController extends GetxController {
   RxBool isLoading = false.obs;
   final GetStorage localStorage = GetStorage();
   Rx<CustomerModel> customer = CustomerModel.empty().obs;
-
-  final RxString appVersion = ''.obs;
 
   final hidePassword = true.obs; //Observable for hiding/showing password
   final imageUploading = false.obs;
@@ -44,16 +42,7 @@ class UserController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _loadAppVersion();
     customer.value = CustomerModel(id: fetchLocalAuthToken());
-  }
-
-  Future<void> _loadAppVersion() async {
-    try {
-      appVersion.value = await AppSettings.getAppVersion();
-    } catch (e) {
-      appVersion.value = '';
-    }
   }
 
   // Fetch user record
@@ -115,7 +104,7 @@ class UserController extends GetxController {
         }
       }
     } catch (error) {
-      TLoaders.warningSnackBar(
+      AppMassages.warningSnackBar(
         title: 'Data not saved',
         message: error.toString(),
       );
@@ -144,7 +133,7 @@ class UserController extends GetxController {
       }
     }catch (e) {
       TFullScreenLoader.stopLoading();
-      TLoaders.warningSnackBar(title: 'Error', message: e.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -162,14 +151,14 @@ class UserController extends GetxController {
       await AuthenticationRepository.instance.reAuthenticateWithEmailAndPassword(verifyEmail.text.trim(), verifyPassword.text.trim());
       await AuthenticationRepository.instance.deleteAccount();
       FBAnalytics.logLogin('re_auth_user_login');
-      TLoaders.successSnackBar(title: 'Congratulation', message: 'Your Account Deleted successfully!');
+      AppMassages.successSnackBar(title: 'Congratulation', message: 'Your Account Deleted successfully!');
       TFullScreenLoader.stopLoading();
       Get.off(() => const EmailLoginScreen());
     } catch (error) {
       //remove Loader
       TFullScreenLoader.stopLoading();
       //show some Generic error to the user
-      TLoaders.warningSnackBar(title: 'Error - Re-Auth', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error - Re-Auth', message: error.toString());
     }
   }
 
@@ -189,12 +178,12 @@ class UserController extends GetxController {
       localStorage.remove(LocalStorage.rememberMeEmail);
       localStorage.remove(LocalStorage.rememberMePassword);
 
-      TLoaders.customToast(message: 'Your Account Deleted successfully!');
+      AppMassages.showToastMessage(message: 'Your Account Deleted successfully!');
       TFullScreenLoader.stopLoading();
       NavigationHelper.navigateToLoginScreen(); //navigate to other screen
     } catch (error) {
       TFullScreenLoader.stopLoading();
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     }
   }
 
@@ -216,14 +205,14 @@ class UserController extends GetxController {
           customer.value.avatarUrl = imageUrl;
           customer.refresh();
 
-          TLoaders.successSnackBar(title: 'Congratulation',
+          AppMassages.successSnackBar(title: 'Congratulation',
               message: 'Your profile image has been updated.');
         }
       } else {
           RequestPermissions.showPermissionDialog(context);
       }
     } catch (e) {
-      TLoaders.errorSnackBar(title: 'Error - Upload Pic', message: 'Something went wrong: $e');
+      AppMassages.errorSnackBar(title: 'Error - Upload Pic', message: 'Something went wrong: $e');
     } finally {
       imageUploading.value = false;
     }

@@ -12,7 +12,8 @@ class WooCategoryRepository extends GetxController {
   static WooCategoryRepository get instance => Get.find();
 
   final Box _cacheBox = Hive.box(CacheConstants.categoryBox); // Hive storage
-  final double productCacheExpiryTimeInDays = 1;
+
+  final double cacheExpiryTimeInDays = APIConstant.categoryCacheTime;
 
   // Fetch all categories
   Future<List<CategoryModel>> fetchAllCategory(String page) async {
@@ -20,7 +21,7 @@ class WooCategoryRepository extends GetxController {
 
     // Check cache before making API request
     if (_cacheBox.containsKey(cacheKey) &&
-        CacheHelper.isCacheValid(cacheBox: _cacheBox, cacheKey: cacheKey, expiryTimeInDays: productCacheExpiryTimeInDays)) {
+        CacheHelper.isCacheValid(cacheBox: _cacheBox, cacheKey: cacheKey, expiryTimeInDays: cacheExpiryTimeInDays)) {
       final cachedData = _cacheBox.get(cacheKey);
       return (json.decode(cachedData) as List).map((json) => CategoryModel.fromJson(json)).toList();
     }
@@ -67,7 +68,7 @@ class WooCategoryRepository extends GetxController {
 
     // Check cache before making API request
     if (_cacheBox.containsKey(cacheKey) &&
-        CacheHelper.isCacheValid(cacheBox: _cacheBox, cacheKey: cacheKey, expiryTimeInDays: productCacheExpiryTimeInDays)) {
+        CacheHelper.isCacheValid(cacheBox: _cacheBox, cacheKey: cacheKey, expiryTimeInDays: cacheExpiryTimeInDays)) {
       final cachedData = _cacheBox.get(cacheKey);
       return CategoryModel.fromJson(json.decode(cachedData));
     }

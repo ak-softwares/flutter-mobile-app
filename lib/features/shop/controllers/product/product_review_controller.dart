@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../data/repositories/woocommerce_repositories/product_review/product_review_repository.dart';
 import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/image_strings.dart';
-import '../../../../common/widgets/loaders/full_screen_loader.dart';
+import '../../../../common/dialog_box_massages/full_screen_loader.dart';
 import '../../../personalization/controllers/user_controller.dart';
 import '../../models/product_review_model.dart';
 
@@ -39,7 +39,7 @@ class ProductReviewController extends GetxController {
       final newReviews = await wooReviewRepository.fetchReviewsByProductId(productId: productId, page: currentPage.toString());
       reviews.addAll(newReviews);
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -50,7 +50,7 @@ class ProductReviewController extends GetxController {
       reviews.clear(); // Clear existing orders
       await getReviewsByProductId(productId);
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     } finally {
       isLoading(false);
     }
@@ -73,7 +73,7 @@ class ProductReviewController extends GetxController {
       }
       if (rating.value == 0) {
         TFullScreenLoader.stopLoading();
-        TLoaders.errorSnackBar(title: 'Error', message: 'Star rating is mandatory');
+        AppMassages.errorSnackBar(title: 'Error', message: 'Star rating is mandatory');
         return;
       }
       //update single field user
@@ -94,12 +94,12 @@ class ProductReviewController extends GetxController {
       // email.text = '';
       //remove Loader
       TFullScreenLoader.stopLoading();
-      TLoaders.customToast(message: 'Review added successfully!');
+      AppMassages.showToastMessage(message: 'Review added successfully!');
       Get.back();
     } catch (error) {
       //remove Loader
       TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: error.toString());
     }
   }
 
@@ -120,7 +120,7 @@ class ProductReviewController extends GetxController {
       }
       if (editRating.value == 0) {
         TFullScreenLoader.stopLoading();
-        TLoaders.errorSnackBar(title: 'Error', message: 'Star rating is mandatory');
+        AppMassages.errorSnackBar(title: 'Error', message: 'Star rating is mandatory');
         return;
       }
       //update single field user
@@ -134,12 +134,12 @@ class ProductReviewController extends GetxController {
 
       editProductReview.text = '';
       TFullScreenLoader.stopLoading();
-      TLoaders.customToast(message: 'Review updated successfully!');
+      AppMassages.showToastMessage(message: 'Review updated successfully!');
       Get.back();
     } catch (error) {
       //remove Loader
       TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: error.toString());
     }
   }
 
@@ -148,7 +148,7 @@ class ProductReviewController extends GetxController {
     try {
       await wooReviewRepository.deleteSelectedReview(reviewId);
     }  catch (error) {
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: error.toString());
     }
   }
 
@@ -170,7 +170,7 @@ class ProductReviewController extends GetxController {
                       await deleteReview(reviewId);
                       deleting.value = false;
                       // Show toast and close dialog
-                      TLoaders.customToast(message: 'Review Deleted');
+                      AppMassages.showToastMessage(message: 'Review Deleted');
                       Get.back();
                     },
                     child: const Text('Delete'),

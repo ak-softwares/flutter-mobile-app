@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/widgets/loaders/animation_loader.dart';
+import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
@@ -54,8 +54,8 @@ class DiscoverScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(56), // Adjust height as needed
         child: Padding(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, left: Sizes.sm, right: Sizes.sm), // Adjust for status bar
-          child: TSearchBar(searchText: TTexts.search, padding: true),
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, left: AppSizes.sm, right: AppSizes.sm), // Adjust for status bar
+          child: TSearchBar(searchText: TTexts.search),
         ),
       ),
       body: RefreshIndicator(
@@ -133,7 +133,7 @@ class DiscoverScreen extends StatelessWidget {
     return StaggeredGridTile.count(
       crossAxisCellCount: crossAxis,
       mainAxisCellCount: crossAxis, // Ensure square aspect ratio
-      child: TRoundedImage(
+      child: RoundedImage(
               height: size * crossAxis,
               width: size * crossAxis,
               isNetworkImage: true,

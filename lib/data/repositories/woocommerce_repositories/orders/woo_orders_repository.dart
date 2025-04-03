@@ -14,7 +14,7 @@ class WooOrdersRepository extends GetxController {
   static WooOrdersRepository get instance => Get.find();
 
   final Box _cacheBox = Hive.box(CacheConstants.orderBox); // Hive storage
-  final double cacheExpiryTimeInDays = 0.1;
+  final double cacheExpiryTimeInDays = APIConstant.orderCacheTime;
 
   //Fetch orders by customer's id
   Future<OrderModel> fetchOrderById({required String orderId}) async {

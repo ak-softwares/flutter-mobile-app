@@ -32,7 +32,7 @@ class CreateReviewScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Overall Rating', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: Sizes.sm),
+                  const SizedBox(height: AppSizes.sm),
                   Obx(() => Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: List.generate(5, (index) => GestureDetector(
@@ -57,9 +57,9 @@ class CreateReviewScreen extends StatelessWidget {
                       ),
                     ),
                   )),
-                  const SizedBox(height: Sizes.xs),
+                  const SizedBox(height: AppSizes.xs),
                   Text('Click to rate', style: Theme.of(context).textTheme.bodyMedium),
-                  const SizedBox(height: Sizes.xl),
+                  const SizedBox(height: AppSizes.xl),
                   Form(
                     key: productReviewController.submitReviewFormKey,
                     child: Column(
@@ -68,7 +68,7 @@ class CreateReviewScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('Product review*', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold)),
-                              const SizedBox(height: Sizes.xs),
+                              const SizedBox(height: AppSizes.xs),
                               TextFormField(
                                 controller: productReviewController.productReview,
                                 validator: (value) => TValidator.validateEmptyText(value, 'Product review'),
@@ -119,11 +119,11 @@ class CreateReviewScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: Sizes.spaceBtwSection),
+                  const SizedBox(height: AppSizes.spaceBtwSection),
                   ElevatedButton(
                     onPressed: () => productReviewController.submitReview(productId),
                     child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: Sizes.lg),
+                      padding: EdgeInsets.symmetric(horizontal: AppSizes.lg),
                       child: Text('Submit product review'),
                     )
                   )

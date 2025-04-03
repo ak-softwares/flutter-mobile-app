@@ -51,8 +51,4 @@ class AppSettings {
   static const String youtube               = 'https://www.youtube.com/@aramarket';
   static const String playStore             = 'https://play.google.com/store/apps/details?id=com.company.aramarketin&hl=en_IN&gl=US';
 
-  static Future<String> getAppVersion() async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    return packageInfo.version; // This retrieves the version from pubspec.yaml
-  }
 }

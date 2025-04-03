@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/widgets/loaders/full_screen_loader.dart';
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/full_screen_loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../data/repositories/woocommerce_repositories/coupons/woo_coupon_repository.dart';
 import '../../models/coupon_model.dart';
 import '../checkout_controller/checkout_controller.dart';
@@ -36,7 +36,7 @@ class CouponController extends GetxController {
       final filteredCoupons = newCoupons.where((coupon) => coupon.showOnCheckout == true).toList();
       coupons(filteredCoupons);
     } catch (e) {
-      TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -48,7 +48,7 @@ class CouponController extends GetxController {
       coupons.clear(); // Clear existing orders
       await getAllCoupons();
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     } finally {
       isLoading(false);
     }
@@ -71,7 +71,7 @@ class CouponController extends GetxController {
       if(couponCode.isEmpty) {
         // Handle case where the user submits an empty coupon code
         isCouponLoad.value = false;
-        TLoaders.errorSnackBar(title: 'Error', message: 'Coupon should not be empty');
+        AppMassages.errorSnackBar(title: 'Error', message: 'Coupon should not be empty');
         return;
       }
       final CouponModel coupon = await getCouponByCode(couponCode);
@@ -80,13 +80,13 @@ class CouponController extends GetxController {
       checkoutController.updateCheckout();
       couponTextEditingController.text = couponCode.toUpperCase();
 
-      TLoaders.customToast(message: 'Coupon applied successfully');
+      AppMassages.showToastMessage(message: 'Coupon applied successfully');
       // Show the GIF
       TFullScreenLoader.showCouponGif();
 
     } catch(error){
       // Handle error occurred during coupon retrieval
-      TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: error.toString());
       return;
     } finally {
       isCouponLoad.value = false;

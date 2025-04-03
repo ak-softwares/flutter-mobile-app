@@ -13,8 +13,8 @@ import '../../../utils/constants/sizes.dart';
 import '../../../utils/constants/text_strings.dart';
 import '../../../utils/helpers/navigation_helper.dart';
 import '../../styles/spacing_style.dart';
-import '../loaders/full_screen_loader.dart';
-import '../loaders/loader.dart';
+import '../../dialog_box_massages/full_screen_loader.dart';
+import '../../dialog_box_massages/massages.dart';
 
 class TSuccessScreen extends StatefulWidget {
   const TSuccessScreen({
@@ -63,9 +63,9 @@ class _TSuccessScreenState extends State<TSuccessScreen> {
                   : 'Order Placed! #${widget.order.id}',
                   style: TextStyle(fontSize: 25)
               ),
-              const SizedBox(height: Sizes.spaceBtwItems),
+              const SizedBox(height: AppSizes.spaceBtwItems),
               Text('Thank you for your purchase. Order status is ${widget.order.status?.prettyName}', style: Theme.of(context).textTheme.labelMedium, textAlign: TextAlign.center),
-              const SizedBox(height: Sizes.spaceBtwSection),
+              const SizedBox(height: AppSizes.spaceBtwSection),
 
               //Button
               SizedBox(
@@ -82,13 +82,13 @@ class _TSuccessScreenState extends State<TSuccessScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(TIcons.bottomNavigationCart, color: Colors.black, size: 20,),
-                      const SizedBox(width: Sizes.spaceBtwInputFields),
+                      const SizedBox(width: AppSizes.spaceBtwInputFields),
                       const Text('Go to My Orders'),
                     ],
                   )
                 ),
               ),
-              const SizedBox(height: Sizes.spaceBtwInputFields),
+              const SizedBox(height: AppSizes.spaceBtwInputFields),
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(
@@ -97,7 +97,7 @@ class _TSuccessScreenState extends State<TSuccessScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(TIcons.home, color: Theme.of(context).colorScheme.onSurface, size: 20),
-                      const SizedBox(width: Sizes.spaceBtwInputFields),
+                      const SizedBox(width: AppSizes.spaceBtwInputFields),
                       const Text('Go to Home'),
                     ],
                   )
@@ -108,7 +108,7 @@ class _TSuccessScreenState extends State<TSuccessScreen> {
                   widget.order.status == OrderStatus.pendingPayment)
                Column(
                 children: [
-                  const SizedBox(height: Sizes.spaceBtwInputFields),
+                  const SizedBox(height: AppSizes.spaceBtwInputFields),
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
@@ -117,7 +117,7 @@ class _TSuccessScreenState extends State<TSuccessScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.money, color: Theme.of(context).colorScheme.onSurface, size: 20),
-                            const SizedBox(width: Sizes.spaceBtwInputFields),
+                            const SizedBox(width: AppSizes.spaceBtwInputFields),
                             const Text('Make Payment'),
                           ],
                         )

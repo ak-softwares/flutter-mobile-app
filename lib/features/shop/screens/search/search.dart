@@ -141,7 +141,7 @@ class TSearchDelegate extends SearchDelegate {
             // hintStyle: searchFieldStyle ?? theme.inputDecorationTheme.hintStyle,
             // border: InputBorder.none,
             isDense: true, // Ensures the padding takes effect
-            contentPadding: const EdgeInsets.symmetric(vertical: Sizes.sm, horizontal: Sizes.md), // Define input field height
+            contentPadding: const EdgeInsets.symmetric(vertical: AppSizes.sm, horizontal: AppSizes.md), // Define input field height
             fillColor: Theme.of(context).colorScheme.surface, // Customize the background color
             filled: true, // Ensure the fill color is applied
             hintStyle: TextStyle(
@@ -154,7 +154,7 @@ class TSearchDelegate extends SearchDelegate {
               //   color: Theme.of(context).colorScheme.surface,
               //   width: 2.0, // Customize the border width
               // ),
-              borderRadius: BorderRadius.circular(Sizes.inputFieldRadius) // Optional: Customize the border radius
+              borderRadius: BorderRadius.circular(AppSizes.inputFieldRadius) // Optional: Customize the border radius
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide.none,
@@ -162,7 +162,7 @@ class TSearchDelegate extends SearchDelegate {
               //   color: Theme.of(context).colorScheme.surface,
               //   width: 2.0, // Customize the border width
               // ),
-              borderRadius: BorderRadius.circular(Sizes.inputFieldRadius),
+              borderRadius: BorderRadius.circular(AppSizes.inputFieldRadius),
             ),
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
@@ -170,7 +170,7 @@ class TSearchDelegate extends SearchDelegate {
               //   color: Theme.of(context).colorScheme.surface,
               //   width: 1.0, // Customize the default border width
               // ),
-              borderRadius: BorderRadius.circular(Sizes.inputFieldRadius)
+              borderRadius: BorderRadius.circular(AppSizes.inputFieldRadius)
             ),
           ),
     );

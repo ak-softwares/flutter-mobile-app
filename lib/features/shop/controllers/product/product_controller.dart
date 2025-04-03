@@ -1,7 +1,7 @@
 import 'package:aramarket/features/shop/models/brand_model.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../data/repositories/firebase/products/product_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/brands/woo_brands_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/category/woo_category_repository.dart';
@@ -31,7 +31,7 @@ class ProductController extends GetxController {
       final products = await wooProductRepository.fetchAllProducts(page: page);
       return products;
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return [];
     }
   }
@@ -43,7 +43,7 @@ class ProductController extends GetxController {
       final products = await wooProductRepository.fetchRandomProducts(page: page);
       return products;
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return [];
     }
   }
@@ -55,7 +55,7 @@ class ProductController extends GetxController {
       final products = await wooProductRepository.fetchFeaturedProducts(page: page);
       return products;
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return [];
     }
   }
@@ -68,7 +68,7 @@ class ProductController extends GetxController {
       final products = await wooProductRepository.fetchProductsUnderPrice(page: page, price: price);
       return products;
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return [];
     }
   }
@@ -85,7 +85,7 @@ class ProductController extends GetxController {
         return [];
       }
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return [];
     }
   }
@@ -97,7 +97,7 @@ class ProductController extends GetxController {
       final products = await wooProductRepository.fetchProductsByCategoryID(categoryId: categoryId, page: page);
       return products;
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return [];
     }
   }
@@ -109,7 +109,7 @@ class ProductController extends GetxController {
       final products = await wooProductRepository.fetchProductsByBrandID(brandID: brandID, page: page);
       return products;
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return [];
     }
   }
@@ -122,7 +122,7 @@ class ProductController extends GetxController {
       final products = await wooProductRepository.fetchProductsByBrandID(brandID: brand.id.toString(), page: page);
       return products;
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return [];
     }
   }
@@ -134,7 +134,7 @@ class ProductController extends GetxController {
       final products = await wooProductRepository.fetchProductsByCategoryID(categoryId: category.id ?? '', page: page);
       return products;
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return [];
     }
   }
@@ -146,7 +146,7 @@ class ProductController extends GetxController {
       final products = await wooProductRepository.fetchProductsByIds(productIds: productIds, page: page);
       return products;
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return [];
     }
   }
@@ -156,7 +156,7 @@ class ProductController extends GetxController {
       final List<ProductModel> variations = await wooProductRepository.fetchVariationByProductsIds(parentID: parentID);
       return variations;
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Variation Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Variation Fetching', message: e.toString());
       return [];
     }
   }
@@ -168,7 +168,7 @@ class ProductController extends GetxController {
       final ProductModel product = await wooProductRepository.fetchProductById(productsId);
       return product;
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return ProductModel.empty();
     }
   }
@@ -181,7 +181,7 @@ class ProductController extends GetxController {
       final ProductModel product = await wooProductRepository.fetchProductBySlug(permalink);
       return product;
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return ProductModel.empty();
     }
   }
@@ -193,7 +193,7 @@ class ProductController extends GetxController {
       final products = await wooProductRepository.fetchProductsBySearchQuery(query: searchQuery, page: '1');
       return products;
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error in Products Fetching', message: e.toString());
       return [];
     }
   }

@@ -6,22 +6,21 @@ import '../../../../utils/device/device_utility.dart';
 import 'search.dart';
 
 class TSearchBar extends StatelessWidget {
-  const TSearchBar({super.key, this.searchText = "Search", this.padding = false});
+  const TSearchBar({super.key, this.searchText = "Search"});
 
   final String? searchText;
-  final bool padding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ? const EdgeInsets.all(Sizes.spaceBtwItems) : const EdgeInsets.all(0),
+      padding: const EdgeInsets.all(AppSizes.sm),
       child: InkWell(
         onTap: () => showSearch(context: context, delegate: TSearchDelegate()),
         child: Container(
-          padding: const EdgeInsets.all(Sizes.sm),
+          padding: const EdgeInsets.all(AppSizes.sm),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(Sizes.inputFieldRadius),
+            borderRadius: BorderRadius.circular(AppSizes.inputFieldRadius),
           ),
           child: Row(
             children: [

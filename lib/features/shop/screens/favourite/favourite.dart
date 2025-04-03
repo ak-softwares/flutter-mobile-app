@@ -6,7 +6,7 @@ import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
-import '../../../../common/widgets/loaders/animation_loader.dart';
+import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../common/widgets/product/product_cards/product_card.dart';
 import '../../../../common/widgets/shimmers/product_shimmer.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
@@ -63,11 +63,11 @@ class FavouriteScreen extends StatelessWidget {
               onRefresh: () async => favoriteController.refreshFavorites(),
               child: ListView(
                 controller: scrollController,
-                padding: TSpacingStyle.defaultPageVertical,
+                padding: TSpacingStyle.defaultPagePadding,
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: [
-                  Heading(title: 'Liked Products', paddingLeft: Sizes.defaultSpace),
-                  SizedBox(height: Sizes.sm),
+                  Heading(title: 'Liked Products'),
+                  SizedBox(height: AppSizes.sm),
                   ProductGridLayout(
                     controller: favoriteController,
                     emptyWidget: emptyWidget,

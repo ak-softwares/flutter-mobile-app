@@ -30,7 +30,7 @@ class ProductBrand extends StatelessWidget {
                     futureMethodTwoString: productController.getProductsByBrandId
                 )),
                 child: Row(
-                  spacing: Sizes.sm,
+                  spacing: AppSizes.sm,
                   children: [
                     Text(
                       brands.map((brand) => brand.name).join(', ') ?? '', // Join brand names with commas
@@ -40,7 +40,6 @@ class ProductBrand extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: Sizes.sm),
             ],
           )
         : SizedBox.shrink();

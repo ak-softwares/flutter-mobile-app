@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../common/widgets/shimmers/review_shimmer_on_product.dart';
 import '../../../../data/repositories/woocommerce_repositories/product_review/product_review_repository.dart';
 import '../../../../utils/constants/api_constants.dart';
@@ -56,7 +56,7 @@ class _ProductReviewHorizontalState extends State<ProductReviewHorizontal> {
       final newReviews = await wooReviewRepository.fetchReviewsByProductId(productId: productId, page: _currentPage.toString());
       _reviews.addAll(newReviews);
     } catch (e){
-      TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -67,7 +67,7 @@ class _ProductReviewHorizontalState extends State<ProductReviewHorizontal> {
       _reviews.clear(); // Clear existing orders
       await _getReviewsByProductId(widget.product.id.toString());
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     } finally {
       _isLoading(false);
     }
@@ -91,18 +91,20 @@ class _ProductReviewHorizontalState extends State<ProductReviewHorizontal> {
 
   @override
   Widget build(BuildContext context) {
-    final reviewContainerHeight = 50.0;
+    const double reviewContainerHeight = 50;
+    const double galleryImageRadius = AppSizes.defaultRadius;
+
     return Obx(() {
       if (_isLoading.value){
         return ReviewShimmerOnProduct(height: reviewContainerHeight);
       } else if (_reviews.isEmpty) {
         return const SizedBox.shrink();
       } else {
-        return TRoundedContainer(
-            radius: 10,
+        return RoundedContainer(
+            radius: galleryImageRadius,
             backgroundColor: Theme.of(context).colorScheme.surface,
             child: Padding(
-              padding: const EdgeInsets.all(Sizes.defaultSpace),
+              padding: const EdgeInsets.all(AppSizes.defaultSpace),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -120,7 +122,7 @@ class _ProductReviewHorizontalState extends State<ProductReviewHorizontal> {
                       Text(' ${widget.product.averageRating?.toStringAsFixed(1)} (${widget.product.ratingCount.toString()})', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey.shade500)),
                     ],
                   ),
-                  const SizedBox(height: Sizes.sm),
+                  const SizedBox(height: AppSizes.sm),
                   CarouselSlider(
                     options: CarouselOptions(
                       height: 50,

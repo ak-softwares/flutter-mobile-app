@@ -6,12 +6,21 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class APIConstant {
 
   // WooCommerce API Constant
-  static final String wooBaseDomain            =  dotenv.get('WOO_API_URL', fallback: '');
+  static final String wooBaseDomain         =  dotenv.get('WOO_API_URL', fallback: '');
   static final String authorization         = 'Basic ${base64Encode(utf8.encode('${dotenv.env['WOO_CONSUMER_KEY']}:${dotenv.env['WOO_CONSUMER_SECRET']}'))}';
 
   static const String itemsPerPage          = '10';
   static final String wooBaseUrl            = 'https://$wooBaseDomain';
   static final String wooTrackingUrl        = 'https://$wooBaseDomain/tracking/?order-id=';
+
+  // Cache time in days
+  static const double defaultCacheTime      = 7;
+  static const double appSettingCacheTime   = 7;
+  static const double productCacheTime      = 1;
+  static const double categoryCacheTime     = 7;
+  static const double orderCacheTime        = 0.1;
+  static const double customerCacheTime     = 1;
+  static const double couponCacheTime       = 1;
 
   // RazorPay credential
   static final String razorpayKey = dotenv.get('RAZORPAY_KEY', fallback: '');

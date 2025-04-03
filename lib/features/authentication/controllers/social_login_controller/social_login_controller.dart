@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/customers/woo_customer_repository.dart';
 import '../../../../utils/constants/image_strings.dart';
-import '../../../../common/widgets/loaders/full_screen_loader.dart';
+import '../../../../common/dialog_box_massages/full_screen_loader.dart';
 import '../../../personalization/controllers/user_controller.dart';
 import '../../screens/create_account/signup.dart';
 import '../create_account_controller/signup_controller.dart';
@@ -49,7 +49,7 @@ class SocialLoginController extends GetxController{
         Get.put(SignupController()).email.text = googleEmail; // Now 'googleEmail' is accessible here
         Get.to(() => SignUpScreen());
       } else {
-        TLoaders.errorSnackBar(title: 'Error', message: error.toString());
+        AppMassages.errorSnackBar(title: 'Error', message: error.toString());
       }
     }
   }

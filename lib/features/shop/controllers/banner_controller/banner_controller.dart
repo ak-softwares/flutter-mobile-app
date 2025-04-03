@@ -1,7 +1,7 @@
 
 import 'package:get/get.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../data/repositories/firebase/banners/banner_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/banners/woo_banners_repositories.dart';
 import '../../../../utils/constants/api_constants.dart';
@@ -37,7 +37,7 @@ class BannerController extends GetxController {
       //assign banner
       this.banners.assignAll(banners);
     } catch (e) {
-      TLoaders.errorSnackBar(title: 'Error - Banner loading', message: e.toString());
+      AppMassages.errorSnackBar(title: 'Error - Banner loading', message: e.toString());
     }
   }
 
@@ -47,7 +47,7 @@ class BannerController extends GetxController {
       banners.clear(); // Clear existing orders
       await getBanners();
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     } finally {
       isLoading(false);
     }

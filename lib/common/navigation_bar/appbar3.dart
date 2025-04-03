@@ -31,7 +31,7 @@ class TAppBar3 extends StatelessWidget implements PreferredSizeWidget{
       actions: showCartIcon!
           ? [
             IconButton( icon: const Icon(Icons.search), color: color, onPressed: () => showSearch(context: context, delegate: TSearchDelegate())),
-            TCartCounterIcon(iconColor: color,),
+            TCartCounterIcon(),
             ]
           : null,
       leading: showBackArrow! ? IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Iconsax.arrow_left, color: color)) :  null,

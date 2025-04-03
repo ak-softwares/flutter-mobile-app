@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../data/repositories/user/user_repository.dart';
@@ -13,7 +13,7 @@ import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/local_storage_constants.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
-import '../../../../common/widgets/loaders/full_screen_loader.dart';
+import '../../../../common/dialog_box_massages/full_screen_loader.dart';
 import '../../../personalization/controllers/user_controller.dart';
 import '../../../personalization/models/user_model.dart';
 import '../login_controller/login_controller.dart';
@@ -52,7 +52,7 @@ class SignupController extends GetxController{
       }
       //privacy policy check
       if(!privacyPolicyChecked.value) {
-        TLoaders.warningSnackBar(title: 'Accept Privacy Policy', message: 'In order to create account, you have to read and accept the privacy Policy & Terms of Use.');
+        AppMassages.warningSnackBar(title: 'Accept Privacy Policy', message: 'In order to create account, you have to read and accept the privacy Policy & Terms of Use.');
         return;
       }
       //update single field user
@@ -81,7 +81,7 @@ class SignupController extends GetxController{
       authenticationRepository.login(customer: customer, loginMethod: 'signup');
     } catch (error) {
       TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Oh Snap!', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Oh Snap!', message: error.toString());
     }
   }
 
@@ -107,7 +107,7 @@ class SignupController extends GetxController{
 
       //privacy policy check
       if(!privacyPolicyChecked.value) {
-        TLoaders.warningSnackBar(
+        AppMassages.warningSnackBar(
             title: 'Accept Privacy Policy',
             message: 'In order to create account, you have to read and accept the privacy Policy & Terms of Use.'
         );
@@ -134,11 +134,11 @@ class SignupController extends GetxController{
       //remove Loader
       TFullScreenLoader.stopLoading();
       // UserController.instance.fetchUserRecord();
-      TLoaders.customToast(message: 'Your account has been created!');
+      AppMassages.showToastMessage(message: 'Your account has been created!');
       NavigationHelper.navigateToBottomNavigation();
     } catch (error) {
       TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Oh Snap!', message: error.toString());
+      AppMassages.errorSnackBar(title: 'Oh Snap!', message: error.toString());
     }
   }
 }

@@ -15,7 +15,7 @@ class WooSettingsRepositories extends GetxController {
   static WooSettingsRepositories get instance => Get.find();
 
   final Box _cacheBox = Hive.box(CacheConstants.settingsBox); // Hive storage
-  final double cacheExpiryTimeInDays = 7;
+  final double cacheExpiryTimeInDays = APIConstant.appSettingCacheTime;
 
   // Fetch App Settings with caching
   Future<AppSettingsModel> fetchAppSettings() async {

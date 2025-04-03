@@ -1,5 +1,5 @@
 import '../../../../common/styles/spacing_style.dart';
-import '../../../../common/widgets/loaders/animation_loader.dart';
+import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
@@ -58,18 +58,18 @@ class RecentlyViewed extends StatelessWidget {
                 onRefresh: () async => recentlyViewedController.refreshRecentProducts(),
                 child: ListView(
                   controller: scrollController,
-                  padding: TSpacingStyle.defaultPageVertical,
+                  padding: TSpacingStyle.defaultPagePadding,
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: [
                     InkWell(
                       onTap: recentlyViewedController.clearHistory,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: Sizes.sm),
+                        padding: const EdgeInsets.symmetric(vertical: AppSizes.sm),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text('Clear history', style: Theme.of(context).textTheme.bodyMedium!,),
-                            const SizedBox(width: Sizes.sm),
+                            const SizedBox(width: AppSizes.sm),
                             const Icon(Icons.delete, size: 18, color: Colors.pink),
                           ],
                         ),

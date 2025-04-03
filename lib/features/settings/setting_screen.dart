@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../common/dialog_box/dialog_massage.dart';
+import '../../common/dialog_box_massages/dialog_massage.dart';
 import '../../common/navigation_bar/appbar2.dart';
 import '../../common/styles/spacing_style.dart';
 import '../../services/firebase_analytics/firebase_analytics.dart';

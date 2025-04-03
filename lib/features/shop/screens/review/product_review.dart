@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import '../../../../common/styles/spacing_style.dart';
-import '../../../../common/widgets/loaders/animation_loader.dart';
+import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../common/widgets/shimmers/user_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
@@ -46,7 +46,7 @@ class ProductReviewScreen extends StatelessWidget {
 
     return Scaffold(
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(Sizes.md),
+        padding: const EdgeInsets.all(AppSizes.md),
         child: OutlinedButton(
             onPressed: () => Get.to(() => CreateReviewScreen(productId: product.id,)),
             child: const Text('Add product review')
@@ -64,7 +64,7 @@ class ProductReviewScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Row(
-                  spacing: Sizes.spaceBtwItems,
+                  spacing: AppSizes.spaceBtwItems,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     RatingBarIndicator(

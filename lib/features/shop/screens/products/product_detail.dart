@@ -10,8 +10,8 @@ import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
 import '../../../../common/widgets/custom_shape/image/circular_image.dart';
-import '../../../../common/widgets/loaders/animation_loader.dart';
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/animation_loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../common/widgets/shimmers/single_product_shimmer.dart';
 import '../../../../common/widgets/shimmers/user_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -187,7 +187,7 @@ class _ProductScreenState extends State<ProductScreen> {
       final List<ProductModel> productVariations = await productController.getVariationByProductsIds(parentID: parentID);
       _productVariations.value = productVariations;
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     } finally {
       _isLoadingVariation(false);
       _updateProductAfterVariationSelected();
@@ -241,7 +241,7 @@ class _ProductScreenState extends State<ProductScreen> {
         _fetchProductVariations(parentID: parentID);
       }
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     }
   }
 
@@ -293,7 +293,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
                   // Product images
                   TProductImageSlider(product: _product.value),
-                  const SizedBox(height: Sizes.sm),
+                  const SizedBox(height: AppSizes.sm),
                   const Divider(),
 
                   Padding(
@@ -319,7 +319,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 Text(_product.value.categories?[0].name ?? '',
                                     style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor)
                                 ),
-                                SizedBox(width: Sizes.sm,),
+                                SizedBox(width: AppSizes.sm,),
                                 GestureDetector(
                                   onTap: () => AppShare.shareUrl(
                                       url: '${_product.value.categories?[0].permalink}',
@@ -329,69 +329,59 @@ class _ProductScreenState extends State<ProductScreen> {
                                   ),
                                   child: Icon(
                                     TIcons.share,
-                                    size: Sizes.md,
+                                    size: AppSizes.md,
                                     color: AppColors.linkColor,
                                   ),
                                 )
                               ],
                             )
                         ),
-                        const SizedBox(height: Sizes.sm),
+                        const SizedBox(height: AppSizes.sm),
 
                         // Brands
                         ProductBrand(brands: _product.value.brands ?? []),
 
                         // Price
-                        Row(
-                          children: [
-                            TSaleLabel(discount: _product.value.calculateSalePercentage(), size: 13,),
-                            // TOfferWidget(label: '${_product.value.calculateSalePercentage()}% off'),
-                            const SizedBox(width: Sizes.spaceBtwItems),
-                            ProductPrice(salePrice: _product.value.salePrice,
-                                regularPrice: _product.value.regularPrice ?? 0.0,
-                                orientation: OrientationType.horizontal
-                            ),
-                            // const SizedBox(width: TSizes.spaceBtwItems),
-                            // TSaleLabel(discount: salePercentage),
-                          ],
+                        ProductPrice(salePrice: _product.value.salePrice,
+                            regularPrice: _product.value.regularPrice ?? 0.0,
                         ),
-                        const SizedBox(height: Sizes.sm / 2 ),
+                        const SizedBox(height: AppSizes.sm / 2 ),
 
                         // Free Delivery Label
                         _product.value.getPrice() >= AppSettings.freeShippingOver
-                            ? TRoundedContainer(
-                                radius: Sizes.productImageRadius,
+                            ? RoundedContainer(
+                                radius: AppSizes.xs,
                                 backgroundColor: Colors.blue.shade50,
                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text('Free Delivery', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.linkColor, fontSize: 10)),
-                                    const SizedBox(width: Sizes.spaceBtwItems),
+                                    const SizedBox(width: AppSizes.spaceBtwItems),
                                     Icon(TIcons.truck, color: AppColors.linkColor, size: 10),
                                     const SizedBox(width: 5),
                                   ],
                                 )
                               )
-                            : TRoundedContainer(
-                                  radius: Sizes.productImageRadius,
+                            : RoundedContainer(
+                                  radius: AppSizes.xs,
                                   backgroundColor: Colors.blue.shade50,
                                   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text('Free delivery over ₹999', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.linkColor, fontSize: 10)),
-                                      const SizedBox(width: Sizes.spaceBtwItems),
+                                      const SizedBox(width: AppSizes.spaceBtwItems),
                                       Icon(TIcons.truck, color: AppColors.linkColor, size: 10),
                                       const SizedBox(width: 5),
                                     ],
                                   )
                               ),
-                        const SizedBox(height: Sizes.spaceBtwItems),
+                        const SizedBox(height: AppSizes.spaceBtwItems),
 
                         // In Stock
                         InStock(isProductAvailable: _product.value.isProductAvailable()),
-                        const SizedBox(height: Sizes.sm),
+                        const SizedBox(height: AppSizes.sm),
 
                         // Variation
                         _product.value.type == "variable" && filteredAttributes.isNotEmpty
@@ -448,8 +438,8 @@ class _ProductScreenState extends State<ProductScreen> {
                                                     child: attribute?.name?.toLowerCase() == 'color' &&
                                                         AppColors.getColorFromString(option?.toLowerCase() ?? '') != Colors.transparent
                                                         ? Padding(
-                                                          padding: EdgeInsets.all(Sizes.sm),
-                                                          child: TRoundedContainer(
+                                                          padding: EdgeInsets.all(AppSizes.sm),
+                                                          child: RoundedContainer(
                                                               height: 20,
                                                               width: 20,
                                                               radius: 100,
@@ -462,7 +452,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                                             filteredAttributes.length == 1
                                                                 ? Row(
                                                                   children: [
-                                                                    TRoundedImage(
+                                                                    RoundedImage(
                                                                           height: 30,
                                                                           width: 30,
                                                                           padding: 0,
@@ -471,7 +461,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                                                           image: _getVariationImage(attribute?.name ?? '', option ?? '')
                                                                           // image: _productVariations.first.image ?? '',
                                                                       ),
-                                                                    SizedBox(width: Sizes.sm),
+                                                                    SizedBox(width: AppSizes.sm),
                                                                   ],
                                                                 )
                                                                 : SizedBox.shrink(),
@@ -493,7 +483,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                   }
                               )
                             : SizedBox.shrink(),
-                        const SizedBox(height: Sizes.spaceBtwItems),
+                        const SizedBox(height: AppSizes.spaceBtwItems),
 
                         // Product review
                         _product.value.averageRating != 0
@@ -504,7 +494,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       onTap: () => _showReviewInBottomSheet(context: context, product: _product.value),
                                       child: ProductReviewHorizontal(product: _product.value)
                                   ),
-                                  const SizedBox(height: Sizes.sm),
+                                  const SizedBox(height: AppSizes.sm),
                                 ],
                               )
                             : const SizedBox.shrink(),
@@ -516,13 +506,13 @@ class _ProductScreenState extends State<ProductScreen> {
                             futureMethod: productController.getFBTProducts
                         ),
 
-                        const SizedBox(height: Sizes.spaceBtwSection),
+                        const SizedBox(height: AppSizes.spaceBtwSection),
                         _product.value.description != ''
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const TSectionHeading(title: 'Description'),
-                                  const SizedBox(height: Sizes.sm),
+                                  const SizedBox(height: AppSizes.sm),
                                   // Text(product.description ?? ''),
                                   Html(data: _product.value.description)
                                 ],
@@ -535,7 +525,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             itemID: _product.value.categories?[0].id ?? '',
                             futureMethod: productController.getProductsByCategoryId
                         ),
-                        const SizedBox(height: Sizes.sm),
+                        const SizedBox(height: AppSizes.sm),
 
                         // Shown products by related products, up sale,cross sale
                         ProductsScrollingByItemID(
@@ -543,11 +533,11 @@ class _ProductScreenState extends State<ProductScreen> {
                             itemID: _product.value.getAllRelatedProductsIdsAsString(),
                             futureMethod: productController.getProductsByIds
                         ),
-                        const SizedBox(height: Sizes.sm),
+                        const SizedBox(height: AppSizes.sm),
                         const Divider(),
 
                         // Review
-                        const SizedBox(height: Sizes.spaceBtwItems),
+                        const SizedBox(height: AppSizes.spaceBtwItems),
                         ListTile(
                           onTap: () => _showReviewInBottomSheet(context: context, product: _product.value),
                           // leading: const Icon(Icons.reviews_outlined, size: 20),
@@ -601,7 +591,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 children: [
                   Expanded(
                     child: ListView(
-                      padding: EdgeInsets.symmetric(vertical: Sizes.defaultSpace, horizontal: Sizes.xs),
+                      padding: EdgeInsets.symmetric(vertical: AppSizes.defaultSpace, horizontal: AppSizes.xs),
                       controller: scrollController,
                       children: [
                         customList(productReviewController)
@@ -610,7 +600,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                   Container(
                     width: double.infinity, // Full-width button
-                    padding: const EdgeInsets.all(Sizes.sm),
+                    padding: const EdgeInsets.all(AppSizes.sm),
                     // color: Theme.of(context).colorScheme.surface,
                     child: OutlinedButton(
                         style: ElevatedButton.styleFrom(
@@ -640,7 +630,7 @@ class _ProductScreenState extends State<ProductScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
-              spacing: Sizes.spaceBtwItems,
+              spacing: AppSizes.spaceBtwItems,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RatingBarIndicator(

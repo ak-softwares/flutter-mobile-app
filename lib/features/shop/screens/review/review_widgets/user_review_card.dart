@@ -31,8 +31,8 @@ class TUserReviewCard extends StatelessWidget {
     // Using Html widget to parse HTML text
     final String reviewerName = TValidator.isEmail(review.reviewer ?? '') ? TFormatter.maskEmail(review.reviewer ?? '') : review.reviewer ?? '';
     return ListTile(
-      contentPadding: EdgeInsets.only(top: Sizes.sm, left: Sizes.sm), // Removes extra padding
-      leading: TRoundedImage(
+      contentPadding: EdgeInsets.only(top: AppSizes.sm, left: AppSizes.sm), // Removes extra padding
+      leading: RoundedImage(
         image: review.reviewerAvatarUrl ?? Images.tProfileImage,
         height: 30,
         width: 30,
@@ -41,7 +41,7 @@ class TUserReviewCard extends StatelessWidget {
         isNetworkImage: true,
       ),
       title: Row(
-        spacing: Sizes.spaceBtwItems,
+        spacing: AppSizes.spaceBtwItems,
         children: [
           Text(reviewerName, style: TextStyle(fontSize: 12),),
           Icon(Icons.circle, size: 5),
@@ -51,14 +51,14 @@ class TUserReviewCard extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: Sizes.xs),
+          SizedBox(height: AppSizes.xs),
           RatingBarIndicator(
             rating: review.rating!.toDouble(),
             itemSize: 14,
             unratedColor: Colors.grey[300],
             itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: AppColors.ratingStar),
           ),
-          SizedBox(height: Sizes.xs),
+          SizedBox(height: AppSizes.xs),
           ReadMoreText(
             review.review!.replaceAll('<p>', '').replaceAll('</p>', '').replaceAll('<br />', ''),
             style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface),
@@ -75,7 +75,7 @@ class TUserReviewCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min, // Fix: Prevents Row from taking full width
         children: [
           review.image != null && review.image!.isNotEmpty
-              ? TRoundedImage(
+              ? RoundedImage(
                   backgroundColor: Colors.transparent,
                   image: review.image ?? "",
                   height: 60,

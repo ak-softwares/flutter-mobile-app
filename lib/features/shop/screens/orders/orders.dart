@@ -5,7 +5,7 @@ import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
-import '../../../../common/widgets/loaders/animation_loader.dart';
+import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../common/widgets/shimmers/order_shimmer.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -27,7 +27,7 @@ class OrderScreen extends StatelessWidget {
     final orderController = Get.put(OrderController());
     final ScrollController scrollController = ScrollController();
     final authenticationRepository = Get.put(AuthenticationRepository());
-    final double orderTileHeight = Sizes.orderTileHeight;
+    final double orderTileHeight = AppSizes.orderTileHeight;
 
     orderController.refreshOrders();
 

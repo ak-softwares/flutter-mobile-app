@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../../common/widgets/loaders/loader.dart';
+import '../../../../common/dialog_box_massages/massages.dart';
 import '../../../../data/repositories/user/user_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/products/woo_product_repositories.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -45,11 +45,11 @@ class FavoriteController extends GetxController{
     if(!favorites.contains(productId)) {
       favorites.add(productId);
       FBAnalytics.logAddToWishlist(product: product);
-      TLoaders.customToast(message: 'Product added to the wishlist.');
+      AppMassages.showToastMessage(message: 'Product added to the wishlist.');
       saveWishlistData();
     } else {
       removeProduct(productID: productId);
-      TLoaders.customToast(message: 'Product removed from the wishlist.');
+      AppMassages.showToastMessage(message: 'Product removed from the wishlist.');
     }
   }
 
@@ -73,7 +73,7 @@ class FavoriteController extends GetxController{
         products.addAll(newFavorites);
       }
     } catch (e) {
-      throw TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+      throw AppMassages.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
 
@@ -84,7 +84,7 @@ class FavoriteController extends GetxController{
       products.clear(); // Clear existing orders
       await getFavoriteProducts();
     } catch (error) {
-      TLoaders.warningSnackBar(title: 'Error', message: error.toString());
+      AppMassages.warningSnackBar(title: 'Error', message: error.toString());
     } finally {
       isLoading(false);
     }

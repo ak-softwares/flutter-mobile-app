@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/appbar2.dart';
 import '../../../../common/styles/spacing_style.dart';
-import '../../../../common/widgets/loaders/animation_loader.dart';
+import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../common/widgets/shimmers/brand_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/api_constants.dart';
@@ -25,7 +25,7 @@ class AllBrandScreen extends StatelessWidget {
     FBAnalytics.logPageView('all_brand_screen');
     final brandController = Get.put(BrandController());
     final ScrollController scrollController = ScrollController();
-    final double brandTileHeight = Sizes.brandTileHeight;
+    final double brandTileHeight = AppSizes.brandTileHeight;
 
     scrollController.addListener(() async {
       if (scrollController.position.extentAfter < 0.2 * scrollController.position.maxScrollExtent) {
