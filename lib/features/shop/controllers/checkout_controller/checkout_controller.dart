@@ -38,13 +38,7 @@ class CheckoutController extends GetxController {
 
   Rx<CouponModel> appliedCoupon = CouponModel().obs;
   Rx<PaymentModel> selectedPaymentMethod = PaymentModel.empty().obs;
-  OrderAttributionModel orderAttribution = OrderAttributionModel(
-    source: "Android App v${AuthenticationRepository.instance.appVersion.value}",
-    sourceType: "organic", //referral, organic, Unknown, utm, Web Admin, typein (Direct)
-    // medium: cartController.cartItems.map((item) => item.pageSource ?? 'NA').join(', '),
-    // campaign: "google_cpc",
-    // referrer: "https://aramarket.in/product/iron/?src=google_cpc"
-  );
+  OrderAttributionModel orderAttribution = OrderAttributionModel();
 
   final networkManager = Get.put(NetworkManager());
   final cartController = Get.put(CartController());
@@ -143,11 +137,11 @@ class CheckoutController extends GetxController {
         return;
       }
 
-      if ((orderAttribution.medium?.isEmpty ?? true) || (orderAttribution.sourceType?.isEmpty ?? true)) {
+      if ((orderAttribution.campaign?.isEmpty ?? true) && (orderAttribution.sourceType?.isEmpty ?? true)) {
         orderAttribution = OrderAttributionModel(
           source: "Android App v${AuthenticationRepository.instance.appVersion.value}",
           sourceType: "organic", //referral, organic, Unknown, utm, Web Admin, typein (Direct)
-          medium: cartController.cartItems.map((item) => item.pageSource ?? 'NA').join(', '),
+          campaign: cartController.cartItems.map((item) => item.pageSource ?? 'NA').join(', '),
         );
       } else {
         orderAttribution.source = "Android App v${AuthenticationRepository.instance.appVersion.value}";

@@ -205,8 +205,8 @@ class AppRouter {
     // Construct the order attribution model
     controller.orderAttribution = OrderAttributionModel(
       sourceType: sourceType,
-      medium: medium.isNotEmpty ? medium : null,
       campaign: campaign.isNotEmpty ? campaign : null,
+      medium: medium.isNotEmpty ? medium : null,
       referrer: referrer,
     );
   }
