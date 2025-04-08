@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/layout_models/product_grid_layout.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/navigation_bar/tabbar.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/brands/branditemcount.dart';
@@ -28,7 +28,7 @@ class StoreScreen extends StatelessWidget {
     return DefaultTabController(
       length: 5,
       child: Scaffold(
-        appBar: const TAppBar2(titleText: "Store", showCartIcon: true),
+        appBar: const AppAppBar(title: "Store", showCartIcon: true),
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
@@ -65,7 +65,7 @@ class StoreScreen extends StatelessWidget {
                   ),
                 ),
                 /// tab bar design
-                bottom: const TTabbar(
+                bottom: const AppTabBar(
                   tabs: [
                     Tab(child: Text('Soldering Iron')),
                     Tab(child: Text('Screwdriver')),

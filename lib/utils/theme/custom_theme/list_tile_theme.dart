@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../constants/colors.dart';
 
-class TListTileTheme {
-  TListTileTheme._(); // Private constructor to prevent instantiation
+class AppListTileTheme {
+  AppListTileTheme._(); // Private constructor to prevent instantiation
 
   static final lightListTileTheme = ListTileThemeData(
     titleTextStyle: TextStyle(

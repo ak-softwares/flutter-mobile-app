@@ -5,13 +5,13 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../common/layout_models/product_grid_layout.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
 import '../../../../common/widgets/custom_shape/image/circular_image.dart';
 import '../../../../common/dialog_box_massages/animation_loader.dart';
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../common/widgets/shimmers/single_product_shimmer.dart';
 import '../../../../common/widgets/shimmers/user_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -256,7 +256,7 @@ class _ProductScreenState extends State<ProductScreen> {
     });
 
     return Scaffold(
-      appBar: TAppBar2(titleText: widget.product?.name ?? 'Product Details', showSearchIcon: true, showCartIcon: true),
+      appBar: AppAppBar(title: widget.product?.name ?? 'Product Details', showSearchIcon: true, showCartIcon: true),
       bottomNavigationBar: Obx(() => TBottomAddToCart(product: _product.value, quantity: _quantityInCart.value, variationId: _getSelectedVariation().id, pageSource: widget.pageSource)),
       body: RefreshIndicator(
         color: AppColors.refreshIndicator,
@@ -328,7 +328,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       itemId: _product.value.categories?[0].id ?? ''
                                   ),
                                   child: Icon(
-                                    TIcons.share,
+                                    AppIcons.share,
                                     size: AppSizes.md,
                                     color: AppColors.linkColor,
                                   ),
@@ -358,7 +358,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                   children: [
                                     Text('Free Delivery', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.linkColor, fontSize: 10)),
                                     const SizedBox(width: AppSizes.spaceBtwItems),
-                                    Icon(TIcons.truck, color: AppColors.linkColor, size: 10),
+                                    Icon(AppIcons.truck, color: AppColors.linkColor, size: 10),
                                     const SizedBox(width: 5),
                                   ],
                                 )
@@ -372,7 +372,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                     children: [
                                       Text('Free delivery over ₹999', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.linkColor, fontSize: 10)),
                                       const SizedBox(width: AppSizes.spaceBtwItems),
-                                      Icon(TIcons.truck, color: AppColors.linkColor, size: 10),
+                                      Icon(AppIcons.truck, color: AppColors.linkColor, size: 10),
                                       const SizedBox(width: 5),
                                     ],
                                   )
@@ -637,7 +637,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   rating: product.averageRating ?? 0.0,
                   itemSize: 17,
                   unratedColor: Colors.grey[300],
-                  itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: AppColors.ratingStar),
+                  itemBuilder: (_, __) =>  Icon(AppIcons.starRating, color: AppColors.ratingStar),
                 ),
                 Text(product.averageRating!.toStringAsFixed(1), style: TextStyle(fontSize: 17)),
               ],

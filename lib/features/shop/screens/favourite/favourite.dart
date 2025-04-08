@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/layout_models/product_grid_layout.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/dialog_box_massages/animation_loader.dart';
@@ -57,7 +57,7 @@ class FavouriteScreen extends StatelessWidget {
     );
 
     return Scaffold(
-          appBar: const TAppBar2(titleText: 'Liked products', showCartIcon: true, showSearchIcon: true),
+          appBar: const AppAppBar(title: 'Liked products', showCartIcon: true, showSearchIcon: true),
           body: RefreshIndicator(
               color: AppColors.refreshIndicator,
               onRefresh: () async => favoriteController.refreshFavorites(),

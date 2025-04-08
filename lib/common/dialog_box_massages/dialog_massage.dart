@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'massages.dart';
+import 'snack_bar_massages.dart';
 
 class DialogHelper {
 

@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 import '../../utils/constants/colors.dart';
 import '../../utils/helpers/url_launcher_helper.dart';
-import '../navigation_bar/appbar2.dart';
+import '../navigation_bar/app_appbar.dart';
 
 class MyWebViewController extends GetxController {
   final RxInt progress = 0.obs;
@@ -72,9 +72,9 @@ class MyWebView extends StatelessWidget {
         // return;
       },
       child: Scaffold(
-        appBar: TAppBar2(
-            titleText: title,
-            widget: IconButton(
+        appBar: AppAppBar(
+            title: title,
+            widgetInActions: IconButton(
                 onPressed: () async => UrlLauncherHelper.openUrlInChrome(url),
                 icon: Icon(Icons.open_in_browser, color: AppColors.linkColor,)
             )

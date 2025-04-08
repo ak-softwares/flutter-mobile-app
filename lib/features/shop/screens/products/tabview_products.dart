@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../../utils/constants/api_constants.dart';
 import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/styles/spacing_style.dart';
@@ -115,7 +115,7 @@ class _TabviewProductsState extends State<TabviewProducts> {
                   ),
                   SizedBox(width: AppSizes.sm),
                   Icon(
-                    TIcons.share,
+                    AppIcons.share,
                     size: AppSizes.md,
                     color: AppColors.linkColor,
                   ),

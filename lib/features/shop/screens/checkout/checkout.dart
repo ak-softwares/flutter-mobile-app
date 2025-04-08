@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/layout_models/product_grid_layout.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
@@ -12,6 +12,7 @@ import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../authentication/screens/check_login_screen/check_login_screen.dart';
+import '../../../personalization/controllers/user_controller.dart';
 import '../../../settings/app_settings.dart';
 import '../../controllers/cart_controller/cart_controller.dart';
 import '../../controllers/checkout_controller/checkout_controller.dart';
@@ -29,16 +30,16 @@ class CheckoutScreen extends StatelessWidget {
 
     final cartController = Get.put(CartController());
     final checkoutController = Get.put(CheckoutController());
-    final authenticationRepository = Get.put(AuthenticationRepository());
+    final userController = Get.put(UserController());
     FBAnalytics.logPageView('checkout_screen');
     FBAnalytics.logBeginCheckout(cartItems: cartController.cartItems);
     // Trigger updateCheckout on widget initialization
     Future.microtask(() => checkoutController.updateCheckout());
 
     return Scaffold(
-      appBar: const TAppBar2(titleText: "Order summery", showBackArrow: true),
+      appBar: const AppAppBar(title: "Order summery", showBackArrow: true),
       bottomNavigationBar: Obx((){
-        if (authenticationRepository.isUserLogin.value && cartController.cartItems.isNotEmpty){
+        if (userController.isUserLogin.value && cartController.cartItems.isNotEmpty){
           return Padding(
               padding: const EdgeInsets.all(AppSizes.defaultSpace),
               child: ElevatedButton(
@@ -52,7 +53,7 @@ class CheckoutScreen extends StatelessWidget {
           return const SizedBox.shrink();
         }
       }),
-      body: !authenticationRepository.isUserLogin.value
+      body: !userController.isUserLogin.value
           ? const CheckLoginScreen(text: 'Please Login! before Checkout!')
           : SingleChildScrollView(
             padding: TSpacingStyle.defaultPageHorizontal,

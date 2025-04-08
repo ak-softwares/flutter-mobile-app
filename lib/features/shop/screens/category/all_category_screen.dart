@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/layout_models/product_grid_layout.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../common/widgets/shimmers/category_shimmer.dart';
@@ -44,7 +44,7 @@ class CategoryScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: TAppBar2(titleText: 'Categories', showCartIcon: true, sharePageLink: APIConstant.allCategoryUrl,),
+      appBar: AppAppBar(title: 'Categories', showCartIcon: true, sharePageLink: APIConstant.allCategoryUrl,),
       body: RefreshIndicator(
         color: AppColors.refreshIndicator,
         onRefresh: () async => categoryController.refreshCategories(),

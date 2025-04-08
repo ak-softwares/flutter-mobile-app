@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/dialog_box_massages/full_screen_loader.dart';
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../data/repositories/woocommerce_repositories/coupons/woo_coupon_repository.dart';
 import '../../models/coupon_model.dart';
 import '../checkout_controller/checkout_controller.dart';
@@ -17,6 +17,7 @@ class CouponController extends GetxController {
   RxList<CouponModel> coupons = <CouponModel>[].obs;
 
   RxBool isCouponLoad = false.obs;
+  RxString couponText = ''.obs;
 
   final wooCouponRepository = Get.put(WooCouponRepository());
   final checkoutController = Get.put(CheckoutController());
@@ -26,6 +27,9 @@ class CouponController extends GetxController {
   void onInit() {
     super.onInit();
     couponTextEditingController.text = checkoutController.appliedCoupon.value.code?.toUpperCase() ?? '';
+    couponTextEditingController.addListener(() {
+      couponText.value = couponTextEditingController.text;
+    });
   }
 
   //Get All Coupon

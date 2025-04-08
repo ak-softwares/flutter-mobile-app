@@ -43,11 +43,11 @@ class DiscoverScreen extends StatelessWidget {
     });
 
     final Widget emptyWidget = TAnimationLoaderWidgets(
-      text: 'Whoops! Wishlist is Empty...',
+      text: 'Whoops! No Product Found...',
       animation: Images.pencilAnimation,
       showAction: true,
-      actionText: 'Let\'s add some',
-      onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
+      actionText: 'Please Refresh',
+      onActionPress: () async => discoverScreenController.refreshDiscoverProducts(),
     );
 
     return Scaffold(
@@ -61,24 +61,25 @@ class DiscoverScreen extends StatelessWidget {
       body: RefreshIndicator(
         color: AppColors.refreshIndicator,
         onRefresh: () async => discoverScreenController.refreshDiscoverProducts(),
-        child: Obx(() {
-          if (discoverScreenController.isLoading.value) {
-            return shimmerBuildLayoutBuilder(10);
-          } else if(discoverScreenController.discoverProducts.isEmpty) {
-            return emptyWidget;
-          } else {
-            final products = discoverScreenController.discoverProducts;
-            return LayoutBuilder(
-              builder: (context, constraints) {
-                double screenWidth = constraints.maxWidth;
-                double squareSize = (screenWidth - 8) / 3; // 3 columns, adjust spacing
+        child: ListView(
+          controller: scrollController,
+          padding: EdgeInsets.symmetric(vertical: 4),
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            Obx(() {
+              if (discoverScreenController.isLoading.value) {
+                return shimmerBuildLayoutBuilder(10);
+              } else if(discoverScreenController.discoverProducts.isEmpty) {
+                return emptyWidget;
+              } else {
+                final products = discoverScreenController.discoverProducts;
+                return LayoutBuilder(
+                  builder: (context, constraints) {
+                    double screenWidth = constraints.maxWidth;
+                    double squareSize = (screenWidth - 8) / 3; // 3 columns, adjust spacing
 
-                return Obx(() => Container(
-                  color: Theme.of(context).colorScheme.surface,
-                  child: SingleChildScrollView(
-                      controller: scrollController,
-                      padding: EdgeInsets.symmetric(vertical: 4),
-                      physics: AlwaysScrollableScrollPhysics(),
+                    return Obx(() => Container(
+                      color: Theme.of(context).colorScheme.surface,
                       child: StaggeredGrid.count(
                         crossAxisCount: 3, // 3 items per row
                         crossAxisSpacing: 4,
@@ -93,17 +94,18 @@ class DiscoverScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                ),
+                    );
+                  },
                 );
-              },
-            );
 
 
 
 
-          }
+              }
 
-        }),
+            }),
+          ],
+        ),
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -20,17 +20,17 @@ Widget build(BuildContext context) {
   FBAnalytics.logPageView('user_address_screen');
 
   final userController = Get.put(UserController());
-  final authenticationRepository = Get.put(AuthenticationRepository());
 
   return Scaffold(
-    appBar: const TAppBar2(titleText: "Address", showBackArrow: true, showCartIcon: true),
-    body: !authenticationRepository.isUserLogin.value
+    appBar: const AppAppBar(title: "Address", showBackArrow: true, showCartIcon: true),
+    body: !userController.isUserLogin.value
       ? const CheckLoginScreen()
       : Obx(() => SingleChildScrollView(
           padding: const EdgeInsets.all(AppSizes.defaultSpace),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const TSectionHeading(title: 'Billing Address'),
+              const Heading(title: 'Billing Address'),
               TSingleAddress(
                   address: userController.customer.value.billing ?? AddressModel.empty(),
                   onTap: () => Get.to(() => UpdateAddressScreen(

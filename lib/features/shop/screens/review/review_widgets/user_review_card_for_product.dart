@@ -53,7 +53,7 @@ class SingleReviewCard extends StatelessWidget {
                       rating: review.rating!.toDouble(),
                       itemSize: 12,
                       unratedColor: Colors.grey[300],
-                      itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: AppColors.ratingStar),
+                      itemBuilder: (_, __) =>  Icon(AppIcons.starRating, color: AppColors.ratingStar),
                     ),
                   ),
                 ],

@@ -34,14 +34,14 @@ class Menu extends StatelessWidget {
       children: [
         ListTile(
           onTap: () => Get.to(() => const OrderScreen()),
-          leading: Icon(TIcons.order, size: 20),
+          leading: Icon(AppIcons.order, size: 20),
           title: Text('My Orders'),
           subtitle: Text('Track and repeat orders'),
           trailing: Icon(Icons.arrow_forward_ios, size: 20,),
         ),
         ListTile(
           onTap: () => Get.to(() => const CartScreen()),
-          leading: Icon(TIcons.bottomNavigationCart,size: 25),
+          leading: Icon(AppIcons.bottomNavigationCart,size: 25),
           title: Text('Cart'),
           subtitle: Text('All cart items'),
           trailing: Row(
@@ -58,14 +58,14 @@ class Menu extends StatelessWidget {
         ),
         ListTile(
           onTap: () => Get.to(() => CategoryScreen()),
-          leading: Icon(TIcons.category1, size: 20),
+          leading: Icon(AppIcons.category1, size: 20),
           title: Text('All Categories'),
           subtitle: Text('Experience shopping like never before.'),
           trailing: Icon(Icons.arrow_forward_ios, size: 20,),
         ),
         ListTile(
           onTap: () => Get.to(() => const FavouriteScreen()),
-          leading: Icon(TIcons.favorite,size: 20),
+          leading: Icon(AppIcons.favorite,size: 20),
           title: Text('Liked Products'),
           subtitle: Text('All Liked items'),
           trailing: Row(
@@ -82,28 +82,28 @@ class Menu extends StatelessWidget {
         ),
         ListTile(
           onTap: () => Get.to(() => const UserAddressScreen()),
-          leading: Icon(TIcons.location, size: 20),
+          leading: Icon(AppIcons.location, size: 20),
           title: Text('My Addresses'),
           subtitle: Text('Set shopping delivery address.'),
           trailing: Icon(Icons.arrow_forward_ios, size: 20,),
         ),
         ListTile(
           onTap: () => Get.to(() => const CouponScreen()),
-          leading: Icon(TIcons.coupons, size: 20),
+          leading: Icon(AppIcons.coupons, size: 20),
           title: Text('My Coupons'),
           subtitle: Text('List of all the discounted coupons.'),
           trailing: Icon(Icons.arrow_forward_ios, size: 20,),
         ),
         ListTile(
           onTap: () => launchUrlString(AppSettings.playStore),
-          leading: Icon(TIcons.rateUs, size: 20),
+          leading: Icon(AppIcons.rateUs, size: 20),
           title: Text('Rate us'),
           subtitle: Text('Rate us on play store'),
           trailing: Icon(Icons.arrow_forward_ios, size: 20,),
         ),
         ListTile(
           onTap: () => Get.to(() => const RecentlyViewed()),
-          leading: Icon(TIcons.recentlyView,size: 20),
+          leading: Icon(AppIcons.recentlyView,size: 20),
           title: Text('Recently Viewed'),
           subtitle: Text('All your recently viewed products.'),
           trailing: Row(

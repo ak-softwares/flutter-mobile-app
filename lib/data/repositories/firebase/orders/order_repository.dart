@@ -16,8 +16,9 @@ class OrderRepository extends GetxController {
   //Get all order related to current user
   Future<List<OrderModel>> fetchUserOrders() async {
     try{
-      final userId = AuthenticationRepository.instance.authUser?.uid;
-      if(userId!.isEmpty) throw 'Unable to find user information';
+      // final userId = AuthenticationRepository.instance.authUser?.uid;
+      final userId = '';
+      if(userId.isEmpty) throw 'Unable to find user information';
 
       // final result = await _db.collection('Orders').get();
       final result = await _db.collection(DbCollections.orders).where(OrderFieldName.customerId, isEqualTo: userId).get();

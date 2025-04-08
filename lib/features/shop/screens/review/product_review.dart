@@ -71,7 +71,7 @@ class ProductReviewScreen extends StatelessWidget {
                       rating: product.averageRating ?? 0.0,
                       itemSize: 17,
                       unratedColor: Colors.grey[300],
-                      itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: AppColors.ratingStar),
+                      itemBuilder: (_, __) =>  Icon(AppIcons.starRating, color: AppColors.ratingStar),
                     ),
                     Text(product.averageRating!.toStringAsFixed(1), style: TextStyle(fontSize: 17)),
                   ],

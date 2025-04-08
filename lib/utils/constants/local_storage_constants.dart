@@ -4,10 +4,12 @@ class LocalStorage{
   static const String searches        = 'SEARCHES';
   static const String wishlist        = 'WISHLIST';
   static const String cartItems       = 'CART_ITEMS';
+  static const String orderAttributes = 'ORDER_ATTRIBUTES';
 
   static const String rememberMeEmail     = 'REMEMBER_ME_EMAIL';
   static const String rememberMePassword  = 'REMEMBER_ME_PASSWORD';
   static const String authUserID          = 'AUTH_USER_ID';
+  static const String loginExpiry         = 'LOGIN_EXPIRY';
 
   static const String themeMode          = 'THEME_MODE';
 }

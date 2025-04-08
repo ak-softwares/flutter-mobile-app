@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../common/dialog_box_massages/massages.dart';
+import '../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../data/repositories/woocommerce_repositories/settings/woo_settings_repositories.dart';
 import '../models/settings_model.dart';
 

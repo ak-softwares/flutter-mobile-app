@@ -2,8 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../../common/dialog_box_massages/massages.dart';
+import '../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../features/authentication/screens/phone_otp_login/mobile_login_screen.dart';
+import '../../../features/personalization/controllers/user_controller.dart';
 import '../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../utils/exceptions/format_exceptions.dart';
 import 'authentication_repository.dart';
@@ -14,6 +15,7 @@ class PhoneAuthRepository extends GetxController {
   //variable
   final _auth = FirebaseAuth.instance;
   var verificationId = ''.obs;
+  final userController = Get.put(UserController());
 
   Future<void> phoneAuthentication(String phoneNo) async {
     try {
@@ -21,7 +23,7 @@ class PhoneAuthRepository extends GetxController {
         phoneNumber: phoneNo,
         verificationCompleted: (credential) async {
           await _auth.signInWithCredential(credential);
-          AuthenticationRepository.instance.isUserLogin.value = true;
+          userController.isUserLogin.value = true;
         },
         codeSent: (verificationId, resendToken) {
           this.verificationId.value = verificationId;

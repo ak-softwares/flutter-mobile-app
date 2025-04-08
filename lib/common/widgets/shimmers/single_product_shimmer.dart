@@ -32,7 +32,7 @@ class SingleProductShimmer extends StatelessWidget {
         ),
         const SizedBox(height: AppSizes.spaceBtwSection),
         const ShimmerEffect(width: 100, height: 10, radius: 0,),
-        const SizedBox(height: AppSizes.spaceBtwInputFields),
+        const SizedBox(height: AppSizes.inputFieldSpace),
         const ShimmerEffect(width: double.infinity, height: 25, radius: 0,),
         const SizedBox(height: AppSizes.spaceBtwItems),
         const ShimmerEffect(width: 300, height: 25, radius: 0,),

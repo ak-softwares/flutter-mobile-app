@@ -15,13 +15,13 @@ class FollowUs extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            IconButton(icon: Icon(TIcons.facebook, size: 20, color: Colors.blue),
+            IconButton(icon: Icon(AppIcons.facebook, size: 20, color: Colors.blue),
               onPressed: () => launchUrlString(AppSettings.facebook)),
-            IconButton(icon: Icon(TIcons.instagram, size: 20, color: Colors.pinkAccent),
+            IconButton(icon: Icon(AppIcons.instagram, size: 20, color: Colors.pinkAccent),
               onPressed: () => launchUrlString(AppSettings.instagram)),
-            IconButton(icon: Icon(TIcons.youtube, size: 20, color: Colors.red),
+            IconButton(icon: Icon(AppIcons.youtube, size: 20, color: Colors.red),
               onPressed: () => launchUrlString(AppSettings.youtube)),
-            IconButton(icon: Icon(TIcons.twitter, size: 20, color: Colors.lightBlue),
+            IconButton(icon: Icon(AppIcons.twitter, size: 20, color: Colors.lightBlue),
               onPressed: () => launchUrlString(AppSettings.twitter)),
           ],
         ),

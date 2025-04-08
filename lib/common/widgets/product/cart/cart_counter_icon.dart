@@ -21,7 +21,7 @@ class TCartCounterIcon extends StatelessWidget {
       children: [
         IconButton(
             onPressed: () => Get.to(() => const CartScreen()),
-            icon: Icon(TIcons.bottomNavigationCart, size: 25,),
+            icon: Icon(AppIcons.bottomNavigationCart, size: 25,),
         ),
         Positioned(
           top: 5,
@@ -71,7 +71,7 @@ class TWishlistCounterIcon extends StatelessWidget {
       children: [
         IconButton(
             onPressed: () => Get.to(const FavouriteScreen()),
-            icon: Icon(TIcons.favorite, size: 20,),
+            icon: Icon(AppIcons.favorite, size: 20,),
             color: iconColor
         ),
         Positioned(

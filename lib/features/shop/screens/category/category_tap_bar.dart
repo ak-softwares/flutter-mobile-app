@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/navigation_bar/app_appbar.dart';
+import '../../../../common/navigation_bar/tabbar.dart';
 import '../../../../common/widgets/product/cart/cart_counter_icon.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
@@ -31,19 +33,12 @@ class CategoryTapBarScreen extends StatelessWidget {
           initialIndex: safeInitialIndex,
           length: categories.length,
           child: Scaffold(
-            appBar: AppBar(
-              centerTitle: false,
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              title: Text('Products by categories', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-              actions: [
-                IconButton( icon: Icon(TIcons.search), color: Theme.of(context).colorScheme.onSurface, onPressed: () => showSearch(context: context, delegate: TSearchDelegate())),
-                TCartCounterIcon(),
-              ],
-              bottom: TabBar(
-                // unselectedLabelColor: Colors.black87,
-                // indicatorColor: TColors.secondaryColor,
-                isScrollable: true,
-                labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),
+            appBar: AppAppBar(
+              title: 'Products by categories',
+              showSearchIcon: true,
+              showCartIcon: true,
+              toolbarHeight: 50,
+              bottom: AppTabBar(
                 tabs: categories.map((category) {
                   return Tab(
                     text: category.name,

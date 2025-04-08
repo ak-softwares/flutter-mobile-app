@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import '../../../../common/dialog_box_massages/full_screen_loader.dart';
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../data/repositories/firebase/orders/order_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/orders/woo_orders_repository.dart';
@@ -83,7 +83,7 @@ class OrderController extends GetxController {
   //Get user order by customer id
   Future<void> getOrdersByCustomerId() async {
     try {
-      if(!AuthenticationRepository.instance.isUserLogin.value) return;
+      if(!userController.isUserLogin.value) return;
       var customerId = userController.customer.value.id;
       if(customerId == null){
         await userController.refreshCustomer();
@@ -147,12 +147,12 @@ class OrderController extends GetxController {
   }
 
   // Add methods for order processing
-  Future<OrderModel> saveOrderByCustomerId({OrderAttributionModel? orderAttribution}) async {
+  Future<OrderModel> saveOrderByCustomerId({OrderAttributeModel? orderAttribute}) async {
     try {
       // Convert OrderAttributionModel to metadata list
       List<OrderMedaDataModel> orderMetaData = [];
-      if (orderAttribution != null) {
-        orderMetaData = orderAttribution.toJson().entries.map(
+      if (orderAttribute != null) {
+        orderMetaData = orderAttribute.toJson().entries.map(
               (entry) => OrderMedaDataModel(key: entry.key, value: entry.value),
         ).toList();
       }

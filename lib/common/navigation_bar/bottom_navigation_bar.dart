@@ -11,7 +11,7 @@ import '../../features/shop/screens/home/home.dart';
 import '../../services/firebase_analytics/firebase_analytics.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/icons.dart';
-import '../dialog_box_massages/massages.dart';
+import '../dialog_box_massages/snack_bar_massages.dart';
 
 
 class BottomNavigation extends StatefulWidget {
@@ -98,11 +98,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5), // navigation bar padding
             tabs: [
               GButton(
-                icon: TIcons.home,
+                icon: AppIcons.home,
                 text: 'Home',
               ),
               GButton(
-                icon: TIcons.category,
+                icon: AppIcons.category,
                 text: 'Category',
               ),
               // GButton(
@@ -110,7 +110,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               //   text: 'Likes',
               // ),
               GButton(
-                icon: TIcons.bottomNavigationCart,
+                icon: AppIcons.bottomNavigationCart,
                 text: 'Cart',
                 leading: Obx(() => Badge(
                   backgroundColor: Colors.transparent,
@@ -136,11 +136,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
                       ),
                       child: Obx(() => Center(child: Text(cartController.noOfCartItems.value.toString())))
                   ),
-                  child: Icon(TIcons.bottomNavigationCart, size: 25),
+                  child: Icon(AppIcons.bottomNavigationCart, size: 25),
                 ))
               ),
               GButton(
-                icon: TIcons.user,
+                icon: AppIcons.user,
                 text: 'Profile',
               )
             ]

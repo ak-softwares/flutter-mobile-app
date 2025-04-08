@@ -240,22 +240,24 @@ class OrderMedaDataModel{
   }
 }
 
-class OrderAttributionModel {
+class OrderAttributeModel {
   String? source;
   String? sourceType; // e.g., referral, organic, unknown, utm, Web Admin, typein (Direct)
   String? medium; // e.g., cart page source
   String? campaign; // e.g., google_cpc
   String? referrer; // e.g., referral URL
+  DateTime? date;
 
-  OrderAttributionModel({
+  OrderAttributeModel({
     this.source,
     this.sourceType,
     this.medium,
     this.campaign,
     this.referrer,
+    this.date,
   });
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool isLocal = false}) {
     final Map<String, dynamic> data = {};
 
     if (source != null) data[OrderMetaKeyName.source] = source;
@@ -263,17 +265,20 @@ class OrderAttributionModel {
     if (medium != null) data[OrderMetaKeyName.medium] = medium;
     if (campaign != null) data[OrderMetaKeyName.campaign] = campaign;
     if (referrer != null) data[OrderMetaKeyName.referrer] = referrer;
-
+    if(isLocal){
+      if (date != null) data[OrderMetaKeyName.date] = date!.toIso8601String();
+    }
     return data;
   }
 
-  factory OrderAttributionModel.fromJson(Map<String, dynamic> json) {
-    return OrderAttributionModel(
+  factory OrderAttributeModel.fromJson(Map<String, dynamic> json) {
+    return OrderAttributeModel(
       source: json[OrderMetaKeyName.source],
       sourceType: json[OrderMetaKeyName.sourceType],
       medium: json[OrderMetaKeyName.medium],
       campaign: json[OrderMetaKeyName.campaign],
       referrer: json[OrderMetaKeyName.referrer],
+      date: json[OrderMetaKeyName.date] != null ? DateTime.parse(json[OrderMetaKeyName.date]) : null,
     );
   }
 }

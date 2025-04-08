@@ -66,7 +66,7 @@ class TSocialButtons extends StatelessWidget {
                           width: AppSizes.iconSm,
                           image: Images.google
                       ),
-                      SizedBox(width: AppSizes.spaceBtwInputFields),
+                      SizedBox(width: AppSizes.inputFieldSpace),
                       Text('Login with Google')
                     ],
                   )

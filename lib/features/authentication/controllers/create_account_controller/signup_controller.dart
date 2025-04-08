@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../data/repositories/user/user_repository.dart';
@@ -35,7 +35,6 @@ class SignupController extends GetxController{
   final userController = Get.put(UserController());
   final loginController = Get.put(LoginController());
   final wooAuthenticationRepository = Get.put(WooAuthenticationRepository());
-  final authenticationRepository = AuthenticationRepository.instance;
 
   void signupWithEmailPassword() async {
     try {
@@ -78,7 +77,7 @@ class SignupController extends GetxController{
       }
 
       TFullScreenLoader.stopLoading();
-      authenticationRepository.login(customer: customer, loginMethod: 'signup');
+      userController.login(customer: customer, loginMethod: 'signup');
     } catch (error) {
       TFullScreenLoader.stopLoading();
       AppMassages.errorSnackBar(title: 'Oh Snap!', message: error.toString());

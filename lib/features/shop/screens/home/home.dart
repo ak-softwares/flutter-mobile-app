@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/drawer/drawer.dart';
-import '../../../../common/navigation_bar/appbar.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/widgets/send_whatsapp_msg/send_whatsapp_msg.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/api_constants.dart';
@@ -56,7 +55,7 @@ class MyHomePage extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: const TAppBar(),
+      appBar: const AppAppBar(isShowLogo: true, showSearchIcon: true, showCartIcon: true,),
       // bottomNavigationBar: const UpdateMobileNo(),
       floatingActionButton: const SendWhatsappScreen(),
       // drawer: const MyDrawer(),

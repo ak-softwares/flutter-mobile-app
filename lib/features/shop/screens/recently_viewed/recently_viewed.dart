@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/layout_models/product_grid_layout.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 
 class RecentlyViewed extends StatelessWidget {
@@ -52,7 +52,7 @@ class RecentlyViewed extends StatelessWidget {
       onActionPress: () => NavigationHelper.navigateToBottomNavigation(),
     );
     return Scaffold(
-        appBar: const TAppBar2(titleText: 'Recently viewed', showCartIcon: true, showSearchIcon: true,),
+        appBar: const AppAppBar(title: 'Recently viewed', showCartIcon: true, showSearchIcon: true,),
         body: RefreshIndicator(
                 color: AppColors.refreshIndicator,
                 onRefresh: () async => recentlyViewedController.refreshRecentProducts(),

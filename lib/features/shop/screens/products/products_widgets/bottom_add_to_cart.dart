@@ -41,7 +41,7 @@ class TBottomAddToCart extends StatelessWidget {
               );
             }),
           ),
-          const SizedBox(width: AppSizes.spaceBtwInputFields),
+          const SizedBox(width: AppSizes.inputFieldSpace),
           Expanded(
             flex: 50,
             child: ElevatedButton(

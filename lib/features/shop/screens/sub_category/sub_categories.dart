@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../common/layout_models/product_grid_layout.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../common/widgets/product/product_cards/product_card.dart';
 import '../../../../common/widgets/shimmers/product_shimmer.dart';
@@ -21,7 +21,7 @@ class TSubCategoriesScreen extends StatelessWidget {
 
     final productController = ProductController.instance;
     return Scaffold(
-      appBar: TAppBar2(titleText: category.name ?? '', showBackArrow: true),
+      appBar: AppAppBar(title: category.name ?? '', showBackArrow: true),
       body: SingleChildScrollView(
         child: FutureBuilder(
             future: productController.getProductsByCategoryId(category.id ?? '', '1'),

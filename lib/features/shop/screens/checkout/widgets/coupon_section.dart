@@ -18,61 +18,81 @@ class TCouponCode extends StatelessWidget {
   Widget build(BuildContext context) {
     final couponController = Get.put(CouponController());
 
-    return Column(
-      children: [
-        TextFormField(
-          controller: couponController.couponTextEditingController,
-          // initialValue: checkoutController.appliedCoupon.value.code?.toUpperCase() ?? '',
-          decoration: InputDecoration(
-            hintText: 'Enter coupon code',
-            hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant), // Ensure hint is visible
-            isDense: true, // Prevent excessive padding
-            contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12), // Prevent squeezing
-            filled: true,
-            fillColor: Theme.of(context).colorScheme.surface,
-            prefixIcon: Icon(Iconsax.discount_shape, size: 20),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppSizes.defaultRadius), // Set border radius
-              borderSide: BorderSide(color: Colors.transparent), // Transparent border
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppSizes.defaultRadius),
-              borderSide: BorderSide(
-                  color:Theme.of(context).colorScheme.outlineVariant,
-                  width: AppSizes.defaultBorderWidth
-              ), // Light grey border when not focused
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppSizes.defaultRadius),
-              borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.outlineVariant,
-                  width: AppSizes.defaultBorderWidth), // Blue border when focused
-            ),
+    return TextFormField(
+      controller: couponController.couponTextEditingController,
+      // initialValue: checkoutController.appliedCoupon.value.code?.toUpperCase() ?? '',
+      decoration: InputDecoration(
+        hintText: 'Enter coupon code',
+        hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant), // Ensure hint is visible
+        isDense: true, // Prevent excessive padding
+        contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12), // Prevent squeezing
+        filled: true,
+        fillColor: Theme.of(context).colorScheme.surface,
+        prefixIcon: Icon(Iconsax.discount_shape, size: 20),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSizes.defaultRadius), // Set border radius
+          borderSide: BorderSide(color: Colors.transparent), // Transparent border
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSizes.defaultRadius),
+          borderSide: BorderSide(
+              color:Theme.of(context).colorScheme.outlineVariant,
+              width: AppSizes.defaultBorderWidth
+          ), // Light grey border when not focused
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSizes.defaultRadius),
+          borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.outlineVariant,
+              width: AppSizes.defaultBorderWidth), // Blue border when focused
+        ),
 
-            suffixIcon: TextButton(
-              onPressed: () {
+        suffixIcon: Obx(() {
+          final isCouponFieldNotEmpty = couponController.couponText.value.isNotEmpty;
+
+          return TextButton(
+            onPressed: () {
+              if (isCouponFieldNotEmpty) {
                 couponController.applyCoupon(couponController.couponTextEditingController.text.trim());
-              },
-              child: Obx(() => couponController.isCouponLoad.value
-                  ? SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.linkColor),
+              } else {
+                showCouponsInBottomSheet(context: context);
+              }
+            },
+            child: Obx(() {
+              if (couponController.isCouponLoad.value) {
+                return SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.linkColor,
                     )
-                  : Text('Apply', style: TextStyle(color: Colors.blue, fontSize: 15, fontWeight: FontWeight.w500))
-              ),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton(
-              onPressed: () => showCouponsInBottomSheet(context: context),
-              // onPressed: () => Get.to(() => const CouponScreen()),
-              child: Text('All Coupons', style: TextStyle(fontSize: 14, color: AppColors.linkColor)),
-          ),
-        ),
-      ],
+                );
+              } else {
+                if (isCouponFieldNotEmpty) {
+                  return Text(
+                    'Apply',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  );
+                } else {
+                  return Text(
+                    'Coupons',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  );
+                }
+              }
+            })
+          );
+        })
+      ),
     );
   }
 

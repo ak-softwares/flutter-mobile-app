@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../common/text/section_heading.dart';
-import '../../../common/dialog_box_massages/massages.dart';
+import '../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../common/widgets/network_manager/network_manager.dart';
 import '../../../data/repositories/woocommerce_repositories/customers/woo_customer_repository.dart';
 import '../../../utils/constants/db_constants.dart';

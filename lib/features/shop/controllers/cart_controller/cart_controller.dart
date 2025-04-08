@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../../common/dialog_box_massages/dialog_massage.dart';
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../data/repositories/user/user_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/products/woo_product_repositories.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -193,13 +193,13 @@ class CartController extends GetxController {
   }
 
   // Save cart data to local storage
-  Future<void> saveCartItems() async {
+  void saveCartItems() {
     final cartItemsStrings = cartItems.map((item) => item.toJson()).toList();
     localStorage.write(LocalStorage.cartItems, cartItemsStrings);
   }
 
   // Load cart items from local storage
-  Future<void> loadCartItems() async {
+  void loadCartItems() {
     final List<dynamic>? cartItemStrings = localStorage.read(LocalStorage.cartItems);
     if (cartItemStrings != null) {
       List<CartModel> cartItemModels = [];

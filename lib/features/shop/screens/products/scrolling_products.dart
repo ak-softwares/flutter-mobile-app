@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../common/layout_models/product_list_layout.dart';
 import '../../../../common/text/section_heading.dart';
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../common/widgets/product/product_cards/product_card.dart';
 import '../../../../common/widgets/shimmers/product_shimmer.dart';
 import '../../../../utils/constants/api_constants.dart';

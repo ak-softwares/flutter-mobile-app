@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
@@ -25,10 +25,10 @@ class ChangeUserProfile extends StatelessWidget {
     changeProfileController.firstName.text = userController.customer.value.firstName ?? '';
     changeProfileController.lastName.text = userController.customer.value.lastName ?? '';
     changeProfileController.email.text = userController.customer.value.email ?? '';
-    changeProfileController.phone.text = TValidator.getFormattedTenDigitNumber(userController.customer.value.phone) ?? '';
+    changeProfileController.phone.text = Validator.getFormattedTenDigitNumber(userController.customer.value.phone) ?? '';
 
     return Scaffold(
-      appBar: const TAppBar2(titleText: "Update Profile", showBackArrow: true),
+      appBar: const AppAppBar(title: "Update Profile", showBackArrow: true),
       body: RefreshIndicator(
         color: AppColors.refreshIndicator,
         onRefresh: () async => userController.refreshCustomer(),
@@ -50,11 +50,11 @@ class ChangeUserProfile extends StatelessWidget {
                               Expanded(
                                   child: TextFormField(
                                     controller: changeProfileController.firstName,
-                                    validator: (value) => TValidator.validateEmptyText('First Name', value),
+                                    validator: (value) => Validator.validateEmptyText('First Name', value),
                                     decoration: const InputDecoration(prefixIcon: Icon(Iconsax.user), labelText: 'First Name*'),
                                   )
                               ),
-                              const SizedBox(width: AppSizes.spaceBtwInputFields),
+                              const SizedBox(width: AppSizes.inputFieldSpace),
                               //Pincode
                               Expanded(
                                   child: TextFormField(
@@ -64,21 +64,21 @@ class ChangeUserProfile extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: AppSizes.spaceBtwInputFields),
+                          const SizedBox(height: AppSizes.inputFieldSpace),
                           //email
                           TextFormField(
                               controller: changeProfileController.email,
-                              validator: (value) => TValidator.validateEmail(value),
+                              validator: (value) => Validator.validateEmail(value),
                               decoration: const InputDecoration(
                                 prefixIcon: Icon(Iconsax.direct_right),
                                 labelText: TTexts.tEmail,
                               )
                           ),
-                          const SizedBox(height: AppSizes.spaceBtwInputFields),
+                          const SizedBox(height: AppSizes.inputFieldSpace),
                           // phone
                           TextFormField(
                               controller: changeProfileController.phone,
-                              validator: (value) => TValidator.validatePhoneNumber(value),
+                              validator: (value) => Validator.validatePhoneNumber(value),
                               decoration: const InputDecoration(
                                 prefixIcon: Icon(Iconsax.call),
                                 labelText: TTexts.tPhone,

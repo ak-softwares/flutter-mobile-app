@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/custom_shape/image/circular_image.dart';
@@ -34,74 +34,72 @@ class UserMenuScreen extends StatelessWidget {
     userController.refreshCustomer();
 
     return  Scaffold(
-        appBar: const TAppBar2(titleText: 'Menu', seeLogoutButton: true, seeSettingButton: true),
+        appBar: const AppAppBar(title: 'Menu', seeLogoutButton: true, seeSettingButton: true),
         body: RefreshIndicator(
                 color: AppColors.refreshIndicator,
                 onRefresh: () async => userController.refreshCustomer(),
-                child: SingleChildScrollView(
+                child: ListView(
                   padding: TSpacingStyle.defaultPageVertical,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Obx(() {
-                       if(AuthenticationRepository.instance.isUserLogin.value) {
-                         return Column(
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             // User profile
-                             Heading(title: 'Your profile', paddingLeft: AppSizes.defaultSpace),
-                             CustomerProfileCard(userController: userController),
-                           ],
-                         );
-                       } else {
-                         return SizedBox.shrink();
-                        }
-                      }),
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: [
+                    Obx(() {
+                     if(userController.isUserLogin.value) {
+                       return Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           // User profile
+                           Heading(title: 'Your profile', paddingLeft: AppSizes.defaultSpace),
+                           CustomerProfileCard(userController: userController),
+                         ],
+                       );
+                     } else {
+                       return SizedBox.shrink();
+                      }
+                    }),
 
-                      // Menu
-                      Heading(title: 'Menu', paddingLeft: AppSizes.defaultSpace),
-                      const Menu(),
+                    // Menu
+                    Heading(title: 'Menu', paddingLeft: AppSizes.defaultSpace),
+                    const Menu(),
 
-                      // Contact
-                      Heading(title: 'Support', paddingLeft: AppSizes.defaultSpace),
-                      const SupportWidget(),
+                    // Contact
+                    Heading(title: 'Support', paddingLeft: AppSizes.defaultSpace),
+                    const SupportWidget(),
 
-                      // Policy
-                      Heading(title: 'Policy', paddingLeft: AppSizes.defaultSpace),
-                      const PolicyWidget(),
-                      const SizedBox(height: AppSizes.spaceBtwInputFields),
+                    // Policy
+                    Heading(title: 'Policy', paddingLeft: AppSizes.defaultSpace),
+                    const PolicyWidget(),
+                    const SizedBox(height: AppSizes.inputFieldSpace),
 
-                      // Follow us
-                      Heading(title: 'Follow us', paddingLeft: AppSizes.defaultSpace),
-                      const FollowUs(),
-                      const SizedBox(height: AppSizes.spaceBtwInputFields),
+                    // Follow us
+                    // Heading(title: 'Follow us', paddingLeft: AppSizes.defaultSpace),
+                    // const FollowUs(),
+                    // const SizedBox(height: AppSizes.spaceBtwInputFields),
 
-                      // Version
-                      Center(
-                        child: Stack(
-                          alignment: Alignment.topCenter, // Align text closer to the image
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: AppSizes.xs),
-                              child: RoundedImage(
-                                  backgroundColor: Colors.transparent,
-                                  width: 120,
-                                  padding: 0,
-                                  image: Theme.of(context).brightness != Brightness.dark
-                                      ? AppSettings.lightAppLogo
-                                      : AppSettings.darkAppLogo,
-                              ),
+                    // Version
+                    Center(
+                      child: Stack(
+                        alignment: Alignment.topCenter, // Align text closer to the image
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: AppSizes.xs),
+                            child: RoundedImage(
+                                backgroundColor: Colors.transparent,
+                                width: 120,
+                                padding: 0,
+                                image: Theme.of(context).brightness != Brightness.dark
+                                    ? AppSettings.lightAppLogo
+                                    : AppSettings.darkAppLogo,
                             ),
-                            Positioned(
-                                bottom: 0, // Adjust this to bring text closer
-                                child: Obx(() => Text('v${AuthenticationRepository.instance.appVersion.value}', style: TextStyle(fontSize: 12),))
-                            )
-                          ],
-                        ),
+                          ),
+                          Positioned(
+                              bottom: 0, // Adjust this to bring text closer
+                              child: Text('v${AppSettings.appVersion}', style: TextStyle(fontSize: 12))
+                          )
+                        ],
                       ),
-                      const SizedBox(height: AppSizes.md),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: AppSizes.md),
+                  ],
                 ),
             ),
       );

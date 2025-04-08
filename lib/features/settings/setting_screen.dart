@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../common/dialog_box_massages/dialog_massage.dart';
-import '../../common/navigation_bar/appbar2.dart';
+import '../../common/navigation_bar/app_appbar.dart';
 import '../../common/styles/spacing_style.dart';
 import '../../services/firebase_analytics/firebase_analytics.dart';
 import '../../utils/cache/cache.dart';
@@ -21,7 +21,7 @@ class SettingScreen extends StatelessWidget {
     // final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      appBar: const TAppBar2(titleText: "Settings", showSearchIcon: true, showCartIcon: true),
+      appBar: const AppAppBar(title: "Settings", showSearchIcon: true, showCartIcon: true),
       body: Padding(
         padding: TSpacingStyle.defaultPageVertical,
         child: Column(

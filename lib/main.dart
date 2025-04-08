@@ -46,18 +46,14 @@ void main() async {
 
   //await splash until other item load
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await CacheHelper.initializeHive();
 
   // Initialize Firebase
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
-      .then((FirebaseApp value) => Get.put(AuthenticationRepository()));
-
-  // Initialize Firebase Analytics
-  await FBAnalytics.setDefaultEventParameters();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Initialize Firebase Notifications
   await FirebaseNotification.initNotification();
 
-  await CacheHelper.initializeHive();
 
   // To handle messages while your application is terminated
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -75,10 +71,11 @@ void main() async {
     // }
   );
 
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-  ));
+  // Initialize App settings
+  await AppSettings.init(); // Load version info before app starts
+
+  // Initialize Firebase Analytics
+  await FBAnalytics.setDefaultEventParameters();
 
   runApp(MyApp());
 }
@@ -100,8 +97,8 @@ class _MyAppState extends State<MyApp> {
       navigatorObservers: [FBAnalytics.observer],
       title: AppSettings.appName,
       themeMode: themeController.themeMode.value, // GetX-controlled theme
-      theme: TAppTheme.lightTheme,
-      darkTheme: TAppTheme.darkTheme,
+      theme: AppAppTheme.lightTheme,
+      darkTheme: AppAppTheme.darkTheme,
       initialBinding: GeneralBindings(),
       home: NavigationHelper.navigateToBottomNavigationWidget(),
 

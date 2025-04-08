@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../common/widgets/shimmers/review_shimmer_on_product.dart';
 import '../../../../data/repositories/woocommerce_repositories/product_review/product_review_repository.dart';
 import '../../../../utils/constants/api_constants.dart';
@@ -118,7 +118,7 @@ class _ProductReviewHorizontalState extends State<ProductReviewHorizontal> {
                       //   unratedColor: Colors.grey[300],
                       //   itemBuilder: (_, __) => Icon(TIcons.starRating, color: TColors.ratingStar),
                       // ),
-                      Icon(TIcons.starRating, color: Colors.grey[300], size: 14,),
+                      Icon(AppIcons.starRating, color: Colors.grey[300], size: 14,),
                       Text(' ${widget.product.averageRating?.toStringAsFixed(1)} (${widget.product.ratingCount.toString()})', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey.shade500)),
                     ],
                   ),

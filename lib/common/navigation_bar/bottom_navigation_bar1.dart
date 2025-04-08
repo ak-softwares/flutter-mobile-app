@@ -14,7 +14,7 @@ import '../../routes/external_routes.dart';
 import '../../routes/internal_routes.dart';
 import '../../routes/routes.dart';
 import '../../utils/constants/icons.dart';
-import '../dialog_box_massages/massages.dart';
+import '../dialog_box_massages/snack_bar_massages.dart';
 
 
 class BottomNavigation1 extends StatefulWidget {
@@ -126,8 +126,8 @@ class _BottomNavigation1State extends State<BottomNavigation1> {
                 ),
                 BottomNavigationBarItem(
                   label: 'Search',
-                  icon: Icon(TIcons.search),
-                  activeIcon: Icon(TIcons.search), // Icon when selected
+                  icon: Icon(AppIcons.search),
+                  activeIcon: Icon(AppIcons.search), // Icon when selected
                 ),
                 BottomNavigationBarItem(
                   label: 'Cart',
@@ -135,7 +135,7 @@ class _BottomNavigation1State extends State<BottomNavigation1> {
                     clipBehavior: Clip.none, // Ensures the red dot is not clipped
                     alignment: Alignment.bottomCenter,
                     children: [
-                      Icon(TIcons.bottomNavigationCart, size: 25),
+                      Icon(AppIcons.bottomNavigationCart, size: 25),
                       if (cartController.noOfCartItems.value > 0)
                         Positioned(
                             bottom: -7, // Adjust this value as needed
@@ -143,7 +143,7 @@ class _BottomNavigation1State extends State<BottomNavigation1> {
                         )
                     ],
                   )),
-                  activeIcon: Icon(TIcons.bottomNavigationCart), // Icon when selected
+                  activeIcon: Icon(AppIcons.bottomNavigationCart), // Icon when selected
                 ),
                 BottomNavigationBarItem(
                   label: 'Category',
@@ -152,8 +152,8 @@ class _BottomNavigation1State extends State<BottomNavigation1> {
                 ),
                 BottomNavigationBarItem(
                   label: 'Account',
-                  icon: Icon(TIcons.user),
-                  activeIcon: Icon(TIcons.user),
+                  icon: Icon(AppIcons.user),
+                  activeIcon: Icon(AppIcons.user),
                 )
               ],
             ),

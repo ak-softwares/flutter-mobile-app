@@ -2,7 +2,7 @@ import 'dart:isolate';
 
 import 'package:get/get.dart';
 
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../data/repositories/woocommerce_repositories/brands/woo_brands_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/category/woo_category_repository.dart';
 import '../../models/brand_model.dart';

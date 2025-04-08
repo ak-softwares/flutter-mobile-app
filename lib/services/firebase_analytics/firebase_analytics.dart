@@ -9,6 +9,14 @@ import '../../features/shop/controllers/order/order_controller.dart';
 import '../../features/shop/models/cart_item_model.dart';
 import '../../features/shop/models/product_model.dart';
 
+//To enable Analytics debug mode on an Android device, execute the following commands:
+//
+// adb shell setprop debug.firebase.analytics.app com.company.aramarketin
+
+//This behavior persists until you explicitly disable debug mode by executing the following command:
+//
+// adb shell setprop debug.firebase.analytics.app .none.
+
 class FBAnalytics {
 
   static final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
@@ -16,17 +24,16 @@ class FBAnalytics {
 
   static final userController = Get.put(UserController());
   static final checkoutController = Get.put(CheckoutController());
-  static final authenticationRepository = Get.put(AuthenticationRepository());
 
   static Future<void> setDefaultEventParameters() async {
     Map<String, dynamic> defaultParameters = {
       'timestamp': DateTime.now().toIso8601String(), // ISO format for better compatibility
       'platform': 'mobile', // Default to 'mobile'; adjust based on your platform
-      'app_version': AuthenticationRepository.instance.appVersion.value
+      'app_version': AppSettings.appVersion
     };
 
     // Check if the user is logged in, and add user-specific details
-    if (authenticationRepository.isUserLogin.value) {
+    if (userController.isUserLogin.value) {
       defaultParameters.addAll({
         'user_id': userController.customer.value.id?.toString() ?? 'NA',
         'user_email': userController.customer.value.email ?? 'NA',
@@ -38,7 +45,6 @@ class FBAnalytics {
   }
 
   static void logLogin(String loginMethod) async {
-    // print('loginMethod=========== $loginMethod');
     return _analytics.logLogin(loginMethod: loginMethod);
   }
 
@@ -57,7 +63,6 @@ class FBAnalytics {
   }
 
   static void logViewItem({required ProductModel product}) {
-    // print('logAddToCart: itemId - $itemId, itemName - $itemName, price - $price, quantity - $quantity,');
     _analytics.logViewItem(
       items: [
         AnalyticsEventItem(
@@ -73,7 +78,6 @@ class FBAnalytics {
   }
 
   static void logShare({required String contentType, required String method, required String itemName, required String itemId}) {
-    // Ensure default parameters are set before logging the event
     _analytics.logShare(
       contentType: contentType, // Type of content being shared, e.g., 'product', 'blog', 'category'
       itemId: itemId, // Unique identifier of the item being shared
@@ -92,14 +96,12 @@ class FBAnalytics {
   }
 
   static void logViewSearchResults({required String searchTerm, required String resultsCount}) {
-    // Ensure default parameters are set before logging the event
     _analytics.logViewSearchResults(
       searchTerm: searchTerm,
     );
   }
 
   static void logAddToWishlist({required ProductModel product}) {
-    // print('logAddToCart: itemId - $itemId, itemName - $itemName, price - $price, quantity - $quantity,');
     _analytics.logAddToWishlist(
       items: [
         AnalyticsEventItem(
@@ -131,7 +133,6 @@ class FBAnalytics {
   }
 
   static void logRemoveFromCart({required CartModel cartItem}) {
-    // print('logAddToCart: itemId - $itemId, itemName - $itemName, price - $price, quantity - $quantity,');
     _analytics.logRemoveFromCart(
       items: [
         AnalyticsEventItem(
@@ -208,7 +209,6 @@ class FBAnalytics {
   }
 
   static void logCheckout({required List<CartModel> cartItems}) {
-    // Ensure cartItems is not empty to avoid unnecessary logging
     if (cartItems.isEmpty) {
       return;
     }

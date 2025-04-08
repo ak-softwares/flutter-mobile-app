@@ -1,19 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../common/dialog_box_massages/massages.dart';
+import '../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../common/widgets/network_manager/network_manager.dart';
 import '../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../data/repositories/user/user_repository.dart';
 import '../../../data/repositories/woocommerce_repositories/customers/woo_customer_repository.dart';
 import '../../../services/firebase_analytics/firebase_analytics.dart';
+import '../../../services/notification/firebase_notification.dart';
 import '../../../utils/constants/db_constants.dart';
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/local_storage_constants.dart';
+import '../../../utils/exceptions/firebase_auth_exceptions.dart';
+import '../../../utils/exceptions/format_exceptions.dart';
 import '../../../utils/helpers/navigation_helper.dart';
 import '../../../utils/permissions/permissions.dart';
 import '../../../common/dialog_box_massages/full_screen_loader.dart';
@@ -21,14 +27,17 @@ import '../../authentication/screens/email_login/email_login.dart';
 import '../../authentication/screens/email_login/re_auth_user_login.dart';
 import '../../settings/app_settings.dart';
 import '../models/user_model.dart';
+import 'change_profile_controller.dart';
 
 class UserController extends GetxController {
   static UserController get instance => Get.find();
 
   RxBool isLoading = false.obs;
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
   final GetStorage localStorage = GetStorage();
+  RxBool isUserLogin = false.obs;
   Rx<CustomerModel> customer = CustomerModel.empty().obs;
-
+  final int loginExpiryInDays = 30;
   final hidePassword = true.obs; //Observable for hiding/showing password
   final imageUploading = false.obs;
   final verifyEmail = TextEditingController();
@@ -42,15 +51,28 @@ class UserController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    customer.value = CustomerModel(id: fetchLocalAuthToken());
+    _loadCustomer(); // Call async loader
+  }
+
+  Future<void> _loadCustomer() async {
+    final String userId = await fetchLocalAuthToken();
+    if (userId.isNotEmpty) {
+      customer.value = CustomerModel(id: int.tryParse(userId));
+    }
+  }
+
+  // Check if the user is logged in
+  Future<void> checkIsUserLogin() async {
+    final String localAuthUserToken = await fetchLocalAuthToken();
+    isUserLogin.value = localAuthUserToken.isNotEmpty;
   }
 
   // Fetch user record
   Future<void> fetchCustomerData() async {
     try {
-      final localAuthUserToken = fetchLocalAuthToken();
-      if (localAuthUserToken > 0) { // Check if token is valid
-        final customerData = await wooCustomersRepository.fetchCustomerById(localAuthUserToken.toString());
+      final String localAuthUserToken = await fetchLocalAuthToken();
+      if (localAuthUserToken.isNotEmpty) { // Check if token is valid
+        final customerData = await wooCustomersRepository.fetchCustomerById(localAuthUserToken);
         customer(customerData);
       } else{
         throw 'customer not found';
@@ -60,15 +82,40 @@ class UserController extends GetxController {
     }
   }
 
-  int fetchLocalAuthToken() {
-    final localAuthUserToken = localStorage.read(LocalStorage.authUserID);
+  Future<String> fetchLocalAuthToken() async {
+    final String? authToken = await secureStorage.read(key: LocalStorage.authUserID);
+    final String? expiryString = await secureStorage.read(key: LocalStorage.loginExpiry);
 
-    if (localAuthUserToken != null && localAuthUserToken.toString().isNotEmpty) {
-      return int.tryParse(localAuthUserToken.toString()) ?? 0;
+    // Check if both values exist
+    if (authToken == null || authToken.isEmpty || expiryString == null || expiryString.isEmpty) {
+      return '';
     }
-    return 0;
+
+    // Parse expiry date
+    final DateTime expiry = DateTime.tryParse(expiryString) ?? DateTime.fromMillisecondsSinceEpoch(0);
+
+    // Check if current time is before expiry
+    if (DateTime.now().isBefore(expiry)) {
+      return authToken;
+    } else {
+      // Expired – clean up stored data
+      await deleteLocalAuthToken();
+      return '';
+    }
   }
 
+
+  Future<void> saveLocalAuthToken(String token) async {
+    // Store user ID and login expiry
+    final String expiry = DateTime.now().add(Duration(days: loginExpiryInDays)).toIso8601String();
+    await secureStorage.write(key: LocalStorage.authUserID, value: token);
+    await secureStorage.write(key: LocalStorage.loginExpiry, value: expiry);
+  }
+
+  Future<void> deleteLocalAuthToken() async {
+    await secureStorage.delete(key: LocalStorage.authUserID);
+    await secureStorage.delete(key: LocalStorage.loginExpiry);
+  }
 
   //Refresh Customer data
   Future<void> refreshCustomer() async {
@@ -111,31 +158,31 @@ class UserController extends GetxController {
     }
   }
 
-  // delete user account
-  void deleteUserAccount() async {
-    try{
-      TFullScreenLoader.openLoadingDialog('Processing', Images.docerAnimation);
-
-      ///First re-auth user
-      final auth = AuthenticationRepository.instance;
-      final provider = auth.authUser!.providerData.map((e) => e.providerId).first;
-      if(provider.isNotEmpty){
-        //re verify auth email
-        if(provider == "google.com"){
-          await auth.signInWithGoogle();
-          await auth.deleteAccount();
-          TFullScreenLoader.stopLoading();
-          Get.offAll(() => const EmailLoginScreen());
-        } else if (provider == 'password'){
-          TFullScreenLoader.stopLoading();
-          Get.to(() => const ReAuthLoginForm());
-        }
-      }
-    }catch (e) {
-      TFullScreenLoader.stopLoading();
-      AppMassages.warningSnackBar(title: 'Error', message: e.toString());
-    }
-  }
+  // // delete user account
+  // void deleteUserAccount() async {
+  //   try{
+  //     TFullScreenLoader.openLoadingDialog('Processing', Images.docerAnimation);
+  //
+  //     ///First re-auth user
+  //     final auth = AuthenticationRepository.instance;
+  //     final provider = auth.authUser!.providerData.map((e) => e.providerId).first;
+  //     if(provider.isNotEmpty){
+  //       //re verify auth email
+  //       if(provider == "google.com"){
+  //         await auth.signInWithGoogle();
+  //         await auth.deleteAccount();
+  //         TFullScreenLoader.stopLoading();
+  //         Get.offAll(() => const EmailLoginScreen());
+  //       } else if (provider == 'password'){
+  //         TFullScreenLoader.stopLoading();
+  //         Get.to(() => const ReAuthLoginForm());
+  //       }
+  //     }
+  //   }catch (e) {
+  //     TFullScreenLoader.stopLoading();
+  //     AppMassages.warningSnackBar(title: 'Error', message: e.toString());
+  //   }
+  // }
 
   // Re-Authenticate before deleting
   Future<void> reAuthenticateEmailAndPasswordUser() async {
@@ -173,7 +220,7 @@ class UserController extends GetxController {
 
       await wooCustomersRepository.deleteCustomerById(customer.value.id.toString());
 
-      authenticationRepository.logout();
+      logout();
       //save to local storage
       localStorage.remove(LocalStorage.rememberMeEmail);
       localStorage.remove(LocalStorage.rememberMePassword);
@@ -217,4 +264,46 @@ class UserController extends GetxController {
       imageUploading.value = false;
     }
   }
+
+
+  // this function run after successfully login
+  Future<void> login({required CustomerModel customer, required String loginMethod}) async {
+    loginMethod == 'signup'
+        ? FBAnalytics.logSignup(loginMethod)
+        : FBAnalytics.logLogin(loginMethod);
+    Get.put(UserController()).customer(customer); //update user value
+    isUserLogin.value = true; //make user login
+    Get.put(UserController()).saveLocalAuthToken(customer.id.toString());
+    // update fcm token to user meta in wordpress
+    final fCMToken = FirebaseNotification.fCMToken;
+    if(fCMToken != customer.fCMToken) {
+      await Get.put(ChangeProfileController()).wooUpdateUserMeta(userId: customer.id.toString(), key: CustomerMetaDataName.fCMToken, value: fCMToken);
+    }
+    AppMassages.showToastMessage(message: 'Login successfully!'); //show massage for successful login
+    NavigationHelper.navigateToBottomNavigation(); //navigate to other screen
+  }
+
+  //this function for logout
+  Future<void> logout() async {
+    try {
+      await GoogleSignIn().signOut();
+      await UserController.instance.deleteLocalAuthToken();
+      isUserLogin.value = false;
+      UserController.instance.customer.value = CustomerModel.empty();
+      NavigationHelper.navigateToLoginScreen();
+    }
+    on FirebaseAuthException catch (error) {
+      throw TFirebaseAuthException(error.code).message;
+    } on FirebaseException catch (error) {
+      throw TFirebaseAuthException(error.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (error) {
+      throw TFirebaseAuthException(error.code).message;
+    }
+    catch (error) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
 }

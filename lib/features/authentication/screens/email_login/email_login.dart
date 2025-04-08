@@ -6,7 +6,7 @@ import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../controllers/login_controller/login_controller.dart';
 import '../create_account/signup.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
@@ -25,7 +25,7 @@ class EmailLoginScreen extends StatelessWidget {
     final controller = Get.put(LoginController());
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
-      appBar: const TAppBar2(titleText: "Login", showBackArrow: true),
+      appBar: const AppAppBar(title: "Login", showBackArrow: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: TSpacingStyle.paddingWidthAppbarHeight,
@@ -50,18 +50,18 @@ class EmailLoginScreen extends StatelessWidget {
                           //Email
                           TextFormField(
                             controller: controller.email,
-                            validator: (value) => TValidator.validateEmail(value),
+                            validator: (value) => Validator.validateEmail(value),
                             decoration: const InputDecoration(
                                 prefixIcon: Icon(Iconsax.direct_right),
                                 labelText: TTexts.email,
                             )
                           ),
                           //Password
-                          const SizedBox(height: AppSizes.spaceBtwInputFields),
+                          const SizedBox(height: AppSizes.inputFieldSpace),
                           Obx(
                                 () => TextFormField(
                                   controller: controller.password,
-                                  validator: (value) => TValidator.validateEmptyText('Password', value),
+                                  validator: (value) => Validator.validateEmptyText('Password', value),
                                   obscureText: controller.hidePassword.value,
                                   decoration: InputDecoration(
                                       prefixIcon: const Icon(Iconsax.password_check),
@@ -72,7 +72,7 @@ class EmailLoginScreen extends StatelessWidget {
                                       )
                                   )
                               )),
-                          const SizedBox(height: AppSizes.spaceBtwInputFields / 2),
+                          const SizedBox(height: AppSizes.inputFieldSpace / 2),
                           //forget password and remember me
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

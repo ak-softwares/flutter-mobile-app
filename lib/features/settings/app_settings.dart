@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+
+import '../personalization/controllers/user_controller.dart';
 
 class AppSettings {
 
@@ -10,6 +14,11 @@ class AppSettings {
   static const String appCurrencySymbol   =  '₹';
   static const int freeShippingOver       =  999;
   static const double shippingCharge      =  100;
+
+  static const int otpLength              =  4;
+  static const int otpResendTimer         =  60;
+  static String version = '';
+  static late PackageInfo _packageInfo;
 
   // Images
   static const String lightAppLogo  = 'assets/logos/aramarket_light.png';
@@ -50,5 +59,16 @@ class AppSettings {
   static const String twitter               = 'https://twitter.com/aramarket_India';
   static const String youtube               = 'https://www.youtube.com/@aramarket';
   static const String playStore             = 'https://play.google.com/store/apps/details?id=com.company.aramarketin&hl=en_IN&gl=US';
+
+  static Future<void> initialize() async {
+  }
+
+  static Future<void> init() async {
+    final info = await PackageInfo.fromPlatform();
+    version = info.version;
+    await Get.put(UserController()).checkIsUserLogin();
+  }
+
+  static String get appVersion => version;
 
 }

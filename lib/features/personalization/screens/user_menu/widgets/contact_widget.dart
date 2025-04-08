@@ -19,7 +19,7 @@ class SupportWidget extends StatelessWidget {
           leading: Icon(Icons.chat, size: 20),
           title: Text('Whatsapp us'),
           subtitle: Text(AppSettings.supportWhatsApp),
-          trailing: Icon(TIcons.whatsapp, size: 20, color: Colors.blue),
+          trailing: Icon(AppIcons.whatsapp, size: 20, color: Colors.blue),
         ),
         ListTile(
           onTap: SendMSG.sendEmail,

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
 import '../../constants/sizes.dart';
 
-class TSwitchTheme {
-  TSwitchTheme._(); // Private constructor to prevent instantiation
+class AppSwitchTheme {
+  AppSwitchTheme._(); // Private constructor to prevent instantiation
 
   static final lightSwitchTheme = SwitchThemeData(
     thumbColor: WidgetStateProperty.resolveWith<Color>((states) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/authentication/woo_authentication.dart';
@@ -12,6 +12,7 @@ import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/local_storage_constants.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
 import '../../../../common/dialog_box_massages/full_screen_loader.dart';
+import '../../../personalization/controllers/user_controller.dart';
 import '../../../personalization/models/user_model.dart';
 
 class LoginController extends GetxController {
@@ -27,7 +28,7 @@ class LoginController extends GetxController {
 
   final wooCustomersRepository = Get.put(WooCustomersRepository());
   final wooAuthenticationRepository = Get.put(WooAuthenticationRepository());
-  final authenticationRepository = Get.put(AuthenticationRepository());
+  final userController = Get.put(UserController());
 
   //Init method fetch user's saved password and email from local storage
   @override
@@ -74,7 +75,7 @@ class LoginController extends GetxController {
       }
       //remove Loader
       TFullScreenLoader.stopLoading();
-      authenticationRepository.login(customer: customer, loginMethod: 'Email');
+      userController.login(customer: customer, loginMethod: 'Email');
     } catch (error) {
       //remove Loader
       TFullScreenLoader.stopLoading();

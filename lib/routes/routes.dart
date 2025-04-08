@@ -4,12 +4,8 @@ import 'package:aramarket/features/shop/screens/orders/orders.dart';
 import 'package:aramarket/features/shop/screens/orders/single_order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/routes/default_route.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 import '../common/web_view/my_web_view.dart';
-import '../data/repositories/authentication/authentication_repository.dart';
 import '../features/shop/controllers/checkout_controller/checkout_controller.dart';
 import '../features/shop/controllers/product/product_controller.dart';
 import '../features/shop/models/order_model.dart';
@@ -121,7 +117,6 @@ class AppRouter {
     return null;
   }
 
-
   // Extracts slug from URL (e.g., "/product/one-stop-iron" → "one-stop-iron")
   static String _extractSlug(String url) {
     // Extract only the path part from the URL
@@ -203,12 +198,15 @@ class AppRouter {
     final controller = Get.find<CheckoutController>();
 
     // Construct the order attribution model
-    controller.orderAttribution = OrderAttributionModel(
+    final orderAttribute = OrderAttributeModel(
       sourceType: sourceType,
       campaign: campaign.isNotEmpty ? campaign : null,
       medium: medium.isNotEmpty ? medium : null,
       referrer: referrer,
+      date: DateTime.now(),
     );
+
+    controller.saveOrderAttribute(orderAttribute);
   }
 
 }

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../common/layout_models/product_grid_layout.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../common/widgets/product/product_cards/product_card.dart';
@@ -63,7 +63,7 @@ class TAllProducts extends StatelessWidget {
       animation: Images.pencilAnimation,
     );
     return Scaffold(
-        appBar: TAppBar2(titleText: title, showBackArrow: true, showCartIcon: true, sharePageLink: sharePageLink ?? "",),
+        appBar: AppAppBar(title: title, showBackArrow: true, showCartIcon: true, sharePageLink: sharePageLink ?? "",),
         body: RefreshIndicator(
           color: AppColors.refreshIndicator,
           onRefresh: () async {

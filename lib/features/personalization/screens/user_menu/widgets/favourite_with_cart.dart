@@ -24,7 +24,7 @@ class FavouriteWithCart extends StatelessWidget {
       children: [
         ListTile(
           onTap: () => Get.to(() => const CartScreen()),
-          leading: Icon(TIcons.bottomNavigationCart,size: 25),
+          leading: Icon(AppIcons.bottomNavigationCart,size: 25),
           title: Text('Cart', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),
           subtitle: Text('All cart items', style: Theme.of(context).textTheme.bodySmall),
           trailing: Row(
@@ -40,7 +40,7 @@ class FavouriteWithCart extends StatelessWidget {
         ),
         ListTile(
           onTap: () => Get.to(() => const FavouriteScreen()),
-          leading: Icon(TIcons.favorite,size: 20),
+          leading: Icon(AppIcons.favorite,size: 20),
           title: Text('Wishlist', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),
           subtitle: Text('All wishlist items', style: Theme.of(context).textTheme.bodySmall),
           trailing: Row(

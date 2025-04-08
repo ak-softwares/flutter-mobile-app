@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -9,6 +9,7 @@ import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/validators/validation.dart';
 import '../../../authentication/screens/check_login_screen/check_login_screen.dart';
+import '../../../personalization/controllers/user_controller.dart';
 import '../../controllers/product/product_review_controller.dart';
 import '../../models/product_review_model.dart';
 
@@ -20,13 +21,13 @@ class UpdateReviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     FBAnalytics.logPageView('review_update_screen');
 
-    final authenticationRepository = Get.put(AuthenticationRepository());
+    final userController = Get.put(UserController());
     final productReviewController = Get.put(ProductReviewController());
     productReviewController.editRating.value = review.rating ?? 0;
     productReviewController.editProductReview.text = review.review?.replaceAll('<p>', '').replaceAll('</p>', '').replaceAll('<br />', '') ?? '';
     return Scaffold(
-      appBar: const TAppBar2(titleText: 'Update Reviews', showBackArrow: true, showCartIcon: true,),
-      body: !authenticationRepository.isUserLogin.value
+      appBar: const AppAppBar(title: 'Update Reviews', showBackArrow: true, showCartIcon: true,),
+      body: !userController.isUserLogin.value
           ? const CheckLoginScreen(text: 'Please Login! before edit review!')
           : SingleChildScrollView(
               padding: TSpacingStyle.defaultSpaceLg,
@@ -74,7 +75,7 @@ class UpdateReviewScreen extends StatelessWidget {
                               const SizedBox(height: AppSizes.xs),
                               TextFormField(
                                 controller: productReviewController.editProductReview,
-                                validator: (value) => TValidator.validateEmptyText(value, 'Product review'),
+                                validator: (value) => Validator.validateEmptyText(value, 'Product review'),
                                 maxLines: 2,
                                 decoration: InputDecoration(
                                     hintText: 'Example: Easy to use',

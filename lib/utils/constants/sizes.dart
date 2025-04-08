@@ -31,6 +31,8 @@ class AppSizes {
   static const double iconLg = 32.0;
 
   // Font sizes
+  static const double defaultFontSize = 14.0;
+  static const FontWeight defaultFontWeight = FontWeight.w400;
   static const double fontSizeSm = 14.0;
   static const double fontSizeMd = 16.0;
   static const double fontSizeLg = 18.0;
@@ -41,8 +43,19 @@ class AppSizes {
   static const double buttonPadding = 16.0;
   static const double buttonTextSize = 16.0;
   static const FontWeight buttonTextWeight = FontWeight.w500;
-  static const double buttonRadius = 12.0;
+  static const double buttonRadius = defaultRadius;
   static const double buttonElevation = 4.0;
+  static const double buttonBorderWidth = 1.0;
+
+  // Input Field
+  static const double inputFieldHeight = 18.0;
+  static const double inputFieldWidth = 120.0;
+  static const double inputFieldPadding = 16.0;
+  static const double inputFieldTextSize = 16.0;
+  static const FontWeight inputFieldTextWeight = FontWeight.w500;
+  static const double inputFieldRadius = defaultRadius;
+  static const double inputFieldSpace = 16.0;
+  static const double inputFieldBorderWidth = 1.0;
 
   // AppBar Height
   static const double appBarHeight = 56.0;
@@ -99,9 +112,6 @@ class AppSizes {
   static const double cartCardHorizontalWidth = 300.0;
   static const double cartCardHorizontalRadius = defaultRadius;
 
-  // Input Field
-  static const double inputFieldRadius = 12;
-  static const double spaceBtwInputFields = 16.0;
 
   // Card sizes
   static const double cardRadiusLg = 16.0;

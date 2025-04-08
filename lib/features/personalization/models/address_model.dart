@@ -49,9 +49,9 @@ class AddressModel {
   List<String> validateFields() {
     List<String> missingFields = [];
 
-    String? phoneError = TValidator.validatePhoneNumber(phone);
-    String? emailError = TValidator.validateEmail(email);
-    String? pincodeError = TValidator.validatePinCode(pincode);
+    String? phoneError = Validator.validatePhoneNumber(phone);
+    String? emailError = Validator.validateEmail(email);
+    String? pincodeError = Validator.validatePinCode(pincode);
 
     if (firstName?.isEmpty ?? true) missingFields.add('First Name is missing');
     if (address1?.isEmpty ?? true) missingFields.add('Address is missing');

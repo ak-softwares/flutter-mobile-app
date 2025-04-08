@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../common/text/section_heading.dart';
-import '../../../common/dialog_box_massages/massages.dart';
+import '../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../common/widgets/network_manager/network_manager.dart';
 import '../../../data/repositories/firebase/address/address_repository.dart';
 import '../../../data/repositories/woocommerce_repositories/customers/woo_customer_repository.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
 
-class TIconTheme {
-  TIconTheme._(); // Private constructor to prevent instantiation
+class AppIconTheme {
+  AppIconTheme._(); // Private constructor to prevent instantiation
 
   static final lightIconTheme = IconThemeData(
     color: AppColors.iconLight, // Matches light theme text color

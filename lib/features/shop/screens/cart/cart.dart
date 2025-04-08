@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../common/layout_models/product_grid_layout.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../common/widgets/product/product_cards/product_card_cart_items.dart';
@@ -40,7 +40,7 @@ class CartScreen extends StatelessWidget {
     );
 
     return Scaffold(
-        appBar: const TAppBar2(titleText: "Cart", showSearchIcon: true),
+        appBar: const AppAppBar(title: "Cart", showSearchIcon: true),
         bottomNavigationBar: Obx(() =>
             cartController.cartItems.isNotEmpty
             ? Padding(
@@ -73,7 +73,7 @@ class CartScreen extends StatelessWidget {
                         direction: DismissDirection.endToStart, // Swipe left to remove
                         onDismissed: (direction) {
                           cartController.removeFromCart(item: cartController.cartItems[index]);
-                          AppMassages.showSnackBar(context: context, massage: 'Item removed');
+                          AppMassages.showSnackBar(massage: 'Item removed');
                         },
                         background: Container(
                           alignment: Alignment.centerRight,

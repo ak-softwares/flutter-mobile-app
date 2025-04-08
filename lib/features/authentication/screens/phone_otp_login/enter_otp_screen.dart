@@ -6,7 +6,7 @@ import 'package:sms_autofill/sms_autofill.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 import '../../../../common/styles/spacing_style.dart';
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/icons.dart';
@@ -22,7 +22,10 @@ class EnterOTPScreen extends StatelessWidget {
 
     final otpController = Get.put(OTPController());
     int seconds  = 60;
-    int otpLength = 4;
+    int otpLength = otpController.otpLength;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double boxWidth = screenWidth * 0.7; // 70% of screen width
+    double maxWidthPerDigit = boxWidth / otpLength;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -63,7 +66,7 @@ class EnterOTPScreen extends StatelessWidget {
                               textAlign: TextAlign.center
                           ),
                           const SizedBox(width: AppSizes.xs),
-                          Icon(TIcons.edit, color: AppColors.linkColor,size: 15,)
+                          Icon(AppIcons.edit, color: AppColors.linkColor,size: 15,)
                         ],
                       ),
                     ),
@@ -73,28 +76,24 @@ class EnterOTPScreen extends StatelessWidget {
 
                 // Otp Input field
                 SizedBox(
-                  width: 250,
+                  width: boxWidth,
                   child: PinFieldAutoFill(
                     codeLength: otpLength, //code length, default 6
-                    cursor: Cursor(
-                      color: Colors.pink,
-                      enabled: true,
-                      width: 2, // Specify the width of the cursor
-                      height: 24, // Specify the height of the cursor
-                    ),
                     textInputAction: TextInputAction.done,
                     decoration: UnderlineDecoration(
                       textStyle: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onSurface),
                       colorBuilder: FixedColorBuilder(Theme.of(context).colorScheme.onSurfaceVariant),
                       // bgColorBuilder: FixedColorBuilder(Colors.grey.withOpacity(0.2))
                     ),
+                    cursor: Cursor(
+                      width: 2,
+                      color: Theme.of(context).colorScheme.onSurface,
+                      enabled: true,
+                      height: 20
+                    ),
                     controller: otpController.otp,
-                    // currentCode: otpController.messageOtpCode.value,
-                    // onCodeChanged: (code) {
-                    //   otpController.messageOtpCode.value = code!;
-                    // },
                     onCodeSubmitted: (otp) {
-                      otpController.verifyOTPFast2sms(otp);
+                      otpController.verifyOtp(otp);
                     },
                   ),
                 ),
@@ -104,17 +103,16 @@ class EnterOTPScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: ()
-                      {
+                      onPressed: () {
                         String otp = otpController.otp.text.trim();
                         otp.length == otpLength
-                            ? otpController.verifyOTPFast2sms(otp)
+                            ? otpController.verifyOtp(otp)
                             : AppMassages.showToastMessage(message: 'Please enter OTP');
                       },
                       child:  const Text('Verify OTP')
                   ),
                 ),
-                const SizedBox(height: AppSizes.spaceBtwInputFields),
+                const SizedBox(height: AppSizes.inputFieldSpace),
 
                 //Countdown
                 Countdown(
@@ -129,7 +127,7 @@ class EnterOTPScreen extends StatelessWidget {
                               TextButton(
                                 onPressed: () {
                                   currentRemainingTime = seconds.toDouble();
-                                  otpController.fast2SmsSendOpt(phone: otpController.phoneNumber.value);
+                                  otpController.whatsappSendOtp(phone: otpController.phoneNumber.value);
                                   // otpController.phoneAuthentication(otpController.selectedCountry1.value, otpController.phone.text.trim());
                                 },
                                 child: Text('Resend OTP',

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/dialog_box_massages/animation_loader.dart';
 import '../../../../common/widgets/shimmers/order_shimmer.dart';
@@ -48,7 +48,7 @@ class ProductReviewScreen1 extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: const TAppBar2(titleText: 'Reviews & Ratings', showBackArrow: true, showCartIcon: true,),
+      appBar: const AppAppBar(title: 'Reviews & Ratings', showBackArrow: true, showCartIcon: true,),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(AppSizes.md),
         child: OutlinedButton(
@@ -79,7 +79,7 @@ class ProductReviewScreen1 extends StatelessWidget {
                       rating: product.averageRating ?? 0.0,
                       itemSize: 40,
                       unratedColor: Colors.grey[300],
-                      itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: AppColors.ratingStar),
+                      itemBuilder: (_, __) =>  Icon(AppIcons.starRating, color: AppColors.ratingStar),
                     ),
                   ),
                   const SizedBox(height: AppSizes.sm),

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../common/dialog_box_massages/dialog_massage.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/shimmers/shimmer_effect.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -24,7 +24,7 @@ class UserProfileScreen extends StatelessWidget {
     final controller = Get.put(UserController());
 
     return Scaffold(
-      appBar: const TAppBar2(titleText: 'Profile Setting', showBackArrow: true),
+      appBar: const AppAppBar(title: 'Profile Setting', showBackArrow: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(AppSizes.defaultSpace),

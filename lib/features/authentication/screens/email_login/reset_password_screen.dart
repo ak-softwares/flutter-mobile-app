@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
@@ -23,7 +23,7 @@ class ResetPasswordScreen extends StatelessWidget {
 
     int seconds  = 60;
     return Scaffold(
-      appBar: const TAppBar2(titleText: "Reset Password Link"),
+      appBar: const AppAppBar(title: "Reset Password Link"),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(AppSizes.defaultSpace),
@@ -49,7 +49,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       child: const Text(TTexts.tContinue)
                   )
               ),
-              const SizedBox(height: AppSizes.spaceBtwInputFields),
+              const SizedBox(height: AppSizes.inputFieldSpace),
               Countdown(
                 seconds: seconds,
                 interval: const Duration(milliseconds: 1000),

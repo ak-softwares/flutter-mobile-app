@@ -8,7 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../../../common/dialog_box_massages/massages.dart';
+import '../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../features/onboarding/controllers/is_first_run/is_first_run.dart';
 import '../../../features/personalization/controllers/change_profile_controller.dart';
 import '../../../features/personalization/controllers/user_controller.dart';
@@ -28,85 +28,7 @@ class AuthenticationRepository extends GetxController {
   //variable
   final localStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
-  RxBool isUserLogin = false.obs;
-  RxString appVersion = '1.0'.obs; // Initialize with default value
-  late PackageInfo _packageInfo;
 
-  ///get Authenticated user data
-  User? get authUser => _auth.currentUser;
-
-  /// called from main.dart on app launch
-  @override
-  void onReady() {
-    super.onReady();
-    FlutterNativeSplash.remove();
-    _initializeAppVersion();
-    checkIsUserLogin();
-  }
-
-  Future<void> _initializeAppVersion() async {
-    try {
-      _packageInfo = await PackageInfo.fromPlatform();
-      appVersion.value = _packageInfo.version;
-    } catch (e) {
-      appVersion.value = '1.0'; // Fallback
-    }
-  }
-
-  String getVersionSync() {
-    return appVersion.value;
-  }
-
-  // this function run after successfully login
-  Future<void> login({required CustomerModel customer, required String loginMethod}) async {
-    loginMethod == 'signup'
-            ? FBAnalytics.logSignup(loginMethod)
-            : FBAnalytics.logLogin(loginMethod);
-    Get.put(UserController()).customer(customer); //update user value
-    isUserLogin.value = true; //make user login
-    localStorage.write(LocalStorage.authUserID, customer.id.toString()); // store token in local storage for stay login
-    // if(IsFirstRunController.isFirstRun()){
-    //   IsFirstRunController.activation(customer);
-    // }
-    // update fcm token to user meta in wordpress
-    final fCMToken = FirebaseNotification.fCMToken;
-    if(fCMToken != customer.fCMToken) {
-      await Get.put(ChangeProfileController()).wooUpdateUserMeta(userId: customer.id.toString(), key: CustomerMetaDataName.fCMToken, value: fCMToken);
-    }
-    AppMassages.showToastMessage(message: 'Login successfully!'); //show massage for successful login
-    NavigationHelper.navigateToBottomNavigation(); //navigate to other screen
-  }
-
-  //this function for logout
-  Future<void> logout() async {
-    try {
-      await GoogleSignIn().signOut();
-      await _auth.signOut();
-      localStorage.remove(LocalStorage.authUserID);
-      isUserLogin.value = false;
-      UserController.instance.customer = CustomerModel.empty() as Rx<CustomerModel>;
-      NavigationHelper.navigateToLoginScreen();
-    }
-    on FirebaseAuthException catch (error) {
-      throw TFirebaseAuthException(error.code).message;
-    } on FirebaseException catch (error) {
-      throw TFirebaseAuthException(error.code).message;
-    } on FormatException catch (_) {
-      throw const TFormatException();
-    } on PlatformException catch (error) {
-      throw TFirebaseAuthException(error.code).message;
-    }
-    catch (error) {
-      throw 'Something went wrong. Please try again';
-    }
-  }
-
-  // Check if the user is logged in
-  void checkIsUserLogin() {
-    dynamic localAuthUserId = localStorage.read(LocalStorage.authUserID);
-    String userId = (localAuthUserId != null) ? localAuthUserId.toString() : '';
-    isUserLogin.value = userId.isNotEmpty;
-  }
 
 
 /* ----------------Email & Password Sign in ------------------*/
@@ -114,7 +36,7 @@ class AuthenticationRepository extends GetxController {
   /// [EmailAuthentication] - Login
   Future<UserCredential> loginWithEmailAndPassword(String email, String password) async {
     try {
-      isUserLogin.value = true;
+      // isUserLogin.value = true;
       var userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
       return userCredential;
     }
@@ -135,7 +57,7 @@ class AuthenticationRepository extends GetxController {
   /// [EmailAuthentication] - REGISTER
   Future<UserCredential> registerWithEmailAndPassword(String email, String password) async {
     try {
-      isUserLogin.value = true;
+      // isUserLogin.value = true;
       return await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
     }

@@ -237,6 +237,7 @@ class OrderMetaKeyName {
   static const String medium      = '_wc_order_attribution_utm_medium';  // organic, referral, utm, Web Admin, typein (Direct)
   static const String campaign    = '_wc_order_attribution_utm_campaign'; // campaign name
   static const String referrer    = '_wc_order_attribution_referrer';   // here we should use a link of referred
+  static const String date        = 'date';   // Expiry time
 }
 
 class OrderStatusName {

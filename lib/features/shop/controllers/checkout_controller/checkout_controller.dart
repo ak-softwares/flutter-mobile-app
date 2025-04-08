@@ -1,12 +1,14 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../common/widgets/success_screen/success_screen.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/enums.dart';
 import '../../../../utils/constants/image_strings.dart';
+import '../../../../utils/constants/local_storage_constants.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
 import '../../../../common/dialog_box_massages/full_screen_loader.dart';
@@ -36,9 +38,10 @@ class CheckoutController extends GetxController {
   RxDouble tax = 0.0.obs;
   RxDouble total = 0.0.obs;
 
+  final localStorage = GetStorage();
+
   Rx<CouponModel> appliedCoupon = CouponModel().obs;
   Rx<PaymentModel> selectedPaymentMethod = PaymentModel.empty().obs;
-  OrderAttributionModel orderAttribution = OrderAttributionModel();
 
   final networkManager = Get.put(NetworkManager());
   final cartController = Get.put(CartController());
@@ -60,6 +63,38 @@ class CheckoutController extends GetxController {
   void onReady() {
     super.onReady();
     updateCheckout(); // Ensure COD and other logic are evaluated after UI setup
+  }
+
+  void saveOrderAttribute(OrderAttributeModel orderAttribute) {
+    final orderAttributeJson = orderAttribute.toJson(isLocal: true);
+    localStorage.write(LocalStorage.orderAttributes, orderAttributeJson);
+  }
+
+  OrderAttributeModel? retrieveOrderAttribute() {
+    final orderAttributeJson = localStorage.read(LocalStorage.orderAttributes);
+    if (orderAttributeJson != null) {
+      return OrderAttributeModel.fromJson(orderAttributeJson);
+    }
+    return null;
+  }
+
+  OrderAttributeModel getOrderAttribute() {
+    final OrderAttributeModel? orderAttribute = retrieveOrderAttribute();
+    final now = DateTime.now();
+    if(orderAttribute != null && now.difference(orderAttribute.date!).inDays <= 3) {
+      orderAttribute.source = "Android App v${AppSettings.appVersion}";
+      return orderAttribute;
+    } else {
+      return OrderAttributeModel(
+        source: "Android App v${AppSettings.appVersion}",
+        sourceType: "organic", //referral, organic, Unknown, utm, Web Admin, typein (Direct)
+        campaign: cartController.cartItems.map((item) => item.pageSource ?? 'NA').join(', '),
+      );
+    }
+  }
+
+  clearAttribute() {
+    localStorage.remove(LocalStorage.orderAttributes);
   }
 
   void updateCheckout(){
@@ -136,18 +171,9 @@ class CheckoutController extends GetxController {
         AppMassages.errorSnackBar(title: 'Error', message: 'Please select payment Method');
         return;
       }
-
-      if ((orderAttribution.campaign?.isEmpty ?? true) && (orderAttribution.sourceType?.isEmpty ?? true)) {
-        orderAttribution = OrderAttributionModel(
-          source: "Android App v${AuthenticationRepository.instance.appVersion.value}",
-          sourceType: "organic", //referral, organic, Unknown, utm, Web Admin, typein (Direct)
-          campaign: cartController.cartItems.map((item) => item.pageSource ?? 'NA').join(', '),
-        );
-      } else {
-        orderAttribution.source = "Android App v${AuthenticationRepository.instance.appVersion.value}";
-      }
+      final OrderAttributeModel orderAttribute = getOrderAttribute();
       // Create Order
-      final OrderModel createdOrder = await Get.put(OrderController()).saveOrderByCustomerId(orderAttribution: orderAttribution);
+      final OrderModel createdOrder = await Get.put(OrderController()).saveOrderByCustomerId(orderAttribute: orderAttribute);
 
       FBAnalytics.logCheckout(cartItems: cartController.cartItems);
       // Update the cart status
@@ -169,10 +195,7 @@ class CheckoutController extends GetxController {
   void clearCheckout() {
     cartController.clearCart();
     appliedCoupon.value = CouponModel.empty();
-    orderAttribution = OrderAttributionModel(
-      source: "Android App v${AuthenticationRepository.instance.appVersion.value}",
-      sourceType: "organic",
-    );
+    clearAttribute();
   }
 
   void updateSelectedPaymentOption(PaymentModel paymentMethod) {

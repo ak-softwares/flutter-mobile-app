@@ -7,7 +7,7 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../../common/dialog_box_massages/dialog_massage.dart';
 import '../../../../common/layout_models/product_grid_layout.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/web_view/my_web_view.dart';
@@ -58,8 +58,8 @@ class _SingleOrderScreenState extends State<SingleOrderScreen> {
   Widget build(BuildContext context) {
     FBAnalytics.logPageView('order_single_screen');
     return Scaffold(
-      appBar: TAppBar2(titleText: "Order #${orderController.currentOrder.value.id ?? ''}", showBackArrow: true, showSearchIcon: true, showCartIcon: true,),
-      body: !authenticationRepository.isUserLogin.value
+      appBar: AppAppBar(title: "Order #${orderController.currentOrder.value.id ?? ''}", showBackArrow: true, showSearchIcon: true, showCartIcon: true,),
+      body: !userController.isUserLogin.value
           ? const CheckLoginScreen()
           : RefreshIndicator(
         color: AppColors.refreshIndicator,

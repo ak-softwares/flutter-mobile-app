@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
@@ -17,7 +17,7 @@ class ReAuthLoginForm extends StatelessWidget {
     FBAnalytics.logPageView('re_auth_login_screen');
     final controller = Get.put(UserController());
     return Scaffold(
-      appBar: const TAppBar2(titleText: "Re-Authentication User", showBackArrow: true),
+      appBar: const AppAppBar(title: "Re-Authentication User", showBackArrow: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(AppSizes.defaultSpace),
@@ -31,18 +31,18 @@ class ReAuthLoginForm extends StatelessWidget {
                         //Email
                         TextFormField(
                             controller: controller.verifyEmail,
-                            validator: (value) => TValidator.validateEmail(value),
+                            validator: (value) => Validator.validateEmail(value),
                             decoration: const InputDecoration(
                               prefixIcon: Icon(Iconsax.direct_right),
                               labelText: TTexts.email,
                             )
                         ),
                         //Password
-                        const SizedBox(height: AppSizes.spaceBtwInputFields),
+                        const SizedBox(height: AppSizes.inputFieldSpace),
                         Obx(
                               () => TextFormField(
                                 controller: controller.verifyPassword,
-                                validator: (value) => TValidator.validateEmptyText('Password', value),
+                                validator: (value) => Validator.validateEmptyText('Password', value),
                                 obscureText: controller.hidePassword.value,
                                 decoration: InputDecoration(
                                     prefixIcon: const Icon(Iconsax.password_check),

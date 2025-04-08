@@ -1,7 +1,7 @@
 import 'package:aramarket/features/shop/models/brand_model.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../data/repositories/firebase/products/product_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/brands/woo_brands_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/category/woo_category_repository.dart';

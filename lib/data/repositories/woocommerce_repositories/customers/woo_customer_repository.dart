@@ -17,7 +17,7 @@ class WooCustomersRepository extends GetxController {
   final Box _cacheBox = Hive.box(CacheConstants.customerBox); // Hive storage
   final double cacheExpiryTimeInDays = APIConstant.customerCacheTime;
 
-  //Fetch customer by id it gives single user
+  // Fetch customer by id it gives single user
   Future<CustomerModel> fetchCustomerById(String customerId) async {
     final String cacheKey = 'fetch_customer_by_id_$customerId';
 
@@ -61,7 +61,7 @@ class WooCustomersRepository extends GetxController {
     try {
       final Map<String, String> queryParams = {
         'email': email,
-        'role':'all',
+        'role': 'customer',
       };
       final Uri uri = Uri.https(
         APIConstant.wooBaseDomain,

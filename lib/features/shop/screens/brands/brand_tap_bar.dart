@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/navigation_bar/app_appbar.dart';
+import '../../../../common/navigation_bar/tabbar.dart';
 import '../../../../common/widgets/product/cart/cart_counter_icon.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
@@ -33,18 +35,12 @@ class BrandTapBarScreen extends StatelessWidget {
       initialIndex: safeInitialIndex,
       length: brands.length,
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          title: Text('Shop by Brands', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-          actions: [
-            IconButton( icon: Icon(TIcons.search), onPressed: () => showSearch(context: context, delegate: TSearchDelegate())),
-            TCartCounterIcon(),
-          ],
-          toolbarHeight: 80,
-          bottom: TabBar(
-            // unselectedLabelColor: Colors.black87,
-            // indicatorColor: TColors.secondaryColor,
-            isScrollable: true,
+        appBar: AppAppBar(
+          title: 'Shop by Brands',
+          showSearchIcon: true,
+          showCartIcon: true,
+          toolbarHeight: 70,
+          bottom: AppTabBar(
             tabs: brands.map((brand) {
               return Padding(
                 padding: const EdgeInsets.only(top: AppSizes.defaultBtwTiles, bottom: AppSizes.defaultBtwTiles),

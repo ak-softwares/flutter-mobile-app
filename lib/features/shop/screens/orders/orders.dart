@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/layout_models/product_grid_layout.dart';
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/dialog_box_massages/animation_loader.dart';
@@ -15,6 +15,7 @@ import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
 import '../../../authentication/screens/check_login_screen/check_login_screen.dart';
 import '../../../personalization/controllers/address_controller.dart';
+import '../../../personalization/controllers/user_controller.dart';
 import '../../controllers/order/order_controller.dart';
 import 'widgets/order_list_items.dart';
 
@@ -26,7 +27,7 @@ class OrderScreen extends StatelessWidget {
     FBAnalytics.logPageView('order_screen');
     final orderController = Get.put(OrderController());
     final ScrollController scrollController = ScrollController();
-    final authenticationRepository = Get.put(AuthenticationRepository());
+    final userController = Get.put(UserController());
     final double orderTileHeight = AppSizes.orderTileHeight;
 
     orderController.refreshOrders();
@@ -51,8 +52,8 @@ class OrderScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: const TAppBar2(titleText: "My Orders", showBackArrow: true),
-      body: !authenticationRepository.isUserLogin.value
+      appBar: const AppAppBar(title: "My Orders", showBackArrow: true),
+      body: !userController.isUserLogin.value
         ? const CheckLoginScreen()
         : RefreshIndicator(
           color: AppColors.refreshIndicator,

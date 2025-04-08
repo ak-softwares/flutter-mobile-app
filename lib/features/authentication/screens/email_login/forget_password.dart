@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/sizes.dart';
@@ -23,7 +23,7 @@ class ForgetPasswordScreen extends StatelessWidget {
       controller.email.text = email!;
     }
     return Scaffold(
-      appBar: const TAppBar2(titleText: "Forget Password", showBackArrow: true),
+      appBar: const AppAppBar(title: "Forget Password", showBackArrow: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: TSpacingStyle.paddingWidthAppbarHeight,
@@ -49,7 +49,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                         //Email
                         TextFormField(
                             controller: controller.email,
-                            validator: (value) => TValidator.validateEmail(value),
+                            validator: (value) => Validator.validateEmail(value),
                             decoration: const InputDecoration(
                                 prefixIcon: Icon(Iconsax.direct_right),
                                 labelText: TTexts.email

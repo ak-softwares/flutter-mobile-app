@@ -3,12 +3,12 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/text/section_heading.dart';
 import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
 import '../../../../common/dialog_box_massages/animation_loader.dart';
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../common/widgets/product/quantity_add_buttons/quantity_add_buttons.dart';
 import '../../../../common/widgets/shimmers/single_product_shimmer.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -114,7 +114,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
     });
 
     return Scaffold(
-      appBar: TAppBar2(titleText: widget.product?.name ?? 'Product Details', showCartIcon: true),
+      appBar: AppAppBar(title: widget.product?.name ?? 'Product Details', showCartIcon: true),
       bottomNavigationBar: Obx(() => TBottomAddToCart(product: _product.value, quantity: quantityInCart.value, pageSource: 'product_detail1',)),
       body: RefreshIndicator(
         color: AppColors.refreshIndicator,
@@ -168,7 +168,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                                 itemId: _product.value.categories?[0].id ?? ''
                             ),
                             child: Icon(
-                              TIcons.share,
+                              AppIcons.share,
                               size: AppSizes.md,
                               color: AppColors.linkColor,
                             ),
@@ -215,7 +215,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                             children: [
                               Text('Free Delivery', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.linkColor)),
                               const SizedBox(width: AppSizes.spaceBtwItems),
-                              Icon(TIcons.truck, color: AppColors.linkColor, size: 15),
+                              Icon(AppIcons.truck, color: AppColors.linkColor, size: 15),
                               const SizedBox(width: 5),
                             ],
                           )
@@ -229,7 +229,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                               children: [
                                 Text('Free delivery over ₹999', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.linkColor)),
                                 const SizedBox(width: AppSizes.spaceBtwItems),
-                                Icon(TIcons.truck, color: AppColors.linkColor, size: 15),
+                                Icon(AppIcons.truck, color: AppColors.linkColor, size: 15),
                                 const SizedBox(width: 5),
                               ],
                             )

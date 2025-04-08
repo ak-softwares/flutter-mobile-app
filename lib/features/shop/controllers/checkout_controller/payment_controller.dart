@@ -7,7 +7,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import 'package:http/http.dart' as http;
 
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/db_constants.dart';
 import '../../../../utils/constants/enums.dart';

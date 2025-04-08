@@ -5,6 +5,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
+import '../../../../utils/constants/icons.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/navigation_helper.dart';
@@ -21,6 +22,8 @@ class MobileLoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     FBAnalytics.logPageView('mobile_login_screen');
     final otpController = Get.put(OTPController());
+    final bool isPhoneOtpLogin = false;
+    final bool isWhatsappOtpLogin = true;
     return Scaffold(
       // appBar: const TAppBar2(titleText: "Login", showBackArrow: true),
       body: SingleChildScrollView(
@@ -52,33 +55,29 @@ class MobileLoginScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSizes.spaceBtwSection),
 
-                    //Form Field
+                    // Form Field
                     // PhoneFieldHint/TextField,
                     // PhoneFieldHint(),
                     // Phone number field with auto-fill
                     IntlPhoneField(
                       decoration: const InputDecoration(
                         labelText: 'Phone Number',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(),
-                          borderRadius: BorderRadius.all(Radius.circular(AppSizes.buttonRadius)), // Adjust radius as needed
-                        ),
                       ),
-                      validator: (value) => TValidator.validatePhoneNumber(value.toString()),
-                      cursorColor: AppColors.primaryColor,
+                      validator: (value) => Validator.validatePhoneNumber(value.toString()),
                       languageCode: "en",
                       initialCountryCode: 'IN',
                       onChanged: (phone) {
                         otpController.countryCode.value = phone.countryCode; // +91
-                        otpController.phoneNumber.value = phone.number;  // 8265849298
+                        otpController.phoneNumber.value = phone.number;  // 82xxxxxxx92
                       },
                       onCountryChanged: (country) {
                         otpController.countryCode.value = country.dialCode.toString();
                         // otpController.selectedCountry1.value = country.dialCode.toString();
                       },
                     ),
-                    const SizedBox(height: AppSizes.spaceBtwInputFields),
-                    SizedBox(
+                    const SizedBox(height: AppSizes.inputFieldSpace),
+                    if(isPhoneOtpLogin)
+                      SizedBox(
                       width: double.infinity,
                       child: Obx(() => ElevatedButton(
                             onPressed: () => otpController.fast2SmsSendOpt(phone: otpController.phoneNumber.value),
@@ -88,6 +87,25 @@ class MobileLoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+
+                    if(isWhatsappOtpLogin)
+                      SizedBox(
+                        width: double.infinity,
+                        child: Obx(() => OutlinedButton(
+                            onPressed: () => otpController.whatsappSendOtp(phone: otpController.phoneNumber.value),
+                            child: otpController.isLoading.value
+                                ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: AppColors.whatsAppColor, strokeWidth: 2,))
+                                : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  spacing: AppSizes.sm,
+                                  children: [
+                                    Icon(AppIcons.whatsapp, size: 20, color: AppColors.whatsAppColor,),
+                                    Text('Get Whatsapp OTP'),
+                                  ],
+                                )
+                        ),
+                        ),
+                      ),
 
                     //Not a Member?  Divider
                     const SizedBox(height: AppSizes.spaceBtwSection),
@@ -112,11 +130,11 @@ class MobileLoginScreen extends StatelessWidget {
                     ),
 
                     //Social login
-                    const SizedBox(height: AppSizes.spaceBtwInputFields),
+                    const SizedBox(height: AppSizes.inputFieldSpace),
                     const TSocialButtons(),
 
                     // Continue with email and password
-                    const SizedBox(height: AppSizes.spaceBtwInputFields),
+                    const SizedBox(height: AppSizes.inputFieldSpace),
                     SizedBox(
                       width: double.infinity,
                       child: OutlinedButton(

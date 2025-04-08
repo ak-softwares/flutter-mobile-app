@@ -16,18 +16,17 @@ class UpdateMobileNo extends StatelessWidget {
   Widget build(BuildContext context) {
     FBAnalytics.logPageView('update_profile_screen');
 
-    final authenticationRepository = Get.put(AuthenticationRepository());
     final changeProfileController = Get.put(ChangeProfileController());
     final userController = Get.put(UserController());
     userController.refreshCustomer();
     bool isShowPhoneField = true;
 
     return Obx(() {
-      if (!authenticationRepository.isUserLogin.value || userController.isLoading.value) {
+      if (!userController.isUserLogin.value || userController.isLoading.value) {
         return const SizedBox.shrink();
       }
       final phone = userController.customer.value.phone;
-      if ((TValidator.validatePhoneNumber(phone) != null) && isShowPhoneField) {
+      if ((Validator.validatePhoneNumber(phone) != null) && isShowPhoneField) {
         changeProfileController.isPhoneVerified(false);
       }
       if (changeProfileController.isPhoneVerified.value) {
@@ -60,7 +59,7 @@ class UpdateMobileNo extends StatelessWidget {
                           // Enable automatic validation
                           child: TextFormField(
                             controller: changeProfileController.updatePhone,
-                            validator: (value) => TValidator.validatePhoneNumber(value),
+                            validator: (value) => Validator.validatePhoneNumber(value),
                             decoration: InputDecoration(
                               hintText: 'Example: 99XXXXXXXX',
                               border: const OutlineInputBorder(),

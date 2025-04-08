@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../../../common/dialog_box_massages/massages.dart';
+import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../common/widgets/network_manager/network_manager.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../data/repositories/woocommerce_repositories/customers/woo_customer_repository.dart';
@@ -39,7 +39,7 @@ class SocialLoginController extends GetxController{
       final customer = await wooCustomersRepository.fetchCustomerByEmail(googleEmail);
 
       TFullScreenLoader.stopLoading();
-      authenticationRepository.login(customer: customer, loginMethod: 'Google');
+      userController.login(customer: customer, loginMethod: 'Google');
     } catch (error) {
       // Remove Loader
       TFullScreenLoader.stopLoading();

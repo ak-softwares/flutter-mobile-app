@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../common/navigation_bar/appbar2.dart';
+import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/widgets/terms_conditions_checkbox/terms_conditions_checkbox.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
@@ -21,7 +21,7 @@ class SignUpScreen extends StatelessWidget {
     FBAnalytics.logPageView('signup_screen');
 
     return Scaffold(
-      appBar: const TAppBar2(titleText: "Signup", showBackArrow: true),
+      appBar: const AppAppBar(title: "Signup", showBackArrow: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: TSpacingStyle.paddingWidthAppbarHeight,
@@ -43,11 +43,11 @@ class SignUpScreen extends StatelessWidget {
                             Expanded(
                                 child: TextFormField(
                                   controller: controller.firstName,
-                                  validator: (value) => TValidator.validateEmptyText(TTexts.firstName, value),
+                                  validator: (value) => Validator.validateEmptyText(TTexts.firstName, value),
                                   decoration: const InputDecoration(prefixIcon: Icon(Iconsax.user), labelText: TTexts.firstName),
                                 )
                             ),
-                            const SizedBox(width: AppSizes.spaceBtwInputFields),
+                            const SizedBox(width: AppSizes.inputFieldSpace),
                             //Pincode
                             Expanded(
                                 child: TextFormField(
@@ -57,22 +57,22 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: AppSizes.spaceBtwInputFields),
+                        const SizedBox(height: AppSizes.inputFieldSpace),
                         //Email
                         TextFormField(
                             controller: controller.email,
-                            validator: (value) => TValidator.validateEmail(value),
+                            validator: (value) => Validator.validateEmail(value),
                             decoration: const InputDecoration(
                                 prefixIcon: Icon(Iconsax.direct_right),
                                 labelText: TTexts.email
                             )
                         ),
                         //Password
-                        const SizedBox(height: AppSizes.spaceBtwInputFields),
+                        const SizedBox(height: AppSizes.inputFieldSpace),
                         Obx(
                             () => TextFormField(
                               controller: controller.password,
-                              validator: (value) => TValidator.validatePassword(value),
+                              validator: (value) => Validator.validatePassword(value),
                               obscureText: controller.hidePassword.value,
                               decoration: InputDecoration(
                                   prefixIcon: const Icon(Iconsax.password_check),
@@ -84,10 +84,10 @@ class SignUpScreen extends StatelessWidget {
                               )
                         )),
                         //phone
-                        const SizedBox(height: AppSizes.spaceBtwInputFields),
+                        const SizedBox(height: AppSizes.inputFieldSpace),
                         TextFormField(
                             controller: controller.phone,
-                            validator: (value) => TValidator.validatePhoneNumber(value),
+                            validator: (value) => Validator.validatePhoneNumber(value),
                             decoration: const InputDecoration(
                                 prefixIcon: Icon(Iconsax.call),
                                 labelText: TTexts.phone
@@ -99,7 +99,7 @@ class SignUpScreen extends StatelessWidget {
                         const TTermsAndConditionsCheckBox(),
 
                         // signup button
-                        const SizedBox(height: AppSizes.spaceBtwInputFields),
+                        const SizedBox(height: AppSizes.inputFieldSpace),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(

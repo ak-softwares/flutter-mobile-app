@@ -28,7 +28,7 @@ class TBottomAddToCart1 extends StatelessWidget {
               child: const Text('ADD TO CART'),
             ),
           ),
-          const SizedBox(width: AppSizes.spaceBtwInputFields),
+          const SizedBox(width: AppSizes.inputFieldSpace),
           Expanded(
             child: ElevatedButton(
               onPressed: (){

@@ -6,7 +6,7 @@ import '../../utils/constants/image_strings.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/navigation_helper.dart';
 import '../dialog_box_massages/animation_loader.dart';
-import '../dialog_box_massages/massages.dart';
+import '../dialog_box_massages/snack_bar_massages.dart';
 import '../widgets/product/product_cards/product_card.dart';
 import '../widgets/shimmers/product_shimmer.dart';
 
@@ -51,7 +51,7 @@ class ProductGridLayout extends StatelessWidget {
                         direction: DismissDirection.endToStart, // Swipe left to remove
                         onDismissed: (direction) {
                           controller.removeProduct(productID: products[index].id.toString());
-                          AppMassages.showSnackBar(context: context, massage: 'Item removed');
+                          AppMassages.showSnackBar(massage: 'Item removed');
                         },
                         background: Container(
                           alignment: Alignment.centerRight,

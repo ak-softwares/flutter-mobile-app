@@ -29,7 +29,7 @@ class TUserReviewCard extends StatelessWidget {
     // final imagesController = Get.find<ImagesController>();
 
     // Using Html widget to parse HTML text
-    final String reviewerName = TValidator.isEmail(review.reviewer ?? '') ? TFormatter.maskEmail(review.reviewer ?? '') : review.reviewer ?? '';
+    final String reviewerName = Validator.isEmail(review.reviewer ?? '') ? TFormatter.maskEmail(review.reviewer ?? '') : review.reviewer ?? '';
     return ListTile(
       contentPadding: EdgeInsets.only(top: AppSizes.sm, left: AppSizes.sm), // Removes extra padding
       leading: RoundedImage(
@@ -56,7 +56,7 @@ class TUserReviewCard extends StatelessWidget {
             rating: review.rating!.toDouble(),
             itemSize: 14,
             unratedColor: Colors.grey[300],
-            itemBuilder: (_, __) =>  Icon(TIcons.starRating, color: AppColors.ratingStar),
+            itemBuilder: (_, __) =>  Icon(AppIcons.starRating, color: AppColors.ratingStar),
           ),
           SizedBox(height: AppSizes.xs),
           ReadMoreText(
