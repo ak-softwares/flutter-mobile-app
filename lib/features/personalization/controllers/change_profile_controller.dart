@@ -38,7 +38,7 @@ class ChangeProfileController extends GetxController {
   final userRepository = Get.put(UserRepository());
   final wooCustomersRepository = Get.put(WooCustomersRepository());
 
-  //Woocommerce update profile details
+  // Woocommerce update profile details
   Future<void> wooChangeProfileDetails() async {
     try {
       //Start Loading
@@ -131,7 +131,7 @@ class ChangeProfileController extends GetxController {
     }
   }
 
-  //Change profile details
+  // Change profile details
   Future<void> changeProfileDetails() async {
     try {
       //Start Loading
@@ -183,7 +183,7 @@ class ChangeProfileController extends GetxController {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TSectionHeading(title: 'Select Address',
+              SectionHeading(title: 'Select Address',
                 onPressed: () {},
                 seeActionButton: true,
                 buttonTitle: 'Add new address',

@@ -101,7 +101,7 @@ class _ProductsScrollingByItemIDState extends State<ProductsScrollingByItemID> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: AppSizes.spaceBtwItems),
-              child: widget.itemName != null ? const TSectionHeading(title: 'Products Loading..') : const SizedBox.shrink(),
+              child: widget.itemName != null ? const SectionHeading(title: 'Products Loading..') : const SizedBox.shrink(),
             ),
             Padding(
                 padding: EdgeInsets.all(defaultSpaceBWTCard / 2),
@@ -122,7 +122,7 @@ class _ProductsScrollingByItemIDState extends State<ProductsScrollingByItemID> {
             widget.itemName != null
               ? Padding(
                 padding: const EdgeInsets.only(left: AppSizes.spaceBtwItems),
-                child: TSectionHeading(
+                child: SectionHeading(
                     title: widget.itemName!,
                     seeActionButton: true,
                     verticalPadding: true,

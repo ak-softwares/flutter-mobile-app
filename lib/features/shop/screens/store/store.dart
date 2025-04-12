@@ -49,7 +49,7 @@ class StoreScreen extends StatelessWidget {
                         searchText: "Search in Store",
                       ),
                       // Heading featured brand
-                      TSectionHeading(
+                      SectionHeading(
                         title: 'Featured Brands',
                         seeActionButton: true,
                         onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => const AllBrandScreen()));},
@@ -89,7 +89,7 @@ class StoreScreen extends StatelessWidget {
                       ///-Brands
                       const TBrandShowcase(images: [Images.defaultWooPlaceholder, Images.defaultWooPlaceholder, Images.defaultWooPlaceholder],),
                       ///-Products
-                      const TSectionHeading(title: 'You might like'),
+                      const SectionHeading(title: 'You might like'),
                       const SizedBox(height: AppSizes.spaceBtwItems,),
                       GridLayout(mainAxisExtent: 290,itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index], pageSource: '',))
                     ],
@@ -102,7 +102,7 @@ class StoreScreen extends StatelessWidget {
                       ///-Brands
                       const TBrandShowcase(images: [Images.defaultWooPlaceholder, Images.defaultWooPlaceholder, Images.defaultWooPlaceholder],),
                       ///-Products
-                      const TSectionHeading(title: 'You might like'),
+                      const SectionHeading(title: 'You might like'),
                       const SizedBox(height: AppSizes.spaceBtwItems,),
                       GridLayout(mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index], pageSource: '',))
                     ],
@@ -115,7 +115,7 @@ class StoreScreen extends StatelessWidget {
                       ///-Brands
                       const TBrandShowcase(images: [Images.defaultWooPlaceholder, Images.defaultWooPlaceholder, Images.defaultWooPlaceholder],),
                       ///-Products
-                      const TSectionHeading(title: 'You might like'),
+                      const SectionHeading(title: 'You might like'),
                       const SizedBox(height: AppSizes.spaceBtwItems,),
                       GridLayout(mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index], pageSource: '',))
                     ],
@@ -128,7 +128,7 @@ class StoreScreen extends StatelessWidget {
                       ///-Brands
                       const TBrandShowcase(images: [Images.defaultWooPlaceholder, Images.defaultWooPlaceholder, Images.defaultWooPlaceholder],),
                       ///-Products
-                      const TSectionHeading(title: 'You might like'),
+                      const SectionHeading(title: 'You might like'),
                       const SizedBox(height: AppSizes.spaceBtwItems,),
                       GridLayout( mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index], pageSource: '',))
                     ],
@@ -141,7 +141,7 @@ class StoreScreen extends StatelessWidget {
                       ///-Brands
                       const TBrandShowcase(images: [Images.defaultWooPlaceholder, Images.defaultWooPlaceholder, Images.defaultWooPlaceholder],),
                       ///-Products
-                      const TSectionHeading(title: 'You might like'),
+                      const SectionHeading(title: 'You might like'),
                       const SizedBox(height: AppSizes.spaceBtwItems,),
                       GridLayout(mainAxisExtent: 290, itemCount: 6, itemBuilder: (context, index) => ProductCard(product: controller.featuredProducts[index], pageSource: '',))
                     ],

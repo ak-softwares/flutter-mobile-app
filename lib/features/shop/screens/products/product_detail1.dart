@@ -240,7 +240,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                   InStock(isProductAvailable: _product.value.isProductAvailable()),
 
                   // const SizedBox(height: TSizes.sm),
-                  const TSectionHeading(title: 'Select Quantity'),
+                  const SectionHeading(title: 'Select Quantity'),
                   Obx(() {
                     return QuantityAddButtons(
                           size: 35,
@@ -266,7 +266,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const TSectionHeading(title: 'Description'),
+                            const SectionHeading(title: 'Description'),
                             const SizedBox(height: AppSizes.sm),
                             // Text(product.description ?? ''),
                             Html(data: _product.value.description)
@@ -297,7 +297,7 @@ class _ProductDetailScreenState1 extends State<ProductDetailScreen1> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(width: 250,
-                          child: TSectionHeading(title: 'Reviews(${_product.value.ratingCount})')),
+                          child: SectionHeading(title: 'Reviews(${_product.value.ratingCount})')),
                       IconButton(
                           onPressed: () => Get.to(() => ProductReviewScreen(product: _product.value)),
                           icon: const Icon(Iconsax.arrow_right_3, size: 18)

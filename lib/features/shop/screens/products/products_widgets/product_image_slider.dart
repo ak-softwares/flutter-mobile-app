@@ -132,7 +132,7 @@ class _TProductImageSliderState extends State<TProductImageSlider> {
                                 : Colors.white54,
                             borderRadius: BorderRadius.circular(100),
                           ),
-                          child: TFavouriteIcon(product: widget.product),
+                          child: WishlistIcon(product: widget.product),
                         ),
                         const SizedBox(height: AppSizes.sm),
                         Container(

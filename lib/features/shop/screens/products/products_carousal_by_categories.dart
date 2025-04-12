@@ -22,7 +22,7 @@ class ProductCarousalByCategory extends StatelessWidget {
       if (categoryController.isLoading.value){
         return const Column(
           children: [
-            TSectionHeading(title: 'Products Loading..'),
+            SectionHeading(title: 'Products Loading..'),
             ProductShimmer(itemCount: 2),
           ],
         );
@@ -48,7 +48,7 @@ class ProductCarousalByCategory extends StatelessWidget {
               return const Column(
                 children: [
                   SizedBox(height: AppSizes.sm,),
-                  TSectionHeading(title: 'Products Loading..'),
+                  SectionHeading(title: 'Products Loading..'),
                   ProductShimmer(itemCount: 2),
                 ],
               );

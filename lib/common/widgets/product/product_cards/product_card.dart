@@ -35,7 +35,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return GestureDetector(
+    return InkWell(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductScreen(product: product, pageSource: pageSource,))),
       child: orientation == OrientationType.vertical
         ? productCardVertical(context: context)
@@ -110,7 +110,7 @@ class ProductCard extends StatelessWidget {
                   Positioned(
                     top: 0,
                     right: 0,
-                    child: TFavouriteIcon(product: product, iconSize: 20)
+                    child: WishlistIcon(product: product, iconSize: 20)
                   ),
 
                   // Out of stock
@@ -220,7 +220,7 @@ class ProductCard extends StatelessWidget {
               Positioned(
                   top: -5,
                   right: -5,
-                  child: TFavouriteIcon(product: product, iconSize: 20)
+                  child: WishlistIcon(product: product, iconSize: 20)
               ),
 
               // Out of stock

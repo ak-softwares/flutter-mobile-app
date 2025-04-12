@@ -15,6 +15,7 @@ import '../../../data/repositories/user/user_repository.dart';
 import '../../../data/repositories/woocommerce_repositories/customers/woo_customer_repository.dart';
 import '../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../services/notification/firebase_notification.dart';
+import '../../../utils/cache/cache.dart';
 import '../../../utils/constants/db_constants.dart';
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/local_storage_constants.dart';
@@ -117,7 +118,7 @@ class UserController extends GetxController {
     await secureStorage.delete(key: LocalStorage.loginExpiry);
   }
 
-  //Refresh Customer data
+  // Refresh Customer data
   Future<void> refreshCustomer() async {
     try {
       isLoading(true);
@@ -279,6 +280,10 @@ class UserController extends GetxController {
     if(fCMToken != customer.fCMToken) {
       await Get.put(ChangeProfileController()).wooUpdateUserMeta(userId: customer.id.toString(), key: CustomerMetaDataName.fCMToken, value: fCMToken);
     }
+    CacheHelper.clearCacheBox(cacheBoxName: CacheConstants.orderBox);
+    CacheHelper.clearCacheBox(cacheBoxName: CacheConstants.customerBox);
+    CacheHelper.clearCacheBox(cacheBoxName: CacheConstants.productReviewBox);
+    CacheHelper.clearCacheBox(cacheBoxName: CacheConstants.settingsBox);
     AppMassages.showToastMessage(message: 'Login successfully!'); //show massage for successful login
     NavigationHelper.navigateToBottomNavigation(); //navigate to other screen
   }

@@ -7,8 +7,8 @@ import '../../../../features/shop/models/product_model.dart';
 import '../../../../features/shop/screens/favourite/favourite.dart';
 import '../../../../utils/constants/colors.dart';
 
-class TFavouriteIcon extends StatelessWidget {
-  const TFavouriteIcon({
+class WishlistIcon extends StatelessWidget {
+  const WishlistIcon({
     super.key,
     this.iconSize, required this.product,
   });
@@ -21,17 +21,13 @@ class TFavouriteIcon extends StatelessWidget {
     final controller = Get.put(FavoriteController());
     final String productId = product.id.toString();
 
-    return Obx(
-        () => GestureDetector(
-          onLongPress: () => Get.to(const FavouriteScreen()),
-          child: IconButton(
-            onPressed: () => controller.toggleFavoriteProduct(product: product),
-            iconSize: iconSize,
-            // splashRadius: 50,
-            icon: controller.isFavorite(productId) ? const Icon(Iconsax.heart5) : const Icon(Iconsax.heart),
-            color: controller.isFavorite(productId) ? AppColors.error : null,
-                ),
-        ),
-    );
+    return Obx(() => IconButton(
+      enableFeedback: true,
+      onPressed: () => controller.toggleFavoriteProduct(product: product),
+      onLongPress: () => Get.to(const FavouriteScreen()),
+      iconSize: iconSize,
+      icon: controller.isFavorite(productId) ? const Icon(Iconsax.heart5) : const Icon(Iconsax.heart),
+      color: controller.isFavorite(productId) ? AppColors.error : null,
+    ));
   }
 }

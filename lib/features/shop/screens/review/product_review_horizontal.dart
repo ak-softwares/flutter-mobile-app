@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../common/styles/spacing_style.dart';
 import '../../../../common/widgets/custom_shape/containers/rounded_container.dart';
 import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
 import '../../../../common/widgets/shimmers/review_shimmer_on_product.dart';
@@ -12,9 +11,8 @@ import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/icons.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../models/product_model.dart';
-import '../../models/product_review_model.dart';
-import 'product_review.dart';
-import 'review_widgets/user_review_card_for_product.dart';
+import '../../models/review_model.dart';
+import 'widgets/user_review_card_for_product.dart';
 
 class ProductReviewHorizontal extends StatefulWidget {
   const ProductReviewHorizontal({super.key, required this.product});

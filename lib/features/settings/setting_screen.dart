@@ -61,7 +61,7 @@ class SettingScreen extends StatelessWidget {
                   message: 'Are you sure! to clear all cache',
                   toastMessage: 'All cache clear successfully',
                   actionButtonText: 'Clear',
-                  function: () => CacheHelper.clearAllCacheBox(),
+                  onSubmit: () => CacheHelper.clearAllCacheBox(),
                   context: context
               ) , child: Text('Clear', style: TextStyle(color: Colors.red),)),
             ),

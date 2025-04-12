@@ -40,7 +40,7 @@ class FavouriteWithCart extends StatelessWidget {
         ),
         ListTile(
           onTap: () => Get.to(() => const FavouriteScreen()),
-          leading: Icon(AppIcons.favorite,size: 20),
+          leading: Icon(AppIcons.wishlist,size: 20),
           title: Text('Wishlist', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),
           subtitle: Text('All wishlist items', style: Theme.of(context).textTheme.bodySmall),
           trailing: Row(

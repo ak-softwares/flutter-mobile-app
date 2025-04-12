@@ -19,7 +19,7 @@ class TBillingAddressSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const TSectionHeading(title: 'Shipping Address'),
+        const SectionHeading(title: 'Shipping Address'),
         Obx(() {
           if(userController.isLoading.value) {
             return const OrderShimmer(itemCount: 1, height: 150,);

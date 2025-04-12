@@ -71,7 +71,7 @@ class TWishlistCounterIcon extends StatelessWidget {
       children: [
         IconButton(
             onPressed: () => Get.to(const FavouriteScreen()),
-            icon: Icon(AppIcons.favorite, size: 20,),
+            icon: Icon(AppIcons.wishlist, size: 20,),
             color: iconColor
         ),
         Positioned(

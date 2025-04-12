@@ -63,7 +63,6 @@ class DiscoverScreen extends StatelessWidget {
         onRefresh: () async => discoverScreenController.refreshDiscoverProducts(),
         child: ListView(
           controller: scrollController,
-          padding: EdgeInsets.symmetric(vertical: 4),
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
             Obx(() {
@@ -79,6 +78,7 @@ class DiscoverScreen extends StatelessWidget {
                     double squareSize = (screenWidth - 8) / 3; // 3 columns, adjust spacing
 
                     return Obx(() => Container(
+                      padding: EdgeInsets.symmetric(vertical: 4),
                       color: Theme.of(context).colorScheme.surface,
                       child: StaggeredGrid.count(
                         crossAxisCount: 3, // 3 items per row

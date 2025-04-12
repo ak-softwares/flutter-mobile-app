@@ -29,6 +29,7 @@ import '../../../settings/app_settings.dart';
 import '../../controllers/cart_controller/cart_controller.dart';
 import '../../controllers/order/order_controller.dart';
 import '../../models/order_model.dart';
+import '../review/create_product_review.dart';
 
 class SingleOrderScreen extends StatefulWidget {
   const SingleOrderScreen({super.key, this.order, this.orderId});
@@ -310,9 +311,9 @@ class _SingleOrderScreenState extends State<SingleOrderScreen> {
                         // Write product review
                         ListTile(
                             tileColor: Theme.of(context).colorScheme.surface,
-                            onTap: () => Get.to(() => ProductScreen(
-                                productId: currentOrder.lineItems?[0].productId
-                                    .toString())),
+                            onTap: () => Get.to(() => CreateReviewScreen(
+                              productId: currentOrder.lineItems?[0].productId ?? 0,
+                              productTitle: currentOrder.lineItems?[0].name ?? '', productImgUrl: currentOrder.lineItems?[0].image ?? '',)),
                             title: Text('Write a product review'),
                             trailing:
                             Icon(Icons.arrow_forward_ios, size: 20)),
@@ -332,7 +333,7 @@ class _SingleOrderScreenState extends State<SingleOrderScreen> {
                               'Are you sure you want to cancel this currentOrder?',
                               toastMessage: 'Order cancel Successfully',
                               actionButtonText: 'Cancel',
-                              function: () async {
+                              onSubmit: () async {
                                 await orderController
                                     .cancelOrder(currentOrder.id.toString());
                               },

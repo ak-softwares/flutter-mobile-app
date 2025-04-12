@@ -153,7 +153,7 @@ class AppRouter {
     final queryParams = uri.queryParameters;
 
     // Default values
-    String sourceType = 'direct';
+    String sourceType = '';
     String campaign = '';
     String medium = '';
     final referrer = 'https://$domain$uri';
@@ -199,14 +199,15 @@ class AppRouter {
 
     // Construct the order attribution model
     final orderAttribute = OrderAttributeModel(
-      sourceType: sourceType,
+      sourceType: sourceType.isNotEmpty ? sourceType : null,
       campaign: campaign.isNotEmpty ? campaign : null,
       medium: medium.isNotEmpty ? medium : null,
       referrer: referrer,
       date: DateTime.now(),
     );
-
-    controller.saveOrderAttribute(orderAttribute);
+    if ((orderAttribute.sourceType?.isNotEmpty ?? false) || (orderAttribute.campaign?.isNotEmpty ?? false)){
+      controller.saveOrderAttribute(orderAttribute);
+    }
   }
 
 }

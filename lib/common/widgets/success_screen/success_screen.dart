@@ -1,3 +1,4 @@
+import 'package:aramarket/services/app_review/app_review.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -36,13 +37,18 @@ class _TSuccessScreenState extends State<TSuccessScreen> {
     // Delay execution until the frame is built
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _processPayment();
-    });  }
+    });
+  }
 
   Future<void> _processPayment() async {
     if(widget.order.paymentMethod == PaymentMethods.razorpay.name &&
-        widget.order.status == OrderStatus.pendingPayment){
+        widget.order.status == OrderStatus.pendingPayment) {
       await orderController.makePayment(order: widget.order);
     }
+
+    Future.delayed(Duration(seconds: 3), () {
+      AppReview.showReviewPopup();
+    });
   }
 
   @override

@@ -80,7 +80,7 @@ class OrderController extends GetxController {
     }
   }
 
-  //Get user order by customer id
+  // Get user order by customer id
   Future<void> getOrdersByCustomerId() async {
     try {
       if(!userController.isUserLogin.value) return;

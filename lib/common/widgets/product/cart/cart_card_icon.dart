@@ -21,20 +21,13 @@ class CartIcon extends StatelessWidget {
     return product.type == ProductFieldName.typeVariable
         ? Icon(AppIcons.cartVariation, size: 20,)
         : InkWell(
-            onLongPress: () => Get.to(() => CartScreen()),
             onTap: () => cartController.toggleCartProduct(product: product, sourcePage: sourcePage),
+            onLongPress: () => Get.to(() => CartScreen()),
             splashColor: Colors.transparent,
             child: Obx(() {
-                final productQuantityInCart = cartController.isInCart(product.id);
                 return Padding(
                   padding: const EdgeInsets.only(left: AppSizes.sm),
-                  child: Icon(
-                    productQuantityInCart
-                        ? AppIcons.cartFull
-                        : AppIcons.cartEmpty,
-                    size: iconSize,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                  child: Icon(cartController.isInCart(product.id) ? AppIcons.cartFull : AppIcons.cartEmpty, size: iconSize),
                 );
               }
             ),

@@ -1,3 +1,4 @@
+import 'package:aramarket/services/app_review/app_review.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/dialog_box_massages/snack_bar_massages.dart';
@@ -15,7 +16,8 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    AppUpdate().checkForUpdate();
-    LocalNotificationServices.checkNotificationAppLunch;
+    AppUpdate.checkForUpdate();
+    // AppReview.showReviewPopup();
+    LocalNotificationServices.checkNotificationAppLunch();
   }
 }

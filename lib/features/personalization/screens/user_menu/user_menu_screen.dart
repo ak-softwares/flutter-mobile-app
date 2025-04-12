@@ -19,7 +19,8 @@ import '../../controllers/user_controller.dart';
 import '../user_profile/user_profile.dart';
 import 'widgets/contact_widget.dart';
 import 'widgets/follow_us.dart';
-import 'widgets/menu.dart';
+import 'widgets/account_menu.dart';
+import 'widgets/other_menu.dart';
 import 'widgets/policy_widget.dart';
 import 'widgets/favourite_with_cart.dart';
 
@@ -42,13 +43,14 @@ class UserMenuScreen extends StatelessWidget {
                   padding: TSpacingStyle.defaultPageVertical,
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: [
+                    // Your profile
                     Obx(() {
                      if(userController.isUserLogin.value) {
                        return Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
                            // User profile
-                           Heading(title: 'Your profile', paddingLeft: AppSizes.defaultSpace),
+                           Heading(title: 'Your Profile', paddingLeft: AppSizes.defaultSpace),
                            CustomerProfileCard(userController: userController),
                          ],
                        );
@@ -57,9 +59,13 @@ class UserMenuScreen extends StatelessWidget {
                       }
                     }),
 
-                    // Menu
-                    Heading(title: 'Menu', paddingLeft: AppSizes.defaultSpace),
-                    const Menu(),
+                    // Account
+                    Heading(title: 'Account', paddingLeft: AppSizes.defaultSpace),
+                    const AccountMenu(),
+
+                    //Others
+                    Heading(title: 'Others', paddingLeft: AppSizes.defaultSpace),
+                    OtherMenu(),
 
                     // Contact
                     Heading(title: 'Support', paddingLeft: AppSizes.defaultSpace),

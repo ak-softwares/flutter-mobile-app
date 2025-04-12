@@ -79,7 +79,7 @@ class UserProfileScreen extends StatelessWidget {
               const SizedBox(height: AppSizes.spaceBtwSection),
               const Divider(),
               const SizedBox(height: AppSizes.spaceBtwItems),
-              const TSectionHeading(title: 'Profile Information', seeActionButton: false),
+              const SectionHeading(title: 'Profile Information', seeActionButton: false),
               const SizedBox(height: AppSizes.spaceBtwItems),
               Obx(() {
                 if(controller.isLoading.value){
@@ -111,7 +111,7 @@ class UserProfileScreen extends StatelessWidget {
                               message: 'Are you sure you want to delete your account permanently? This Action is not reversible and all of your data will be removed permanently',
                               toastMessage: 'Your Account Deleted successfully!',
                               actionButtonText: 'Delete',
-                              function: () async {
+                              onSubmit: () async {
                                 await controller.wooDeleteAccount();
                               },
                               context: context,

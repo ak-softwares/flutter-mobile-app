@@ -59,50 +59,45 @@ class ProductCardForCart extends StatelessWidget {
 
                 // Title, Rating and price
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(AppSizes.xs),
-                        child: Column(
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSizes.xs),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //Title
+                        ProductTitle(title: cartItem.name ?? ''),
+                        const SizedBox(height: AppSizes.spaceBtwItems),
+
+                        // Star rating
+                        // ProductStarRating(averageRating: product.averageRating ?? 0.0, ratingCount: product.ratingCount ?? 0),
+
+                        // Price
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            //Title
-                            ProductTitle(title: cartItem.name ?? ''),
-                            const SizedBox(height: AppSizes.spaceBtwItems),
-                  
-                            // Star rating
-                            // ProductStarRating(averageRating: product.averageRating ?? 0.0, ratingCount: product.ratingCount ?? 0),
-                  
-                            // Price
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                    '${cartItem.quantity}x${AppSettings.appCurrencySymbol}${cartItem.price!.toStringAsFixed(0)}',
-                                    style: Theme.of(context).textTheme.bodyMedium
-                                ),
-                                Text(AppSettings.appCurrencySymbol + cartItem.subtotal!, style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600)),
-                                if (showBottomBar)
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      QuantityAddButtons(
-                                        quantity: cartItem.quantity, // Accessing value of RxInt
-                                        add: () => cartController.addOneToCart(cartItem), // Incrementing value
-                                        remove: () => cartController.removeOneToCart(cartItem: cartItem, context: context),
-                                        size: 27,
-                                      ),
-                                    ],
-                                  )
-                              ],
-                            )
+                            Text(
+                                '${cartItem.quantity}x${AppSettings.appCurrencySymbol}${cartItem.price!.toStringAsFixed(0)}',
+                                style: Theme.of(context).textTheme.bodyMedium
+                            ),
+                            Text(AppSettings.appCurrencySymbol + cartItem.subtotal!, style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600)),
+                            if (showBottomBar)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  QuantityAddButtons(
+                                    quantity: cartItem.quantity, // Accessing value of RxInt
+                                    add: () => cartController.addOneToCart(cartItem), // Incrementing value
+                                    remove: () => cartController.removeOneToCart(cartItem: cartItem, context: context),
+                                    size: 27,
+                                  ),
+                                ],
+                              )
                           ],
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 )
               ],

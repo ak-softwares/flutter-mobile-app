@@ -112,6 +112,17 @@ class AppSizes {
   static const double cartCardHorizontalWidth = 300.0;
   static const double cartCardHorizontalRadius = defaultRadius;
 
+  // All Review tile
+  static const double reviewYourPurchaseTileHeight = 135.0;
+  static const double reviewYourPurchaseTileWidth = 300.0;
+  static const double reviewYourPurchaseTileImageSize = 70;
+  static const double reviewYourPurchaseTileRadius = defaultRadius;
+
+  // All Review tile
+  static const double allReviewTileHeight = 135.0;
+  static const double allReviewTileWidth = 300.0;
+  static const double allReviewTileImageSize = 70;
+  static const double allReviewTileRadius = defaultRadius;
 
   // Card sizes
   static const double cardRadiusLg = 16.0;

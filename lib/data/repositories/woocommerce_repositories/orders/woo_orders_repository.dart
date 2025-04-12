@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import '../../../../features/shop/models/order_model.dart';
 import '../../../../utils/cache/cache.dart';
 import '../../../../utils/constants/api_constants.dart';
+import '../../../../utils/constants/enums.dart';
 import '../../../../utils/constants/local_storage_constants.dart';
 
 
@@ -16,7 +17,7 @@ class WooOrdersRepository extends GetxController {
   final Box _cacheBox = Hive.box(CacheConstants.orderBox); // Hive storage
   final double cacheExpiryTimeInDays = APIConstant.orderCacheTime;
 
-  //Fetch orders by customer's id
+  // Fetch order by customer's id
   Future<OrderModel> fetchOrderById({required String orderId}) async {
 
     try {
@@ -46,10 +47,13 @@ class WooOrdersRepository extends GetxController {
     }
   }
 
-  //Fetch orders by customer's id
-  Future<List<OrderModel>> fetchOrdersByCustomerId({required String customerId, required String page}) async {
+  // Fetch orders by customer's id
+  Future<List<OrderModel>> fetchOrdersByCustomerId({required String customerId, required String page, OrderStatus? orderStatus}) async {
     final String cacheKey = 'fetch_order_customer_id_$page';
 
+    if(customerId.isEmpty && int.parse(customerId) == 0) {
+      throw Exception('Customer ID is empty');
+    }
     // Check cache before making API request
     if (_cacheBox.containsKey(cacheKey) && CacheHelper.isCacheValid(cacheBox: _cacheBox, cacheKey: cacheKey, expiryTimeInDays: cacheExpiryTimeInDays)) {
       final cachedData = _cacheBox.get(cacheKey);
@@ -60,10 +64,12 @@ class WooOrdersRepository extends GetxController {
       final Map<String, String> queryParams = {
         'customer': customerId,
         'orderby': 'date', //date, id, include, title and slug. Default is date.
-        'per_page': '20',
+        'per_page': '10',
         'page': page,
       };
-
+      if(orderStatus != null) {
+        queryParams['status'] = orderStatus.name; // Add the field conditionally
+      }
       final Uri uri = Uri.https(
         APIConstant.wooBaseDomain,
         APIConstant.wooOrdersApiPath,

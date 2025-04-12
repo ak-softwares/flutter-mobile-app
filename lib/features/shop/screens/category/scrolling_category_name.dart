@@ -40,7 +40,7 @@ class ScrollingCategoryName extends StatelessWidget {
       if (categoryController.isLoading.value){
         return Column(
           children: [
-            TSectionHeading(title: 'Popular Categories'),
+            SectionHeading(title: 'Popular Categories'),
             Row(
               children: [
                 ShimmerEffect(height: imageDimension, width: 100, radius: imageRadius),
@@ -59,7 +59,7 @@ class ScrollingCategoryName extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const TSectionHeading(title: 'Popular Categories'),
+              const SectionHeading(title: 'Popular Categories'),
               SizedBox(
                 height: imageDimension,
                 child: ListView.separated(

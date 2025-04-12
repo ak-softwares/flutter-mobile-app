@@ -1,27 +1,30 @@
+import 'package:aramarket/features/shop/screens/products/products_widgets/product_title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/navigation_bar/app_appbar.dart';
 import '../../../../common/styles/spacing_style.dart';
-import '../../../../data/repositories/authentication/authentication_repository.dart';
+import '../../../../common/widgets/custom_shape/image/circular_image.dart';
 import '../../../../services/firebase_analytics/firebase_analytics.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/validators/validation.dart';
 import '../../../authentication/screens/check_login_screen/check_login_screen.dart';
 import '../../../personalization/controllers/user_controller.dart';
-import '../../controllers/product/product_review_controller.dart';
+import '../../controllers/review/review_controller.dart';
 
 class CreateReviewScreen extends StatelessWidget {
-  const CreateReviewScreen({super.key, required this.productId});
+  const CreateReviewScreen({super.key, required this.productId, required this.productTitle, required this.productImgUrl});
 
   final int productId;
+  final String productTitle;
+  final String productImgUrl;
   @override
   Widget build(BuildContext context) {
     FBAnalytics.logPageView('review_create_screen');
 
     final userController = Get.put(UserController());
-    final productReviewController = Get.put(ProductReviewController());
+    final productReviewController = Get.put(ReviewController());
     return Scaffold(
       appBar: const AppAppBar(title: 'Submit Reviews', showBackArrow: true, showCartIcon: true,),
       body: !userController.isUserLogin.value
@@ -32,7 +35,23 @@ class CreateReviewScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Overall Rating', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600)),
+                  Row(
+                    spacing: AppSizes.sm,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      RoundedImage(
+                          image: productImgUrl,
+                          height: 50,
+                          width: 50,
+                          borderRadius: AppSizes.sm,
+                          isNetworkImage: true,
+                          padding: 0
+                      ),
+                      Expanded(child: ProductTitle(title: productTitle, maxLines: 2, size: 12,))
+                    ],
+                  ),
+                  const SizedBox(height: AppSizes.sm),
+                  Text('How was the item?', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600)),
                   const SizedBox(height: AppSizes.sm),
                   Obx(() => Row(
                     mainAxisAlignment: MainAxisAlignment.start,

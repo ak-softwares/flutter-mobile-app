@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 import '../../../../common/layout_models/product_grid_layout.dart';
 import '../../../../common/navigation_bar/app_appbar.dart';
@@ -24,24 +23,21 @@ import '../../../../utils/constants/sizes.dart';
 import '../../../settings/app_settings.dart';
 import '../../controllers/cart_controller/cart_controller.dart';
 import '../../controllers/product/product_controller.dart';
-import '../../controllers/product/product_review_controller.dart';
+import '../../controllers/review/review_controller.dart';
 import '../../controllers/recently_viewed/recently_viewed_controller.dart';
 import '../../models/product_attribute_model.dart';
 import '../../models/product_model.dart';
-import '../../models/product_review_model.dart';
+import '../../models/review_model.dart';
 import '../all_products/all_products.dart';
 import '../review/create_product_review.dart';
-import '../review/review_widgets/user_review_card.dart';
+import '../review/widgets/user_review_card.dart';
 import 'products_widgets/brand.dart';
-import 'scrolling_products.dart';
 import 'scrolling_products_by_item_id.dart';
-import '../review/product_review.dart';
 import '../review/product_review_horizontal.dart';
 import 'products_widgets/bottom_add_to_cart.dart';
 import 'products_widgets/in_stock_label.dart';
 import 'products_widgets/product_image_slider.dart';
 import 'products_widgets/product_price.dart';
-import 'products_widgets/sale_label.dart';
 
 class ProductScreen extends StatefulWidget {
   ProductScreen({
@@ -511,7 +507,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const TSectionHeading(title: 'Description'),
+                                  const SectionHeading(title: 'Description'),
                                   const SizedBox(height: AppSizes.sm),
                                   // Text(product.description ?? ''),
                                   Html(data: _product.value.description)
@@ -558,7 +554,7 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   void _showReviewInBottomSheet({required BuildContext context, required ProductModel product}) {
-    final productReviewController = Get.put(ProductReviewController());
+    final productReviewController = Get.put(ReviewController());
     productReviewController.refreshReviews(_product.value.id.toString());
     final ScrollController scrollController = ScrollController();
     scrollController.addListener(() async {
@@ -610,7 +606,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           minimumSize: Size(300, 40), // Set width & height
                           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Adjust padding
                         ),
-                        onPressed: () => Get.to(() => CreateReviewScreen(productId: product.id,)),
+                        onPressed: () => Get.to(() => CreateReviewScreen(productId: product.id,  productTitle: product.name ?? '', productImgUrl: product.mainImage ?? '',)),
                         child: const Text('Add product review')
                     ),
                   ),
@@ -621,7 +617,7 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  Widget customList(ProductReviewController productReviewController) {
+  Widget customList(ReviewController productReviewController) {
     final product = _product.value;
     return Column(
       children: [
@@ -667,7 +663,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (_, index) {
                         if (index < reviews.length) {
-                          return TUserReviewCard(review: reviews[index]);
+                          return ReviewTile(review: reviews[index]);
                         } else {
                           return const UserTileShimmer();
                         }

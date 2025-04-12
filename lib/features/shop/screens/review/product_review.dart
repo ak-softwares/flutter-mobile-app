@@ -9,11 +9,11 @@ import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/icons.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
-import '../../controllers/product/product_review_controller.dart';
+import '../../controllers/review/review_controller.dart';
 import '../../models/product_model.dart';
-import '../../models/product_review_model.dart';
+import '../../models/review_model.dart';
 import 'create_product_review.dart';
-import 'review_widgets/user_review_card.dart';
+import 'widgets/user_review_card.dart';
 
 class ProductReviewScreen extends StatelessWidget {
   const ProductReviewScreen({super.key, required this.product});
@@ -22,7 +22,7 @@ class ProductReviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FBAnalytics.logPageView('review_screen');
-    final productReviewController = Get.put(ProductReviewController());
+    final productReviewController = Get.put(ReviewController());
     final ScrollController scrollController = ScrollController();
 
     productReviewController.refreshReviews(product.id.toString());
@@ -48,7 +48,8 @@ class ProductReviewScreen extends StatelessWidget {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(AppSizes.md),
         child: OutlinedButton(
-            onPressed: () => Get.to(() => CreateReviewScreen(productId: product.id,)),
+            onPressed: () => Get.to(() => CreateReviewScreen(
+              productId: product.id, productTitle: product.name ?? '', productImgUrl: product.mainImage ?? '',)),
             child: const Text('Add product review')
         ),
       ),
@@ -104,7 +105,7 @@ class ProductReviewScreen extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (_, index) {
                           if (index < reviews.length) {
-                            return TUserReviewCard(review: reviews[index]);
+                            return ReviewTile(review: reviews[index]);
                           } else {
                             return const UserTileShimmer();
                           }

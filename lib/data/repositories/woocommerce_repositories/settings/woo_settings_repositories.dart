@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../features/settings/models/settings_model.dart';
-import '../../../../features/shop/models/product_review_model.dart';
+import '../../../../features/shop/models/review_model.dart';
 import '../../../../utils/cache/cache.dart';
 import '../../../../utils/constants/api_constants.dart';
 import '../../../../utils/constants/local_storage_constants.dart';

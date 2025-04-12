@@ -58,7 +58,7 @@ class TBottomAddToCart extends StatelessWidget {
           ),
           Expanded(
             flex: 20,
-            child: TFavouriteIcon(product: product),
+            child: WishlistIcon(product: product),
           )
         ],
       ),

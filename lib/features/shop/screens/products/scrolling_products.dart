@@ -99,7 +99,7 @@ class _ScrollingProductsState extends State<ScrollingProducts> {
           children: [
             const Padding(
               padding: EdgeInsets.only(left: AppSizes.spaceBtwItems),
-              child: TSectionHeading(title: 'Products Loading..'),
+              child: SectionHeading(title: 'Products Loading..'),
             ),
             Padding(
                 padding: EdgeInsets.all(AppSizes.defaultSpaceBWTCard / 2),
@@ -119,7 +119,7 @@ class _ScrollingProductsState extends State<ScrollingProducts> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: AppSizes.spaceBtwItems),
-              child: TSectionHeading(
+              child: SectionHeading(
                 title: widget.title,
                 seeActionButton: true,
                 verticalPadding: true,

@@ -56,7 +56,7 @@ class SearchProductScreen extends StatelessWidget {
         padding: TSpacingStyle.defaultPagePadding,
         physics: const AlwaysScrollableScrollPhysics(),
         children: [
-          TSectionHeading(title: title),
+          SectionHeading(title: title),
           ProductGridLayout(controller: searchController, orientation: orientation, sourcePage: 'Search',),
         ],
       ),

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../services/app_review/app_review.dart';
 import '../personalization/controllers/user_controller.dart';
 
 class AppSettings {

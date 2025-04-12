@@ -46,7 +46,7 @@ class ScrollingBrandsImage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: AppSizes.spaceBtwItems),
-              child: TSectionHeading(title: 'Brands Loading...', seeActionButton: true, onPressed: () => Get.to(() => const AllBrandScreen())),
+              child: SectionHeading(title: 'Brands Loading...', seeActionButton: true, onPressed: () => Get.to(() => const AllBrandScreen())),
             ),
             BrandTileShimmer(itemCount: 4, orientation: OrientationType.horizontal),
           ],
@@ -60,7 +60,7 @@ class ScrollingBrandsImage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: AppSizes.spaceBtwItems),
-              child: TSectionHeading(title: 'Shop by Brands', seeActionButton: true, onPressed: () => Get.to(() => const AllBrandScreen())),
+              child: SectionHeading(title: 'Shop by Brands', seeActionButton: true, onPressed: () => Get.to(() => const AllBrandScreen())),
             ),
             ListLayout(
               height: brandTileHeight,

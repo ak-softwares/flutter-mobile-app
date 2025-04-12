@@ -45,7 +45,7 @@ class ScrollingCategoriesImage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: AppSizes.spaceBtwItems),
-              child: TSectionHeading(title: 'Categories Loading...', seeActionButton: true, onPressed: () => Get.to(() => const CategoryScreen())),
+              child: SectionHeading(title: 'Categories Loading...', seeActionButton: true, onPressed: () => Get.to(() => const CategoryScreen())),
             ),
             CategoryTileShimmer(itemCount: 4, orientation: OrientationType.horizontal),
           ],
@@ -59,7 +59,7 @@ class ScrollingCategoriesImage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: AppSizes.spaceBtwItems),
-              child: TSectionHeading(title: 'Popular Categories', seeActionButton: true, onPressed: () => Get.to(() => const CategoryScreen())),
+              child: SectionHeading(title: 'Popular Categories', seeActionButton: true, onPressed: () => Get.to(() => const CategoryScreen())),
             ),
             ListLayout(
               height: categoryTileHeight,

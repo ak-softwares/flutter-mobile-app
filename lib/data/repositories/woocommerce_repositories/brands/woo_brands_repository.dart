@@ -18,6 +18,15 @@ class WooBrandsRepository extends GetxController {
   // Fetch All Brands
   Future<List<BrandModel>> fetchAllBrands({required String page}) async {
     final String cacheKey = 'fetch_all_brands_$page';
+    final String totalPagesKey = 'fetch_all_brands_total_pages';
+
+    // Check if we've reached the last page
+    if (_cacheBox.containsKey(totalPagesKey)) {
+      final int totalPages = _cacheBox.get(totalPagesKey);
+      if ((int.tryParse(page) ?? 1) > totalPages) {
+        return [];
+      }
+    }
 
     // Check cache before making API request
     if (_cacheBox.containsKey(cacheKey) &&
@@ -50,6 +59,12 @@ class WooBrandsRepository extends GetxController {
         final List<dynamic> productBrandsJson = json.decode(response.body);
         final List<BrandModel> productBrands = productBrandsJson.map((json) => BrandModel.fromJson(json)).toList();
         // Store data in cache with timestamp
+        // Store total pages only when fetching first page
+        if (int.tryParse(page) == 1) {
+          final totalPages = int.tryParse(response.headers['x-wp-totalpages'] ?? '1') ?? 1;
+          _cacheBox.put(totalPagesKey, totalPages);
+        }
+
         _cacheBox.put(cacheKey, response.body);
         _cacheBox.put('${cacheKey}_time', DateTime.now().millisecondsSinceEpoch);
         return productBrands;

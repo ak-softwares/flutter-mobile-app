@@ -248,7 +248,7 @@ class AddressController extends GetxController{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TSectionHeading(title: 'Select Address',
+            SectionHeading(title: 'Select Address',
               onPressed: () {},
               seeActionButton: true,
               buttonTitle: 'Add new address',

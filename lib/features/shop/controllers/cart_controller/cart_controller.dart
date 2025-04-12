@@ -109,7 +109,7 @@ class CartController extends GetxController {
         toastMessage: 'Product removed form the cart.',
         context: context,
         actionButtonText: 'Remove',
-        function: () async {
+        onSubmit: () async {
           //remove the item form cart
           removeFromCart(item: cartItem);
         }

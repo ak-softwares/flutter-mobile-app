@@ -11,7 +11,7 @@ class DialogHelper {
     String? message,
     String? toastMessage,
     String? actionButtonText,
-    required Future<void> Function() function,
+    required Future<void> Function() onSubmit,
   }) {
     Get.dialog(
       Dialog(
@@ -40,7 +40,16 @@ class DialogHelper {
               InkWell(
                 onTap: () async {
                   Get.back();
-                  await function();
+                  // Show loading spinner
+                  Get.dialog(
+                    const Center(
+                      child: CircularProgressIndicator(color: Colors.blue, strokeWidth: 2),
+                    ),
+                    barrierDismissible: false,
+                    barrierColor: Colors.black.withOpacity(0.2),
+                  );
+                  await onSubmit();
+                  Get.back(); // Close the loading spinner
                   AppMassages.showToastMessage(message: toastMessage ?? 'Success');
                 },
                 child: Container(

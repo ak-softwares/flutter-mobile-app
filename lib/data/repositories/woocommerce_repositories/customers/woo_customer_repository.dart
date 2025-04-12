@@ -153,8 +153,8 @@ class WooCustomersRepository extends GetxController {
         final Map<String, dynamic> customerJson = json.decode(response.body);
         final CustomerModel customer = CustomerModel.fromJson(customerJson);
         // Clear cache for this customer
-        // CacheHelper.clearCacheBox(cacheBoxName: CacheConstants.customerBox);
-        CacheHelper.deleteCacheKey(cacheBoxName: CacheConstants.customerBox, key: 'fetch_customer_by_id_$userID');
+        CacheHelper.clearCacheBox(cacheBoxName: CacheConstants.customerBox);
+        // CacheHelper.deleteCacheKey(cacheBoxName: CacheConstants.customerBox, key: 'fetch_customer_by_id_$userID');
 
         return customer;
       }else {
@@ -191,6 +191,8 @@ class WooCustomersRepository extends GetxController {
       if (response.statusCode == 200) {
         final Map<String, dynamic> customerJson = json.decode(response.body);
         final CustomerModel customer = CustomerModel.fromJson(customerJson);
+        CacheHelper.clearCacheBox(cacheBoxName: CacheConstants.customerBox);
+
         return customer;
       }else {
         final Map<String, dynamic> errorJson = json.decode(response.body);

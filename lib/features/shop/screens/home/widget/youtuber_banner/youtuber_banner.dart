@@ -111,7 +111,7 @@ class YouTuberBanner extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: AppSizes.sm),
-          child: TSectionHeading(title: title),
+          child: SectionHeading(title: title),
         ),
         CarouselSlider(
           options: CarouselOptions(

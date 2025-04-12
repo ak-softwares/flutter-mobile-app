@@ -10,8 +10,8 @@ import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/validators/validation.dart';
 import '../../../authentication/screens/check_login_screen/check_login_screen.dart';
 import '../../../personalization/controllers/user_controller.dart';
-import '../../controllers/product/product_review_controller.dart';
-import '../../models/product_review_model.dart';
+import '../../controllers/review/review_controller.dart';
+import '../../models/review_model.dart';
 
 class UpdateReviewScreen extends StatelessWidget {
   const UpdateReviewScreen({super.key, required this.review});
@@ -22,7 +22,7 @@ class UpdateReviewScreen extends StatelessWidget {
     FBAnalytics.logPageView('review_update_screen');
 
     final userController = Get.put(UserController());
-    final productReviewController = Get.put(ProductReviewController());
+    final productReviewController = Get.put(ReviewController());
     productReviewController.editRating.value = review.rating ?? 0;
     productReviewController.editProductReview.text = review.review?.replaceAll('<p>', '').replaceAll('</p>', '').replaceAll('<br />', '') ?? '';
     return Scaffold(
@@ -90,7 +90,7 @@ class UpdateReviewScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSizes.spaceBtwSection),
                   ElevatedButton(
-                    onPressed: () => productReviewController.updateReview(review.id),
+                    onPressed: () => productReviewController.updateReview(review.id ?? 0),
                     child: const Padding(
                       padding: EdgeInsets.symmetric(horizontal: AppSizes.lg),
                       child: Text('Update product review'),

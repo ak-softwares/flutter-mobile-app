@@ -21,7 +21,7 @@ class TBillingPaymentSection extends StatelessWidget {
 
     return Column(
       children: [
-        const TSectionHeading(title: 'Payment Method'),
+        const SectionHeading(title: 'Payment Method'),
         Column(
           children: [
             for (var paymentMethod in paymentController.getAllPaymentMethod)

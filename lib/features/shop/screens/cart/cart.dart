@@ -53,47 +53,44 @@ class CartScreen extends StatelessWidget {
                   child: Obx(() => Text('Buy Now (${AppSettings.appCurrencySymbol + (cartController.totalCartPrice.value).toStringAsFixed(0)})'))
               ),
             )
-            : const SizedBox.shrink()
-        ),
+            : const SizedBox.shrink()),
         body: Obx(() {
           // check empty cart
           if(cartController.cartItems.isEmpty) {
             return emptyWidget;
           } else {
-            return ListView(
-              padding: TSpacingStyle.defaultPagePadding,
-              children: [
-                GridLayout(
-                  crossAxisCount: 1,
-                  mainAxisExtent: AppSizes.cartCardHorizontalHeight,
-                  itemCount: cartController.cartItems.length,
-                    itemBuilder: (context, index) {
-                      return Dismissible(
-                        key: Key(cartController.cartItems[index].id.toString()), // Unique key for each item
-                        direction: DismissDirection.endToStart, // Swipe left to remove
-                        onDismissed: (direction) {
-                          cartController.removeFromCart(item: cartController.cartItems[index]);
-                          AppMassages.showSnackBar(massage: 'Item removed');
-                        },
-                        background: Container(
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(AppSizes.defaultProductRadius),
-                            // border: Border.all(
-                            //   width: Sizes.defaultBorderWidth,
-                            //   color: Theme.of(context).colorScheme.outline, // Border color
-                            // )
-                          ),
-                          child: const Icon(Icons.delete, color: Colors.white),
+            return Padding(
+              padding: TSpacingStyle.defaultPageHorizontal,
+              child: GridLayout(
+                crossAxisCount: 1,
+                mainAxisExtent: AppSizes.cartCardHorizontalHeight,
+                itemCount: cartController.cartItems.length,
+                  itemBuilder: (context, index) {
+                    final item = cartController.cartItems[index];
+                    return Dismissible(
+                      key: Key(item.productId.toString()),
+                      direction: DismissDirection.endToStart, // Swipe left to remove
+                      onDismissed: (direction) {
+                        cartController.removeFromCart(item: item);
+                        AppMassages.showSnackBar(massage: 'Item removed');
+                      },
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(AppSizes.defaultProductRadius),
+                          // border: Border.all(
+                          //   width: Sizes.defaultBorderWidth,
+                          //   color: Theme.of(context).colorScheme.outline, // Border color
+                          // )
                         ),
-                        child: ProductCardForCart(cartItem: cartController.cartItems[index], showBottomBar: true),
-                      );
-                    }
-                  // itemBuilder: (_, index) => ProductCardForCart(cartItem: cartController.cartItems[index], showBottomBar: true),
-                ),
-              ],
+                        child: const Icon(Icons.delete, color: Colors.white),
+                      ),
+                      child: ProductCardForCart(cartItem: item, showBottomBar: true),
+                    );
+                  }
+              ),
             );
           }
         }
