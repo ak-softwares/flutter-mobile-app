@@ -34,7 +34,7 @@ class ReAuthLoginForm extends StatelessWidget {
                             validator: (value) => Validator.validateEmail(value),
                             decoration: const InputDecoration(
                               prefixIcon: Icon(Iconsax.direct_right),
-                              labelText: TTexts.email,
+                              labelText: AppTexts.email,
                             )
                         ),
                         //Password
@@ -46,7 +46,7 @@ class ReAuthLoginForm extends StatelessWidget {
                                 obscureText: controller.hidePassword.value,
                                 decoration: InputDecoration(
                                     prefixIcon: const Icon(Iconsax.password_check),
-                                    labelText: TTexts.password,
+                                    labelText: AppTexts.password,
                                     suffixIcon: IconButton(
                                       onPressed: () => controller.hidePassword.value = !controller.hidePassword.value,
                                       icon: controller.hidePassword.value ? const Icon(Iconsax.eye_slash) : const Icon(Iconsax.eye),

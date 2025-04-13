@@ -52,7 +52,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                             validator: (value) => Validator.validateEmail(value),
                             decoration: const InputDecoration(
                                 prefixIcon: Icon(Iconsax.direct_right),
-                                labelText: TTexts.email
+                                labelText: AppTexts.email
                             )
                         ),
                         // Forget password button

@@ -55,7 +55,7 @@ class DiscoverScreen extends StatelessWidget {
         preferredSize: Size.fromHeight(56), // Adjust height as needed
         child: Padding(
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, left: AppSizes.sm, right: AppSizes.sm), // Adjust for status bar
-          child: TSearchBar(searchText: TTexts.search),
+          child: SearchField(searchText: AppTexts.search),
         ),
       ),
       body: RefreshIndicator(

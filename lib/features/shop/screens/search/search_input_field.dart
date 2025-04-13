@@ -5,8 +5,8 @@ import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/device/device_utility.dart';
 import 'search.dart';
 
-class TSearchBar extends StatelessWidget {
-  const TSearchBar({super.key, this.searchText = "Search"});
+class SearchField extends StatelessWidget {
+  const SearchField({super.key, this.searchText = "Search"});
 
   final String? searchText;
 

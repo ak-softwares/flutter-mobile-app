@@ -50,7 +50,7 @@ class MobileLoginScreen extends StatelessWidget {
                       children: [
                         Text('Your Phone!', style: Theme.of(context).textTheme.headlineMedium),
                         const SizedBox(height: AppSizes.sm),
-                        Text(TTexts.loginSubTitle, style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center)
+                        Text(AppTexts.loginSubTitle, style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center)
                       ],
                     ),
                     const SizedBox(height: AppSizes.spaceBtwSection),
@@ -119,7 +119,7 @@ class MobileLoginScreen extends StatelessWidget {
                           )),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Text(TTexts.orContinueWith.capitalize!, style: Theme.of(context).textTheme.labelMedium),
+                            child: Text(AppTexts.orContinueWith.capitalize!, style: Theme.of(context).textTheme.labelMedium),
                           ),
                           Expanded(child: Divider(
                             thickness: 0.5,
@@ -151,7 +151,7 @@ class MobileLoginScreen extends StatelessWidget {
                           Text('Not a member?', style: Theme.of(context).textTheme.labelLarge),
                           TextButton(
                               onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));},
-                              child: Text(TTexts.createAccount, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor )))
+                              child: Text(AppTexts.createAccount, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor )))
                         ]
                     )
                   ],

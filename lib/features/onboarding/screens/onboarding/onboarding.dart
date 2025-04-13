@@ -53,9 +53,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               // print('Current Page: ${currentPage + 1}');
             },
             children: const [
-              OnBoardingPage(image: Images.onBoardingImage1, title: TTexts.onBoardingTitle1, subTitle: TTexts.onBoardingSubTitle1),
-              OnBoardingPage(image: Images.onBoardingImage2, title: TTexts.onBoardingTitle2, subTitle: TTexts.onBoardingSubTitle2),
-              OnBoardingPage(image: Images.onBoardingImage3, title: TTexts.onBoardingTitle3, subTitle: TTexts.onBoardingSubTitle3),
+              OnBoardingPage(image: Images.onBoardingImage1, title: AppTexts.onBoardingTitle1, subTitle: AppTexts.onBoardingSubTitle1),
+              OnBoardingPage(image: Images.onBoardingImage2, title: AppTexts.onBoardingTitle2, subTitle: AppTexts.onBoardingSubTitle2),
+              OnBoardingPage(image: Images.onBoardingImage3, title: AppTexts.onBoardingTitle3, subTitle: AppTexts.onBoardingSubTitle3),
             ],
           ),
           // Skip button

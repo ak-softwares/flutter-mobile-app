@@ -43,8 +43,8 @@ class SignUpScreen extends StatelessWidget {
                             Expanded(
                                 child: TextFormField(
                                   controller: controller.firstName,
-                                  validator: (value) => Validator.validateEmptyText(TTexts.firstName, value),
-                                  decoration: const InputDecoration(prefixIcon: Icon(Iconsax.user), labelText: TTexts.firstName),
+                                  validator: (value) => Validator.validateEmptyText(AppTexts.firstName, value),
+                                  decoration: const InputDecoration(prefixIcon: Icon(Iconsax.user), labelText: AppTexts.firstName),
                                 )
                             ),
                             const SizedBox(width: AppSizes.inputFieldSpace),
@@ -52,7 +52,7 @@ class SignUpScreen extends StatelessWidget {
                             Expanded(
                                 child: TextFormField(
                                     controller: controller.lastName,
-                                    decoration: const InputDecoration(prefixIcon: Icon(Iconsax.user4), labelText: TTexts.lastName)
+                                    decoration: const InputDecoration(prefixIcon: Icon(Iconsax.user4), labelText: AppTexts.lastName)
                                 )
                             ),
                           ],
@@ -64,7 +64,7 @@ class SignUpScreen extends StatelessWidget {
                             validator: (value) => Validator.validateEmail(value),
                             decoration: const InputDecoration(
                                 prefixIcon: Icon(Iconsax.direct_right),
-                                labelText: TTexts.email
+                                labelText: AppTexts.email
                             )
                         ),
                         //Password
@@ -76,7 +76,7 @@ class SignUpScreen extends StatelessWidget {
                               obscureText: controller.hidePassword.value,
                               decoration: InputDecoration(
                                   prefixIcon: const Icon(Iconsax.password_check),
-                                  labelText: TTexts.password,
+                                  labelText: AppTexts.password,
                                   suffixIcon: IconButton(
                                     onPressed: () => controller.hidePassword.value = !controller.hidePassword.value,
                                     icon: controller.hidePassword.value ? const Icon(Iconsax.eye_slash) : const Icon(Iconsax.eye),
@@ -90,7 +90,7 @@ class SignUpScreen extends StatelessWidget {
                             validator: (value) => Validator.validatePhoneNumber(value),
                             decoration: const InputDecoration(
                                 prefixIcon: Icon(Iconsax.call),
-                                labelText: TTexts.phone
+                                labelText: AppTexts.phone
                             )
                         ),
 

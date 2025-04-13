@@ -71,7 +71,7 @@ class MyHomePage extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
             // const CircularProgressIndicator(), // Display a loading indicator until categories are fetched
-            const TSearchBar(searchText: TTexts.search),
+            const SearchField(searchText: AppTexts.search),
             const HomeBanner(),
             const ScrollingBrandsImage(),
             const ScrollingCategoriesImage(),

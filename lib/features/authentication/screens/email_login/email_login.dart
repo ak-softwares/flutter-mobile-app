@@ -36,9 +36,9 @@ class EmailLoginScreen extends StatelessWidget {
                 //login, Title, Subtitle
                 Column(
                   children: [
-                    Text(TTexts.loginTitle, style: Theme.of(context).textTheme.headlineMedium),
+                    Text(AppTexts.loginTitle, style: Theme.of(context).textTheme.headlineMedium),
                     const SizedBox(height: AppSizes.sm),
-                    Text(TTexts.loginSubTitle, style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center)
+                    Text(AppTexts.loginSubTitle, style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center)
                   ],
                 ),
                 const SizedBox(height: AppSizes.spaceBtwSection),
@@ -53,7 +53,7 @@ class EmailLoginScreen extends StatelessWidget {
                             validator: (value) => Validator.validateEmail(value),
                             decoration: const InputDecoration(
                                 prefixIcon: Icon(Iconsax.direct_right),
-                                labelText: TTexts.email,
+                                labelText: AppTexts.email,
                             )
                           ),
                           //Password
@@ -65,7 +65,7 @@ class EmailLoginScreen extends StatelessWidget {
                                   obscureText: controller.hidePassword.value,
                                   decoration: InputDecoration(
                                       prefixIcon: const Icon(Iconsax.password_check),
-                                      labelText: TTexts.password,
+                                      labelText: AppTexts.password,
                                       suffixIcon: IconButton(
                                         onPressed: () => controller.hidePassword.value = !controller.hidePassword.value,
                                         icon: controller.hidePassword.value ? const Icon(Iconsax.eye_slash) : const Icon(Iconsax.eye),
@@ -84,7 +84,7 @@ class EmailLoginScreen extends StatelessWidget {
                                           onChanged: (value) => controller.rememberMe.value = !controller.rememberMe.value,
                                       ),
                                     ),
-                                    const Text(TTexts.rememberMe),
+                                    const Text(AppTexts.rememberMe),
                                   ],
                                 ),
                                 TextButton(
@@ -93,7 +93,7 @@ class EmailLoginScreen extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(builder: (context) => ForgetPasswordScreen(email: controller.email.text.trim(),))
                                       );},
-                                    child: Text(TTexts.forgotPassword, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor))
+                                    child: Text(AppTexts.forgotPassword, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor))
                                 )
                               ]
                           ),
@@ -103,7 +103,7 @@ class EmailLoginScreen extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              child: const Text(TTexts.login),
+                              child: const Text(AppTexts.login),
                               // onPressed: () => controller.loginWithEmailAndPassword(),
                               onPressed: () => controller.wooLoginWithEmailAndPassword(),
                             ),
@@ -124,7 +124,7 @@ class EmailLoginScreen extends StatelessWidget {
                       )),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Text(TTexts.orSignInWith.capitalize!, style: Theme.of(context).textTheme.labelMedium),
+                        child: Text(AppTexts.orSignInWith.capitalize!, style: Theme.of(context).textTheme.labelMedium),
                       ),
                       Expanded(child: Divider(
                         thickness: 0.5,
@@ -146,7 +146,7 @@ class EmailLoginScreen extends StatelessWidget {
                       Text('Not a member?', style: Theme.of(context).textTheme.labelLarge),
                       TextButton(
                           onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));},
-                          child: Text(TTexts.createAccount, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor)))
+                          child: Text(AppTexts.createAccount, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.linkColor)))
                     ]
                 )
               ],

@@ -71,7 +71,7 @@ class ChangeUserProfile extends StatelessWidget {
                               validator: (value) => Validator.validateEmail(value),
                               decoration: const InputDecoration(
                                 prefixIcon: Icon(Iconsax.direct_right),
-                                labelText: TTexts.tEmail,
+                                labelText: AppTexts.tEmail,
                               )
                           ),
                           const SizedBox(height: AppSizes.inputFieldSpace),
@@ -81,7 +81,7 @@ class ChangeUserProfile extends StatelessWidget {
                               validator: (value) => Validator.validatePhoneNumber(value),
                               decoration: const InputDecoration(
                                 prefixIcon: Icon(Iconsax.call),
-                                labelText: TTexts.tPhone,
+                                labelText: AppTexts.tPhone,
                               )
                           ),
                           const SizedBox(height: AppSizes.spaceBtwSection),

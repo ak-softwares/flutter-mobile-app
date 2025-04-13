@@ -45,7 +45,7 @@ class StoreScreen extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       // Searchbar
-                      const TSearchBar(
+                      const SearchField(
                         searchText: "Search in Store",
                       ),
                       // Heading featured brand
